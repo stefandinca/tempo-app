@@ -136,7 +136,12 @@ try {
                 $data['teamMembers'] = $pdo->query("SELECT * FROM team_members")->fetchAll();
 
                 // 2. Obține clients
-                $data['clients'] = $pdo->query("SELECT * FROM clients")->fetchAll();
+                $clients = $pdo->query("SELECT * FROM clients")->fetchAll();
+                // Convert is_archived to integer for consistent type handling in JavaScript
+                foreach ($clients as &$client) {
+                    $client['is_archived'] = (int)$client['is_archived'];
+                }
+                $data['clients'] = $clients;
 
                 // 3. Obține events și legăturile lor (folosind GROUP_CONCAT)
                 $stmt = $pdo->query("

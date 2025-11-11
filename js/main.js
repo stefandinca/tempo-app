@@ -747,18 +747,14 @@ async function handleSaveClient(e) {
     const { clients, events } = calendarState.getState();
     // Use editingClientId to find the existing client (in case ID was changed)
     const existingClient = editingClientId ? clients.find(c => c.id === editingClientId) : null;
-    const isBeingArchived = existingClient &&
-                           (existingClient.is_archived === 0 || !existingClient.is_archived) &&
-                           clientData.is_archived === 1;
 
-    // DEBUG: Log archive check
-    console.log('Archive Check:', {
-        editingClientId,
-        clientId,
-        existingClient,
-        isBeingArchived,
-        clientData_is_archived: clientData.is_archived
-    });
+    // Convert to numbers for proper comparison (database returns strings "0"/"1")
+    const existingIsArchived = existingClient ? (parseInt(existingClient.is_archived) || 0) : 0;
+    const newIsArchived = parseInt(clientData.is_archived) || 0;
+
+    const isBeingArchived = existingClient &&
+                           existingIsArchived === 0 &&
+                           newIsArchived === 1;
 
     // If being archived, check for events and show modal
     if (isBeingArchived) {
@@ -1052,15 +1048,16 @@ window.logActivity = function(action, details, actionType = 'generic', relatedId
  */
 function populateClientFilterDropdown() {
     if (!dom.calendarClientFilter) return;
-    
+
     const { clients } = calendarState.getState();
     const currentValue = dom.calendarClientFilter.value; // Salvează valoarea curentă
-    
-    // Sortează clienții alfabetic
-    const sortedClients = [...clients].sort((a, b) => a.name.localeCompare(b.name));
-    
+
+    // Filter out archived clients and sort alphabetically
+    const activeClients = clients.filter(c => c.is_archived !== 1 && c.is_archived !== true);
+    const sortedClients = [...activeClients].sort((a, b) => a.name.localeCompare(b.name));
+
     dom.calendarClientFilter.innerHTML = '<option value="">Toți Clienții</option>'; // Opțiunea default
-    
+
     sortedClients.forEach(client => {
         // Nu adăuga clienți "speciali" în filtru
         if (!['Pauza de masa', 'Sedinta', 'Concediu'].some(name => client.name.includes(name))) {
