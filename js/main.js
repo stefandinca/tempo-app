@@ -739,21 +739,24 @@ async function handleSaveClient(e) {
         email: formData.get('clientEmail'),
         phone: formData.get('clientPhone'),
         birthDate: formData.get('clientBirthdayInput') || null,
-        medical: formData.get('clientMedical') || ''
+        medical: formData.get('clientMedical') || '',
+        is_archived: formData.get('clientIsArchived') === 'on' ? 1 : 0
     };
 
     // Check if client is being archived (transitioning from not archived to archived)
     const { clients, events } = calendarState.getState();
-    const existingClient = clients.find(c => c.id === clientId);
+    // Use editingClientId to find the existing client (in case ID was changed)
+    const existingClient = editingClientId ? clients.find(c => c.id === editingClientId) : null;
     const isBeingArchived = existingClient &&
                            (existingClient.is_archived === 0 || !existingClient.is_archived) &&
                            clientData.is_archived === 1;
 
     // If being archived, check for events and show modal
     if (isBeingArchived) {
-        // Count events for this client
+        // Count events for this client (use editingClientId as events are still associated with old ID)
+        const clientIdToCheck = editingClientId || clientId;
         const clientEvents = events.filter(evt =>
-            evt.clientIds && evt.clientIds.includes(clientId)
+            evt.clientIds && evt.clientIds.includes(clientIdToCheck)
         );
 
         if (clientEvents.length > 0) {
@@ -764,7 +767,7 @@ async function handleSaveClient(e) {
 
             if (confirmed) {
                 try {
-                    await api.deleteClientEvents(clientId);
+                    await api.deleteClientEvents(clientIdToCheck);
                     // Remove events from local state
                     clientEvents.forEach(evt => {
                         calendarState.deleteEvent(evt.id);
