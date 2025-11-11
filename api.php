@@ -250,11 +250,12 @@ try {
                     }
 
                     // 3. Inserează clients
-                    $stmt_client = $pdo->prepare("INSERT INTO clients (id, name, email, phone, birthDate, medical) VALUES (?, ?, ?, ?, ?, ?)");
+                    $stmt_client = $pdo->prepare("INSERT INTO clients (id, name, email, phone, birthDate, medical, is_archived) VALUES (?, ?, ?, ?, ?, ?, ?)");
                     foreach ($input['clients'] as $c) {
                         // Asigură-te că data este null dacă e goală
                         $birthDate = !empty($c['birthDate']) ? $c['birthDate'] : null;
-                        $stmt_client->execute([$c['id'], $c['name'], $c['email'], $c['phone'], $birthDate, $c['medical'] ?? '']);
+                        $isArchived = isset($c['is_archived']) ? (int)$c['is_archived'] : 0;
+                        $stmt_client->execute([$c['id'], $c['name'], $c['email'], $c['phone'], $birthDate, $c['medical'] ?? '', $isArchived]);
                     }
 
                     // 4. Inserează events și joncțiunile
@@ -578,14 +579,16 @@ try {
                         if ($input === null) {
                             sendError('Invalid JSON data', 400);
                         }
-                        
-                        $stmt = $pdo->prepare("UPDATE clients SET name=?, email=?, phone=?, birthDate=?, medical=? WHERE id=?");
+
+                        $stmt = $pdo->prepare("UPDATE clients SET name=?, email=?, phone=?, birthDate=?, medical=?, is_archived=? WHERE id=?");
+                        $isArchived = isset($input['is_archived']) ? (int)$input['is_archived'] : 0;
                         $stmt->execute([
                             $input['name'],
                             $input['email'],
                             $input['phone'],
                             $input['birthDate'] ?: null,
                             $input['medical'] ?? '',
+                            $isArchived,
                             $clientId
                         ]);
                         
@@ -628,15 +631,17 @@ try {
                         if ($input === null) {
                             sendError('Invalid JSON data', 400);
                         }
-                        
-                        $stmt = $pdo->prepare("INSERT INTO clients (id, name, email, phone, birthDate, medical) VALUES (?, ?, ?, ?, ?, ?)");
+
+                        $stmt = $pdo->prepare("INSERT INTO clients (id, name, email, phone, birthDate, medical, is_archived) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                        $isArchived = isset($input['is_archived']) ? (int)$input['is_archived'] : 0;
                         $stmt->execute([
                             $input['id'],
                             $input['name'],
                             $input['email'],
                             $input['phone'],
                             $input['birthDate'] ?: null,
-                            $input['medical'] ?? ''
+                            $input['medical'] ?? '',
+                            $isArchived
                         ]);
                         
                         debugLog("Client creat: " . $input['id']);
