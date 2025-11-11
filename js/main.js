@@ -791,7 +791,8 @@ async function handleSaveClient(e) {
     try {
         // Salvează datele principale (clients, events, etc.)
         if (editingClientId) {
-    await api.updateClient(clientData);
+    // Pass editingClientId as the second parameter so API can find the client by old ID
+    await api.updateClient(clientData, editingClientId);
 } else {
     await api.createClient(clientData);
 }

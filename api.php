@@ -580,9 +580,10 @@ try {
                             sendError('Invalid JSON data', 400);
                         }
 
-                        $stmt = $pdo->prepare("UPDATE clients SET name=?, email=?, phone=?, birthDate=?, medical=?, is_archived=? WHERE id=?");
+                        $stmt = $pdo->prepare("UPDATE clients SET id=?, name=?, email=?, phone=?, birthDate=?, medical=?, is_archived=? WHERE id=?");
                         $isArchived = isset($input['is_archived']) ? (int)$input['is_archived'] : 0;
                         $stmt->execute([
+                            $input['id'],
                             $input['name'],
                             $input['email'],
                             $input['phone'],
@@ -591,12 +592,12 @@ try {
                             $isArchived,
                             $clientId
                         ]);
-                        
+
                         if ($stmt->rowCount() === 0) {
                             sendError('Client not found', 404);
                         }
-                        
-                        debugLog("Client actualizat: $clientId");
+
+                        debugLog("Client actualizat: $clientId -> " . $input['id']);
                         sendResponse(['success' => true, 'message' => 'Client updated successfully']);
                         
                     } catch (Exception $e) {

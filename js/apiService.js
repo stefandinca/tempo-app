@@ -138,14 +138,18 @@ export async function createClient(clientData) {
 
 /**
  * Update a client
+ * @param {object} clientData - New client data
+ * @param {string} [oldId] - Original client ID (use when ID has changed)
  */
-export async function updateClient(clientData) {
+export async function updateClient(clientData, oldId = null) {
     const options = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(clientData)
     };
-    return apiFetch(`clients/${clientData.id}`, options);
+    // Use oldId if provided (for when ID changes), otherwise use current ID
+    const clientIdForUrl = oldId || clientData.id;
+    return apiFetch(`clients/${clientIdForUrl}`, options);
 }
 
 /**
