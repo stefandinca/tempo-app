@@ -369,3 +369,16 @@ export async function clearMonth(month) {
     };
     return apiFetch('clear-month', options);
 }
+
+/**
+ * Șterge toate evenimentele asociate cu un client.
+ * Apel POST la api.php?path=delete-client-events/:clientId
+ * @param {string} clientId - ID-ul clientului
+ */
+export async function deleteClientEvents(clientId) {
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    return apiFetch(`delete-client-events/${clientId}`, options);
+}

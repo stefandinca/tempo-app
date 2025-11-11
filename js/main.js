@@ -742,6 +742,45 @@ async function handleSaveClient(e) {
         medical: formData.get('clientMedical') || ''
     };
 
+    // Check if client is being archived (transitioning from not archived to archived)
+    const { clients, events } = calendarState.getState();
+    const existingClient = clients.find(c => c.id === clientId);
+    const isBeingArchived = existingClient &&
+                           (existingClient.is_archived === 0 || !existingClient.is_archived) &&
+                           clientData.is_archived === 1;
+
+    // If being archived, check for events and show modal
+    if (isBeingArchived) {
+        // Count events for this client
+        const clientEvents = events.filter(evt =>
+            evt.clientIds && evt.clientIds.includes(clientId)
+        );
+
+        if (clientEvents.length > 0) {
+            const confirmed = await ui.showCustomConfirm(
+                `Acest client are ${clientEvents.length} evenimente în calendar. Vrei să ștergi toate evenimentele asociate cu acest client?`,
+                'Arhivare Client - Șterge Evenimente?'
+            );
+
+            if (confirmed) {
+                try {
+                    await api.deleteClientEvents(clientId);
+                    // Remove events from local state
+                    clientEvents.forEach(evt => {
+                        calendarState.deleteEvent(evt.id);
+                    });
+                    // Re-render calendar to update the view
+                    render();
+                    ui.showCustomAlert(`${clientEvents.length} evenimente au fost șterse pentru acest client.`, 'Evenimente Șterse');
+                } catch (error) {
+                    console.error('Eroare la ștergerea evenimentelor clientului:', error);
+                    ui.showCustomAlert('A apărut o eroare la ștergerea evenimentelor.', 'Eroare');
+                    return; // Don't proceed with archiving if deletion failed
+                }
+            }
+        }
+    }
+
     // Salvează în starea locală (aici are loc migrarea ID-ului)
     calendarState.saveClient(clientData);
     
