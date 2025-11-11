@@ -913,6 +913,7 @@ export function resetTeamForm() {
     $('teamFormTitle').textContent = 'Adaugă Membru Nou';
     $('memberColor').value = '#4f46e5';
     $('memberColorHex').value = '#4F46E5';
+    if ($('memberPassword')) $('memberPassword').value = ''; // Clear password field
 
     // NOU: Verifică permisiunile la resetarea formularului
     const canChangeRole = auth.isAdmin() || auth.isCoordinator();
@@ -937,6 +938,7 @@ export function editTeamMemberInModal(memberId) {
     $('memberRole').value = member.role;
     $('memberColor').value = member.color;
     $('memberColorHex').value = member.color.toUpperCase();
+    if ($('memberPassword')) $('memberPassword').value = ''; // Always clear password when editing
 
     // NOU: Dezactivează dropdown-ul de ROL și butonul de ȘTERGERE dacă e terapeut
     const canChangeRole = auth.isAdmin() || auth.isCoordinator();

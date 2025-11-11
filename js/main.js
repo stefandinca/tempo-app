@@ -957,9 +957,31 @@ async function handleSaveTeamMember(e) {
     calendarState.saveTeamMember(memberData);
     await api.saveData(calendarState.getState());
 
+    // Update password if provided
+    const newPassword = formData.get('memberPassword')?.trim();
+    if (newPassword && newPassword.length > 0) {
+        try {
+            // Get the user ID from auth (assumes team member is logged in and editing their own profile)
+            const currentUser = auth.getCurrentUser();
+
+            // Only allow users to change their own password (unless admin)
+            if (auth.isAdmin() || (currentUser && currentUser.id === memberData.id)) {
+                // Find the user ID in the users table that corresponds to this team member
+                // Assuming team member ID matches user ID in the users table
+                await api.updatePassword(memberData.id, newPassword);
+                ui.showCustomAlert('Parola a fost actualizată cu succes.', 'Succes');
+            } else {
+                ui.showCustomAlert('Nu aveți permisiunea de a schimba parola altui utilizator.', 'Acces Refuzat');
+            }
+        } catch (error) {
+            console.error('Eroare la actualizarea parolei:', error);
+            ui.showCustomAlert('A apărut o eroare la actualizarea parolei.', 'Eroare');
+        }
+    }
+
     // logs saving activity
     window.logActivity(editingMemberId ? "Membru actualizat" : "Membru adăugat", memberData.name, 'generic', memberData.id);
-    
+
     ui.renderTeamMembersList();
     ui.resetTeamForm();
     renderFilters();

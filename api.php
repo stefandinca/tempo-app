@@ -1082,6 +1082,43 @@ try {
             break;
 
         // ==========================================================
+        // CAZUL 'update-password' - Actualizează parola utilizatorului
+        // ==========================================================
+        case 'update-password':
+            if ($method === 'POST') {
+                try {
+                    if ($input === null) {
+                        sendError('Invalid JSON data', 400);
+                    }
+
+                    $userId = $input['user_id'] ?? null;
+                    $newPassword = $input['new_password'] ?? null;
+
+                    if (!$userId || !$newPassword) {
+                        sendError('User ID și parola nouă sunt obligatorii', 400);
+                    }
+
+                    // Update password in users table
+                    $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
+                    $stmt->execute([$newPassword, $userId]);
+
+                    if ($stmt->rowCount() === 0) {
+                        sendError('Utilizator nu a fost găsit', 404);
+                    }
+
+                    debugLog("Parolă actualizată pentru utilizatorul ID: $userId");
+                    sendResponse(['success' => true, 'message' => 'Parola a fost actualizată cu succes']);
+
+                } catch (Exception $e) {
+                    debugLog("Eroare la actualizarea parolei: " . $e->getMessage());
+                    sendError('Nu s-a putut actualiza parola: ' . $e->getMessage());
+                }
+            } else {
+                sendError('Unsupported method for update-password', 405);
+            }
+            break;
+
+        // ==========================================================
         // ENDPOINT-URI VECHI (Dezactivate, acum gestionate de 'POST /data')
         // ==========================================================
         case 'events':

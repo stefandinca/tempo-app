@@ -394,3 +394,18 @@ export async function deleteClientEvents(clientId) {
 export async function loadSystemOptions() {
     return apiFetch('system-options');
 }
+
+/**
+ * Actualizează parola utilizatorului.
+ * Apel POST la api.php?path=update-password
+ * @param {number} userId - ID-ul utilizatorului
+ * @param {string} newPassword - Parola nouă
+ */
+export async function updatePassword(userId, newPassword) {
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId, new_password: newPassword })
+    };
+    return apiFetch('update-password', options);
+}
