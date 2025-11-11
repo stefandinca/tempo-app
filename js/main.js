@@ -751,6 +751,15 @@ async function handleSaveClient(e) {
                            (existingClient.is_archived === 0 || !existingClient.is_archived) &&
                            clientData.is_archived === 1;
 
+    // DEBUG: Log archive check
+    console.log('Archive Check:', {
+        editingClientId,
+        clientId,
+        existingClient,
+        isBeingArchived,
+        clientData_is_archived: clientData.is_archived
+    });
+
     // If being archived, check for events and show modal
     if (isBeingArchived) {
         // Count events for this client (use editingClientId as events are still associated with old ID)
