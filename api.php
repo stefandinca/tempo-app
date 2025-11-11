@@ -1082,6 +1082,53 @@ try {
             break;
 
         // ==========================================================
+        // CAZUL 'users' - Gestionează utilizatorii (creare, actualizare)
+        // ==========================================================
+        case 'users':
+            if ($method === 'POST') {
+                // Create new user
+                try {
+                    if ($input === null) {
+                        sendError('Invalid JSON data', 400);
+                    }
+
+                    $userId = $input['id'] ?? null;
+                    $username = $input['username'] ?? null;
+                    $password = $input['password'] ?? null;
+                    $role = $input['role'] ?? 'therapist';
+
+                    if (!$userId || !$username || !$password) {
+                        sendError('ID, username și parola sunt obligatorii', 400);
+                    }
+
+                    // Check if user already exists
+                    $checkStmt = $pdo->prepare("SELECT id FROM users WHERE id = ?");
+                    $checkStmt->execute([$userId]);
+                    if ($checkStmt->fetch()) {
+                        sendError('Un utilizator cu acest ID există deja', 409);
+                    }
+
+                    // Create user in users table
+                    $stmt = $pdo->prepare("INSERT INTO users (id, username, password, role, created_at) VALUES (?, ?, ?, ?, NOW())");
+                    $stmt->execute([$userId, $username, $password, $role]);
+
+                    debugLog("Utilizator creat: $userId - $username");
+                    sendResponse(['success' => true, 'message' => 'Utilizator creat cu succes', 'id' => $userId]);
+
+                } catch (PDOException $e) {
+                    if ($e->getCode() == 23000) {
+                        sendError('Un utilizator cu acest ID sau username există deja', 409);
+                    } else {
+                        debugLog("Eroare la crearea utilizatorului: " . $e->getMessage());
+                        sendError('Nu s-a putut crea utilizatorul: ' . $e->getMessage());
+                    }
+                }
+            } else {
+                sendError('Unsupported method for users', 405);
+            }
+            break;
+
+        // ==========================================================
         // CAZUL 'update-password' - Actualizează parola utilizatorului
         // ==========================================================
         case 'update-password':

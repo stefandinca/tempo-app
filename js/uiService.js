@@ -913,7 +913,14 @@ export function resetTeamForm() {
     $('teamFormTitle').textContent = 'Adaugă Membru Nou';
     $('memberColor').value = '#4f46e5';
     $('memberColorHex').value = '#4F46E5';
-    if ($('memberPassword')) $('memberPassword').value = ''; // Clear password field
+
+    // Password is required when creating new team member
+    if ($('memberPassword')) {
+        $('memberPassword').value = '';
+        $('memberPassword').required = true;
+        if ($('passwordLabel')) $('passwordLabel').textContent = '(obligatoriu)';
+        if ($('passwordHelp')) $('passwordHelp').textContent = 'Va fi creată o intrare în tabelul utilizatori';
+    }
 
     // NOU: Verifică permisiunile la resetarea formularului
     const canChangeRole = auth.isAdmin() || auth.isCoordinator();
@@ -938,7 +945,14 @@ export function editTeamMemberInModal(memberId) {
     $('memberRole').value = member.role;
     $('memberColor').value = member.color;
     $('memberColorHex').value = member.color.toUpperCase();
-    if ($('memberPassword')) $('memberPassword').value = ''; // Always clear password when editing
+
+    // Password is optional when editing
+    if ($('memberPassword')) {
+        $('memberPassword').value = '';
+        $('memberPassword').required = false;
+        if ($('passwordLabel')) $('passwordLabel').textContent = '(opțional - completați doar pentru a schimba)';
+        if ($('passwordHelp')) $('passwordHelp').textContent = 'Lăsați gol pentru a păstra parola actuală';
+    }
 
     // NOU: Dezactivează dropdown-ul de ROL și butonul de ȘTERGERE dacă e terapeut
     const canChangeRole = auth.isAdmin() || auth.isCoordinator();

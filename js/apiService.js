@@ -396,6 +396,20 @@ export async function loadSystemOptions() {
 }
 
 /**
+ * Creează un utilizator nou în tabelul users.
+ * Apel POST la api.php?path=users
+ * @param {object} userData - Datele utilizatorului {id, username, password, role}
+ */
+export async function createUser(userData) {
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
+    };
+    return apiFetch('users', options);
+}
+
+/**
  * Actualizează parola utilizatorului.
  * Apel POST la api.php?path=update-password
  * @param {number} userId - ID-ul utilizatorului

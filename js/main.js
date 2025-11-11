@@ -954,12 +954,36 @@ async function handleSaveTeamMember(e) {
         color: formData.get('memberColorHex')
     };
 
+    const newPassword = formData.get('memberPassword')?.trim();
+
+    // When creating new team member, password is required
+    if (!editingMemberId && (!newPassword || newPassword.length === 0)) {
+        ui.showCustomAlert('Parola este obligatorie pentru un membru nou.', 'Parolă Obligatorie');
+        return;
+    }
+
+    // Create user entry when creating new team member
+    if (!editingMemberId) {
+        try {
+            // Create user in users table with same ID as team member
+            await api.createUser({
+                id: memberData.id,
+                username: memberData.name.toLowerCase().replace(/\s+/g, '_'), // Generate username from name
+                password: newPassword,
+                role: memberData.role
+            });
+        } catch (error) {
+            console.error('Eroare la crearea utilizatorului:', error);
+            ui.showCustomAlert('A apărut o eroare la crearea utilizatorului. Verificați că ID-ul nu există deja.', 'Eroare');
+            return; // Don't continue if user creation fails
+        }
+    }
+
     calendarState.saveTeamMember(memberData);
     await api.saveData(calendarState.getState());
 
-    // Update password if provided
-    const newPassword = formData.get('memberPassword')?.trim();
-    if (newPassword && newPassword.length > 0) {
+    // Update password if provided when editing
+    if (editingMemberId && newPassword && newPassword.length > 0) {
         try {
             // Get the user ID from auth (assumes team member is logged in and editing their own profile)
             const currentUser = auth.getCurrentUser();
