@@ -739,7 +739,8 @@ async function handleSaveClient(e) {
         email: formData.get('clientEmail'),
         phone: formData.get('clientPhone'),
         birthDate: formData.get('clientBirthdayInput') || null,
-        medical: formData.get('clientMedical') || ''
+        medical: formData.get('clientMedical') || '',
+        is_archived: formData.get('clientIsArchived') === 'on' ? 1 : 0
     };
 
     // Salvează în starea locală (aici are loc migrarea ID-ului)

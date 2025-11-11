@@ -721,12 +721,19 @@ export function renderClientsList(searchTerm = '') {
         const monthHours = calculateClientHours(client.id, events, currentDate);
         const card = document.createElement('div');
         card.className = 'client-card';
+        if (client.is_archived === 1 || client.is_archived === true) {
+            card.style.opacity = '0.6';
+            card.style.borderLeft = '4px solid #999';
+        }
         card.innerHTML = `
                 <div class="client-card-content">
                     <div class="client-info">
                         <div class="client-avatar">${client.name.substring(0, 2).toUpperCase()}</div>
                         <div class="client-details">
-                            <div class="client-name">${client.name}</div>
+                            <div class="client-name">
+                                ${client.name}
+                                ${client.is_archived === 1 || client.is_archived === true ? '<span style="margin-left: 0.5rem; padding: 0.125rem 0.5rem; background-color: #999; color: white; font-size: 0.7rem; border-radius: 4px;">ARHIVAT</span>' : ''}
+                            </div>
                             <div class="client-contact">
                                 ${client.email ? `<span class="client-info-item">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -808,6 +815,7 @@ export function resetClientForm() {
     $('clientForm').reset();
     $('clientFormTitle').textContent = 'Adaugă Client Nou';
     $('clientId').value = ''; // Clear the ID field
+    $('clientIsArchived').checked = false; // Uncheck archive checkbox
     $('deleteClientBtn').style.display = 'none';
     calendarState.setEditingId({ clientId: null });
 }
@@ -815,7 +823,7 @@ export function resetClientForm() {
 export function editClientInModal(clientId) {
     const client = calendarState.getClientById(clientId);
     if (!client) return;
-    
+
     calendarState.setEditingId({ clientId });
     $('clientFormTitle').textContent = 'Editează Client';
     $('clientId').value = client.id; // Populate the ID field
@@ -824,10 +832,11 @@ export function editClientInModal(clientId) {
     $('clientEmail').value = client.email || '';
     $('clientPhone').value = client.phone || '';
     $('clientBirthdayInput').value = client.birthDate || '';
-    
+
     $('clientMedical').value = client.medical || '';
+    $('clientIsArchived').checked = client.is_archived === 1 || client.is_archived === true;
     $('deleteClientBtn').style.display = 'inline-block';
-    
+
     $('clientForm').scrollIntoView({ behavior: 'smooth' });
 }
 
