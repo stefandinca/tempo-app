@@ -1128,7 +1128,7 @@ body.public-view {
 
 .modal-lg { max-width: 800px; }
 .modal-xl { max-width: 1400px; } /* Increased for better event modal layout */
-.modal-small { max-width: 450px; }
+.modal-small { max-width: 100%; }
 
 .modal-header {
   display: flex;

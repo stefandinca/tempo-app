@@ -732,7 +732,31 @@ async function handleSaveClient(e) {
             return;
         }
     }
-    
+
+    // Check client limit when creating new client
+    if (!editingClientId) {
+        try {
+            const systemOptions = await api.loadSystemOptions();
+            const { clients } = calendarState.getState();
+
+            // Count active (non-archived) clients
+            const activeClients = clients.filter(c => c.is_archived !== 1 && c.is_archived !== true);
+            const activeClientCount = activeClients.length;
+            const maxClients = systemOptions.max_clients || 999;
+
+            if (activeClientCount >= maxClients) {
+                ui.showCustomAlert(
+                    `Numarul maxim de clienti alocat este ${maxClients}. Contactați echipa Tempo sau arhivați clienții inactivi.`,
+                    'Limită Clienți Atinsă'
+                );
+                return; // Prevent creating new client
+            }
+        } catch (error) {
+            console.error('Eroare la verificarea limitei de clienți:', error);
+            // Continue anyway if check fails
+        }
+    }
+
     const clientData = {
         id: clientId,
         name: formData.get('clientFullName'),
@@ -755,6 +779,33 @@ async function handleSaveClient(e) {
     const isBeingArchived = existingClient &&
                            existingIsArchived === 0 &&
                            newIsArchived === 1;
+
+    const isBeingUnarchived = existingClient &&
+                              existingIsArchived === 1 &&
+                              newIsArchived === 0;
+
+    // Check client limit when unarchiving
+    if (isBeingUnarchived) {
+        try {
+            const systemOptions = await api.loadSystemOptions();
+
+            // Count active (non-archived) clients
+            const activeClients = clients.filter(c => c.is_archived !== 1 && c.is_archived !== true);
+            const activeClientCount = activeClients.length;
+            const maxClients = systemOptions.max_clients || 999;
+
+            if (activeClientCount >= maxClients) {
+                ui.showCustomAlert(
+                    `Numarul maxim de clienti alocat este ${maxClients}. Nu puteți activa mai mulți clienți. Contactați echipa Tempo.`,
+                    'Limită Clienți Atinsă'
+                );
+                return; // Prevent unarchiving
+            }
+        } catch (error) {
+            console.error('Eroare la verificarea limitei de clienți:', error);
+            // Continue anyway if check fails
+        }
+    }
 
     // If being archived, check for events and show modal
     if (isBeingArchived) {
@@ -1332,7 +1383,29 @@ async function init() {
         return;
     }
     // === END AUTHENTICATION BLOCK ===
-    
+
+    // === SYSTEM OPTIONS CHECK - Client Limit Warning ===
+    try {
+        const systemOptions = await api.loadSystemOptions();
+        const { clients } = calendarState.getState();
+
+        // Count active (non-archived) clients
+        const activeClients = clients.filter(c => c.is_archived !== 1 && c.is_archived !== true);
+        const activeClientCount = activeClients.length;
+        const maxClients = systemOptions.max_clients || 999;
+
+        if (activeClientCount >= maxClients) {
+            ui.showCustomAlert(
+                `Numarul maxim de clienti alocat este ${maxClients}. Contactați echipa Tempo sau arhivați clienții inactivi.`,
+                'Limită Clienți Atinsă'
+            );
+        }
+    } catch (error) {
+        console.error('Eroare la verificarea opțiunilor sistem:', error);
+        // Don't block app if system options check fails
+    }
+    // === END SYSTEM OPTIONS CHECK ===
+
     calendarState.setIsAdminView(true);
 
     try {

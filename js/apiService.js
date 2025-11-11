@@ -386,3 +386,11 @@ export async function deleteClientEvents(clientId) {
     };
     return apiFetch(`delete-client-events/${clientId}`, options);
 }
+
+/**
+ * Încarcă opțiunile sistemului (limite, subscription type, etc.)
+ * Apel GET la api.php?path=system-options
+ */
+export async function loadSystemOptions() {
+    return apiFetch('system-options');
+}

@@ -1050,6 +1050,38 @@ try {
             break;
 
         // ==========================================================
+        // CAZUL 'system-options' - Obține opțiunile sistemului
+        // ==========================================================
+        case 'system-options':
+            if ($method === 'GET') {
+                try {
+                    // Get the latest system options entry
+                    $stmt = $pdo->query("SELECT * FROM system_options ORDER BY date_created DESC LIMIT 1");
+                    $options = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    if ($options) {
+                        // Convert to integers
+                        $options['max_clients'] = (int)$options['max_clients'];
+                        $options['max_users'] = (int)$options['max_users'];
+                        sendResponse($options);
+                    } else {
+                        // Return default values if no options exist
+                        sendResponse([
+                            'max_clients' => 999,
+                            'max_users' => 999,
+                            'subscription_type' => 'unlimited'
+                        ]);
+                    }
+                } catch (Exception $e) {
+                    debugLog("Eroare la încărcarea opțiunilor sistem: " . $e->getMessage());
+                    sendError('Failed to load system options: ' . $e->getMessage());
+                }
+            } else {
+                sendError('Unsupported method for system-options', 405);
+            }
+            break;
+
+        // ==========================================================
         // ENDPOINT-URI VECHI (Dezactivate, acum gestionate de 'POST /data')
         // ==========================================================
         case 'events':
