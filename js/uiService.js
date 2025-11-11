@@ -708,16 +708,10 @@ export function renderClientsList(searchTerm = '') {
     container.innerHTML = '<h3>Clienți existenți</h3>';
 
     const term = searchTerm.toLowerCase();
-    // Filter out archived clients by default, and apply search term if provided
-    const filteredClients = clients.filter(c => {
-        // Exclude archived clients
-        if (c.is_archived === 1 || c.is_archived === true) return false;
-        // Apply search filter if term exists
-        if (term) {
-            return c.name.toLowerCase().includes(term) || (c.email && c.email.toLowerCase().includes(term));
-        }
-        return true;
-    });
+    // Apply search filter if provided (keep archived clients visible)
+    const filteredClients = term
+        ? clients.filter(c => c.name.toLowerCase().includes(term) || (c.email && c.email.toLowerCase().includes(term)))
+        : clients;
 
     if (filteredClients.length === 0) {
         container.innerHTML += '<p class="empty-list-message">Nu s-au găsit clienți.</p>';
