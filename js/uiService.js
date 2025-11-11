@@ -977,7 +977,7 @@ function populateClientCheckboxes(searchTerm = '') {
     const { clients, selectedClientIds } = calendarState.getState();
     const container = $('clientCheckboxes');
     if (!container) return;
-    
+
     container.innerHTML = '';
     if (clients.length === 0) {
         container.innerHTML = '<p class="empty-list-message">Nu exista clienti</p>';
@@ -985,9 +985,16 @@ function populateClientCheckboxes(searchTerm = '') {
     }
 
     const term = searchTerm.toLowerCase();
-    const filteredClients = term
-        ? clients.filter(c => c.name.toLowerCase().includes(term))
-        : clients;
+    // Filter out archived clients and apply search term
+    const filteredClients = clients.filter(c => {
+        // Exclude archived clients
+        if (c.is_archived === 1 || c.is_archived === true) return false;
+        // Apply search filter if term exists
+        if (term) {
+            return c.name.toLowerCase().includes(term);
+        }
+        return true;
+    });
     
     if (filteredClients.length === 0) {
         container.innerHTML = '<p class="empty-list-message">Nu s-au gasit clienti.</p>';
