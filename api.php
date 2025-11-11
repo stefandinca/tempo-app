@@ -1383,6 +1383,75 @@ try {
             break;
 
         // ==========================================================
+        // ENDPOINT: delete-client-events/:clientId (POST)
+        // Șterge toate evenimentele asociate cu un client
+        // ==========================================================
+        case (preg_match('/^delete-client-events\/(.+)$/', $path, $matches) ? true : false):
+            if ($method === 'POST') {
+                try {
+                    $clientId = $matches[1];
+                    debugLog("Încercare ștergere evenimente pentru clientul: $clientId");
+
+                    // Găsește toate evenimentele asociate cu acest client
+                    $stmt = $pdo->prepare("
+                        SELECT DISTINCT e.id
+                        FROM events e
+                        INNER JOIN event_clients ec ON e.id = ec.event_id
+                        WHERE ec.client_id = ?
+                    ");
+                    $stmt->execute([$clientId]);
+                    $eventIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+                    if (count($eventIds) === 0) {
+                        sendResponse([
+                            'success' => true,
+                            'message' => "No events found for client: $clientId",
+                            'deletedCount' => 0
+                        ]);
+                        break;
+                    }
+
+                    debugLog("Găsite " . count($eventIds) . " evenimente pentru ștergere");
+
+                    // Începe tranzacția
+                    $pdo->beginTransaction();
+
+                    // Șterge relațiile pentru fiecare eveniment
+                    foreach ($eventIds as $eventId) {
+                        $pdo->prepare("DELETE FROM event_team_members WHERE event_id = ?")->execute([$eventId]);
+                        $pdo->prepare("DELETE FROM event_clients WHERE event_id = ?")->execute([$eventId]);
+                        $pdo->prepare("DELETE FROM event_programs WHERE event_id = ?")->execute([$eventId]);
+                    }
+
+                    // Șterge evenimentele
+                    $placeholders = implode(',', array_fill(0, count($eventIds), '?'));
+                    $stmt = $pdo->prepare("DELETE FROM events WHERE id IN ($placeholders)");
+                    $stmt->execute($eventIds);
+                    $deletedCount = $stmt->rowCount();
+
+                    $pdo->commit();
+
+                    debugLog("Ștergere reușită: $deletedCount evenimente pentru clientul $clientId");
+
+                    sendResponse([
+                        'success' => true,
+                        'message' => "Successfully deleted $deletedCount events for client $clientId",
+                        'deletedCount' => $deletedCount
+                    ]);
+
+                } catch (Exception $e) {
+                    if ($pdo->inTransaction()) {
+                        $pdo->rollBack();
+                    }
+                    debugLog("Eroare la ștergerea evenimentelor clientului: " . $e->getMessage());
+                    sendError('Failed to delete client events: ' . $e->getMessage());
+                }
+            } else {
+                sendError('Only POST method is supported for delete-client-events', 405);
+            }
+            break;
+
+        // ==========================================================
         // DEFAULT
         // ==========================================================
         default:
