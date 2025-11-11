@@ -924,6 +924,28 @@ async function handleSaveTeamMember(e) {
 
     const formData = new FormData(e.target);
 
+    // Check user limit when creating new team member
+    if (!editingMemberId) {
+        try {
+            const systemOptions = await api.loadSystemOptions();
+            const { teamMembers } = calendarState.getState();
+
+            const teamMemberCount = teamMembers.length;
+            const maxUsers = systemOptions.max_users || 999;
+
+            if (teamMemberCount >= maxUsers) {
+                ui.showCustomAlert(
+                    `Numarul maxim de utilizatori alocat este ${maxUsers}. Contactați echipa Tempo.`,
+                    'Limită Utilizatori Atinsă'
+                );
+                return; // Prevent creating new team member
+            }
+        } catch (error) {
+            console.error('Eroare la verificarea limitei de utilizatori:', error);
+            // Continue anyway if check fails
+        }
+    }
+
     const memberData = {
         id: editingMemberId || `member_${Date.now()}`,
         name: formData.get('memberName'),
@@ -931,7 +953,7 @@ async function handleSaveTeamMember(e) {
         role: formData.get('memberRole'),
         color: formData.get('memberColorHex')
     };
-    
+
     calendarState.saveTeamMember(memberData);
     await api.saveData(calendarState.getState());
 
@@ -1384,12 +1406,12 @@ async function init() {
     }
     // === END AUTHENTICATION BLOCK ===
 
-    // === SYSTEM OPTIONS CHECK - Client Limit Warning ===
+    // === SYSTEM OPTIONS CHECK - Client & User Limits Warning ===
     try {
         const systemOptions = await api.loadSystemOptions();
-        const { clients } = calendarState.getState();
+        const { clients, teamMembers } = calendarState.getState();
 
-        // Count active (non-archived) clients
+        // Check client limit
         const activeClients = clients.filter(c => c.is_archived !== 1 && c.is_archived !== true);
         const activeClientCount = activeClients.length;
         const maxClients = systemOptions.max_clients || 999;
@@ -1398,6 +1420,17 @@ async function init() {
             ui.showCustomAlert(
                 `Numarul maxim de clienti alocat este ${maxClients}. Contactați echipa Tempo sau arhivați clienții inactivi.`,
                 'Limită Clienți Atinsă'
+            );
+        }
+
+        // Check user limit
+        const teamMemberCount = teamMembers.length;
+        const maxUsers = systemOptions.max_users || 999;
+
+        if (teamMemberCount >= maxUsers) {
+            ui.showCustomAlert(
+                `Numarul maxim de utilizatori alocat este ${maxUsers}. Contactați echipa Tempo.`,
+                'Limită Utilizatori Atinsă'
             );
         }
     } catch (error) {
