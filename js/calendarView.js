@@ -415,12 +415,19 @@ function getCurrentTimePosition() {
     const hoursFromStart = hours - 8;
     const totalMinutes = (hoursFromStart * 60) + minutes;
 
-    // Each hour cell is 120px tall (min-height of .hour-cell)
-    const hourHeight = 120;
+    // Dynamically measure the actual height of time slots
+    // This accounts for borders, padding, and any CSS variations
+    const timeSlots = document.querySelectorAll('.time-slot');
+    let hourHeight = 120; // Default fallback
+
+    if (timeSlots.length > 0) {
+        // Measure the first time-slot's actual height
+        const firstSlot = timeSlots[0];
+        hourHeight = firstSlot.getBoundingClientRect().height;
+    }
 
     // Calculate the exact pixel position
-    // Note: time-slots stack directly with no vertical gaps
-    // (the gap in .time-slot CSS is for horizontal column spacing only)
+    // Position = hours elapsed * height per hour + (minutes / 60) * height per hour
     const topPosition = (totalMinutes / 60) * hourHeight;
 
     return { hours, minutes, topPosition };
