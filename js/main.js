@@ -13,6 +13,7 @@ import * as reportService from './reportService.js';
 import * as evolutionService from './evolutionService.js';
 import * as billing from './billingService.js';
 import * as eventTypesService from './eventTypesService.js';
+import * as analyticsService from './analyticsService.js';
 
 // --- Variabile DOM Globale ---
 const $ = (id) => document.getElementById(id);
@@ -31,6 +32,7 @@ const dom = {
     dashboardSection: $('dashboardSection'),
     billingSection: $('billingSection'),
     eventTypesSection: $('eventTypesSection'),
+    analyticsSection: $('analyticsSection'),
     
     // Calendar
     currentPeriod: $('currentPeriod'),
@@ -233,6 +235,29 @@ function handleMainViewNavigation(e) {
         return; // Oprește execuția funcției
     }
 }
+
+        // Initialize analytics section when navigating to it
+        if (viewName === 'analytics') {
+            if (auth.isAdmin()) {
+                // Analytics are already initialized, just refresh data
+                setTimeout(() => {
+                    // This will trigger a data load if analyticsService is already initialized
+                }, 50);
+            } else {
+                console.warn('Acces restricționat la secțiunea Analytics.');
+                e.preventDefault();
+                const currentActiveSection = document.querySelector('.main-section.active');
+                if (currentActiveSection) {
+                    currentActiveSection.style.display = 'flex';
+                }
+                menuItem.classList.remove('active');
+                const currentActiveLink = document.querySelector('.sidebar-menu .menu-item.active');
+                if (currentActiveLink) {
+                    currentActiveLink.classList.add('active');
+                }
+                return;
+            }
+        }
     }
 }
 
@@ -1457,21 +1482,32 @@ async function init() {
         if (billingLink) {
             billingLink.style.display = 'none';
         }
-        
+
         // Ascunde fizic secțiunea de Facturare
         if (dom.billingSection) {
             dom.billingSection.style.display = 'none';
         }
-        
+
         // Ascunde link-ul de Tipuri Evenimente din sidebar
         const eventTypesLink = document.querySelector('.menu-item[data-view="eventTypes"]');
         if (eventTypesLink) {
             eventTypesLink.style.display = 'none';
         }
-        
+
         // Ascunde fizic secțiunea de Tipuri Evenimente
         if (dom.eventTypesSection) {
             dom.eventTypesSection.style.display = 'none';
+        }
+
+        // Ascunde link-ul de Analytics din sidebar
+        const analyticsLink = document.querySelector('.menu-item[data-view="analytics"]');
+        if (analyticsLink) {
+            analyticsLink.style.display = 'none';
+        }
+
+        // Ascunde fizic secțiunea de Analytics
+        if (dom.analyticsSection) {
+            dom.analyticsSection.style.display = 'none';
         }
     }
         
@@ -2119,6 +2155,7 @@ async function init() {
     if (auth.isAdmin()) {
         billing.init();
         eventTypesService.init(); // Initialize event types management
+        analyticsService.init(); // Initialize analytics service
     }
     // --- Randare Inițială ---
     populateClientFilterDropdown(); // Populează dropdown-ul de clienți

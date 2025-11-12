@@ -1630,6 +1630,208 @@ try {
             break;
 
         // ==========================================================
+        // CAZUL 'analytics' - Returnează date pentru Analytics Dashboard
+        // ==========================================================
+        case 'analytics':
+            if ($method === 'GET') {
+                try {
+                    $months = isset($_GET['months']) ? (int)$_GET['months'] : 6;
+
+                    // Calculate date range (last N months)
+                    $endDate = date('Y-m-t'); // Last day of current month
+                    $startDate = date('Y-m-01', strtotime("-" . ($months - 1) . " months")); // First day of N months ago
+
+                    debugLog("Analytics request for $months months: $startDate to $endDate");
+
+                    $analyticsData = [];
+
+                    // 1. FINANCIALS: Total Facturat vs. Total Încasat per month
+                    $stmt = $pdo->prepare("
+                        SELECT
+                            DATE_FORMAT(e.date, '%Y-%m') as month,
+                            SUM(CASE WHEN e.isBillable = 1 THEN et.base_price * (e.duration / 60) ELSE 0 END) as total_facturat
+                        FROM events e
+                        LEFT JOIN event_types et ON e.type = et.id
+                        WHERE e.date >= ? AND e.date <= ?
+                        GROUP BY month
+                        ORDER BY month ASC
+                    ");
+                    $stmt->execute([$startDate, $endDate]);
+                    $billedByMonth = [];
+                    while ($row = $stmt->fetch()) {
+                        $billedByMonth[$row['month']] = (float)$row['total_facturat'];
+                    }
+
+                    // Get payments (încasat) per month
+                    $stmt = $pdo->prepare("
+                        SELECT
+                            DATE_FORMAT(payment_date, '%Y-%m') as month,
+                            SUM(amount) as total_incasat
+                        FROM payments
+                        WHERE payment_date >= ? AND payment_date <= ?
+                        GROUP BY month
+                        ORDER BY month ASC
+                    ");
+                    $stmt->execute([$startDate, $endDate]);
+                    $paidByMonth = [];
+                    while ($row = $stmt->fetch()) {
+                        $paidByMonth[$row['month']] = (float)$row['total_incasat'];
+                    }
+
+                    // Generate all months in range
+                    $financials = [];
+                    $currentMonth = new DateTime($startDate);
+                    $end = new DateTime($endDate);
+                    while ($currentMonth <= $end) {
+                        $monthKey = $currentMonth->format('Y-m');
+                        $financials[] = [
+                            'month' => $monthKey,
+                            'facturat' => $billedByMonth[$monthKey] ?? 0,
+                            'incasat' => $paidByMonth[$monthKey] ?? 0
+                        ];
+                        $currentMonth->modify('+1 month');
+                    }
+                    $analyticsData['financials'] = $financials;
+
+                    // 2. OPERATIONS: Therapist Utilization Rate
+                    // Calculate total working hours and booked hours per therapist per month
+                    $stmt = $pdo->prepare("
+                        SELECT
+                            tm.id as therapist_id,
+                            tm.name as therapist_name,
+                            DATE_FORMAT(e.date, '%Y-%m') as month,
+                            COUNT(DISTINCT e.id) as events_count,
+                            SUM(e.duration) as total_minutes
+                        FROM team_members tm
+                        LEFT JOIN event_team_members etm ON tm.id = etm.team_member_id
+                        LEFT JOIN events e ON etm.event_id = e.id AND e.date >= ? AND e.date <= ?
+                        GROUP BY tm.id, month
+                        ORDER BY tm.name, month
+                    ");
+                    $stmt->execute([$startDate, $endDate]);
+
+                    $utilizationData = [];
+                    while ($row = $stmt->fetch()) {
+                        $therapistId = $row['therapist_id'];
+                        $therapistName = $row['therapist_name'];
+                        $month = $row['month'];
+                        $totalMinutes = (float)($row['total_minutes'] ?? 0);
+                        $eventsCount = (int)($row['events_count'] ?? 0);
+
+                        // Calculate working days in month (assuming 20 working days, 8 hours/day = 160 hours)
+                        $workingMinutesPerMonth = 160 * 60; // 9600 minutes
+                        $utilizationRate = $workingMinutesPerMonth > 0 ? ($totalMinutes / $workingMinutesPerMonth) * 100 : 0;
+
+                        if (!isset($utilizationData[$therapistId])) {
+                            $utilizationData[$therapistId] = [
+                                'name' => $therapistName,
+                                'months' => []
+                            ];
+                        }
+
+                        if ($month) {
+                            $utilizationData[$therapistId]['months'][$month] = [
+                                'rate' => round($utilizationRate, 1),
+                                'hours' => round($totalMinutes / 60, 1),
+                                'events' => $eventsCount
+                            ];
+                        }
+                    }
+                    $analyticsData['utilization'] = array_values($utilizationData);
+
+                    // 3. CLIENT STATS: Attendance Rate
+                    // Fetch all events with attendance data in the date range
+                    $stmt = $pdo->prepare("
+                        SELECT attendance
+                        FROM events
+                        WHERE date >= ? AND date <= ? AND attendance IS NOT NULL
+                    ");
+                    $stmt->execute([$startDate, $endDate]);
+
+                    $attendanceStats = [
+                        'Prezent' => 0,
+                        'Absent' => 0,
+                        'Absent Motivat' => 0
+                    ];
+
+                    // Parse JSON attendance data and count statuses
+                    while ($row = $stmt->fetch()) {
+                        $attendanceJson = $row['attendance'];
+                        if ($attendanceJson) {
+                            $attendance = json_decode($attendanceJson, true);
+                            if (is_array($attendance)) {
+                                foreach ($attendance as $clientId => $status) {
+                                    // Map status values to display names
+                                    if ($status === 'present') {
+                                        $attendanceStats['Prezent']++;
+                                    } elseif ($status === 'absent') {
+                                        $attendanceStats['Absent']++;
+                                    } elseif ($status === 'absent-motivated') {
+                                        $attendanceStats['Absent Motivat']++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    $total = array_sum($attendanceStats);
+                    $attendanceData = [];
+                    foreach ($attendanceStats as $status => $count) {
+                        $attendanceData[] = [
+                            'status' => $status,
+                            'count' => $count,
+                            'percentage' => $total > 0 ? round(($count / $total) * 100, 1) : 0
+                        ];
+                    }
+                    $analyticsData['attendance'] = $attendanceData;
+
+                    // 4. SERVICE STATS: Most popular/profitable services
+                    $stmt = $pdo->prepare("
+                        SELECT
+                            et.id,
+                            et.label,
+                            COUNT(e.id) as event_count,
+                            SUM(CASE WHEN e.isBillable = 1 THEN et.base_price * (e.duration / 60) ELSE 0 END) as total_revenue
+                        FROM event_types et
+                        LEFT JOIN events e ON et.id = e.type AND e.date >= ? AND e.date <= ?
+                        GROUP BY et.id
+                        ORDER BY total_revenue DESC
+                    ");
+                    $stmt->execute([$startDate, $endDate]);
+
+                    $serviceStats = [];
+                    $totalRevenue = 0;
+
+                    while ($row = $stmt->fetch()) {
+                        $revenue = (float)$row['total_revenue'];
+                        $totalRevenue += $revenue;
+                        $serviceStats[] = [
+                            'label' => $row['label'],
+                            'count' => (int)$row['event_count'],
+                            'revenue' => $revenue
+                        ];
+                    }
+
+                    // Calculate percentages
+                    foreach ($serviceStats as &$service) {
+                        $service['percentage'] = $totalRevenue > 0 ? round(($service['revenue'] / $totalRevenue) * 100, 1) : 0;
+                    }
+
+                    $analyticsData['services'] = $serviceStats;
+
+                    debugLog("Analytics data generated successfully");
+                    sendResponse($analyticsData);
+
+                } catch (Exception $e) {
+                    debugLog("EROARE la generarea analytics: " . $e->getMessage());
+                    sendError('Failed to generate analytics: ' . $e->getMessage());
+                }
+            } else {
+                sendError('Only GET method is supported for analytics', 405);
+            }
+            break;
+
+        // ==========================================================
         // DEFAULT
         // ==========================================================
         default:
