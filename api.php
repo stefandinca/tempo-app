@@ -97,13 +97,17 @@ if (isset($_GET['action']) && $_GET['action'] === 'login') {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
         $stmt->execute([$username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
+        debugLog("Login attempt: username=$username, user_found=" . ($user ? 'yes' : 'no'));
+
         if ($user && $password === $user['password']) {
             session_start();
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'] ?? 'therapist';
-            
+
+            debugLog("Login SUCCESS: user_id=" . $user['id'] . ", role=" . $_SESSION['role']);
+
             sendResponse([
                 'success' => true,
                 'user' => [
@@ -113,6 +117,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'login') {
                 ]
             ]);
         } else {
+            debugLog("Login FAILED: username=$username, password_match=" . ($user ? ($password === $user['password'] ? 'yes' : 'no') : 'N/A'));
             sendResponse(['success' => false, 'message' => 'Invalid credentials'], 401);
         }
     } catch (Exception $e) {
@@ -1050,6 +1055,31 @@ try {
             break;
 
         // ==========================================================
+        // CAZUL 'user-map' - Obține maparea ID -> username pentru login
+        // ==========================================================
+        case 'user-map':
+            if ($method === 'GET') {
+                try {
+                    $stmt = $pdo->query("SELECT id, username FROM users");
+                    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                    // Create a map of id -> username
+                    $userMap = [];
+                    foreach ($users as $user) {
+                        $userMap[$user['id']] = $user['username'];
+                    }
+
+                    sendResponse($userMap);
+                } catch (Exception $e) {
+                    debugLog("Eroare la încărcarea mapării utilizatori: " . $e->getMessage());
+                    sendError('Failed to load user map: ' . $e->getMessage());
+                }
+            } else {
+                sendError('Unsupported method for user-map', 405);
+            }
+            break;
+
+        // ==========================================================
         // CAZUL 'system-options' - Obține opțiunile sistemului
         // ==========================================================
         case 'system-options':
@@ -1105,6 +1135,7 @@ try {
                     $checkStmt = $pdo->prepare("SELECT id FROM users WHERE id = ?");
                     $checkStmt->execute([$userId]);
                     if ($checkStmt->fetch()) {
+                        debugLog("EROARE: Utilizator cu ID $userId există deja");
                         sendError('Un utilizator cu acest ID există deja', 409);
                     }
 
@@ -1112,7 +1143,7 @@ try {
                     $stmt = $pdo->prepare("INSERT INTO users (id, username, password, role, created_at) VALUES (?, ?, ?, ?, NOW())");
                     $stmt->execute([$userId, $username, $password, $role]);
 
-                    debugLog("Utilizator creat: $userId - $username");
+                    debugLog("Utilizator creat: ID=$userId, username=$username, role=$role");
                     sendResponse(['success' => true, 'message' => 'Utilizator creat cu succes', 'id' => $userId]);
 
                 } catch (PDOException $e) {

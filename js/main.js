@@ -964,14 +964,21 @@ async function handleSaveTeamMember(e) {
 
     // Create user entry when creating new team member
     if (!editingMemberId) {
+        const username = memberData.name.toLowerCase().replace(/\s+/g, '_');
         try {
             // Create user in users table with same ID as team member
             await api.createUser({
                 id: memberData.id,
-                username: memberData.name.toLowerCase().replace(/\s+/g, '_'), // Generate username from name
+                username: username,
                 password: newPassword,
                 role: memberData.role
             });
+
+            // Show success message with username
+            ui.showCustomAlert(
+                `Utilizator creat cu succes!\n\nUsername: ${username}\nParolă: ${newPassword}\n\nVă rugăm să notați aceste credențiale.`,
+                'Utilizator Creat'
+            );
         } catch (error) {
             console.error('Eroare la crearea utilizatorului:', error);
             ui.showCustomAlert('A apărut o eroare la crearea utilizatorului. Verificați că ID-ul nu există deja.', 'Eroare');
