@@ -495,9 +495,18 @@ function buildEventDetailsHTML(event) {
                             <div class="attendance-item">
                                 <div class="client-name-attendance">${c.name}</div>
                                 <div class="attendance-toggle" data-event-id="${event.id}" data-client-id="${c.id}">
-                                    <button class="attendance-btn ${attendance === 'present' ? 'active' : ''}" data-status="present">Prezent</button>
-                                    <button class="attendance-btn ${attendance === 'absent' ? 'active' : ''}" data-status="absent">Absent</button>
-                                    <button class="attendance-btn ${attendance === 'absent-motivated' ? 'active' : ''}" data-status="absent-motivated">Absent Motivat</button>
+                                    <button class="attendance-btn ${attendance === 'present' ? 'active' : ''}" data-status="present">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        Prezent
+                                    </button>
+                                    <button class="attendance-btn ${attendance === 'absent' ? 'active' : ''}" data-status="absent">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                        Absent
+                                    </button>
+                                    <button class="attendance-btn ${attendance === 'absent-motivated' ? 'active' : ''}" data-status="absent-motivated">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                                        Absent Motivat
+                                    </button>
                                 </div>
                             </div>
                         `;
@@ -524,21 +533,33 @@ function buildEventDetailsHTML(event) {
                             <div class="program-score-item">
                                 <div class="program-score-name">${p.title}</div>
                                 <div class="program-score-buttons" data-event-id="${event.id}" data-program-id="${p.id}">
-                                    <button class="score-btn" data-score="0">
+                                    <button class="score-btn" data-score="0" aria-label="Scor 0 - Negativ">
                                         <span class="score-badge">${scores['0'] || 0}</span>
-                                        <span class="score-label">0</span>
+                                        <span class="score-label">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"></circle></svg>
+                                            0
+                                        </span>
                                     </button>
-                                    <button class="score-btn" data-score="-">
+                                    <button class="score-btn" data-score="-" aria-label="Scor minus - În curs">
                                         <span class="score-badge">${scores['-'] || 0}</span>
-                                        <span class="score-label">-</span>
+                                        <span class="score-label">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                            -
+                                        </span>
                                     </button>
-                                    <button class="score-btn" data-score="P">
+                                    <button class="score-btn" data-score="P" aria-label="Scor P - Prompting">
                                         <span class="score-badge">${scores['P'] || 0}</span>
-                                        <span class="score-label">P</span>
+                                        <span class="score-label">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg>
+                                            P
+                                        </span>
                                     </button>
-                                    <button class="score-btn" data-score="+">
+                                    <button class="score-btn" data-score="+" aria-label="Scor plus - Pozitiv">
                                         <span class="score-badge">${scores['+'] || 0}</span>
-                                        <span class="score-label">+</span>
+                                        <span class="score-label">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                            +
+                                        </span>
                                     </button>
                                 </div>
                             </div>

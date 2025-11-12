@@ -42,12 +42,12 @@
                 <h2 id="publicCurrentPeriod" class="dark:text-white">Calendar Public</h2>
                 <div class="flex flex-wrap items-center gap-2">
                     <div class="nav-controls">
-                        <button id="publicPrevBtn" class="nav-btn" title="Perioada precedentă">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+                        <button id="publicPrevBtn" class="nav-btn" title="Perioada precedentă" aria-label="Perioada precedentă">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
                         </button>
                         <button id="publicTodayBtn" class="nav-btn" style="padding-left: 1rem; padding-right: 1rem; font-weight: 500;">Azi</button>
-                        <button id="publicNextBtn" class="nav-btn" title="Perioada următoare">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                        <button id="publicNextBtn" class="nav-btn" title="Perioada următoare" aria-label="Perioada următoare">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
                         </button>
                     </div>
                     <div class="view-toggle">
@@ -70,12 +70,12 @@
 
     
 
-    <div id="parentModal" class="parent-modal">
+    <div id="parentModal" class="parent-modal" role="dialog" aria-modal="true" aria-labelledby="parentModalTitle">
         <div class="parent-modal-content">
             <div class="parent-modal-header">
                 <h2 id="parentModalTitle">Profil Client</h2>
-                <button id="closeParentModal" class="parent-modal-close">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                <button id="closeParentModal" class="parent-modal-close" aria-label="Închide dialog">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                 </button>
             </div>
             <div class="parent-modal-body" id="parentModalContent">
