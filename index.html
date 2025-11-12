@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tempo - Sistem de management pentru centre de terapie">
     <title>Selectează utilizatorul - Tempo Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -24,53 +25,57 @@
     <link rel="stylesheet" href="netflix-style.css">
 </head>
 <body class="bg-gradient-to-br from-[#0f172a]  to-[#334155]">
+    <!-- Skip Links for Accessibility -->
+    <a href="#main-content" class="skip-link">Salt la conținut principal</a>
+    <a href="#public-calendar" class="skip-link">Salt la calendar public</a>
+
     <div class="w-full max-w-7xl page-container">
-        
-        <div class="main-content">
+
+        <main id="main-content" class="main-content" role="main" aria-label="Selectare utilizator">
             <div class="text-center mb-12">
-                <img src="logo.png" alt="Tempo Logo" class="h-16 mx-auto mb-6">
+                <img src="logo.png" alt="Tempo Logo" class="h-16 mx-auto mb-6" loading="eager">
                 <h1 class="text-4xl font-bold text-gray-200 mb-3">Bine ai venit!</h1>
                 <p class="text-xl text-gray-200 opacity-90">Selectează contul tău pentru a continua</p>
             </div>
-    
-            <div id="userCardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <div id="userCardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" role="list" aria-label="Lista utilizatori disponibili">
                 </div>
-        </div>
-       
-        <div class="public-calendar-container">
+        </main>
+
+        <section id="public-calendar" class="public-calendar-container" aria-labelledby="publicCurrentPeriod">
             <header class="public-calendar-header">
                 <h2 id="publicCurrentPeriod" class="dark:text-white">Calendar Public</h2>
                 <div class="flex flex-wrap items-center gap-2">
-                    <div class="nav-controls">
+                    <nav class="nav-controls" aria-label="Navigare calendar">
                         <button id="publicPrevBtn" class="nav-btn" title="Perioada precedentă" aria-label="Perioada precedentă">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
                         </button>
-                        <button id="publicTodayBtn" class="nav-btn" style="padding-left: 1rem; padding-right: 1rem; font-weight: 500;">Azi</button>
+                        <button id="publicTodayBtn" class="nav-btn" style="padding-left: 1rem; padding-right: 1rem; font-weight: 500;" aria-label="Mergi la azi">Azi</button>
                         <button id="publicNextBtn" class="nav-btn" title="Perioada următoare" aria-label="Perioada următoare">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
                         </button>
-                    </div>
-                    <div class="view-toggle">
-                        <button class="view-btn active" data-view="month">Lună</button>
-                        <button class="view-btn" data-view="week">Săptămână</button>
-                        <button class="view-btn" data-view="day">Zi</button>
+                    </nav>
+                    <div class="view-toggle" role="group" aria-label="Selectare vizualizare calendar">
+                        <button class="view-btn active" data-view="month" aria-pressed="true" aria-label="Vizualizare lună">Lună</button>
+                        <button class="view-btn" data-view="week" aria-pressed="false" aria-label="Vizualizare săptămână">Săptămână</button>
+                        <button class="view-btn" data-view="day" aria-pressed="false" aria-label="Vizualizare zi">Zi</button>
                     </div>
                 </div>
             </header>
-            <div id="publicFilters" class="filters-container">
+            <div id="publicFilters" class="filters-container" role="group" aria-label="Filtre membri echipă">
                 </div>
-            <div id="publicCalendarView" class="calendar-view">
+            <div id="publicCalendarView" class="calendar-view" role="region" aria-live="polite" aria-label="Vizualizare calendar">
                 </div>
-        </div>
+        </section>
 
     </div> <div class="powered-by-footer">
         <span class="text-gray-200 mr-2 opacity-70 text-xs">Powered by:</span>
-        <img class="w-24" src="tempo-logo-dark.png"/>
+        <img class="w-24" src="tempo-logo-dark.png" alt="Tempo" loading="lazy"/>
     </div>
 
-    
 
-    <div id="parentModal" class="parent-modal" role="dialog" aria-modal="true" aria-labelledby="parentModalTitle">
+
+    <div id="parentModal" class="parent-modal" role="dialog" aria-modal="true" aria-labelledby="parentModalTitle" aria-hidden="true">
         <div class="parent-modal-content">
             <div class="parent-modal-header">
                 <h2 id="parentModalTitle">Profil Client</h2>
@@ -92,6 +97,32 @@
 
         // Store username mapping (team member ID -> username)
         let usernameMap = {};
+
+        // Performance Optimization: Debounce utility
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Performance Optimization: Request Animation Frame throttle
+        function throttleRAF(func) {
+            let running = false;
+            return function(...args) {
+                if (running) return;
+                running = true;
+                requestAnimationFrame(() => {
+                    func(...args);
+                    running = false;
+                });
+            };
+        }
 
         // Function to verify password via API
         async function verifyPassword(userId, password) {
@@ -252,22 +283,24 @@
             teamMembers.forEach(member => {
                 const username = usernameMap[member.id] || member.id;
                 cardsHTML += `
-                    <div class="user-card bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-lg" data-user-id="${member.id}">
-                        <div class="user-avatar" style="background-color: ${member.color}">
+                    <div class="user-card bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-lg" data-user-id="${member.id}" role="listitem" tabindex="0" aria-label="Cont ${member.name}, ${getRoleLabel(member.role)}">
+                        <div class="user-avatar" style="background-color: ${member.color}" aria-hidden="true">
                             ${member.initials}
                         </div>
                         <h3 class="user-card-name">${member.name}</h3>
                         <p style="font-size: 0.875rem; opacity: 0.6; margin: 0.25rem 0 0.5rem;">@${username}</p>
-                        <span class="role-badge ${getRoleClass(member.role)}">${getRoleLabel(member.role)}</span>
+                        <span class="role-badge ${getRoleClass(member.role)}" aria-label="Rol: ${getRoleLabel(member.role)}">${getRoleLabel(member.role)}</span>
 
                         <div class="password-input-container">
-                            <input 
-                                type="password" 
-                                id="pass_${member.id}" 
-                                class="password-input" 
+                            <input
+                                type="password"
+                                id="pass_${member.id}"
+                                class="password-input"
                                 placeholder="Parolă"
+                                aria-label="Parolă pentru ${member.name}"
+                                aria-required="true"
                             />
-                            <button id="login_btn_${member.id}" class="login-btn" data-user-id="${member.id}">
+                            <button id="login_btn_${member.id}" class="login-btn" data-user-id="${member.id}" aria-label="Intră în contul pentru ${member.name}">
                                 Intră în cont
                             </button>
                         </div>
@@ -277,20 +310,23 @@
 
             // Add parent card
             cardsHTML += `
-                <div class="user-card parent-card bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-lg">
-                    <div class="user-avatar" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%)">
+                <div class="user-card parent-card bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-lg" role="listitem" tabindex="0" aria-label="Acces Părinte">
+                    <div class="user-avatar" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%)" aria-hidden="true">
                         👨‍👩‍👧
                     </div>
                     <h3 class="user-card-name">Acces Părinte</h3>
-                    <span class="role-badge role-parent">Părinte</span>
+                    <span class="role-badge role-parent" aria-label="Rol: Părinte">Părinte</span>
                     <div class="parent-input-container">
-                        <input 
-                            type="text" 
-                            id="clientCodeInput" 
-                            class="client-code-input" 
+                        <input
+                            type="text"
+                            id="clientCodeInput"
+                            class="client-code-input"
                             placeholder="ex: cezar_2102"
+                            aria-label="Cod client pentru acces părinte"
+                            aria-describedby="clientCodeHelp"
                         />
-                        <button id="viewProfileBtn" class="view-profile-btn" disabled>
+                        <span id="clientCodeHelp" class="sr-only">Introduceți codul unic al clientului pentru a vizualiza profilul</span>
+                        <button id="viewProfileBtn" class="view-profile-btn" disabled aria-label="Vezi profil client" aria-disabled="true">
                             Vezi Profil
                         </button>
                     </div>
@@ -301,29 +337,47 @@
 
             // --- Logica de login "Netflix" ---
             const allCards = container.querySelectorAll('.user-card[data-user-id]');
-            
+
             container.addEventListener('click', (e) => {
                 const card = e.target.closest('.user-card[data-user-id]');
-                
+
                 if (!card) {
                     if (!e.target.closest('.user-card')) {
                         container.classList.remove('selection-active');
                         allCards.forEach(c => c.classList.remove('active'));
                     }
-                    return; 
+                    return;
                 }
-                
+
                 const isAlreadyActive = card.classList.contains('active');
 
                 container.classList.add('selection-active');
                 allCards.forEach(c => c.classList.remove('active'));
-                
+
                 if (!isAlreadyActive) {
                     card.classList.add('active');
                     card.querySelector('.password-input').focus();
                 } else {
                     container.classList.remove('selection-active');
                 }
+            });
+
+            // Keyboard navigation for user cards
+            allCards.forEach((card, index) => {
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        card.click();
+                    } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const nextIndex = (index + 1) % allCards.length;
+                        allCards[nextIndex].focus();
+                    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        const prevIndex = (index - 1 + allCards.length) % allCards.length;
+                        allCards[prevIndex].focus();
+                    }
+                });
             });
 
             // --- Ascultători pentru submit-ul parolei ---
@@ -758,6 +812,7 @@ function generateScoreHTML(scoreData) {
             const modalContent = document.getElementById('parentModalContent');
 
             modalTitle.textContent = `Profil - ${clientData.client.name}`;
+            modal.setAttribute('aria-hidden', 'false');
 
             let contentHTML = `
                 <div class="client-info-section">
@@ -837,6 +892,15 @@ function generateScoreHTML(scoreData) {
 
             modalContent.innerHTML = contentHTML;
             modal.classList.add('active');
+
+            // Focus management and focus trap for accessibility
+            setTimeout(() => {
+                const closeButton = document.getElementById('closeParentModal');
+                if (closeButton) closeButton.focus();
+
+                // Set up focus trap
+                setupFocusTrap(modal);
+            }, 100);
 
             document.getElementById('prevMonth').addEventListener('click', () => {
                 currentScheduleDate.setMonth(currentScheduleDate.getMonth() - 1);
@@ -1062,11 +1126,64 @@ function generateProgramHistoryTable(programHistory) {
 
             modalContent.innerHTML = contentHTML;
             modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+
+            // Focus management and focus trap for accessibility
+            setTimeout(() => {
+                const closeButton = document.getElementById('closeParentModal');
+                if (closeButton) closeButton.focus();
+
+                // Set up focus trap
+                setupFocusTrap(modal);
+            }, 100);
+        }
+
+        function setupFocusTrap(modalElement) {
+            // Get all focusable elements within the modal
+            const focusableElements = modalElement.querySelectorAll(
+                'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            );
+
+            if (focusableElements.length === 0) return;
+
+            const firstFocusable = focusableElements[0];
+            const lastFocusable = focusableElements[focusableElements.length - 1];
+
+            // Handle Tab key to trap focus
+            const handleTabKey = (e) => {
+                if (e.key !== 'Tab') return;
+
+                if (e.shiftKey) {
+                    // Shift + Tab
+                    if (document.activeElement === firstFocusable) {
+                        e.preventDefault();
+                        lastFocusable.focus();
+                    }
+                } else {
+                    // Tab
+                    if (document.activeElement === lastFocusable) {
+                        e.preventDefault();
+                        firstFocusable.focus();
+                    }
+                }
+            };
+
+            modalElement.addEventListener('keydown', handleTabKey);
+
+            // Store the handler so we can remove it later
+            modalElement._focusTrapHandler = handleTabKey;
         }
 
         function closeParentModal() {
             const modal = document.getElementById('parentModal');
             modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+
+            // Remove focus trap handler
+            if (modal._focusTrapHandler) {
+                modal.removeEventListener('keydown', modal._focusTrapHandler);
+                delete modal._focusTrapHandler;
+            }
         }
 
         function selectUser(userId) {
@@ -1079,6 +1196,16 @@ function generateProgramHistoryTable(programHistory) {
         document.getElementById('parentModal').addEventListener('click', (e) => {
             if (e.target.id === 'parentModal') {
                 closeParentModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('parentModal');
+                if (modal.classList.contains('active')) {
+                    closeParentModal();
+                }
             }
         });
 
@@ -1118,20 +1245,25 @@ function generateProgramHistoryTable(programHistory) {
             if (!container) return;
 
             container.innerHTML = '';
-            
+
             teamMembers.forEach(member => {
-                const chip = document.createElement('div');
+                const chip = document.createElement('button');
                 chip.className = 'filter-chip';
                 chip.style.color = member.color;
-                
+                chip.setAttribute('type', 'button');
+                chip.setAttribute('role', 'switch');
+
                 const isActive = activeFilters.includes(member.id);
+                chip.setAttribute('aria-checked', isActive ? 'true' : 'false');
+                chip.setAttribute('aria-label', `Filtru ${member.name}`);
+
                 if (isActive) {
                     chip.classList.add('active');
                     chip.style.borderColor = member.color;
                 }
-                
-                chip.innerHTML = `<span class="color-dot" style="background-color: ${member.color}"></span><span>${member.name}</span>`;
-                
+
+                chip.innerHTML = `<span class="color-dot" style="background-color: ${member.color}" aria-hidden="true"></span><span>${member.name}</span>`;
+
                 chip.addEventListener('click', () => {
                     const index = calendarState.activeFilters.indexOf(member.id);
                     if (index > -1) {
@@ -1142,7 +1274,15 @@ function generateProgramHistoryTable(programHistory) {
                     renderPublicFilters();
                     renderPublicCalendar();
                 });
-                
+
+                // Keyboard navigation support
+                chip.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        chip.click();
+                    }
+                });
+
                 container.appendChild(chip);
             });
         }
@@ -1166,8 +1306,12 @@ function generateProgramHistoryTable(programHistory) {
             const newView = e.target.dataset.view;
             if (newView) {
                 calendarState.currentView = newView;
-                document.querySelectorAll('.view-toggle .view-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.view-toggle .view-btn').forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-pressed', 'false');
+                });
                 e.target.classList.add('active');
+                e.target.setAttribute('aria-pressed', 'true');
                 renderPublicCalendar();
             }
         }
@@ -1175,8 +1319,13 @@ function generateProgramHistoryTable(programHistory) {
         function handlePublicDayClick(date) {
             calendarState.currentDate = date;
             calendarState.currentView = 'day';
-            document.querySelectorAll('.view-toggle .view-btn').forEach(b => b.classList.remove('active'));
-            document.querySelector('.view-toggle .view-btn[data-view="day"]').classList.add('active');
+            document.querySelectorAll('.view-toggle .view-btn').forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
+            const dayBtn = document.querySelector('.view-toggle .view-btn[data-view="day"]');
+            dayBtn.classList.add('active');
+            dayBtn.setAttribute('aria-pressed', 'true');
             renderPublicCalendar();
         }
 

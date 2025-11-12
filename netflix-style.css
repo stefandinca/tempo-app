@@ -39,6 +39,9 @@ body::before {
     background-size: 100px 100px;
     pointer-events: none;
     animation: shimmerGlow 8s ease-in-out infinite;
+    /* Performance optimization */
+    will-change: opacity;
+    transform: translateZ(0);
 }
 
 /* Container pentru a centra conținutul și a plasa footer-ul */
@@ -109,6 +112,9 @@ body::before {
     position: relative;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.8);
+    /* Performance optimization */
+    contain: layout style paint;
+    will-change: transform, box-shadow;
 }
 
 /* Subtle shine effect on card */
@@ -193,7 +199,7 @@ body::before {
                 inset 0 -2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    background: linear-gradient(135deg, currentColor 0%, currentColor 100%);
+    /* Background color is set inline by JavaScript - don't override it */
 }
 
 /* Glossy effect on avatar */
@@ -393,6 +399,8 @@ body::before {
     box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
     position: relative;
     overflow: hidden;
+    /* Performance optimization */
+    will-change: transform, box-shadow;
 }
 
 .login-btn::before {
@@ -911,9 +919,14 @@ body::before {
 .filter-chip.active {
     border-color: currentColor;
     background: linear-gradient(135deg, currentColor 0%, currentColor 100%);
-    color: white;
+    /* Don't set color: white here - it would make currentColor evaluate to white */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
+}
+
+/* Set text color to white only for the member name span, not the whole chip */
+.filter-chip.active span:not(.color-dot) {
+    color: white;
 }
 
 .filter-chip.active .color-dot {
