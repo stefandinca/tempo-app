@@ -277,5 +277,5 @@
 /* Culorile pentru BUTOANE (folosind data-score) */
 .score-btn[data-score="0"] { background-color: #ef4444; } /* Roșu */
 .score-btn[data-score="-"] { background-color: #f59e0b; } /* Portocaliu */
-.score-btn[data-score="P"] { background-color: #3b82f6; } /* Albastru */
+.score-btn[data-score="P"] { background-color: #4A90E2; } /* Albastru */
 .score-btn[data-score="+"] { background-color: #10b981; } /* Verde */

@@ -84,9 +84,12 @@
     </div>
 
     <script type="module">
+        // Import toast functions
+        import { showErrorToast, showWarningToast, showSuccessToast } from './js/uiService.js';
+
         // API Configuration
         const API_BASE = 'api.php';
-        
+
         // Store username mapping (team member ID -> username)
         let usernameMap = {};
 
@@ -333,9 +336,10 @@
                 const handleLogin = async () => {
                     const userId = loginBtn.dataset.userId;
                     const password = passInput.value;
-                    
+
                     if (!password) {
-                        alert('Vă rugăm introduceți parola!');
+                        showWarningToast('Vă rugăm introduceți parola!', 'Parolă lipsă');
+                        passInput.focus();
                         return;
                     }
                     
@@ -349,8 +353,10 @@
                     if (isValid) {
                         selectUser(userId);
                     } else {
-                        alert('Parolă incorectă!');
+                        showErrorToast('Parolă incorectă! Verificați și încercați din nou.', 'Autentificare eșuată');
                         passInput.value = '';
+                        passInput.classList.add('invalid');
+                        passInput.classList.remove('has-value');
                         passInput.focus();
                         loginBtn.disabled = false;
                         loginBtn.textContent = originalText;
@@ -358,11 +364,29 @@
                 };
 
                 loginBtn.addEventListener('click', handleLogin);
-                
+
                 passInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
                         handleLogin();
                     }
+                });
+
+                // Real-time validation feedback
+                passInput.addEventListener('input', (e) => {
+                    const value = e.target.value;
+                    passInput.classList.remove('invalid', 'has-value');
+
+                    if (value.length > 0) {
+                        passInput.classList.add('has-value');
+                        loginBtn.disabled = false;
+                    } else {
+                        loginBtn.disabled = false; // Keep enabled for better UX
+                    }
+                });
+
+                // Clear invalid state on focus
+                passInput.addEventListener('focus', () => {
+                    passInput.classList.remove('invalid');
                 });
             });
 
@@ -395,7 +419,8 @@
                     currentScheduleDate = new Date(); // Reset to current month
                     showParentModal(clientData);
                 } else {
-                    alert('Client negăsit. Verificați codul introdus.');
+                    showErrorToast('Client negăsit. Verificați codul introdus și încercați din nou.', 'Client negăsit');
+                    clientCodeInput.focus();
                 }
 
                 viewProfileBtn.disabled = false;
