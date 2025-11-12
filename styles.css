@@ -934,8 +934,13 @@ body.public-view {
 .filter-chip.active {
   border-color: currentColor;
   background-color: currentColor;
-  color: white;
+  /* Don't set color: white here - it would make currentColor evaluate to white */
   box-shadow: var(--shadow-md);
+}
+
+/* Set text color to white only for the member name span, not the whole chip */
+.filter-chip.active span:not(.color-dot) {
+  color: white;
 }
 
 .filter-chip.active::before {
