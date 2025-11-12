@@ -1,0 +1,81 @@
+[2025-11-11 18:33:32] --- Cerere POST pentru data ---
+[2025-11-11 18:33:32] Salvare 'data'. Se salvează 72 clienți și 614 evenimente.
+[2025-11-11 18:33:32] Curățat 0 înregistrări vechi din program_history.
+[2025-11-11 18:33:32] Salvare 'data' reușită.
+[2025-11-11 18:42:33] --- Cerere POST pentru  ---
+[2025-11-11 18:42:33] Eroare la decodarea JSON: Syntax error
+[2025-11-11 18:43:58] --- Cerere POST pentru clear-month ---
+[2025-11-11 18:43:58] Ștergere evenimente pentru luna: 2025-12
+[2025-11-11 18:43:58] Găsite 68 evenimente pentru ștergere
+[2025-11-11 18:43:58] Ștergere reușită: 68 evenimente
+[2025-11-11 18:44:08] --- Cerere POST pentru clone-schedule ---
+[2025-11-11 18:44:08] Clonare program: 2025-11 -> 2025-12
+[2025-11-11 18:44:08] Găsite 546 evenimente în luna sursă
+[2025-11-11 18:44:08] Diferență în luni: 1
+[2025-11-11 18:44:08] Clonare reușită: 546 evenimente
+[2025-11-12 14:43:01] --- Cerere POST pentru  ---
+[2025-11-12 14:43:01] Eroare la decodarea JSON: Syntax error
+[2025-11-12 14:43:01] Login attempt: username=Terapeut 1 (demo), user_found=yes
+[2025-11-12 14:43:01] Login SUCCESS: user_id=alexandra, role=therapist
+[2025-11-12 14:43:01] Eroare la încărcarea opțiunilor sistem: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'incjzljm_tempo_demo.system_options' doesn't exist
+[2025-11-12 14:43:01] EROARE TRIMISĂ CLIENTULUI: Failed to load system options: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'incjzljm_tempo_demo.system_options' doesn't exist
+[2025-11-12 14:45:06] Eroare la încărcarea opțiunilor sistem: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'incjzljm_tempo_demo.system_options' doesn't exist
+[2025-11-12 14:45:06] EROARE TRIMISĂ CLIENTULUI: Failed to load system options: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'incjzljm_tempo_demo.system_options' doesn't exist
+[2025-11-12 15:01:22] --- Cerere POST pentru  ---
+[2025-11-12 15:01:22] Demo user registered: name=test, email=eu@ex.ro, organization=niciuna
+[2025-11-12 15:01:54] --- Cerere POST pentru data ---
+[2025-11-12 15:01:54] Salvare 'data'. Se salvează 0 clienți și 0 evenimente.
+[2025-11-12 15:01:54] Niciun eveniment primit. Se șterge tot istoricul programelor asociat evenimentelor.
+[2025-11-12 15:01:54] Salvare 'data' reușită.
+[2025-11-12 15:08:14] --- Cerere POST pentru events ---
+[2025-11-12 15:08:14] Eveniment(e) creat(e): 12
+[2025-11-12 15:08:24] --- Cerere PUT pentru clients/c1011 ---
+[2025-11-12 15:08:24] Client actualizat: c1011 -> c1011
+[2025-11-12 15:08:31] --- Cerere PUT pentru clients/c1012 ---
+[2025-11-12 15:08:31] Client actualizat: c1012 -> c1012
+[2025-11-12 15:08:40] --- Cerere PUT pentru clients/c1013 ---
+[2025-11-12 15:08:40] Client actualizat: c1013 -> c1013
+[2025-11-12 15:08:48] --- Cerere PUT pentru clients/c1014 ---
+[2025-11-12 15:08:48] Client actualizat: c1014 -> c1014
+[2025-11-12 15:08:58] --- Cerere PUT pentru clients/c1015 ---
+[2025-11-12 15:08:58] Client actualizat: c1015 -> c1015
+[2025-11-12 15:09:14] --- Cerere POST pentru clients ---
+[2025-11-12 15:09:14] Client creat: test1111
+[2025-11-12 15:09:20] --- Cerere DELETE pentru clients/test1111 ---
+[2025-11-12 15:09:20] Client șters: test1111
+[2025-11-12 15:09:20] --- Cerere POST pentru evolution ---
+[2025-11-12 15:09:20] Salvare 'evolution'. Se primesc date pentru 0 clienți.
+[2025-11-12 15:09:20] Tabelele de evoluție au fost golite.
+[2025-11-12 15:09:20] Salvare 'evolution' reușită.
+[2025-11-12 15:09:20] --- Cerere POST pentru billings ---
+[2025-11-12 15:09:20] Salvare 'billings'. Se primesc date pentru 0 clienți.
+[2025-11-12 15:09:20] Tabelul 'payments' a fost golit.
+[2025-11-12 15:09:20] Salvare 'billings' reușită. 0 înregistrări adăugate.
+[2025-11-12 15:10:23] --- Cerere POST pentru events ---
+[2025-11-12 15:10:23] Eveniment(e) creat(e): 16
+[2025-11-12 15:10:47] --- Cerere POST pentru events ---
+[2025-11-12 15:10:47] Eveniment(e) creat(e): 12
+[2025-11-12 15:11:25] --- Cerere POST pentru events ---
+[2025-11-12 15:11:25] Eveniment(e) creat(e): 12
+[2025-11-12 15:11:49] --- Cerere POST pentru events ---
+[2025-11-12 15:11:49] Eveniment(e) creat(e): 16
+[2025-11-12 15:12:15] --- Cerere POST pentru events ---
+[2025-11-12 15:12:15] Eveniment(e) creat(e): 1
+[2025-11-12 15:12:21] --- Cerere POST pentru data ---
+[2025-11-12 15:12:21] Salvare 'data'. Se salvează 10 clienți și 69 evenimente.
+[2025-11-12 15:12:21] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:12:21] Salvare 'data' reușită.
+[2025-11-12 15:12:29] --- Cerere POST pentru events ---
+[2025-11-12 15:12:29] Eveniment(e) creat(e): 20
+[2025-11-12 15:13:02] --- Cerere POST pentru events ---
+[2025-11-12 15:13:02] Eveniment(e) creat(e): 8
+[2025-11-12 15:14:05] --- Cerere POST pentru events ---
+[2025-11-12 15:14:05] Eveniment(e) creat(e): 15
+[2025-11-12 15:14:26] --- Cerere POST pentru events ---
+[2025-11-12 15:14:26] Eveniment(e) creat(e): 12
+[2025-11-12 15:28:08] --- Cerere PUT pentru clients/c1019 ---
+[2025-11-12 15:28:08] Client actualizat: c1019 -> c1019
+[2025-11-12 15:36:28] --- Cerere POST pentru  ---
+[2025-11-12 15:36:28] Eroare la decodarea JSON: Syntax error
+[2025-11-12 15:36:28] Login attempt: username=Administrator (demo), user_found=yes
+[2025-11-12 15:36:28] Login SUCCESS: user_id=stefan, role=admin

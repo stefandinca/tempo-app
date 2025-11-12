@@ -903,7 +903,11 @@ async function handleDeleteClient() {
     if (!editingClientId) return;
 
     const client = calendarState.getClientById(editingClientId);
+<<<<<<< Updated upstream
     const clientName = client ? client.name : 'Client';
+=======
+    const clientName = client ? client.name : 'Clientul';
+>>>>>>> Stashed changes
 
     const confirmed = await ui.showCustomConfirm('Ești sigur că vrei să ștergi acest client? Toate datele (inclusiv evoluția și plățile) vor fi șterse ireversibil.', 'Șterge Client');
     if (confirmed) {
@@ -1067,7 +1071,11 @@ async function handleDeleteTeamMember() {
     if (!editingMemberId) return;
 
     const member = calendarState.getTeamMemberById(editingMemberId);
+<<<<<<< Updated upstream
     const memberName = member ? member.name : 'Membru';
+=======
+    const memberName = member ? member.name : 'Membrul';
+>>>>>>> Stashed changes
 
     const confirmed = await ui.showCustomConfirm('Ești sigur că vrei să ștergi acest membru? Toate evenimentele asociate vor fi de asemenea șterse.', 'Șterge Membru');
     if (confirmed) {
