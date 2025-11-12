@@ -290,20 +290,6 @@
                         <h3 class="user-card-name">${member.name}</h3>
                         <p style="font-size: 0.875rem; opacity: 0.6; margin: 0.25rem 0 0.5rem;">@${username}</p>
                         <span class="role-badge ${getRoleClass(member.role)}" aria-label="Rol: ${getRoleLabel(member.role)}">${getRoleLabel(member.role)}</span>
-
-                        <div class="password-input-container">
-                            <input
-                                type="password"
-                                id="pass_${member.id}"
-                                class="password-input"
-                                placeholder="Parolă"
-                                aria-label="Parolă pentru ${member.name}"
-                                aria-required="true"
-                            />
-                            <button id="login_btn_${member.id}" class="login-btn" data-user-id="${member.id}" aria-label="Intră în contul pentru ${member.name}">
-                                Intră în cont
-                            </button>
-                        </div>
                     </div>
                 `;
             });
@@ -335,30 +321,19 @@
 
             container.innerHTML = cardsHTML;
 
-            // --- Logica de login "Netflix" ---
+            // --- Logica de login simplificată (fără parolă) ---
             const allCards = container.querySelectorAll('.user-card[data-user-id]');
 
             container.addEventListener('click', (e) => {
                 const card = e.target.closest('.user-card[data-user-id]');
 
                 if (!card) {
-                    if (!e.target.closest('.user-card')) {
-                        container.classList.remove('selection-active');
-                        allCards.forEach(c => c.classList.remove('active'));
-                    }
                     return;
                 }
 
-                const isAlreadyActive = card.classList.contains('active');
-
-                container.classList.add('selection-active');
-                allCards.forEach(c => c.classList.remove('active'));
-
-                if (!isAlreadyActive) {
-                    card.classList.add('active');
-                    card.querySelector('.password-input').focus();
-                } else {
-                    container.classList.remove('selection-active');
+                const userId = card.dataset.userId;
+                if (userId) {
+                    selectUser(userId);
                 }
             });
 
@@ -367,7 +342,10 @@
                 card.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
-                        card.click();
+                        const userId = card.dataset.userId;
+                        if (userId) {
+                            selectUser(userId);
+                        }
                     } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
                         e.preventDefault();
                         const nextIndex = (index + 1) % allCards.length;
@@ -377,70 +355,6 @@
                         const prevIndex = (index - 1 + allCards.length) % allCards.length;
                         allCards[prevIndex].focus();
                     }
-                });
-            });
-
-            // --- Ascultători pentru submit-ul parolei ---
-            teamMembers.forEach(member => {
-                const loginBtn = document.getElementById(`login_btn_${member.id}`);
-                const passInput = document.getElementById(`pass_${member.id}`);
-                
-                if (!loginBtn || !passInput) return;
-
-                const handleLogin = async () => {
-                    const userId = loginBtn.dataset.userId;
-                    const password = passInput.value;
-
-                    if (!password) {
-                        showWarningToast('Vă rugăm introduceți parola!', 'Parolă lipsă');
-                        passInput.focus();
-                        return;
-                    }
-                    
-                    // Disable button and show loading state
-                    loginBtn.disabled = true;
-                    const originalText = loginBtn.textContent;
-                    loginBtn.textContent = 'Se verifică...';
-                    
-                    const isValid = await verifyPassword(userId, password);
-                    
-                    if (isValid) {
-                        selectUser(userId);
-                    } else {
-                        showErrorToast('Parolă incorectă! Verificați și încercați din nou.', 'Autentificare eșuată');
-                        passInput.value = '';
-                        passInput.classList.add('invalid');
-                        passInput.classList.remove('has-value');
-                        passInput.focus();
-                        loginBtn.disabled = false;
-                        loginBtn.textContent = originalText;
-                    }
-                };
-
-                loginBtn.addEventListener('click', handleLogin);
-
-                passInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        handleLogin();
-                    }
-                });
-
-                // Real-time validation feedback
-                passInput.addEventListener('input', (e) => {
-                    const value = e.target.value;
-                    passInput.classList.remove('invalid', 'has-value');
-
-                    if (value.length > 0) {
-                        passInput.classList.add('has-value');
-                        loginBtn.disabled = false;
-                    } else {
-                        loginBtn.disabled = false; // Keep enabled for better UX
-                    }
-                });
-
-                // Clear invalid state on focus
-                passInput.addEventListener('focus', () => {
-                    passInput.classList.remove('invalid');
                 });
             });
 
