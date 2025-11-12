@@ -1020,7 +1020,7 @@ async function handleSaveTeamMember(e) {
 
 async function handleDeleteTeamMember() {
     const { editingMemberId } = calendarState.getState();
-    
+
     // NOU: Verificare permisiuni
     if (!auth.isAdmin() && !auth.isCoordinator()) {
         auth.showPermissionDenied('ștergeți membri ai echipei');
@@ -1031,6 +1031,15 @@ async function handleDeleteTeamMember() {
 
     const confirmed = await ui.showCustomConfirm('Ești sigur că vrei să ștergi acest membru? Toate evenimentele asociate vor fi de asemenea șterse.', 'Șterge Membru');
     if (confirmed) {
+        // Delete user from users table first
+        try {
+            await api.deleteUser(editingMemberId);
+        } catch (error) {
+            console.error('Eroare la ștergerea utilizatorului:', error);
+            // Continue with team member deletion even if user deletion fails
+        }
+
+        // Delete team member
         calendarState.deleteTeamMember(editingMemberId);
         await api.saveData(calendarState.getState());
         ui.renderTeamMembersList();

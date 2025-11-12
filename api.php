@@ -1154,6 +1154,28 @@ try {
                         sendError('Nu s-a putut crea utilizatorul: ' . $e->getMessage());
                     }
                 }
+            } elseif ($method === 'DELETE') {
+                // Delete user
+                try {
+                    // Get user ID from URL path
+                    $pathParts = explode('/', trim($path, '/'));
+                    $userId = $pathParts[1] ?? null;
+
+                    if (!$userId) {
+                        sendError('User ID este obligatoriu', 400);
+                    }
+
+                    // Delete user from users table
+                    $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
+                    $stmt->execute([$userId]);
+
+                    debugLog("Utilizator șters: ID=$userId");
+                    sendResponse(['success' => true, 'message' => 'Utilizator șters cu succes']);
+
+                } catch (PDOException $e) {
+                    debugLog("Eroare la ștergerea utilizatorului: " . $e->getMessage());
+                    sendError('Nu s-a putut șterge utilizatorul: ' . $e->getMessage());
+                }
             } else {
                 sendError('Unsupported method for users', 405);
             }

@@ -423,3 +423,13 @@ export async function updatePassword(userId, newPassword) {
     };
     return apiFetch('update-password', options);
 }
+
+/**
+ * Șterge un utilizator din tabelul users.
+ * Apel DELETE la api.php?path=users/:userId
+ * @param {string} userId - ID-ul utilizatorului
+ */
+export async function deleteUser(userId) {
+    const options = { method: 'DELETE' };
+    return apiFetch(`users/${userId}`, options);
+}
