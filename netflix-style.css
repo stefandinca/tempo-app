@@ -316,18 +316,13 @@ body::before {
 
 /* Stiluri pentru câmpul de parolă al echipei */
 .password-input-container {
-    display: none;
+    display: block;
     margin-top: 0.75rem; /* Reduced margin */
     padding-top: 0.75rem; /* Reduced padding */
     border-top: 1px solid #e5e7eb;
-    animation: fadeInUp 0.3s;
 }
 [data-theme="dark"] .password-input-container {
     border-top-color: #374151;
-}
-
-.user-card.active .password-input-container {
-    display: block;
 }
 
 .password-input {
@@ -427,10 +422,12 @@ body::before {
     overflow-y: auto;
     align-items: flex-start;
     justify-content: center;
+    pointer-events: none;
 }
 
 .parent-modal.active {
     display: flex;
+    pointer-events: auto;
 }
 
 .parent-modal-content {

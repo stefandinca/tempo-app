@@ -26,8 +26,7 @@
 </head>
 <body class="bg-gradient-to-br from-[#0f172a]  to-[#334155]">
     <!-- Skip Links for Accessibility -->
-    <a href="#main-content" class="skip-link">Salt la conținut principal</a>
-    <a href="#public-calendar" class="skip-link">Salt la calendar public</a>
+  
 
     <div class="w-full max-w-7xl page-container">
 
@@ -74,6 +73,39 @@
     </div>
 
 
+
+    <!-- Pre-Login Modal for Demo Users -->
+    <div id="demoUserModal" class="parent-modal active" role="dialog" aria-modal="true" aria-labelledby="demoUserModalTitle" aria-hidden="false" style="pointer-events: auto;">
+        <div class="parent-modal-content">
+            <div class="parent-modal-header">
+                <h2 id="demoUserModalTitle">Bine ați venit la Tempo Demo!</h2>
+            </div>
+            <div class="parent-modal-body">
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Pentru a continua, vă rugăm să ne oferiți câteva informații:</p>
+                <form id="demoUserForm">
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="demoUserName" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Nume complet *</label>
+                        <input type="text" id="demoUserName" class="form-input" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 0.5rem; font-size: 1rem;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="demoUserEmail" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email *</label>
+                        <input type="email" id="demoUserEmail" class="form-input" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 0.5rem; font-size: 1rem;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="demoUserPhone" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Telefon</label>
+                        <input type="tel" id="demoUserPhone" class="form-input" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 0.5rem; font-size: 1rem;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label for="demoUserOrganization" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Organizație</label>
+                        <input type="text" id="demoUserOrganization" class="form-input" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 0.5rem; font-size: 1rem;">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.875rem; background: #4A90E2; color: white; border: none; border-radius: 0.5rem; font-size: 1rem; font-weight: 600; cursor: pointer;">
+                        Continuă către demo
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div id="parentModal" class="parent-modal" role="dialog" aria-modal="true" aria-labelledby="parentModalTitle" aria-hidden="true">
         <div class="parent-modal-content">
@@ -359,6 +391,8 @@
         async function renderUserCards() {
             const container = document.getElementById('userCardsContainer');
 
+            console.log('Starting renderUserCards...');
+
             // Load username mapping first
             try {
                 const response = await fetch(`${API_BASE}?path=user-map`);
@@ -374,7 +408,7 @@
 
             console.log('Rendering user cards...');
             console.log('Team members to render:', teamMembers);
-            
+
             if (!teamMembers || teamMembers.length === 0) {
                 console.warn('No team members found!');
                 container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: white;"><p style="font-size: 1.2rem; margin-bottom: 1rem;">⚠️ Nu s-au găsit utilizatori</p><p style="opacity: 0.8;">Verificați conexiunea la baza de date și asigurați-vă că există utilizatori în tabelul <code>team_members</code>.</p></div>';
@@ -396,15 +430,7 @@
                         <span class="role-badge ${getRoleClass(member.role)}" aria-label="Rol: ${getRoleLabel(member.role)}">${getRoleLabel(member.role)}</span>
 
                         <div class="password-input-container">
-                            <input
-                                type="password"
-                                id="pass_${member.id}"
-                                class="password-input"
-                                placeholder="Parolă"
-                                aria-label="Parolă pentru ${member.name}"
-                                aria-required="true"
-                            />
-                            <button id="login_btn_${member.id}" class="login-btn" data-user-id="${member.id}" aria-label="Intră în contul pentru ${member.name}">
+                            <button id="login_btn_${member.id}" class="login-btn" data-user-id="${member.id}" aria-label="Intră în contul pentru ${member.name}" style="margin-top: 1rem;">
                                 Intră în cont
                             </button>
                         </div>
@@ -439,39 +465,14 @@
 
             container.innerHTML = cardsHTML;
 
-            // --- Logica de login "Netflix" ---
-            const allCards = container.querySelectorAll('.user-card[data-user-id]');
-
-            container.addEventListener('click', (e) => {
-                const card = e.target.closest('.user-card[data-user-id]');
-
-                if (!card) {
-                    if (!e.target.closest('.user-card')) {
-                        container.classList.remove('selection-active');
-                        allCards.forEach(c => c.classList.remove('active'));
-                    }
-                    return;
-                }
-
-                const isAlreadyActive = card.classList.contains('active');
-
-                container.classList.add('selection-active');
-                allCards.forEach(c => c.classList.remove('active'));
-
-                if (!isAlreadyActive) {
-                    card.classList.add('active');
-                    card.querySelector('.password-input').focus();
-                } else {
-                    container.classList.remove('selection-active');
-                }
-            });
-
             // Keyboard navigation for user cards
+            const allCards = container.querySelectorAll('.user-card[data-user-id]');
             allCards.forEach((card, index) => {
                 card.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
-                        card.click();
+                        const loginBtn = card.querySelector('.login-btn');
+                        if (loginBtn) loginBtn.click();
                     } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
                         e.preventDefault();
                         const nextIndex = (index + 1) % allCards.length;
@@ -484,47 +485,37 @@
                 });
             });
 
-            // --- Ascultători pentru submit-ul parolei ---
+            // --- Direct login without password ---
+            console.log('Setting up login buttons for', teamMembers.length, 'members');
             teamMembers.forEach(member => {
                 const loginBtn = document.getElementById(`login_btn_${member.id}`);
-                const passInput = document.getElementById(`pass_${member.id}`);
-                
-                if (!loginBtn || !passInput) return;
+                console.log('Found button for', member.name, ':', loginBtn);
 
-                const handleLogin = async () => {
+                if (!loginBtn) {
+                    console.error('Login button not found for member:', member.id);
+                    return;
+                }
+
+                const handleLogin = (e) => {
+                    console.log('Login button clicked for', member.name);
+                    e.preventDefault();
+                    e.stopPropagation();
+
                     const userId = loginBtn.dataset.userId;
-                    const password = passInput.value;
-                    
-                    if (!password) {
-                        showWarningToast('Parolă lipsă', 'Vă rugăm introduceți parola!');
-                        return;
-                    }
-                    
+                    console.log('User ID:', userId);
+
                     // Disable button and show loading state
                     loginBtn.disabled = true;
                     const originalText = loginBtn.textContent;
-                    loginBtn.textContent = 'Se verifică...';
-                    
-                    const isValid = await verifyPassword(userId, password);
-                    
-                    if (isValid) {
-                        selectUser(userId);
-                    } else {
-                        showErrorToast('Autentificare eșuată', 'Parolă incorectă!');
-                        passInput.value = '';
-                        passInput.focus();
-                        loginBtn.disabled = false;
-                        loginBtn.textContent = originalText;
-                    }
+                    loginBtn.textContent = 'Se încarcă...';
+
+                    // Directly select user without password verification
+                    console.log('Calling selectUser with:', userId);
+                    selectUser(userId);
                 };
 
                 loginBtn.addEventListener('click', handleLogin);
-                
-                passInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        handleLogin();
-                    }
-                });
+                console.log('Event listener attached for', member.name);
             });
 
             // Add parent card functionality
@@ -1269,7 +1260,9 @@ function generateProgramHistoryTable(programHistory) {
         }
 
         function selectUser(userId) {
+            console.log('selectUser called with userId:', userId);
             sessionStorage.setItem('currentUserId', userId);
+            console.log('Session storage set, redirecting to dashboard.html');
             window.location.href = 'dashboard.html';
         }
 
@@ -1764,6 +1757,77 @@ function generateProgramHistoryTable(programHistory) {
         // Initialize theme
         const savedTheme = localStorage.getItem('calendar-theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // Handle demo user registration form
+        const demoUserForm = document.getElementById('demoUserForm');
+        const demoUserModal = document.getElementById('demoUserModal');
+
+        // Check if user has already registered in this session
+        const hasRegistered = sessionStorage.getItem('demoUserRegistered');
+        if (hasRegistered) {
+            demoUserModal.classList.remove('active');
+            demoUserModal.setAttribute('aria-hidden', 'true');
+            demoUserModal.style.pointerEvents = 'none';
+            console.log('User already registered, modal hidden');
+        }
+
+        demoUserForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            console.log('Demo form submitted');
+
+            const name = document.getElementById('demoUserName').value;
+            const email = document.getElementById('demoUserEmail').value;
+            const phone = document.getElementById('demoUserPhone').value;
+            const organization = document.getElementById('demoUserOrganization').value;
+
+            console.log('Form data:', { name, email, phone, organization });
+
+            const submitBtn = demoUserForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Se salvează...';
+
+            try {
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('email', email);
+                formData.append('phone', phone);
+                formData.append('organization', organization);
+
+                console.log('Sending registration request...');
+                const response = await fetch(`${API_BASE}?action=register_demo_user`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                console.log('Response received:', response.status);
+                const result = await response.json();
+                console.log('Result:', result);
+
+                if (result.success) {
+                    // Mark as registered in session
+                    sessionStorage.setItem('demoUserRegistered', 'true');
+                    console.log('Registration successful, closing modal');
+
+                    // Close modal and disable pointer events
+                    demoUserModal.classList.remove('active');
+                    demoUserModal.setAttribute('aria-hidden', 'true');
+                    demoUserModal.style.pointerEvents = 'none';
+                    demoUserModal.style.display = 'none';
+
+                    showSuccessToast('Bine ați venit!', 'Vă mulțumim pentru înregistrare. Selectați un utilizator pentru a continua.');
+                } else {
+                    console.error('Registration failed:', result.message);
+                    showErrorToast('Eroare', result.message || 'A apărut o eroare la înregistrare.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Continuă către demo';
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showErrorToast('Eroare', 'A apărut o eroare la înregistrare. Verificați consola.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Continuă către demo';
+            }
+        });
 
         // Load users on page load
         renderUserCards();

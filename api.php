@@ -84,16 +84,44 @@ if (!isset($pdo)) {
     sendError('Database connection object is not available.', 500);
 }
 
+// Handle demo user registration BEFORE routing
+if (isset($_GET['action']) && $_GET['action'] === 'register_demo_user') {
+    try {
+        $name = $_POST['name'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $phone = $_POST['phone'] ?? '';
+        $organization = $_POST['organization'] ?? '';
+
+        if (empty($name) || empty($email)) {
+            sendResponse(['success' => false, 'message' => 'Name and email are required'], 400);
+        }
+
+        // Insert into demo_users table
+        $stmt = $pdo->prepare("INSERT INTO demo_users (name, email, phone, organization, created_at) VALUES (?, ?, ?, ?, NOW())");
+        $stmt->execute([$name, $email, $phone, $organization]);
+
+        debugLog("Demo user registered: name=$name, email=$email");
+
+        sendResponse([
+            'success' => true,
+            'message' => 'Demo user registered successfully'
+        ]);
+    } catch (Exception $e) {
+        debugLog("Demo user registration error: " . $e->getMessage());
+        sendError('Registration error: ' . $e->getMessage(), 500);
+    }
+}
+
 // Handle login action BEFORE routing
 if (isset($_GET['action']) && $_GET['action'] === 'login') {
     try {
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
-        
+
         if (empty($username) || empty($password)) {
             sendResponse(['success' => false, 'message' => 'Username and password required'], 400);
         }
-        
+
         $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
         $stmt->execute([$username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
