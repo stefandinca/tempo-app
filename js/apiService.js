@@ -594,3 +594,18 @@ export async function deleteUser(userId) {
         throw error;
     }
 }
+
+/**
+ * Fetch analytics data for the dashboard.
+ * Apel GET la api.php?path=analytics&months=N
+ * @param {number} months - Number of months to include in analytics (default: 6)
+ */
+export async function fetchAnalytics(months = 6) {
+    try {
+        const result = await apiFetch(`analytics&months=${months}`);
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la încărcare', 'Nu s-au putut încărca datele analytics');
+        throw error;
+    }
+}

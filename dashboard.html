@@ -73,6 +73,12 @@
                         <span class="hidden md:inline">Servicii</span>
                     </a>
                 </li>
+                <li class="menu-item" data-view="analytics">
+                    <a href="#" class="flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors whitespace-nowrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+                        <span class="hidden md:inline">Analytics</span>
+                    </a>
+                </li>
             </ul>
 
             
@@ -586,6 +592,92 @@
                 <div id="eventTypesList" class="space-y-4">
                     <!-- Event types will be rendered here -->
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Section -->
+    <section id="analyticsSection" class="main-section">
+        <header class="section-header">
+            <div class="header-title-group">
+                <button class="mobile-menu-toggle btn-icon md:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+                <h1 class="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white">Analytics Dashboard</h1>
+            </div>
+            <div class="header-actions flex items-center gap-2">
+                <select id="analyticsMonths" class="form-input text-sm" style="width: auto;">
+                    <option value="3">Ultimele 3 luni</option>
+                    <option value="6" selected>Ultimele 6 luni</option>
+                    <option value="12">Ultimul an</option>
+                </select>
+                <button id="refreshAnalyticsBtn" class="btn-icon" title="Reîmprospătează datele">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                </button>
+            </div>
+        </header>
+
+        <div class="section-content p-4 md:p-6 overflow-y-auto">
+            <!-- Loading Overlay -->
+            <div id="analyticsLoading" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl">
+                    <div class="flex items-center gap-3">
+                        <svg class="animate-spin h-8 w-8 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span class="text-lg font-medium text-gray-900 dark:text-white">Se încarcă datele...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                <!-- Financials Chart -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Financials</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Total Facturat vs. Total Încasat</p>
+                    </div>
+                    <div class="relative" style="height: 300px;">
+                        <canvas id="financialsChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Therapist Utilization Chart -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Operations</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Therapist Utilization Rate</p>
+                    </div>
+                    <div class="relative" style="height: 300px;">
+                        <canvas id="utilizationChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Attendance Chart -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Client Statistics</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Attendance Rate Overview</p>
+                    </div>
+                    <div class="relative" style="height: 300px;">
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Services Chart -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Service Statistics</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Most Popular & Profitable Services</p>
+                    </div>
+                    <div class="relative" style="height: 300px;">
+                        <canvas id="servicesChart"></canvas>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
