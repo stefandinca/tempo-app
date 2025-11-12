@@ -399,10 +399,28 @@ export function showEventDetails(eventId) {
 }
 
 
-export function closeEventDetailsModal() {
+export async function closeEventDetailsModal() {
     const { isAdminView } = calendarState.getState();
     if (isAdminView && currentDetailsEventId) {
-        saveEventComments();
+        // Save all changes to database when closing modal
+        try {
+            // 1. Save event comments
+            saveEventCommentsLocal();
+
+            // 2. Get the event that was modified
+            const event = calendarState.getEventById(currentDetailsEventId);
+
+            // 3. Save event data (includes attendance and program scores)
+            await api.updateEvent(event);
+
+            // 4. Save evolution data (includes program history)
+            const { evolutionData } = calendarState.getState();
+            await api.saveEvolutionData(evolutionData);
+
+        } catch (error) {
+            console.error('Eroare la salvarea modificărilor:', error);
+            showCustomAlert('A apărut o eroare la salvarea modificărilor. Verificați consola.', 'Eroare');
+        }
     }
     $('eventDetailsModal').classList.remove('active');
     currentDetailsEventId = null;
@@ -581,42 +599,42 @@ function buildEventDetailsHTML(event) {
 
 function addAttendanceListeners(eventId, canModify = true) {
     $('eventDetailsContent').querySelectorAll('.attendance-toggle').forEach(toggle => {
-        toggle.addEventListener('click', async (e) => {
+        toggle.addEventListener('click', (e) => {
             if (e.target.tagName !== 'BUTTON') return;
-            
+
             // === ADD PERMISSION CHECK ===
             if (!canModify) {
                 auth.showPermissionDenied('modificați prezența');
                 return;
             }
             // === END PERMISSION CHECK ===
-            
+
             const button = e.target;
             const status = button.dataset.status;
             const clientId = toggle.dataset.clientId;
-            
+
             const event = calendarState.getEventById(eventId);
-            
+
             // --- START BUG FIX ---
             // 1. Get the current attendance object (or an empty one)
             //    Make sure to handle the old array bug as well.
-            const currentAttendance = (event.attendance && !Array.isArray(event.attendance)) 
-                ? event.attendance 
+            const currentAttendance = (event.attendance && !Array.isArray(event.attendance))
+                ? event.attendance
                 : {};
 
             // 2. Create a NEW object by copying the old one
             const newAttendance = { ...currentAttendance };
-            
+
             // 3. Modify the NEW object
             newAttendance[clientId] = status;
-            
+
             // 4. Assign the NEW object back to the event
             // This breaks the shared reference.
             event.attendance = newAttendance;
             // --- END BUG FIX ---
-            
+
+            // Save to local state only - will be saved to database when modal closes
             calendarState.saveEvent(event);
-            await api.updateEvent(event);
 
             toggle.querySelectorAll('.attendance-btn').forEach(b => b.classList.remove('active'));
             button.classList.add('active');
@@ -630,32 +648,32 @@ function addAttendanceListeners(eventId, canModify = true) {
 
 function addProgramScoreListeners(eventId, canModify = true) {
     $('eventDetailsContent').querySelectorAll('.program-score-buttons').forEach(container => {
-        container.addEventListener('click', async (e) => {
+        container.addEventListener('click', (e) => {
             // Click-ul poate fi pe <span>, deci căutăm butonul părinte
-            const button = e.target.closest('.score-btn'); 
+            const button = e.target.closest('.score-btn');
             if (!button) return; // Nu am dat click pe un buton
 
             if (!canModify) {
                 auth.showPermissionDenied('modificați scorurile');
                 return;
             }
-            
+
             container.style.pointerEvents = 'none';
-            
+
             try {
                 const score = button.dataset.score; // "0", "-", "P", sau "+"
                 const programId = container.dataset.programId;
-                
+
                 const event = calendarState.getEventById(eventId);
-                
+
                 // 1. Inițializează structurile
                 if (!event.programScores) event.programScores = {};
-                
+
                 // 2. Verifică/Convertește formatul vechi (string) la cel nou (obiect)
                 const oldScoreData = event.programScores[programId];
                 if (!oldScoreData || typeof oldScoreData !== 'object') {
                     event.programScores[programId] = { "0": 0, "-": 0, "P": 0, "+": 0 };
-                    
+
                     if (typeof oldScoreData === 'string' && oldScoreData.length > 0) {
                         if(oldScoreData in event.programScores[programId]) {
                             event.programScores[programId][oldScoreData] = 1;
@@ -666,39 +684,31 @@ function addProgramScoreListeners(eventId, canModify = true) {
                 // 3. Incrementează contorul
                 const newCount = (event.programScores[programId][score] || 0) + 1;
                 event.programScores[programId][score] = newCount;
-                
-                // 4. Salvează evenimentul local
+
+                // 4. Salvează evenimentul local (will be saved to database when modal closes)
                 calendarState.saveEvent(event);
-                
-                // 5. Salvează pe server (doar datele principale)
-                await api.saveData(calendarState.getState());
-                
-                // --- MODIFICARE AICI: Actualizăm badge-ul, NU textul butonului ---
-                // 6. Actualizează badge-ul butonului imediat
+
+                // 5. Actualizează badge-ul butonului imediat
                 const badge = button.querySelector('.score-badge');
                 if (badge) {
                     badge.textContent = newCount;
                 }
-                // --- SFÂRȘIT MODIFICARE VIZUALĂ ---
-                
-                // 7. Resetează clasele 'active' (nu mai sunt necesare)
+
+                // 6. Resetează clasele 'active' (nu mai sunt necesare)
                 container.querySelectorAll('.score-btn').forEach(b => b.classList.remove('active'));
 
-                // 8. Creează string-ul sumar pentru history (ex: "P (1), + (3)")
+                // 7. Creează string-ul sumar pentru history (ex: "P (1), + (3)")
                 const scoreString = Object.entries(event.programScores[programId])
                     .filter(([key, value]) => value > 0) // Păstrează doar cele cu contor > 0
                     .map(([key, value]) => `${key} (${value})`)
                     .join(', ');
 
-                // 9. Trimite STRING-ul la funcția de istoric (acest lucru este corect)
-                await updateProgramHistory(event, programId, scoreString || null);
-                
+                // 8. Update program history locally (will be saved to database when modal closes)
+                updateProgramHistoryLocal(event, programId, scoreString || null);
+
             } catch (err) {
                 console.error("Eroare la salvarea scorului:", err);
-                const errMsg = err.message.includes("istoricul programului") 
-                    ? "Eroare la salvarea istoricului (verifică consola pentru detalii API)."
-                    : "A apărut o eroare la salvarea scorului.";
-                showCustomAlert(errMsg, "Eroare");
+                showCustomAlert("A apărut o eroare la salvarea scorului.", "Eroare");
             } finally {
                 container.style.pointerEvents = 'auto';
             }
@@ -707,24 +717,22 @@ function addProgramScoreListeners(eventId, canModify = true) {
 }
 /**
  * Actualizează (adaugă/modifică/șterge) o intrare în programHistory
- * pentru toți clienții din eveniment și o salvează în evolution.json.
+ * pentru toți clienții din eveniment - LOCAL ONLY (nu salvează în database)
  */
 // În: js/uiService.js
-// ROL: Salvează STRING-ul de scor în istoric
+// ROL: Salvează STRING-ul de scor în istoric - LOCAL ONLY
 
-async function updateProgramHistory(event, programId, newScore) { // newScore este acum un STRING (ex: "P (1), + (3)")
+function updateProgramHistoryLocal(event, programId, newScore) { // newScore este acum un STRING (ex: "P (1), + (3)")
     const { evolutionData } = calendarState.getState();
-    
+
     const clientIds = event.clientIds || (event.clientId ? [event.clientId] : []);
-    if (clientIds.length === 0) return; 
+    if (clientIds.length === 0) return;
 
     const program = calendarState.getProgramById(programId);
     if (!program) {
         console.error(`Programul cu ID ${programId} nu a fost găsit.`);
-        return; 
+        return;
     }
-
-    let dataWasChanged = false;
 
     clientIds.forEach(clientId => {
         if (!evolutionData[clientId]) {
@@ -739,14 +747,13 @@ async function updateProgramHistory(event, programId, newScore) { // newScore es
         if (!Array.isArray(evolutionData[clientId].programHistory)) {
             evolutionData[clientId].programHistory = [];
         }
-        
+
         const history = evolutionData[clientId].programHistory;
-        
-        const existingEntryIndex = history.findIndex(entry => 
+
+        const existingEntryIndex = history.findIndex(entry =>
             entry.eventId === event.id && entry.programId === programId
         );
 
-        // --- MODIFICARE AICI ---
         // Verificăm dacă noul scor (string-ul) are conținut
         if (newScore) {
             // Adaugă sau actualizează
@@ -757,48 +764,33 @@ async function updateProgramHistory(event, programId, newScore) { // newScore es
                 score: newScore, // Salvează STRING-ul
                 eventId: event.id
             };
-            
+
             if (existingEntryIndex > -1) {
-                // Verifică dacă datele s-au schimbat înainte de a suprascrie
-                if (history[existingEntryIndex].score !== newScore) {
-                    history[existingEntryIndex] = historyEntry;
-                    dataWasChanged = true;
-                }
+                history[existingEntryIndex] = historyEntry;
             } else {
                 history.push(historyEntry);
-                dataWasChanged = true;
             }
 
         } else if (existingEntryIndex > -1) {
             // Șterge (dacă newScore e null sau string gol)
             history.splice(existingEntryIndex, 1);
-            dataWasChanged = true;
         }
-        // --- SFÂRȘIT MODIFICARE ---
     });
 
-    if (dataWasChanged) {
-        calendarState.setEvolutionData(evolutionData);
-        try {
-            await api.saveEvolutionData(evolutionData);
-        } catch (err) {
-            console.error("Eroare la salvarea istoricului de programe:", err);
-            // Propagă eroarea pentru a fi prinsă în 'addProgramScoreListeners'
-            throw new Error("Nu s-a putut salva istoricul programului.");
-        }
-    }
+    // Update local state only - will be saved when modal closes
+    calendarState.setEvolutionData(evolutionData);
 }
 
-function saveEventComments() {
+function saveEventCommentsLocal() {
     if (!currentDetailsEventId) return;
     const event = calendarState.getEventById(currentDetailsEventId);
     if (!event) return;
-    
+
     const comments = $('eventComments').value;
     if (event.comments !== comments) {
         event.comments = comments;
+        // Save to local state only - will be saved to database by closeEventDetailsModal
         calendarState.saveEvent(event);
-        api.saveData(calendarState.getState());
     }
 }
 
