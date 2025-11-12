@@ -538,6 +538,14 @@ console.log('===========================');
     // --- END NEW RECURRENCE EDIT LOGIC ---
     // logs saving activity
     window.logActivity(editingEventId ? "Eveniment actualizat" : "Eveniment adăugat", eventBase.name, 'event', eventBase.date);
+
+    // Show success toast
+    if (editingEventId) {
+        ui.showSuccessToast(`Evenimentul "${eventBase.name}" a fost actualizat cu succes.`, 'Eveniment actualizat');
+    } else {
+        ui.showSuccessToast(`Evenimentul "${eventBase.name}" a fost creat cu succes.`, 'Eveniment creat');
+    }
+
     ui.closeEventModal();
     render();
 }
@@ -609,6 +617,14 @@ async function handleDeleteEvent() {
         // Delete single event
         calendarState.deleteEvent(editingEventId);
         await api.deleteEvent(editingEventId);
+    }
+
+    // Show success toast
+    const eventName = event.name || 'Eveniment';
+    if (choice === 'all') {
+        ui.showSuccessToast(`Toate evenimentele "${eventName}" au fost șterse cu succes.`, 'Evenimente șterse');
+    } else {
+        ui.showSuccessToast(`Evenimentul "${eventName}" a fost șters cu succes.`, 'Eveniment șters');
     }
 
     ui.closeEventModal();
@@ -864,7 +880,14 @@ async function handleSaveClient(e) {
 
         // logs saving activity
         window.logActivity(editingClientId ? "Client actualizat" : "Client adăugat", clientData.name, 'generic', clientData.id);
-        
+
+        // Show success toast
+        if (editingClientId) {
+            ui.showSuccessToast(`Clientul "${clientData.name}" a fost actualizat cu succes.`, 'Client actualizat');
+        } else {
+            ui.showSuccessToast(`Clientul "${clientData.name}" a fost adăugat cu succes.`, 'Client adăugat');
+        }
+
         ui.renderClientsList(dom.clientSearchBar.value);
         ui.resetClientForm();
         populateClientFilterDropdown(); // Actualizează dropdown-ul
@@ -879,18 +902,24 @@ async function handleDeleteClient() {
     const { editingClientId } = calendarState.getState();
     if (!editingClientId) return;
 
+    const client = calendarState.getClientById(editingClientId);
+    const clientName = client ? client.name : 'Clientul';
+
     const confirmed = await ui.showCustomConfirm('Ești sigur că vrei să ștergi acest client? Toate datele (inclusiv evoluția și plățile) vor fi șterse ireversibil.', 'Șterge Client');
     if (confirmed) {
         // Starea locală este curățată (inclusiv evolution și billings)
-        calendarState.deleteClient(editingClientId); 
-        
+        calendarState.deleteClient(editingClientId);
+
         // (MODIFICAT) Salvăm toate cele 3 fișiere pentru a reflecta ștergerea
         try {
             const { evolutionData, billingsData } = calendarState.getState();
             await api.deleteClient(editingClientId); // Salvează clients/events
             await api.saveEvolutionData(evolutionData); // Salvează evolution
             await api.saveBillingsData(billingsData); // Salvează billings
-            
+
+            // Show success toast
+            ui.showSuccessToast(`Clientul "${clientName}" a fost șters cu succes.`, 'Client șters');
+
             ui.renderClientsList(dom.clientSearchBar.value);
             ui.resetClientForm();
             populateClientFilterDropdown(); // Actualizează dropdown-ul
@@ -1000,7 +1029,7 @@ async function handleSaveTeamMember(e) {
                 // Find the user ID in the users table that corresponds to this team member
                 // Assuming team member ID matches user ID in the users table
                 await api.updatePassword(memberData.id, newPassword);
-                ui.showCustomAlert('Parola a fost actualizată cu succes.', 'Succes');
+                ui.showSuccessToast('Parola a fost actualizată cu succes.', 'Parolă actualizată');
             } else {
                 ui.showCustomAlert('Nu aveți permisiunea de a schimba parola altui utilizator.', 'Acces Refuzat');
             }
@@ -1012,6 +1041,14 @@ async function handleSaveTeamMember(e) {
 
     // logs saving activity
     window.logActivity(editingMemberId ? "Membru actualizat" : "Membru adăugat", memberData.name, 'generic', memberData.id);
+
+    // Show success toast (unless new user was created, which already shows modal)
+    if (editingMemberId) {
+        ui.showSuccessToast(`Membrul "${memberData.name}" a fost actualizat cu succes.`, 'Membru actualizat');
+    } else if (!newPassword) {
+        // Only show toast if we didn't create a user (which shows its own modal)
+        ui.showSuccessToast(`Membrul "${memberData.name}" a fost adăugat cu succes.`, 'Membru adăugat');
+    }
 
     ui.renderTeamMembersList();
     ui.resetTeamForm();
@@ -1029,6 +1066,9 @@ async function handleDeleteTeamMember() {
 
     if (!editingMemberId) return;
 
+    const member = calendarState.getTeamMemberById(editingMemberId);
+    const memberName = member ? member.name : 'Membrul';
+
     const confirmed = await ui.showCustomConfirm('Ești sigur că vrei să ștergi acest membru? Toate evenimentele asociate vor fi de asemenea șterse.', 'Șterge Membru');
     if (confirmed) {
         // Delete user from users table first
@@ -1042,6 +1082,10 @@ async function handleDeleteTeamMember() {
         // Delete team member
         calendarState.deleteTeamMember(editingMemberId);
         await api.saveData(calendarState.getState());
+
+        // Show success toast
+        ui.showSuccessToast(`Membrul "${memberName}" a fost șters cu succes.`, 'Membru șters');
+
         ui.renderTeamMembersList();
         ui.resetTeamForm();
         renderFilters();
