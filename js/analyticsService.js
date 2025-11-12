@@ -74,7 +74,7 @@ async function loadAnalytics() {
 
     } catch (error) {
         console.error('[Analytics] Error loading analytics:', error);
-        showCustomAlert('Eroare la încărcarea analytics: ' + error.message, 'error');
+        showCustomAlert('Eroare la incarcarea analytics: ' + error.message, 'error');
     } finally {
         showLoading(false);
     }
@@ -115,7 +115,7 @@ function renderFinancials(data) {
                     borderWidth: 2
                 },
                 {
-                    label: 'Încasat',
+                    label: 'Incasat',
                     data: incasatData,
                     backgroundColor: 'rgba(52, 211, 153, 0.7)',
                     borderColor: 'rgba(52, 211, 153, 1)',
@@ -133,7 +133,7 @@ function renderFinancials(data) {
                 },
                 title: {
                     display: true,
-                    text: 'Financials: Facturat vs. Încasat (RON)',
+                    text: 'Financiar: Facturat vs. Incasat (RON)',
                     font: { size: 16, weight: 'bold' }
                 },
                 tooltip: {
@@ -225,7 +225,7 @@ function renderUtilization(data) {
                 },
                 title: {
                     display: true,
-                    text: 'Therapist Utilization Rate (%)',
+                    text: 'Rata de Utilizare Terapeuti (%)',
                     font: { size: 16, weight: 'bold' }
                 },
                 tooltip: {
@@ -310,7 +310,7 @@ function renderAttendance(data) {
                 },
                 title: {
                     display: true,
-                    text: 'Client Attendance Rate',
+                    text: 'Rata de Prezenta Clienti',
                     font: { size: 16, weight: 'bold' }
                 },
                 tooltip: {
@@ -384,7 +384,7 @@ function renderServices(data) {
                 },
                 title: {
                     display: true,
-                    text: 'Service Revenue Distribution',
+                    text: 'Distributie Venituri pe Servicii',
                     font: { size: 16, weight: 'bold' }
                 },
                 tooltip: {
@@ -393,9 +393,9 @@ function renderServices(data) {
                             const service = data[context.dataIndex];
                             return [
                                 context.label,
-                                'Revenue: ' + formatCurrency(service.revenue),
-                                'Sessions: ' + service.count,
-                                'Share: ' + service.percentage + '%'
+                                'Venituri: ' + formatCurrency(service.revenue),
+                                'Sesiuni: ' + service.count,
+                                'Cota: ' + service.percentage + '%'
                             ];
                         }
                     }
@@ -440,16 +440,16 @@ function formatCurrency(value) {
  */
 export function exportToCSV() {
     if (!analyticsData) {
-        showCustomAlert('Nu există date pentru export', 'warning');
+        showCustomAlert('Nu exista date pentru export', 'warning');
         return;
     }
 
     // Create CSV content
-    let csv = 'Analytics Report\n\n';
+    let csv = 'Raport Analitic\n\n';
 
     // Financials
-    csv += 'Financials (Facturat vs. Încasat)\n';
-    csv += 'Month,Facturat (RON),Încasat (RON)\n';
+    csv += 'Financiar (Facturat vs. Incasat)\n';
+    csv += 'Luna,Facturat (RON),Incasat (RON)\n';
     analyticsData.financials.forEach(row => {
         csv += `${row.month},${row.facturat},${row.incasat}\n`;
     });
@@ -457,8 +457,8 @@ export function exportToCSV() {
     csv += '\n';
 
     // Attendance
-    csv += 'Attendance Statistics\n';
-    csv += 'Status,Count,Percentage\n';
+    csv += 'Statistici Prezenta\n';
+    csv += 'Status,Numar,Procent\n';
     analyticsData.attendance.forEach(row => {
         csv += `${row.status},${row.count},${row.percentage}%\n`;
     });
@@ -466,8 +466,8 @@ export function exportToCSV() {
     csv += '\n';
 
     // Services
-    csv += 'Service Statistics\n';
-    csv += 'Service,Sessions,Revenue (RON),Percentage\n';
+    csv += 'Statistici Servicii\n';
+    csv += 'Serviciu,Sesiuni,Venituri (RON),Procent\n';
     analyticsData.services.forEach(row => {
         csv += `${row.label},${row.count},${row.revenue},${row.percentage}%\n`;
     });
