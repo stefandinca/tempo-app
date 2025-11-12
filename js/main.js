@@ -1105,8 +1105,9 @@ function setupAdminListeners() {
                 case 'evolutie': evolutionService.showEvolutionModal(clientId); break;
                 case 'raport': reportService.downloadClientReport(clientId); break;
                 case 'email': reportService.emailClientReport(clientId); break;
+                case 'documente': ui.openClientDocumentsModal(clientId); break;
                 case 'editeaza': ui.editClientInModal(clientId); break;
-                case 'sterge': 
+                case 'sterge':
                     calendarState.setEditingId({ clientId });
                     handleDeleteClient();
                     break;
@@ -2121,6 +2122,76 @@ async function init() {
     if (dom.teamMemberModalForm) dom.teamMemberModalForm.addEventListener('submit', handleSaveTeamMember);
     if (dom.deleteMemberModalBtn) dom.deleteMemberModalBtn.addEventListener('click', handleDeleteTeamMember);
     if (dom.addNewTeamMemberBtn) dom.addNewTeamMemberBtn.addEventListener('click', () => ui.openTeamMemberModal());
+
+    // Modal Client Documents (with null checks)
+    const closeClientDocumentsModalBtn = $('closeClientDocumentsModal');
+    const closeClientDocumentsModalFooterBtn = $('closeClientDocumentsModalBtn');
+    const documentUploadInput = $('documentUploadInput');
+    const clientDocumentsModal = $('clientDocumentsModal');
+
+    if (closeClientDocumentsModalBtn) {
+        closeClientDocumentsModalBtn.addEventListener('click', ui.closeClientDocumentsModal);
+    }
+    if (closeClientDocumentsModalFooterBtn) {
+        closeClientDocumentsModalFooterBtn.addEventListener('click', ui.closeClientDocumentsModal);
+    }
+
+    // Handle file upload
+    if (documentUploadInput) {
+        documentUploadInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const clientId = clientDocumentsModal?.dataset.clientId;
+            if (!clientId) {
+                ui.showErrorToast('Eroare', 'Client ID lipsește');
+                return;
+            }
+
+            // Validate file size (2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                ui.showErrorToast('Eroare', 'Fisierul este prea mare. Marime maxima: 2MB');
+                documentUploadInput.value = '';
+                return;
+            }
+
+            try {
+                await api.uploadClientDocument(clientId, file);
+                // Refresh document list
+                await ui.renderClientDocuments(clientId);
+            } catch (error) {
+                console.error('Upload error:', error);
+            } finally {
+                // Reset input
+                documentUploadInput.value = '';
+            }
+        });
+    }
+
+    // Handle document deletion (event delegation)
+    if (clientDocumentsModal) {
+        clientDocumentsModal.addEventListener('click', async (e) => {
+            const deleteBtn = e.target.closest('[data-action="delete-document"]');
+            if (!deleteBtn) return;
+
+            const documentId = deleteBtn.dataset.documentId;
+            const clientId = clientDocumentsModal.dataset.clientId;
+
+            if (!documentId || !clientId) return;
+
+            // Confirm deletion
+            const confirmed = confirm('Sigur dorești să ștergi acest document?');
+            if (!confirmed) return;
+
+            try {
+                await api.deleteClientDocument(documentId);
+                // Refresh document list
+                await ui.renderClientDocuments(clientId);
+            } catch (error) {
+                console.error('Delete error:', error);
+            }
+        });
+    }
 
     // Secțiunea Client (with null checks)
     if (dom.clientSearchBar) dom.clientSearchBar.addEventListener('input', (e) => ui.renderClientsList(e.target.value));

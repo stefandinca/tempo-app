@@ -609,3 +609,75 @@ export async function fetchAnalytics(months = 6) {
         throw error;
     }
 }
+
+// ==========================================================
+// CLIENT DOCUMENTS API
+// ==========================================================
+
+/**
+ * Încarcă toate documentele pentru un client.
+ * Apel GET la api.php?path=client-documents&client_id=xxx
+ * @param {string} clientId - ID-ul clientului
+ */
+export async function getClientDocuments(clientId) {
+    try {
+        const result = await apiFetch(`client-documents&client_id=${clientId}`);
+        return result.documents || [];
+    } catch (error) {
+        showErrorToast('Eroare la încărcare', 'Nu s-au putut încărca documentele');
+        throw error;
+    }
+}
+
+/**
+ * Încarcă un document pentru un client.
+ * Apel POST la api.php?path=client-documents cu FormData
+ * @param {string} clientId - ID-ul clientului
+ * @param {File} file - Fișierul de încărcat
+ */
+export async function uploadClientDocument(clientId, file) {
+    const formData = new FormData();
+    formData.append('client_id', clientId);
+    formData.append('document', file);
+
+    showLoader();
+
+    try {
+        const url = `api.php?path=client-documents`;
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Upload failed');
+        }
+
+        const result = await response.json();
+        showSuccessToast('Document încărcat', 'Documentul a fost încărcat cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la încărcare', error.message || 'Nu s-a putut încărca documentul');
+        throw error;
+    } finally {
+        hideLoader();
+    }
+}
+
+/**
+ * Șterge un document al unui client.
+ * Apel DELETE la api.php?path=client-documents/:id
+ * @param {number} documentId - ID-ul documentului
+ */
+export async function deleteClientDocument(documentId) {
+    const options = { method: 'DELETE' };
+    try {
+        const result = await apiFetch(`client-documents/${documentId}`, options);
+        showSuccessToast('Document șters', 'Documentul a fost șters cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la ștergere', 'Nu s-a putut șterge documentul');
+        throw error;
+    }
+}

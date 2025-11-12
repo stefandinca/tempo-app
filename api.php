@@ -672,6 +672,138 @@ try {
                 break;
 
         // ==========================================================
+        // CAZUL 'client-documents' - Document Management
+        // ==========================================================
+
+        case (preg_match('/^client-documents\/(\d+)$/', $path, $matches) ? true : false):
+            // DELETE /client-documents/:id
+            if ($method === 'DELETE') {
+                try {
+                    $docId = $matches[1];
+
+                    // Get document info before deleting
+                    $stmt = $pdo->prepare("SELECT file_name FROM client_documents WHERE id = ?");
+                    $stmt->execute([$docId]);
+                    $doc = $stmt->fetch();
+
+                    if (!$doc) {
+                        sendError('Document not found', 404);
+                    }
+
+                    // Delete file from filesystem
+                    $filePath = __DIR__ . '/uploads/client_documents/' . $doc['file_name'];
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+
+                    // Delete from database
+                    $stmt = $pdo->prepare("DELETE FROM client_documents WHERE id = ?");
+                    $stmt->execute([$docId]);
+
+                    debugLog("Document șters: ID=$docId");
+                    sendResponse(['success' => true, 'message' => 'Document deleted successfully']);
+
+                } catch (Exception $e) {
+                    debugLog("Eroare la ștergerea documentului: " . $e->getMessage());
+                    sendError('Failed to delete document: ' . $e->getMessage());
+                }
+            } else {
+                sendError('Unsupported method for client-documents/:id', 405);
+            }
+            break;
+
+        case 'client-documents':
+            if ($method === 'GET') {
+                // GET /client-documents?client_id=xxx - List documents for a client
+                try {
+                    $clientId = $_GET['client_id'] ?? null;
+
+                    if (!$clientId) {
+                        sendError('client_id parameter is required', 400);
+                    }
+
+                    $stmt = $pdo->prepare("SELECT * FROM client_documents WHERE client_id = ? ORDER BY upload_date DESC");
+                    $stmt->execute([$clientId]);
+                    $documents = $stmt->fetchAll();
+
+                    sendResponse(['documents' => $documents]);
+
+                } catch (Exception $e) {
+                    debugLog("Eroare la obținerea documentelor: " . $e->getMessage());
+                    sendError('Failed to get documents: ' . $e->getMessage());
+                }
+
+            } elseif ($method === 'POST') {
+                // POST /client-documents - Upload a new document
+                try {
+                    // Check if file was uploaded
+                    if (!isset($_FILES['document']) || $_FILES['document']['error'] !== UPLOAD_ERR_OK) {
+                        sendError('No file uploaded or upload error', 400);
+                    }
+
+                    $clientId = $_POST['client_id'] ?? null;
+                    if (!$clientId) {
+                        sendError('client_id is required', 400);
+                    }
+
+                    $file = $_FILES['document'];
+                    $originalName = $file['name'];
+                    $fileSize = $file['size'];
+                    $tmpPath = $file['tmp_name'];
+
+                    // Validate file size (2MB max)
+                    if ($fileSize > 2 * 1024 * 1024) {
+                        sendError('Fisierul este prea mare. Marime maxima: 2MB', 400);
+                    }
+
+                    // Validate file type
+                    $allowedExtensions = ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'gif'];
+                    $fileExtension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+
+                    if (!in_array($fileExtension, $allowedExtensions)) {
+                        sendError('Tip de fisier neacceptat. Fisiere acceptate: PDF, DOC, DOCX, JPG, PNG, GIF', 400);
+                    }
+
+                    // Generate unique filename
+                    $uniqueName = uniqid() . '_' . time() . '.' . $fileExtension;
+                    $uploadPath = __DIR__ . '/uploads/client_documents/' . $uniqueName;
+
+                    // Move uploaded file
+                    if (!move_uploaded_file($tmpPath, $uploadPath)) {
+                        sendError('Failed to save file', 500);
+                    }
+
+                    // Save to database
+                    $stmt = $pdo->prepare("INSERT INTO client_documents (client_id, file_name, original_name, file_type, file_size) VALUES (?, ?, ?, ?, ?)");
+                    $stmt->execute([
+                        $clientId,
+                        $uniqueName,
+                        $originalName,
+                        $fileExtension,
+                        $fileSize
+                    ]);
+
+                    $docId = $pdo->lastInsertId();
+
+                    debugLog("Document încărcat: ID=$docId, Client=$clientId, File=$uniqueName");
+                    sendResponse([
+                        'success' => true,
+                        'message' => 'Document uploaded successfully',
+                        'id' => $docId,
+                        'file_name' => $uniqueName,
+                        'original_name' => $originalName
+                    ]);
+
+                } catch (Exception $e) {
+                    debugLog("Eroare la încărcarea documentului: " . $e->getMessage());
+                    sendError('Failed to upload document: ' . $e->getMessage());
+                }
+            } else {
+                sendError('Unsupported method for client-documents', 405);
+            }
+            break;
+
+        // ==========================================================
         // CAZUL 'programs'
         // ==========================================================
         

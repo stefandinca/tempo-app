@@ -1767,6 +1767,44 @@
         </div>
     </div>
 
+    <!-- Client Documents Modal -->
+    <div id="clientDocumentsModal" class="modal-backdrop">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h2 id="clientDocumentsModalTitle" class="modal-title">Documente Client</h2>
+                <button id="closeClientDocumentsModal" class="btn-icon btn-close" title="Închide">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="documentUploadInput" class="btn btn-primary" style=" display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                        <span style="color: white;">Incarca Document Nou</span>
+                    </label>
+                    <input type="file" id="documentUploadInput" accept=".pdf,.doc,.docx,image/*" style="display: none;">
+                    <small style="color: var(--text-secondary); font-size: 0.75rem; display: block; margin-top: 0.5rem;">
+                        Fisiere acceptate: PDF, DOC, DOCX, Imagini (JPG, PNG). Marime maxima: 2MB
+                    </small>
+                </div>
+
+                <div id="documentsList" style="margin-top: 1.5rem;">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Documente incarcate</h3>
+                    <div id="documentsListContainer" class="modal-list">
+                        <p class="empty-list-message">Nu exista documente incarcate.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="closeClientDocumentsModalBtn" type="button" class="btn btn-secondary">Inchide</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Team Member Modal -->
     <div id="teamMemberModal" class="modal-backdrop">
         <div class="modal-content modal-lg">

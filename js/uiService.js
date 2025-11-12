@@ -884,6 +884,16 @@ export function renderClientsList(searchTerm = '') {
                         </svg>
                         <span>Trimite Raport</span>
                     </button>
+                    <button class="btn btn-action btn-action-text" data-action="documente" title="Documente">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <line x1="10" y1="9" x2="8" y2="9"/>
+                        </svg>
+                        <span>Documente</span>
+                    </button>
                     <button class="btn btn-action btn-action-text" data-action="editeaza" title="Editează">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
@@ -1400,4 +1410,148 @@ function getEventTypeLabel(type) {
 function getRoleLabel(role) {
     const roles = { 'therapist': 'Terapeut', 'coordinator': 'Coordonator', 'admin': 'Admin' };
     return roles[role] || role;
+}
+
+// ==========================================================
+// CLIENT DOCUMENTS MODAL
+// ==========================================================
+
+/**
+ * Deschide modalul de documente pentru un client specific
+ * @param {string} clientId - ID-ul clientului
+ */
+export async function openClientDocumentsModal(clientId) {
+    const modal = $('clientDocumentsModal');
+    const modalTitle = $('clientDocumentsModalTitle');
+
+    // Get client name
+    const { clients } = calendarState.getState();
+    const client = clients.find(c => c.id === clientId);
+
+    if (client) {
+        modalTitle.textContent = `Documente - ${client.name}`;
+    }
+
+    // Store current client ID in modal data attribute
+    modal.dataset.clientId = clientId;
+
+    // Load and render documents
+    await renderClientDocuments(clientId);
+
+    // Show modal
+    modal.classList.add('active');
+}
+
+/**
+ * Închide modalul de documente
+ */
+export function closeClientDocumentsModal() {
+    const modal = $('clientDocumentsModal');
+    modal.classList.remove('active');
+    delete modal.dataset.clientId;
+}
+
+/**
+ * Renderează lista de documente pentru un client
+ * @param {string} clientId - ID-ul clientului
+ */
+export async function renderClientDocuments(clientId) {
+    const container = $('documentsListContainer');
+
+    try {
+        // Import dynamic pentru a evita dependințe circulare
+        const { getClientDocuments } = await import('./apiService.js');
+        const documents = await getClientDocuments(clientId);
+
+        if (documents.length === 0) {
+            container.innerHTML = '<p class="empty-list-message">Nu există documente încărcate.</p>';
+            return;
+        }
+
+        container.innerHTML = '';
+
+        documents.forEach(doc => {
+            const docCard = document.createElement('div');
+            docCard.className = 'document-card';
+            docCard.style.cssText = `
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                margin-bottom: 0.75rem;
+                background: var(--bg-secondary);
+            `;
+
+            const fileIcon = getFileIcon(doc.file_type);
+            const fileSize = formatFileSize(doc.file_size);
+            const uploadDate = new Date(doc.upload_date).toLocaleDateString('ro-RO');
+
+            docCard.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 1rem; flex: 1;">
+                    <div style="font-size: 2rem;">${fileIcon}</div>
+                    <div>
+                        <div style="font-weight: 600; color: var(--text-primary);">${doc.original_name}</div>
+                        <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                            ${fileSize} • Încărcat: ${uploadDate}
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <a href="uploads/client_documents/${doc.file_name}"
+                       target="_blank"
+                       class="btn btn-action btn-icon"
+                       title="Deschide">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                            <polyline points="15 3 21 3 21 9"/>
+                            <line x1="10" y1="14" x2="21" y2="3"/>
+                        </svg>
+                    </a>
+                    <button class="btn btn-action btn-icon btn-delete"
+                            data-action="delete-document"
+                            data-document-id="${doc.id}"
+                            title="Șterge">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
+
+            container.appendChild(docCard);
+        });
+    } catch (error) {
+        console.error('Error rendering documents:', error);
+        container.innerHTML = '<p class="empty-list-message">Eroare la încărcarea documentelor.</p>';
+    }
+}
+
+/**
+ * Returnează iconița corespunzătoare tipului de fișier
+ * @param {string} fileType - Extensia fișierului
+ */
+function getFileIcon(fileType) {
+    const icons = {
+        'pdf': '📄',
+        'doc': '📝',
+        'docx': '📝',
+        'jpg': '🖼️',
+        'jpeg': '🖼️',
+        'png': '🖼️',
+        'gif': '🖼️'
+    };
+    return icons[fileType.toLowerCase()] || '📎';
+}
+
+/**
+ * Formatează dimensiunea fișierului într-un format ușor de citit
+ * @param {number} bytes - Dimensiunea în bytes
+ */
+function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
 }
