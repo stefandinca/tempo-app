@@ -39,6 +39,9 @@ body::before {
     background-size: 100px 100px;
     pointer-events: none;
     animation: shimmerGlow 8s ease-in-out infinite;
+    /* Performance optimization */
+    will-change: opacity;
+    transform: translateZ(0);
 }
 
 /* Container pentru a centra conținutul și a plasa footer-ul */
@@ -91,6 +94,9 @@ body::before {
     position: relative;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.8);
+    /* Performance optimization */
+    contain: layout style paint;
+    will-change: transform, box-shadow;
 }
 
 /* Subtle shine effect on card */
@@ -374,6 +380,8 @@ body::before {
     box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
     position: relative;
     overflow: hidden;
+    /* Performance optimization */
+    will-change: transform, box-shadow;
 }
 
 .login-btn::before {
