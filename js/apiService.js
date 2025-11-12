@@ -5,6 +5,12 @@
  * Acesta extrage toată logica 'fetch' din calendar.js.
  */
 
+import {
+    showSuccessToast,
+    showErrorToast,
+    showWarningToast
+} from './uiService.js';
+
 // --- Global Loader Functions ---
 const $loader = () => document.getElementById('globalLoader');
 
@@ -85,8 +91,13 @@ async function apiFetch(path, options = {}) {
  * Apel GET la api.php?path=data
  */
 export async function loadData() {
-    // Folosim endpoint-ul 'data' din api.php
-    return apiFetch('data');
+    try {
+        // Folosim endpoint-ul 'data' din api.php
+        return await apiFetch('data');
+    } catch (error) {
+        showErrorToast('Eroare la încărcare', 'Nu s-au putut încărca datele');
+        throw error;
+    }
 }
 
 /**
@@ -99,7 +110,18 @@ export async function createEvent(eventData) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(eventData)
     };
-    return apiFetch('events', options);
+    try {
+        const result = await apiFetch('events', options);
+        const isMultiple = Array.isArray(eventData);
+        showSuccessToast(
+            'Eveniment creat',
+            isMultiple ? `${eventData.length} evenimente create cu succes` : 'Evenimentul a fost creat cu succes'
+        );
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la creare', 'Nu s-a putut crea evenimentul');
+        throw error;
+    }
 }
 
 /**
@@ -112,7 +134,14 @@ export async function updateEvent(eventData) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(eventData)
     };
-    return apiFetch(`events/${eventData.id}`, options);
+    try {
+        const result = await apiFetch(`events/${eventData.id}`, options);
+        showSuccessToast('Eveniment actualizat', 'Modificările au fost salvate cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la actualizare', 'Nu s-a putut actualiza evenimentul');
+        throw error;
+    }
 }
 
 /**
@@ -121,7 +150,14 @@ export async function updateEvent(eventData) {
  */
 export async function deleteEvent(eventId) {
     const options = { method: 'DELETE' };
-    return apiFetch(`events/${eventId}`, options);
+    try {
+        const result = await apiFetch(`events/${eventId}`, options);
+        showSuccessToast('Eveniment șters', 'Evenimentul a fost șters cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la ștergere', 'Nu s-a putut șterge evenimentul');
+        throw error;
+    }
 }
 
 /**
@@ -133,7 +169,14 @@ export async function createClient(clientData) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(clientData)
     };
-    return apiFetch('clients', options);
+    try {
+        const result = await apiFetch('clients', options);
+        showSuccessToast('Client creat', `Clientul ${clientData.name} a fost adăugat cu succes`);
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la creare', 'Nu s-a putut crea clientul');
+        throw error;
+    }
 }
 
 /**
@@ -149,7 +192,14 @@ export async function updateClient(clientData, oldId = null) {
     };
     // Use oldId if provided (for when ID changes), otherwise use current ID
     const clientIdForUrl = oldId || clientData.id;
-    return apiFetch(`clients/${clientIdForUrl}`, options);
+    try {
+        const result = await apiFetch(`clients/${clientIdForUrl}`, options);
+        showSuccessToast('Client actualizat', 'Modificările au fost salvate cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la actualizare', 'Nu s-a putut actualiza clientul');
+        throw error;
+    }
 }
 
 /**
@@ -157,7 +207,14 @@ export async function updateClient(clientData, oldId = null) {
  */
 export async function deleteClient(clientId) {
     const options = { method: 'DELETE' };
-    return apiFetch(`clients/${clientId}`, options);
+    try {
+        const result = await apiFetch(`clients/${clientId}`, options);
+        showSuccessToast('Client șters', 'Clientul a fost arhivat cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la arhivare', 'Nu s-a putut arhiva clientul');
+        throw error;
+    }
 }
 
 /**
@@ -189,8 +246,14 @@ export async function saveEvolutionData(data) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     };
-    // Folosim endpoint-ul 'evolution' din api.php
-    return apiFetch('evolution', options);
+    try {
+        const result = await apiFetch('evolution', options);
+        showSuccessToast('Evoluție salvată', 'Datele de evoluție au fost salvate cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la salvare', 'Nu s-au putut salva datele de evoluție');
+        throw error;
+    }
 }
 
 /**
@@ -221,7 +284,14 @@ export async function saveBillingsData(data) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     };
-    return apiFetch('billings', options);
+    try {
+        const result = await apiFetch('billings', options);
+        showSuccessToast('Facturi salvate', 'Datele de facturare au fost salvate cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la salvare', 'Nu s-au putut salva datele de facturare');
+        throw error;
+    }
 }
 
 /**
@@ -243,7 +313,14 @@ export async function saveDiscountThresholds(thresholds) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(thresholds)
     };
-    return apiFetch('discount-thresholds', options);
+    try {
+        const result = await apiFetch('discount-thresholds', options);
+        showSuccessToast('Discounturi salvate', 'Pragurile de discount au fost salvate cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la salvare', 'Nu s-au putut salva pragurile de discount');
+        throw error;
+    }
 }
 
 /**
@@ -265,7 +342,14 @@ export async function createEventType(eventType) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(eventType)
     };
-    return apiFetch('event_types', options);
+    try {
+        const result = await apiFetch('event_types', options);
+        showSuccessToast('Tip eveniment creat', `Tipul "${eventType.label}" a fost creat cu succes`);
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la creare', 'Nu s-a putut crea tipul de eveniment');
+        throw error;
+    }
 }
 
 /**
@@ -279,7 +363,14 @@ export async function updateEventType(eventType) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(eventType)
     };
-    return apiFetch('event_types', options);
+    try {
+        const result = await apiFetch('event_types', options);
+        showSuccessToast('Tip eveniment actualizat', 'Modificările au fost salvate cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la actualizare', 'Nu s-a putut actualiza tipul de eveniment');
+        throw error;
+    }
 }
 
 /**
@@ -291,7 +382,14 @@ export async function deleteEventType(id) {
     const options = {
         method: 'DELETE'
     };
-    return apiFetch(`event_types&id=${id}`, options);
+    try {
+        const result = await apiFetch(`event_types&id=${id}`, options);
+        showSuccessToast('Tip eveniment șters', 'Tipul de eveniment a fost șters cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la ștergere', 'Nu s-a putut șterge tipul de eveniment');
+        throw error;
+    }
 }
 
 /**
@@ -304,7 +402,14 @@ export async function createProgram(program) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(program)
     };
-    return apiFetch('programs', options);
+    try {
+        const result = await apiFetch('programs', options);
+        showSuccessToast('Program creat', `Programul "${program.title}" a fost creat cu succes`);
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la creare', 'Nu s-a putut crea programul');
+        throw error;
+    }
 }
 
 /**
@@ -317,7 +422,14 @@ export async function updateProgram(program) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(program)
     };
-    return apiFetch('programs', options);
+    try {
+        const result = await apiFetch('programs', options);
+        showSuccessToast('Program actualizat', 'Modificările au fost salvate cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la actualizare', 'Nu s-a putut actualiza programul');
+        throw error;
+    }
 }
 
 /**
@@ -328,7 +440,14 @@ export async function deleteProgram(id) {
     const options = {
         method: 'DELETE'
     };
-    return apiFetch(`programs&id=${id}`, options);
+    try {
+        const result = await apiFetch(`programs&id=${id}`, options);
+        showSuccessToast('Program șters', 'Programul a fost șters cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la ștergere', 'Nu s-a putut șterge programul');
+        throw error;
+    }
 }
 
 /**
@@ -357,7 +476,14 @@ export async function cloneMonthSchedule(sourceMonth, targetMonth) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sourceMonth, targetMonth })
     };
-    return apiFetch('clone-schedule', options);
+    try {
+        const result = await apiFetch('clone-schedule', options);
+        showSuccessToast('Program clonat', `Programul din ${sourceMonth} a fost copiat în ${targetMonth}`);
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la clonare', 'Nu s-a putut clona programul lunii');
+        throw error;
+    }
 }
 
 /**
@@ -371,7 +497,14 @@ export async function clearMonth(month) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ month })
     };
-    return apiFetch('clear-month', options);
+    try {
+        const result = await apiFetch('clear-month', options);
+        showSuccessToast('Lună ștearsă', `Toate evenimentele din ${month} au fost șterse`);
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la ștergere', 'Nu s-au putut șterge evenimentele lunii');
+        throw error;
+    }
 }
 
 /**
@@ -384,7 +517,14 @@ export async function deleteClientEvents(clientId) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
     };
-    return apiFetch(`delete-client-events/${clientId}`, options);
+    try {
+        const result = await apiFetch(`delete-client-events/${clientId}`, options);
+        showSuccessToast('Evenimente șterse', 'Toate evenimentele clientului au fost șterse');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la ștergere', 'Nu s-au putut șterge evenimentele clientului');
+        throw error;
+    }
 }
 
 /**
@@ -406,7 +546,14 @@ export async function createUser(userData) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData)
     };
-    return apiFetch('users', options);
+    try {
+        const result = await apiFetch('users', options);
+        showSuccessToast('Utilizator creat', `Utilizatorul ${userData.username} a fost creat cu succes`);
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la creare', 'Nu s-a putut crea utilizatorul');
+        throw error;
+    }
 }
 
 /**
@@ -421,7 +568,14 @@ export async function updatePassword(userId, newPassword) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_id: userId, new_password: newPassword })
     };
-    return apiFetch('update-password', options);
+    try {
+        const result = await apiFetch('update-password', options);
+        showSuccessToast('Parolă actualizată', 'Parola a fost schimbată cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la actualizare', 'Nu s-a putut schimba parola');
+        throw error;
+    }
 }
 
 /**
@@ -431,5 +585,12 @@ export async function updatePassword(userId, newPassword) {
  */
 export async function deleteUser(userId) {
     const options = { method: 'DELETE' };
-    return apiFetch(`users/${userId}`, options);
+    try {
+        const result = await apiFetch(`users/${userId}`, options);
+        showSuccessToast('Utilizator șters', 'Utilizatorul a fost șters cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la ștergere', 'Nu s-a putut șterge utilizatorul');
+        throw error;
+    }
 }

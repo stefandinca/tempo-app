@@ -1609,7 +1609,14 @@
     <script type="module" src="js/main.js"></script>
     
     <script type="module">
-        import { openEventModal } from './js/uiService.js';
+        import {
+            openEventModal,
+            showToast,
+            showSuccessToast,
+            showErrorToast,
+            showWarningToast,
+            showInfoToast
+        } from './js/uiService.js';
         
         // Format time ago function
         function formatTimeAgo(isoString) {
