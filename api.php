@@ -25,7 +25,7 @@ function debugLog($message) {
 
 // CORS headers
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
 // Include conexiunea la baza de date
@@ -71,9 +71,9 @@ $path   = isset($_GET['path']) ? $_GET['path'] : '';
 $input  = json_decode(file_get_contents('php://input'), true);
 
 // Loghează cererea (cu excepția GET-urilor simple)
-if ($method === 'POST') {
+if ($method === 'POST' || $method === 'PUT' || $method === 'DELETE') {
     debugLog("--- Cerere $method pentru $path ---");
-    if (json_last_error() !== JSON_ERROR_NONE) {
+    if ($method !== 'DELETE' && json_last_error() !== JSON_ERROR_NONE) {
         debugLog("Eroare la decodarea JSON: " . json_last_error_msg());
     }
 }
@@ -1154,17 +1154,20 @@ try {
                         sendError('Nu s-a putut crea utilizatorul: ' . $e->getMessage());
                     }
                 }
-            } elseif ($method === 'DELETE') {
+            } else {
+                sendError('Unsupported method for users', 405);
+            }
+            break;
+
+        // ==========================================================
+        // CAZUL 'users/:id' - Șterge utilizator
+        // ==========================================================
+        case (preg_match('/^users\/(.+)$/', $path, $matches) ? true : false):
+            $userId = $matches[1];
+
+            if ($method === 'DELETE') {
                 // Delete user
                 try {
-                    // Get user ID from URL path
-                    $pathParts = explode('/', trim($path, '/'));
-                    $userId = $pathParts[1] ?? null;
-
-                    if (!$userId) {
-                        sendError('User ID este obligatoriu', 400);
-                    }
-
                     // Delete user from users table
                     $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
                     $stmt->execute([$userId]);
@@ -1177,7 +1180,7 @@ try {
                     sendError('Nu s-a putut șterge utilizatorul: ' . $e->getMessage());
                 }
             } else {
-                sendError('Unsupported method for users', 405);
+                sendError('Unsupported method for users/:id', 405);
             }
             break;
 
