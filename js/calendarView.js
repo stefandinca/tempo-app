@@ -405,17 +405,31 @@ function getCurrentTimePosition() {
     const now = new Date();
     const hours = now.getHours();
     const minutes = now.getMinutes();
-    
+
     // Only show indicator during business hours (8:00 - 20:00)
     if (hours < 8 || hours >= 20) {
         return null;
     }
-    
+
     // Calculate position relative to 8:00 AM
     const hoursFromStart = hours - 8;
     const totalMinutes = (hoursFromStart * 60) + minutes;
-    const topPosition = (totalMinutes / 60) * 120; // 60px per hour
-    
+
+    // Dynamically measure the actual height of time slots
+    // This accounts for borders, padding, and any CSS variations
+    const timeSlots = document.querySelectorAll('.time-slot');
+    let hourHeight = 120; // Default fallback
+
+    if (timeSlots.length > 0) {
+        // Measure the first time-slot's actual height
+        const firstSlot = timeSlots[0];
+        hourHeight = firstSlot.getBoundingClientRect().height;
+    }
+
+    // Calculate the exact pixel position
+    // Position = hours elapsed * height per hour + (minutes / 60) * height per hour
+    const topPosition = (totalMinutes / 60) * hourHeight;
+
     return { hours, minutes, topPosition };
 }
 
