@@ -1600,6 +1600,152 @@ async function init() {
         });
     }
 
+    // Calendar Options Mobile Menu
+    const calendarOptionsToggle = $('calendarOptionsToggle');
+    const calendarOptionsMenu = $('calendarOptionsMenu');
+    const calendarOptionsBackdrop = $('calendarOptionsBackdrop');
+    const closeCalendarOptions = $('closeCalendarOptions');
+
+    const toggleCalendarOptions = () => {
+        if (calendarOptionsMenu) calendarOptionsMenu.classList.toggle('active');
+        if (calendarOptionsBackdrop) calendarOptionsBackdrop.classList.toggle('active');
+
+        // Move elements to mobile menu on open (only on mobile)
+        if (window.innerWidth < 768 && calendarOptionsMenu.classList.contains('active')) {
+            moveToMobileMenu();
+        }
+    };
+
+    const moveToMobileMenu = () => {
+        const mobileNav = $('mobileCalendarNav');
+        const mobileViewToggle = $('mobileViewToggle');
+        const mobileFilters = $('mobileFilters');
+        const mobileClientFilter = $('mobileClientFilter');
+        const mobileActions = $('mobileCalendarActions');
+
+        // Add labels and move elements
+        if (mobileNav && !mobileNav.querySelector('.flex.items-center.gap-1')) {
+            const navLabel = document.createElement('h4');
+            navLabel.textContent = 'Navigare';
+            mobileNav.appendChild(navLabel);
+
+            const navControls = document.querySelector('#calendarControls .flex.items-center.gap-1');
+            if (navControls) mobileNav.appendChild(navControls.cloneNode(true));
+        }
+
+        if (mobileViewToggle && !mobileViewToggle.querySelector('.view-toggle')) {
+            const viewLabel = document.createElement('h4');
+            viewLabel.textContent = 'Vizualizare';
+            mobileViewToggle.appendChild(viewLabel);
+
+            const viewToggle = document.querySelector('.view-toggle');
+            if (viewToggle) mobileViewToggle.appendChild(viewToggle.cloneNode(true));
+        }
+
+        if (mobileFilters && !mobileFilters.querySelector('.filters-container')) {
+            const filtersLabel = document.createElement('h4');
+            filtersLabel.textContent = 'Filtre';
+            mobileFilters.appendChild(filtersLabel);
+
+            const filters = $('filters');
+            if (filters) mobileFilters.appendChild(filters.cloneNode(true));
+        }
+
+        if (mobileClientFilter && !mobileClientFilter.querySelector('select')) {
+            const clientLabel = document.createElement('h4');
+            clientLabel.textContent = 'Client';
+            mobileClientFilter.appendChild(clientLabel);
+
+            const clientFilter = $('calendarClientFilter');
+            if (clientFilter) mobileClientFilter.appendChild(clientFilter.cloneNode(true));
+        }
+
+        if (mobileActions && mobileActions.children.length === 0) {
+            const actionsLabel = document.createElement('h4');
+            actionsLabel.textContent = 'Acțiuni';
+            mobileActions.appendChild(actionsLabel);
+
+            const cloneBtn = $('cloneMonthBtn');
+            const addBtn = $('addEventBtnCalendar');
+            if (cloneBtn) mobileActions.appendChild(cloneBtn.cloneNode(true));
+            if (addBtn) mobileActions.appendChild(addBtn.cloneNode(true));
+        }
+
+        // Re-attach event listeners to cloned elements
+        setupMobileMenuListeners();
+    };
+
+    const setupMobileMenuListeners = () => {
+        // View toggle buttons
+        const mobileViewBtns = document.querySelectorAll('#mobileViewToggle .view-btn');
+        mobileViewBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const view = e.target.dataset.view;
+                if (view) {
+                    changeView(view);
+                    toggleCalendarOptions();
+                }
+            });
+        });
+
+        // Navigation buttons
+        const mobilePrevBtn = document.querySelector('#mobileCalendarNav button:first-of-type');
+        const mobileTodayBtn = document.querySelector('#mobileCalendarNav button:nth-of-type(2)');
+        const mobileNextBtn = document.querySelector('#mobileCalendarNav button:nth-of-type(3)');
+
+        if (mobilePrevBtn) mobilePrevBtn.addEventListener('click', () => { handleNavigation(-1); toggleCalendarOptions(); });
+        if (mobileTodayBtn) mobileTodayBtn.addEventListener('click', () => { navigateToToday(); toggleCalendarOptions(); });
+        if (mobileNextBtn) mobileNextBtn.addEventListener('click', () => { handleNavigation(1); toggleCalendarOptions(); });
+
+        // Filter checkboxes
+        const mobileFilterCheckboxes = document.querySelectorAll('#mobileFilters input[type="checkbox"]');
+        mobileFilterCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const originalCheckbox = document.querySelector(`#filters input[data-member-id="${checkbox.dataset.memberId}"]`);
+                if (originalCheckbox) {
+                    originalCheckbox.checked = checkbox.checked;
+                    originalCheckbox.dispatchEvent(new Event('change'));
+                }
+            });
+        });
+
+        // Client filter
+        const mobileClientFilterSelect = document.querySelector('#mobileClientFilter select');
+        if (mobileClientFilterSelect) {
+            mobileClientFilterSelect.addEventListener('change', (e) => {
+                const originalSelect = $('calendarClientFilter');
+                if (originalSelect) {
+                    originalSelect.value = e.target.value;
+                    originalSelect.dispatchEvent(new Event('change'));
+                }
+                toggleCalendarOptions();
+            });
+        }
+
+        // Action buttons
+        const mobileCloneBtn = document.querySelector('#mobileCalendarActions button[id*="clone"]');
+        const mobileAddBtn = document.querySelector('#mobileCalendarActions button[id*="add"]');
+
+        if (mobileCloneBtn) mobileCloneBtn.addEventListener('click', () => {
+            $('cloneMonthBtn').click();
+            toggleCalendarOptions();
+        });
+        if (mobileAddBtn) mobileAddBtn.addEventListener('click', () => {
+            $('addEventBtnCalendar').click();
+            toggleCalendarOptions();
+        });
+    };
+
+    if (calendarOptionsToggle) {
+        calendarOptionsToggle.addEventListener('click', toggleCalendarOptions);
+    }
+    if (closeCalendarOptions) {
+        closeCalendarOptions.addEventListener('click', toggleCalendarOptions);
+    }
+    if (calendarOptionsBackdrop) {
+        calendarOptionsBackdrop.addEventListener('click', toggleCalendarOptions);
+    }
+
     // Navigare Calendar (with null checks)
     if (dom.prevBtn) dom.prevBtn.addEventListener('click', () => handleNavigation(-1));
     if (dom.nextBtn) dom.nextBtn.addEventListener('click', () => handleNavigation(1));

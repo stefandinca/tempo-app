@@ -1698,7 +1698,7 @@ body.public-view {
 }
 /* Use .btn-icon for team member actions */
 .team-member-actions .btn-action {
-  width: 40px;
+  width: auto;
   height: 40px;
 }
 .team-member-actions .btn-delete:hover {

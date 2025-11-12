@@ -257,21 +257,33 @@
                 <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 md:p-6">
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <!--- HAMBURGER MENU-->
-                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div class="flex items-center justify-between w-full md:w-auto gap-4">
                             <div class="header-title-group">
                                 <button class="mobile-menu-toggle btn-icon md:hidden">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                                 </button>
                                 <h1 id="currentPeriod" class="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white">Panou de control</h1>
                             </div>
-                            
-                            
-                            
+
+                            <!-- Calendar Options Toggle (Mobile Only) -->
+                            <button id="calendarOptionsToggle" class="btn-icon md:hidden">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="4" x2="4" y1="21" y2="14"></line>
+                                    <line x1="4" x2="4" y1="10" y2="3"></line>
+                                    <line x1="12" x2="12" y1="21" y2="12"></line>
+                                    <line x1="12" x2="12" y1="8" y2="3"></line>
+                                    <line x1="20" x2="20" y1="21" y2="16"></line>
+                                    <line x1="20" x2="20" y1="12" y2="3"></line>
+                                    <line x1="2" x2="6" y1="14" y2="14"></line>
+                                    <line x1="10" x2="14" y1="8" y2="8"></line>
+                                    <line x1="18" x2="22" y1="16" y2="16"></line>
+                                </svg>
+                            </button>
                         </div>
 
-                        
-                        
-                        <div class="flex flex-wrap items-center gap-2">
+
+
+                        <div id="calendarControls" class="flex flex-wrap items-center gap-2">
                             <div class="flex items-center gap-1">
                                 <button id="prevBtn" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
@@ -296,10 +308,11 @@
                             </button>
                         </div>
 
-                        
+
+
                     </div>
                 </header>
-                <div class="sm:flex-col  md:flex-row  lg:flex justify-between items-center bg-white border-b border-gray-200">
+                <div id="calendarFilters" class="sm:flex-col  md:flex-row  lg:flex justify-between items-center bg-white border-b border-gray-200">
                     <div id="filters" class="filters-container p-4"></div>
                     <div class="client-filter-container p-6 md:pr-6">
                         <select id="calendarClientFilter" class="form-input calendar-filter-select">
@@ -339,7 +352,7 @@
         </header>
         
         <div class="section-content-grid">
-            <div class="section-col-list">
+            <div class="section-col-list" style="grid-column: 1 / -1;">
                 <input type="search" id="clientSearchBar" class="form-input" placeholder="Cauta client dupa nume, email...">
                 <div id="clientsList" class="modal-list">
                     </div>
@@ -423,7 +436,7 @@
         </header>
 
         <div class="section-content-grid">
-            <div class="section-col-list">
+            <div class="section-col-list" style="grid-column: 1 / -1;">
                 <div id="teamMembersList" class="modal-list">
                     </div>
             </div>
@@ -1883,7 +1896,32 @@
         });
     </script>
 
-    
+
+
+    <!-- Calendar Options Mobile Menu -->
+    <div id="calendarOptionsMenu" class="calendar-options-menu">
+        <div class="calendar-options-content">
+            <div class="calendar-options-header">
+                <h3>Opțiuni Calendar</h3>
+                <button id="closeCalendarOptions" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div class="calendar-options-body">
+                <!-- Navigation will be moved here via JavaScript -->
+                <div id="mobileCalendarNav" class="calendar-option-section"></div>
+                <!-- View toggle will be moved here via JavaScript -->
+                <div id="mobileViewToggle" class="calendar-option-section"></div>
+                <!-- Filters will be moved here via JavaScript -->
+                <div id="mobileFilters" class="calendar-option-section"></div>
+                <!-- Client filter will be moved here via JavaScript -->
+                <div id="mobileClientFilter" class="calendar-option-section"></div>
+                <!-- Action buttons will be moved here via JavaScript -->
+                <div id="mobileCalendarActions" class="calendar-option-section"></div>
+            </div>
+        </div>
+    </div>
+    <div id="calendarOptionsBackdrop" class="calendar-options-backdrop"></div>
 
     <div id="mobileMenuBackdrop" class="mobile-menu-backdrop md:hidden"></div>
     <div id="globalLoader" class="loader-backdrop">

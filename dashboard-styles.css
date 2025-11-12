@@ -580,3 +580,145 @@
 .score-btn[data-score="-"] { background-color: #f59e0b; } /* Portocaliu */
 .score-btn[data-score="P"] { background-color: #3b82f6; } /* Albastru */
 .score-btn[data-score="+"] { background-color: #10b981; } /* Verde */
+
+/* ===================================
+   CALENDAR OPTIONS MOBILE MENU
+   =================================== */
+
+/* Hide calendar controls and filters on mobile by default */
+@media (max-width: 767px) {
+    #calendarControls,
+    #calendarFilters {
+        display: none !important;
+    }
+}
+
+/* Calendar Options Menu (slides in from right) */
+.calendar-options-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 85%;
+    max-width: 400px;
+    height: 100vh;
+    background: white;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+    transition: right 0.3s ease-in-out;
+    z-index: 1001;
+    overflow-y: auto;
+}
+
+.dark .calendar-options-menu {
+    background: rgb(31, 41, 55);
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.calendar-options-menu.active {
+    right: 0;
+}
+
+.calendar-options-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.calendar-options-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.calendar-options-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.calendar-options-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.calendar-options-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.calendar-options-body {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.calendar-option-section {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.calendar-option-section:last-child {
+    border-bottom: none;
+}
+
+.calendar-option-section h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Mobile calendar navigation adjustments */
+.calendar-option-section .flex.items-center.gap-1 {
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+/* Mobile view toggle adjustments */
+.calendar-option-section .view-toggle {
+    width: 100%;
+}
+
+.calendar-option-section .view-toggle .view-btn {
+    flex: 1;
+}
+
+/* Mobile filters adjustments */
+.calendar-option-section .filters-container {
+    padding: 0;
+}
+
+/* Mobile action buttons adjustments */
+.calendar-option-section button {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.calendar-option-section button:last-child {
+    margin-bottom: 0;
+}
+
+.calendar-option-section button span {
+    display: inline !important;
+}
+
+/* Hide on desktop */
+@media (min-width: 768px) {
+    .calendar-options-menu,
+    .calendar-options-backdrop {
+        display: none;
+    }
+}
