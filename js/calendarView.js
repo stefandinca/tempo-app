@@ -405,17 +405,42 @@ function getCurrentTimePosition() {
     const now = new Date();
     const hours = now.getHours();
     const minutes = now.getMinutes();
-    
+
     // Only show indicator during business hours (8:00 - 20:00)
     if (hours < 8 || hours >= 20) {
         return null;
     }
-    
+
     // Calculate position relative to 8:00 AM
     const hoursFromStart = hours - 8;
     const totalMinutes = (hoursFromStart * 60) + minutes;
-    const topPosition = (totalMinutes / 60) * 120; // 60px per hour
-    
+
+    // Each hour cell is 120px tall
+    const hourHeight = 120;
+
+    // Dynamically get the gap size from CSS
+    const timeSlot = document.querySelector('.time-slot');
+    let gapSize = 8; // Default: 0.5rem = 8px
+
+    if (timeSlot) {
+        const computedStyle = getComputedStyle(timeSlot);
+        const gap = computedStyle.gap || computedStyle.rowGap || '0.5rem';
+        // Convert gap to pixels (assuming rem or px)
+        if (gap.includes('rem')) {
+            const remValue = parseFloat(gap);
+            const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+            gapSize = remValue * rootFontSize;
+        } else if (gap.includes('px')) {
+            gapSize = parseFloat(gap);
+        }
+    }
+
+    // Account for the gap between time-slots
+    // We need to add the cumulative gap for all previous hours
+    const gapOffset = hoursFromStart * gapSize;
+
+    const topPosition = (totalMinutes / 60) * hourHeight + gapOffset;
+
     return { hours, minutes, topPosition };
 }
 
