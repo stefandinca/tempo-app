@@ -919,20 +919,47 @@ export function editClientInModal(clientId) {
     const client = calendarState.getClientById(clientId);
     if (!client) return;
 
-    calendarState.setEditingId({ clientId });
-    $('clientFormTitle').textContent = 'Editează Client';
-    $('clientId').value = client.id; // Populate the ID field
-    if ($('clientMedical')) $('clientMedical').value = '';
-    $('clientFullName').value = client.name;
-    $('clientEmail').value = client.email || '';
-    $('clientPhone').value = client.phone || '';
-    $('clientBirthdayInput').value = client.birthDate || '';
+    // Use the modal version instead
+    openClientModal(clientId);
+}
 
-    $('clientMedical').value = client.medical || '';
-    $('clientIsArchived').checked = client.is_archived === 1 || client.is_archived === true;
-    $('deleteClientBtn').style.display = 'inline-block';
+// --- Client Modal Functions ---
 
-    $('clientForm').scrollIntoView({ behavior: 'smooth' });
+export function openClientModal(clientId = null) {
+    const modal = $('clientModal');
+    const form = $('clientModalForm');
+
+    if (clientId) {
+        // Edit mode
+        const client = calendarState.getClientById(clientId);
+        if (!client) return;
+
+        calendarState.setEditingId({ clientId });
+        $('clientModalTitle').textContent = 'Editează Client';
+        $('clientModalId').value = client.id;
+        $('clientModalFullName').value = client.name;
+        $('clientModalEmail').value = client.email || '';
+        $('clientModalPhone').value = client.phone || '';
+        $('clientModalBirthdayInput').value = client.birthDate || '';
+        $('clientModalMedical').value = client.medical || '';
+        $('clientModalIsArchived').checked = client.is_archived === 1 || client.is_archived === true;
+        $('deleteClientModalBtn').style.display = 'inline-block';
+    } else {
+        // Add mode
+        form.reset();
+        calendarState.setEditingId({ clientId: null });
+        $('clientModalTitle').textContent = 'Adaugă Client Nou';
+        $('clientModalId').value = '';
+        $('clientModalIsArchived').checked = false;
+        $('deleteClientModalBtn').style.display = 'none';
+    }
+
+    modal.classList.add('active');
+}
+
+export function closeClientModal() {
+    $('clientModal').classList.remove('active');
+    calendarState.setEditingId({ clientId: null });
 }
 
 export function renderTeamMembersList() {
@@ -1032,28 +1059,79 @@ export function editTeamMemberInModal(memberId) {
     const member = calendarState.getTeamMemberById(memberId);
     if (!member) return;
 
-    calendarState.setEditingId({ memberId });
-    $('teamFormTitle').textContent = 'Editează Membru';
-    $('memberName').value = member.name;
-    $('memberInitials').value = member.initials;
-    $('memberRole').value = member.role;
-    $('memberColor').value = member.color;
-    $('memberColorHex').value = member.color.toUpperCase();
+    // Use the modal version instead
+    openTeamMemberModal(memberId);
+}
 
-    // Password is optional when editing
-    if ($('memberPassword')) {
-        $('memberPassword').value = '';
-        $('memberPassword').required = false;
-        if ($('passwordLabel')) $('passwordLabel').textContent = '(opțional - completați doar pentru a schimba)';
-        if ($('passwordHelp')) $('passwordHelp').textContent = 'Lăsați gol pentru a păstra parola actuală';
+// --- Team Member Modal Functions ---
+
+export function openTeamMemberModal(memberId = null) {
+    const modal = $('teamMemberModal');
+    const form = $('teamMemberModalForm');
+    const canChangeRole = auth.isAdmin() || auth.isCoordinator();
+
+    if (memberId) {
+        // Edit mode
+        const member = calendarState.getTeamMemberById(memberId);
+        if (!member) return;
+
+        calendarState.setEditingId({ memberId });
+        $('teamMemberModalTitle').textContent = 'Editează Membru';
+        $('memberModalName').value = member.name;
+        $('memberModalInitials').value = member.initials;
+        $('memberModalRole').value = member.role;
+        $('memberModalColor').value = member.color;
+        $('memberModalColorHex').value = member.color.toUpperCase();
+
+        // Password is optional when editing
+        if ($('memberModalPassword')) {
+            $('memberModalPassword').value = '';
+            $('memberModalPassword').required = false;
+            if ($('passwordModalLabel')) $('passwordModalLabel').textContent = '(opțional - completați doar pentru a schimba)';
+            if ($('passwordModalHelp')) $('passwordModalHelp').textContent = 'Lăsați gol pentru a păstra parola actuală';
+        }
+
+        // Disable role selection if not admin/coordinator
+        $('memberModalRole').disabled = !canChangeRole;
+        $('deleteMemberModalBtn').style.display = canChangeRole ? 'inline-block' : 'none';
+    } else {
+        // Add mode
+        form.reset();
+        calendarState.setEditingId({ memberId: null });
+        $('teamMemberModalTitle').textContent = 'Adaugă Membru Nou';
+        $('memberModalColor').value = '#4f46e5';
+        $('memberModalColorHex').value = '#4F46E5';
+
+        // Password is required when creating
+        if ($('memberModalPassword')) {
+            $('memberModalPassword').value = '';
+            $('memberModalPassword').required = true;
+            if ($('passwordModalLabel')) $('passwordModalLabel').textContent = '(obligatoriu)';
+            if ($('passwordModalHelp')) $('passwordModalHelp').textContent = 'Va fi creată o intrare în tabelul utilizatori';
+        }
+
+        // Check permissions for role selection
+        $('memberModalRole').disabled = !canChangeRole;
+        if (!canChangeRole) {
+            $('memberModalRole').value = 'therapist';
+        }
+        $('deleteMemberModalBtn').style.display = 'none';
     }
 
-    // NOU: Dezactivează dropdown-ul de ROL și butonul de ȘTERGERE dacă e terapeut
-    const canChangeRole = auth.isAdmin() || auth.isCoordinator();
-    $('memberRole').disabled = !canChangeRole;
-    $('deleteMemberBtn').style.display = canChangeRole ? 'inline-block' : 'none';
+    // Add color picker sync listeners
+    const colorPicker = $('memberModalColor');
+    const colorHex = $('memberModalColorHex');
+    if (colorPicker && colorHex) {
+        colorPicker.oninput = (e) => { colorHex.value = e.target.value.toUpperCase(); };
+        colorHex.oninput = (e) => { if (/^#[0-9A-F]{6}$/i.test(e.target.value)) colorPicker.value = e.target.value; };
+    }
 
-    $('teamMemberForm').scrollIntoView({ behavior: 'smooth' });
+    modal.classList.add('active');
+}
+
+export function closeTeamMemberModal() {
+    $('teamMemberModal').classList.remove('active');
+    calendarState.setEditingId({ memberId: null });
 }
 
 

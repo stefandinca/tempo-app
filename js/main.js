@@ -68,7 +68,21 @@ const dom = {
     closeEventDetailsBtn: $('closeEventDetails'),
     editEventFromDetailsBtn: $('editEventFromDetails'),
     deleteEventFromDetailsBtn: $('deleteEventFromDetails'),
-    
+
+    // Modal Client
+    clientModal: $('clientModal'),
+    closeClientModalBtn: $('closeClientModal'),
+    cancelClientModalBtn: $('cancelClientModalBtn'),
+    deleteClientModalBtn: $('deleteClientModalBtn'),
+    clientModalForm: $('clientModalForm'),
+
+    // Modal Team Member
+    teamMemberModal: $('teamMemberModal'),
+    closeTeamMemberModalBtn: $('closeTeamMemberModal'),
+    cancelMemberModalBtn: $('cancelMemberModalBtn'),
+    deleteMemberModalBtn: $('deleteMemberModalBtn'),
+    teamMemberModalForm: $('teamMemberModalForm'),
+
     // Secțiune Echipă
     teamMemberForm: $('teamMemberForm'),
     // NOU: Adăugat pentru a ascunde opțiunile de rol
@@ -864,9 +878,9 @@ async function handleSaveClient(e) {
 
         // logs saving activity
         window.logActivity(editingClientId ? "Client actualizat" : "Client adăugat", clientData.name, 'generic', clientData.id);
-        
+
         ui.renderClientsList(dom.clientSearchBar.value);
-        ui.resetClientForm();
+        ui.closeClientModal();
         populateClientFilterDropdown(); // Actualizează dropdown-ul
 
     } catch (error) {
@@ -890,9 +904,9 @@ async function handleDeleteClient() {
             await api.deleteClient(editingClientId); // Salvează clients/events
             await api.saveEvolutionData(evolutionData); // Salvează evolution
             await api.saveBillingsData(billingsData); // Salvează billings
-            
+
             ui.renderClientsList(dom.clientSearchBar.value);
-            ui.resetClientForm();
+            ui.closeClientModal();
             populateClientFilterDropdown(); // Actualizează dropdown-ul
         } catch (error) {
             console.error('Eroare la ștergerea datelor clientului:', error);
@@ -1014,7 +1028,7 @@ async function handleSaveTeamMember(e) {
     window.logActivity(editingMemberId ? "Membru actualizat" : "Membru adăugat", memberData.name, 'generic', memberData.id);
 
     ui.renderTeamMembersList();
-    ui.resetTeamForm();
+    ui.closeTeamMemberModal();
     renderFilters();
 }
 
@@ -1043,7 +1057,7 @@ async function handleDeleteTeamMember() {
         calendarState.deleteTeamMember(editingMemberId);
         await api.saveData(calendarState.getState());
         ui.renderTeamMembersList();
-        ui.resetTeamForm();
+        ui.closeTeamMemberModal();
         renderFilters();
         render();
     }
@@ -1866,25 +1880,21 @@ async function init() {
     if (dom.editEventFromDetailsBtn) dom.editEventFromDetailsBtn.addEventListener('click', () => ui.editEventFromDetails());
     if (dom.deleteEventFromDetailsBtn) dom.deleteEventFromDetailsBtn.addEventListener('click', () => ui.deleteEventFromDetails());
 
-    // Secțiunea Echipă (with null checks)
-    if (dom.teamMemberForm) dom.teamMemberForm.addEventListener('submit', handleSaveTeamMember);
-    if (dom.deleteMemberBtn) dom.deleteMemberBtn.addEventListener('click', handleDeleteTeamMember);
-    if (dom.cancelMemberBtn) dom.cancelMemberBtn.addEventListener('click', ui.resetTeamForm);
-    if (dom.addNewTeamMemberBtn) {
-        dom.addNewTeamMemberBtn.addEventListener('click', () => {
-            if (dom.teamMemberForm) dom.teamMemberForm.scrollIntoView({ behavior: 'smooth' });
-        });
-    }
+    // Modal Client (with null checks)
+    if (dom.closeClientModalBtn) dom.closeClientModalBtn.addEventListener('click', ui.closeClientModal);
+    if (dom.cancelClientModalBtn) dom.cancelClientModalBtn.addEventListener('click', ui.closeClientModal);
+    if (dom.clientModalForm) dom.clientModalForm.addEventListener('submit', handleSaveClient);
+    if (dom.deleteClientModalBtn) dom.deleteClientModalBtn.addEventListener('click', handleDeleteClient);
+    if (dom.addNewClientBtn) dom.addNewClientBtn.addEventListener('click', () => ui.openClientModal());
+
+    // Modal Team Member (with null checks)
+    if (dom.closeTeamMemberModalBtn) dom.closeTeamMemberModalBtn.addEventListener('click', ui.closeTeamMemberModal);
+    if (dom.cancelMemberModalBtn) dom.cancelMemberModalBtn.addEventListener('click', ui.closeTeamMemberModal);
+    if (dom.teamMemberModalForm) dom.teamMemberModalForm.addEventListener('submit', handleSaveTeamMember);
+    if (dom.deleteMemberModalBtn) dom.deleteMemberModalBtn.addEventListener('click', handleDeleteTeamMember);
+    if (dom.addNewTeamMemberBtn) dom.addNewTeamMemberBtn.addEventListener('click', () => ui.openTeamMemberModal());
 
     // Secțiunea Client (with null checks)
-    if (dom.clientForm) dom.clientForm.addEventListener('submit', handleSaveClient);
-    if (dom.deleteClientBtn) dom.deleteClientBtn.addEventListener('click', handleDeleteClient);
-    if (dom.cancelClientBtn) dom.cancelClientBtn.addEventListener('click', ui.resetClientForm);
-    if (dom.addNewClientBtn) {
-        dom.addNewClientBtn.addEventListener('click', () => {
-            if (dom.clientForm) dom.clientForm.scrollIntoView({ behavior: 'smooth' });
-        });
-    }
     if (dom.clientSearchBar) dom.clientSearchBar.addEventListener('input', (e) => ui.renderClientsList(e.target.value));
 
     // Câmpuri Modal Evenimente (with null checks)
