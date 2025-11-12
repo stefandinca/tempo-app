@@ -185,6 +185,108 @@ export function showCustomConfirm(message, title = 'Confirma actiunea') {
     });
 }
 
+// --- Toast Notifications ---
+
+const toastIcons = {
+    success: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+    error: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+    warning: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+    info: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+};
+
+let toastCounter = 0;
+
+/**
+ * Show a toast notification
+ * @param {string} type - Type of toast: 'success', 'error', 'warning', 'info'
+ * @param {string} title - Toast title
+ * @param {string} message - Toast message (optional)
+ * @param {number} duration - Duration in ms (default 4000, 0 for permanent)
+ */
+export function showToast(type = 'info', title = '', message = '', duration = 4000) {
+    const container = document.getElementById('toastContainer');
+    if (!container) {
+        console.warn('Toast container not found');
+        return;
+    }
+
+    const toastId = `toast-${++toastCounter}`;
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.id = toastId;
+
+    const icon = toastIcons[type] || toastIcons.info;
+    const closeIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+    toast.innerHTML = `
+        <div class="toast-icon">${icon}</div>
+        <div class="toast-content">
+            <div class="toast-title">${title}</div>
+            ${message ? `<div class="toast-message">${message}</div>` : ''}
+        </div>
+        <button class="toast-close" aria-label="Close">${closeIcon}</button>
+        ${duration > 0 ? `<div class="toast-progress" style="animation-duration: ${duration}ms"></div>` : ''}
+    `;
+
+    container.appendChild(toast);
+
+    // Close button handler
+    const closeBtn = toast.querySelector('.toast-close');
+    closeBtn.addEventListener('click', () => removeToast(toastId));
+
+    // Auto-remove after duration
+    if (duration > 0) {
+        setTimeout(() => removeToast(toastId), duration);
+    }
+
+    return toastId;
+}
+
+/**
+ * Remove a toast notification
+ * @param {string} toastId - ID of the toast to remove
+ */
+function removeToast(toastId) {
+    const toast = document.getElementById(toastId);
+    if (!toast) return;
+
+    toast.classList.add('toast-removing');
+    setTimeout(() => {
+        if (toast.parentNode) {
+            toast.parentNode.removeChild(toast);
+        }
+    }, 300);
+}
+
+/**
+ * Convenience functions for different toast types
+ */
+export function showSuccessToast(title, message = '', duration = 4000) {
+    return showToast('success', title, message, duration);
+}
+
+export function showErrorToast(title, message = '', duration = 5000) {
+    return showToast('error', title, message, duration);
+}
+
+export function showWarningToast(title, message = '', duration = 4500) {
+    return showToast('warning', title, message, duration);
+}
+
+export function showInfoToast(title, message = '', duration = 4000) {
+    return showToast('info', title, message, duration);
+}
+
+/**
+ * Clear all toast notifications
+ */
+export function clearAllToasts() {
+    const container = document.getElementById('toastContainer');
+    if (container) {
+        container.innerHTML = '';
+    }
+}
+
 export function showRecurringDeleteModal(message = 'Acesta este un eveniment recurent. Ce doresti sa stergi?') {
     return new Promise((resolve) => {
         const modal = $('recurringDeleteModal');
