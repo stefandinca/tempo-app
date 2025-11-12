@@ -1740,13 +1740,11 @@ try {
                     $analyticsData['utilization'] = array_values($utilizationData);
 
                     // 3. CLIENT STATS: Attendance Rate
+                    // Fetch all events with attendance data in the date range
                     $stmt = $pdo->prepare("
-                        SELECT
-                            e.attendanceStatus,
-                            COUNT(*) as count
-                        FROM events e
-                        WHERE e.date >= ? AND e.date <= ? AND e.attendanceStatus IS NOT NULL
-                        GROUP BY e.attendanceStatus
+                        SELECT attendance
+                        FROM events
+                        WHERE date >= ? AND date <= ? AND attendance IS NOT NULL
                     ");
                     $stmt->execute([$startDate, $endDate]);
 
@@ -1756,10 +1754,23 @@ try {
                         'Absent Motivat' => 0
                     ];
 
+                    // Parse JSON attendance data and count statuses
                     while ($row = $stmt->fetch()) {
-                        $status = $row['attendanceStatus'];
-                        if (isset($attendanceStats[$status])) {
-                            $attendanceStats[$status] = (int)$row['count'];
+                        $attendanceJson = $row['attendance'];
+                        if ($attendanceJson) {
+                            $attendance = json_decode($attendanceJson, true);
+                            if (is_array($attendance)) {
+                                foreach ($attendance as $clientId => $status) {
+                                    // Map status values to display names
+                                    if ($status === 'present') {
+                                        $attendanceStats['Prezent']++;
+                                    } elseif ($status === 'absent') {
+                                        $attendanceStats['Absent']++;
+                                    } elseif ($status === 'absent-motivated') {
+                                        $attendanceStats['Absent Motivat']++;
+                                    }
+                                }
+                            }
                         }
                     }
 
