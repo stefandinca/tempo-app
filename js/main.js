@@ -905,24 +905,24 @@ async function handleSaveTeamMember(e) {
     e.preventDefault();
     const { editingMemberId } = calendarState.getState();
     
+    const formData = new FormData(e.target);
+
     // NOU: Verificare permisiuni
     if (!auth.isAdmin() && !auth.isCoordinator()) { // Dacă e Terapeut
-        const formData = new FormData(e.target);
-        const newRole = formData.get('memberRole');
-
         if (editingMemberId && editingMemberId !== auth.getCurrentUser().id) {
             // Un terapeut încearcă să editeze datele altcuiva (nu ar trebui să ajungă aici dacă UI e corect)
             auth.showPermissionDenied('editați alți membri ai echipei');
             return;
         }
-        if (newRole !== 'therapist') {
+
+        // Check role only if it's being changed (role field is submitted)
+        const newRole = formData.get('memberRole');
+        if (newRole && newRole !== 'therapist') {
             // Un terapeut încearcă să-și schimbe rolul sau să adauge un non-terapeut
             auth.showPermissionDenied('adăugați sau setați roluri de Coordonator/Admin');
             return; // Oprește salvarea
         }
     }
-
-    const formData = new FormData(e.target);
 
     // Check user limit when creating new team member
     if (!editingMemberId) {
@@ -950,7 +950,7 @@ async function handleSaveTeamMember(e) {
         id: editingMemberId || `member_${Date.now()}`,
         name: formData.get('memberName'),
         initials: formData.get('memberInitials'),
-        role: formData.get('memberRole'),
+        role: formData.get('memberRole') || (editingMemberId ? calendarState.getTeamMemberById(editingMemberId).role : 'therapist'),
         color: formData.get('memberColorHex')
     };
 
