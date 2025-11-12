@@ -1642,16 +1642,37 @@ async function init() {
             if (viewToggle) mobileViewToggle.appendChild(viewToggle.cloneNode(true));
         }
 
-        if (mobileFilters && !mobileFilters.querySelector('.filters-container')) {
+        // Always refresh filters to sync current state
+        if (mobileFilters) {
+            // Clear existing content
+            mobileFilters.innerHTML = '';
+
             const filtersLabel = document.createElement('h4');
-            filtersLabel.textContent = 'Filtre';
+            filtersLabel.textContent = 'Filtre Echipă';
             mobileFilters.appendChild(filtersLabel);
 
+            const filtersContainer = document.createElement('div');
+            filtersContainer.className = 'filters-container';
+            filtersContainer.style.padding = '0';
+
             const filters = $('filters');
-            if (filters) mobileFilters.appendChild(filters.cloneNode(true));
+            if (filters) {
+                // Clone all filter chips with current state
+                const chips = filters.querySelectorAll('.filter-chip');
+                chips.forEach(chip => {
+                    const clonedChip = chip.cloneNode(true);
+                    filtersContainer.appendChild(clonedChip);
+                });
+            }
+
+            mobileFilters.appendChild(filtersContainer);
         }
 
-        if (mobileClientFilter && !mobileClientFilter.querySelector('select')) {
+        // Always refresh client filter to sync current state
+        if (mobileClientFilter) {
+            // Clear existing content
+            mobileClientFilter.innerHTML = '';
+
             const clientLabel = document.createElement('h4');
             clientLabel.textContent = 'Client';
             mobileClientFilter.appendChild(clientLabel);
@@ -1682,7 +1703,18 @@ async function init() {
             btn.addEventListener('click', (e) => {
                 const view = e.target.dataset.view;
                 if (view) {
-                    changeView(view);
+                    // Change the view
+                    calendarState.setCurrentView(view);
+
+                    // Update active state on all view buttons (both mobile and desktop)
+                    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+
+                    // Also update the desktop button
+                    const desktopBtn = document.querySelector(`#calendarControls .view-btn[data-view="${view}"]`);
+                    if (desktopBtn) desktopBtn.classList.add('active');
+
+                    render();
                     toggleCalendarOptions();
                 }
             });
@@ -1697,14 +1729,28 @@ async function init() {
         if (mobileTodayBtn) mobileTodayBtn.addEventListener('click', () => { navigateToToday(); toggleCalendarOptions(); });
         if (mobileNextBtn) mobileNextBtn.addEventListener('click', () => { handleNavigation(1); toggleCalendarOptions(); });
 
-        // Filter checkboxes
-        const mobileFilterCheckboxes = document.querySelectorAll('#mobileFilters input[type="checkbox"]');
-        mobileFilterCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', () => {
-                const originalCheckbox = document.querySelector(`#filters input[data-member-id="${checkbox.dataset.memberId}"]`);
-                if (originalCheckbox) {
-                    originalCheckbox.checked = checkbox.checked;
-                    originalCheckbox.dispatchEvent(new Event('change'));
+        // Filter chips
+        const mobileFilterChips = document.querySelectorAll('#mobileFilters .filter-chip');
+        mobileFilterChips.forEach((chip, index) => {
+            chip.addEventListener('click', () => {
+                // Get the corresponding desktop chip to extract the member info
+                const desktopChips = document.querySelectorAll('#filters .filter-chip');
+                const desktopChip = desktopChips[index];
+
+                if (desktopChip) {
+                    // Toggle the chip visually
+                    chip.classList.toggle('active');
+
+                    // Get member color from the color dot
+                    const colorDot = chip.querySelector('.color-dot');
+                    if (colorDot && chip.classList.contains('active')) {
+                        chip.style.borderColor = colorDot.style.backgroundColor;
+                    } else {
+                        chip.style.borderColor = '';
+                    }
+
+                    // Trigger the desktop chip click to sync the state
+                    desktopChip.click();
                 }
             });
         });
