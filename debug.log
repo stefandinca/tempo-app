@@ -1,0 +1,2048 @@
+[2025-11-11 17:12:51] --- Cerere POST pentru  ---
+[2025-11-11 17:12:51] Eroare la decodarea JSON: Syntax error
+[2025-11-12 00:02:41] --- Cerere POST pentru  ---
+[2025-11-12 00:02:41] Eroare la decodarea JSON: Syntax error
+[2025-11-12 00:15:37] Client actualizat: client1111
+[2025-11-12 00:15:52] Client actualizat: client1111
+[2025-11-12 00:16:06] Client actualizat: client1111
+[2025-11-12 00:16:25] Client actualizat: client1111
+[2025-11-12 00:17:46] Client actualizat: client1111
+[2025-11-12 08:48:34] --- Cerere POST pentru  ---
+[2025-11-12 08:48:34] Eroare la decodarea JSON: Syntax error
+[2025-11-12 08:50:44] --- Cerere POST pentru  ---
+[2025-11-12 08:50:44] Eroare la decodarea JSON: Syntax error
+[2025-11-12 08:57:29] --- Cerere POST pentru  ---
+[2025-11-12 08:57:29] Eroare la decodarea JSON: Syntax error
+[2025-11-12 08:57:29] Login attempt: username=dana, user_found=yes
+[2025-11-12 08:57:29] Login SUCCESS: user_id=dana, role=therapist
+[2025-11-12 08:57:58] --- Cerere POST pentru  ---
+[2025-11-12 08:57:58] Eroare la decodarea JSON: Syntax error
+[2025-11-12 08:57:58] Login attempt: username=stefan, user_found=yes
+[2025-11-12 08:57:58] Login SUCCESS: user_id=stefan, role=admin
+[2025-11-12 09:32:42] --- Cerere POST pentru  ---
+[2025-11-12 09:32:42] Eroare la decodarea JSON: Syntax error
+[2025-11-12 09:32:42] Login attempt: username=stefan, user_found=yes
+[2025-11-12 09:32:42] Login SUCCESS: user_id=stefan, role=admin
+[2025-11-12 09:45:14] --- Cerere POST pentru  ---
+[2025-11-12 09:45:14] Eroare la decodarea JSON: Syntax error
+[2025-11-12 09:45:14] Login attempt: username=dana, user_found=yes
+[2025-11-12 09:45:14] Login SUCCESS: user_id=dana, role=therapist
+[2025-11-12 09:47:28] --- Cerere POST pentru data ---
+[2025-11-12 09:47:28] Salvare 'data'. Se salvează 64 clienți și 454 evenimente.
+[2025-11-12 09:47:28] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 09:47:28] Salvare 'data' reușită.
+[2025-11-12 09:48:12] --- Cerere POST pentru data ---
+[2025-11-12 09:48:12] Salvare 'data'. Se salvează 64 clienți și 454 evenimente.
+[2025-11-12 09:48:12] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 09:48:12] Salvare 'data' reușită.
+[2025-11-12 09:48:12] --- Cerere POST pentru evolution ---
+[2025-11-12 09:48:12] Salvare 'evolution'. Se primesc date pentru 6 clienți.
+[2025-11-12 09:48:12] Tabelele de evoluție au fost golite.
+[2025-11-12 09:48:12] Se procesează evoluția pentru client: client1111
+[2025-11-12 09:48:12] Se procesează evoluția pentru client: eve2345
+[2025-11-12 09:48:12] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 09:48:12] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 09:48:12] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 09:48:12] Se procesează evoluția pentru client: irina4275
+[2025-11-12 09:48:12] Salvare 'evolution' reușită.
+[2025-11-12 09:48:13] --- Cerere POST pentru data ---
+[2025-11-12 09:48:13] Salvare 'data'. Se salvează 64 clienți și 454 evenimente.
+[2025-11-12 09:48:13] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 09:48:14] Salvare 'data' reușită.
+[2025-11-12 09:48:14] --- Cerere POST pentru evolution ---
+[2025-11-12 09:48:14] Salvare 'evolution'. Se primesc date pentru 6 clienți.
+[2025-11-12 09:48:14] Tabelele de evoluție au fost golite.
+[2025-11-12 09:48:14] Se procesează evoluția pentru client: client1111
+[2025-11-12 09:48:14] Se procesează evoluția pentru client: eve2345
+[2025-11-12 09:48:14] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 09:48:14] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 09:48:14] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 09:48:14] Se procesează evoluția pentru client: irina4275
+[2025-11-12 09:48:14] Salvare 'evolution' reușită.
+[2025-11-12 09:48:15] --- Cerere POST pentru data ---
+[2025-11-12 09:48:15] Salvare 'data'. Se salvează 64 clienți și 454 evenimente.
+[2025-11-12 09:48:15] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 09:48:15] Salvare 'data' reușită.
+[2025-11-12 09:48:15] --- Cerere POST pentru evolution ---
+[2025-11-12 09:48:15] Salvare 'evolution'. Se primesc date pentru 6 clienți.
+[2025-11-12 09:48:15] Tabelele de evoluție au fost golite.
+[2025-11-12 09:48:15] Se procesează evoluția pentru client: client1111
+[2025-11-12 09:48:15] Se procesează evoluția pentru client: eve2345
+[2025-11-12 09:48:15] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 09:48:15] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 09:48:15] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 09:48:15] Se procesează evoluția pentru client: irina4275
+[2025-11-12 09:48:15] Salvare 'evolution' reușită.
+[2025-11-12 09:48:16] --- Cerere POST pentru data ---
+[2025-11-12 09:48:16] Salvare 'data'. Se salvează 64 clienți și 454 evenimente.
+[2025-11-12 09:48:16] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 09:48:16] Salvare 'data' reușită.
+[2025-11-12 09:48:16] --- Cerere POST pentru evolution ---
+[2025-11-12 09:48:16] Salvare 'evolution'. Se primesc date pentru 6 clienți.
+[2025-11-12 09:48:16] Tabelele de evoluție au fost golite.
+[2025-11-12 09:48:16] Se procesează evoluția pentru client: client1111
+[2025-11-12 09:48:16] Se procesează evoluția pentru client: eve2345
+[2025-11-12 09:48:16] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 09:48:16] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 09:48:16] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 09:48:16] Se procesează evoluția pentru client: irina4275
+[2025-11-12 09:48:16] Salvare 'evolution' reușită.
+[2025-11-12 09:48:17] --- Cerere POST pentru data ---
+[2025-11-12 09:48:17] Salvare 'data'. Se salvează 64 clienți și 454 evenimente.
+[2025-11-12 09:48:17] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 09:48:17] Salvare 'data' reușită.
+[2025-11-12 09:48:17] --- Cerere POST pentru evolution ---
+[2025-11-12 09:48:17] Salvare 'evolution'. Se primesc date pentru 6 clienți.
+[2025-11-12 09:48:17] Tabelele de evoluție au fost golite.
+[2025-11-12 09:48:17] Se procesează evoluția pentru client: client1111
+[2025-11-12 09:48:17] Se procesează evoluția pentru client: eve2345
+[2025-11-12 09:48:17] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 09:48:17] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 09:48:17] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 09:48:17] Se procesează evoluția pentru client: irina4275
+[2025-11-12 09:48:17] Salvare 'evolution' reușită.
+[2025-11-12 09:48:19] --- Cerere POST pentru data ---
+[2025-11-12 09:48:19] Salvare 'data'. Se salvează 64 clienți și 454 evenimente.
+[2025-11-12 09:48:19] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 09:48:19] Salvare 'data' reușită.
+[2025-11-12 09:48:20] --- Cerere POST pentru evolution ---
+[2025-11-12 09:48:20] Salvare 'evolution'. Se primesc date pentru 6 clienți.
+[2025-11-12 09:48:20] Tabelele de evoluție au fost golite.
+[2025-11-12 09:48:20] Se procesează evoluția pentru client: client1111
+[2025-11-12 09:48:20] Se procesează evoluția pentru client: eve2345
+[2025-11-12 09:48:20] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 09:48:20] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 09:48:20] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 09:48:20] Se procesează evoluția pentru client: irina4275
+[2025-11-12 09:48:20] Salvare 'evolution' reușită.
+[2025-11-12 09:48:22] --- Cerere POST pentru data ---
+[2025-11-12 09:48:22] Salvare 'data'. Se salvează 64 clienți și 454 evenimente.
+[2025-11-12 09:48:22] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 09:48:22] Salvare 'data' reușită.
+[2025-11-12 09:48:22] --- Cerere POST pentru evolution ---
+[2025-11-12 09:48:22] Salvare 'evolution'. Se primesc date pentru 6 clienți.
+[2025-11-12 09:48:22] Tabelele de evoluție au fost golite.
+[2025-11-12 09:48:22] Se procesează evoluția pentru client: client1111
+[2025-11-12 09:48:22] Se procesează evoluția pentru client: eve2345
+[2025-11-12 09:48:22] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 09:48:22] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 09:48:22] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 09:48:22] Se procesează evoluția pentru client: irina4275
+[2025-11-12 09:48:22] Salvare 'evolution' reușită.
+[2025-11-12 09:48:23] --- Cerere POST pentru data ---
+[2025-11-12 09:48:23] Salvare 'data'. Se salvează 64 clienți și 454 evenimente.
+[2025-11-12 09:48:23] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 09:48:23] Salvare 'data' reușită.
+[2025-11-12 09:48:24] --- Cerere POST pentru evolution ---
+[2025-11-12 09:48:24] Salvare 'evolution'. Se primesc date pentru 6 clienți.
+[2025-11-12 09:48:24] Tabelele de evoluție au fost golite.
+[2025-11-12 09:48:24] Se procesează evoluția pentru client: client1111
+[2025-11-12 09:48:24] Se procesează evoluția pentru client: eve2345
+[2025-11-12 09:48:24] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 09:48:24] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 09:48:24] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 09:48:24] Se procesează evoluția pentru client: irina4275
+[2025-11-12 09:48:24] Salvare 'evolution' reușită.
+[2025-11-12 09:48:26] --- Cerere POST pentru data ---
+[2025-11-12 09:48:26] Salvare 'data'. Se salvează 64 clienți și 454 evenimente.
+[2025-11-12 09:48:26] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 09:48:26] Salvare 'data' reușită.
+[2025-11-12 09:48:26] --- Cerere POST pentru evolution ---
+[2025-11-12 09:48:26] Salvare 'evolution'. Se primesc date pentru 6 clienți.
+[2025-11-12 09:48:26] Tabelele de evoluție au fost golite.
+[2025-11-12 09:48:26] Se procesează evoluția pentru client: client1111
+[2025-11-12 09:48:26] Se procesează evoluția pentru client: eve2345
+[2025-11-12 09:48:26] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 09:48:26] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 09:48:26] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 09:48:26] Se procesează evoluția pentru client: irina4275
+[2025-11-12 09:48:26] Salvare 'evolution' reușită.
+[2025-11-12 09:48:30] --- Cerere PUT pentru events/evt17626378833348rll4b3bg ---
+[2025-11-12 09:48:30] Eveniment actualizat: evt17626378833348rll4b3bg
+[2025-11-12 09:48:43] --- Cerere POST pentru data ---
+[2025-11-12 09:48:43] Salvare 'data'. Se salvează 64 clienți și 454 evenimente.
+[2025-11-12 09:48:43] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 09:48:43] Salvare 'data' reușită.
+[2025-11-12 13:17:37] --- Cerere POST pentru  ---
+[2025-11-12 13:17:37] Eroare la decodarea JSON: Syntax error
+[2025-11-12 13:17:37] Login attempt: username=alexandra, user_found=yes
+[2025-11-12 13:17:37] Login SUCCESS: user_id=alexandra, role=therapist
+[2025-11-12 13:23:56] --- Cerere POST pentru  ---
+[2025-11-12 13:23:56] Eroare la decodarea JSON: Syntax error
+[2025-11-12 13:23:56] Login attempt: username=alexandra, user_found=yes
+[2025-11-12 13:23:56] Login SUCCESS: user_id=alexandra, role=therapist
+[2025-11-12 13:25:07] --- Cerere PUT pentru events/evt1762637972340umvfl4kr7 ---
+[2025-11-12 13:25:07] Eveniment actualizat: evt1762637972340umvfl4kr7
+[2025-11-12 13:25:15] --- Cerere PUT pentru events/evt1762766709182934ihyzly ---
+[2025-11-12 13:25:15] Eveniment actualizat: evt1762766709182934ihyzly
+[2025-11-12 13:25:17] --- Cerere POST pentru data ---
+[2025-11-12 13:25:17] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:25:17] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:25:17] Salvare 'data' reușită.
+[2025-11-12 13:26:51] --- Cerere POST pentru data ---
+[2025-11-12 13:26:51] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:26:51] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:26:52] Salvare 'data' reușită.
+[2025-11-12 13:26:59] --- Cerere POST pentru data ---
+[2025-11-12 13:26:59] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:26:59] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:26:59] Salvare 'data' reușită.
+[2025-11-12 13:26:59] --- Cerere POST pentru evolution ---
+[2025-11-12 13:26:59] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:26:59] Tabelele de evoluție au fost golite.
+[2025-11-12 13:26:59] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:26:59] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:26:59] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:26:59] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:26:59] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:26:59] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:26:59] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:26:59] Salvare 'evolution' reușită.
+[2025-11-12 13:27:02] --- Cerere POST pentru data ---
+[2025-11-12 13:27:02] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:27:02] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:27:02] Salvare 'data' reușită.
+[2025-11-12 13:27:03] --- Cerere POST pentru evolution ---
+[2025-11-12 13:27:03] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:27:03] Tabelele de evoluție au fost golite.
+[2025-11-12 13:27:03] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:27:03] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:27:03] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:27:03] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:27:03] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:27:03] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:27:03] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:27:03] Salvare 'evolution' reușită.
+[2025-11-12 13:27:04] --- Cerere POST pentru data ---
+[2025-11-12 13:27:04] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:27:04] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:27:05] Salvare 'data' reușită.
+[2025-11-12 13:27:05] --- Cerere POST pentru evolution ---
+[2025-11-12 13:27:05] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:27:05] Tabelele de evoluție au fost golite.
+[2025-11-12 13:27:05] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:27:05] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:27:05] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:27:05] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:27:05] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:27:05] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:27:05] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:27:05] Salvare 'evolution' reușită.
+[2025-11-12 13:27:06] --- Cerere POST pentru data ---
+[2025-11-12 13:27:06] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:27:06] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:27:06] Salvare 'data' reușită.
+[2025-11-12 13:27:06] --- Cerere POST pentru evolution ---
+[2025-11-12 13:27:06] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:27:06] Tabelele de evoluție au fost golite.
+[2025-11-12 13:27:06] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:27:06] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:27:06] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:27:06] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:27:06] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:27:06] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:27:06] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:27:06] Salvare 'evolution' reușită.
+[2025-11-12 13:27:07] --- Cerere POST pentru data ---
+[2025-11-12 13:27:07] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:27:07] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:27:07] Salvare 'data' reușită.
+[2025-11-12 13:27:07] --- Cerere POST pentru evolution ---
+[2025-11-12 13:27:07] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:27:07] Tabelele de evoluție au fost golite.
+[2025-11-12 13:27:07] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:27:07] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:27:07] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:27:07] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:27:07] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:27:07] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:27:07] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:27:07] Salvare 'evolution' reușită.
+[2025-11-12 13:27:09] --- Cerere POST pentru data ---
+[2025-11-12 13:27:09] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:27:09] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:27:09] Salvare 'data' reușită.
+[2025-11-12 13:27:10] --- Cerere POST pentru evolution ---
+[2025-11-12 13:27:10] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:27:10] Tabelele de evoluție au fost golite.
+[2025-11-12 13:27:10] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:27:10] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:27:10] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:27:10] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:27:10] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:27:10] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:27:10] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:27:10] Salvare 'evolution' reușită.
+[2025-11-12 13:27:11] --- Cerere POST pentru data ---
+[2025-11-12 13:27:11] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:27:11] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:27:11] Salvare 'data' reușită.
+[2025-11-12 13:27:11] --- Cerere POST pentru evolution ---
+[2025-11-12 13:27:11] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:27:11] Tabelele de evoluție au fost golite.
+[2025-11-12 13:27:11] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:27:11] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:27:11] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:27:11] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:27:11] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:27:11] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:27:11] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:27:11] Salvare 'evolution' reușită.
+[2025-11-12 13:27:12] --- Cerere POST pentru data ---
+[2025-11-12 13:27:12] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:27:12] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:27:12] Salvare 'data' reușită.
+[2025-11-12 13:27:12] --- Cerere POST pentru evolution ---
+[2025-11-12 13:27:12] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:27:12] Tabelele de evoluție au fost golite.
+[2025-11-12 13:27:12] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:27:12] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:27:12] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:27:12] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:27:12] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:27:12] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:27:12] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:27:12] Salvare 'evolution' reușită.
+[2025-11-12 13:27:13] --- Cerere POST pentru data ---
+[2025-11-12 13:27:13] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:27:13] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:27:14] Salvare 'data' reușită.
+[2025-11-12 13:27:14] --- Cerere POST pentru evolution ---
+[2025-11-12 13:27:14] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:27:14] Tabelele de evoluție au fost golite.
+[2025-11-12 13:27:14] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:27:14] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:27:14] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:27:14] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:27:14] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:27:14] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:27:14] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:27:14] Salvare 'evolution' reușită.
+[2025-11-12 13:27:15] --- Cerere POST pentru data ---
+[2025-11-12 13:27:15] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:27:15] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:27:15] Salvare 'data' reușită.
+[2025-11-12 13:27:15] --- Cerere POST pentru evolution ---
+[2025-11-12 13:27:15] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:27:15] Tabelele de evoluție au fost golite.
+[2025-11-12 13:27:15] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:27:15] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:27:15] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:27:15] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:27:15] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:27:15] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:27:15] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:27:15] Salvare 'evolution' reușită.
+[2025-11-12 13:27:23] --- Cerere PUT pentru events/evt1762766709182934ihyzly ---
+[2025-11-12 13:27:23] Eveniment actualizat: evt1762766709182934ihyzly
+[2025-11-12 13:27:30] --- Cerere PUT pentru events/evt1762637972340umvfl4kr7 ---
+[2025-11-12 13:27:30] Eveniment actualizat: evt1762637972340umvfl4kr7
+[2025-11-12 13:28:29] --- Cerere PUT pentru events/evt1762637972340umvfl4kr7 ---
+[2025-11-12 13:28:29] Eveniment actualizat: evt1762637972340umvfl4kr7
+[2025-11-12 13:28:40] --- Cerere POST pentru data ---
+[2025-11-12 13:28:40] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:28:40] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:28:40] Salvare 'data' reușită.
+[2025-11-12 13:28:40] --- Cerere POST pentru evolution ---
+[2025-11-12 13:28:40] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:28:40] Tabelele de evoluție au fost golite.
+[2025-11-12 13:28:40] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:28:40] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:28:40] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:28:40] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:28:40] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:28:40] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:28:40] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:28:40] Salvare 'evolution' reușită.
+[2025-11-12 13:28:42] --- Cerere POST pentru data ---
+[2025-11-12 13:28:42] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:28:42] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:28:42] Salvare 'data' reușită.
+[2025-11-12 13:28:42] --- Cerere POST pentru evolution ---
+[2025-11-12 13:28:42] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:28:42] Tabelele de evoluție au fost golite.
+[2025-11-12 13:28:42] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:28:42] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:28:42] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:28:42] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:28:42] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:28:42] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:28:42] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:28:42] Salvare 'evolution' reușită.
+[2025-11-12 13:28:44] --- Cerere POST pentru data ---
+[2025-11-12 13:28:44] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:28:44] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:28:44] Salvare 'data' reușită.
+[2025-11-12 13:28:44] --- Cerere POST pentru evolution ---
+[2025-11-12 13:28:44] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:28:44] Tabelele de evoluție au fost golite.
+[2025-11-12 13:28:44] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:28:44] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:28:44] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:28:44] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:28:44] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:28:44] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:28:44] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:28:44] Salvare 'evolution' reușită.
+[2025-11-12 13:28:47] --- Cerere POST pentru data ---
+[2025-11-12 13:28:47] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:28:47] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:28:47] Salvare 'data' reușită.
+[2025-11-12 13:28:47] --- Cerere POST pentru evolution ---
+[2025-11-12 13:28:47] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:28:47] Tabelele de evoluție au fost golite.
+[2025-11-12 13:28:47] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:28:47] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:28:47] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:28:47] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:28:47] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:28:47] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:28:47] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:28:47] Salvare 'evolution' reușită.
+[2025-11-12 13:28:50] --- Cerere POST pentru data ---
+[2025-11-12 13:28:50] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:28:50] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:28:50] Salvare 'data' reușită.
+[2025-11-12 13:28:51] --- Cerere POST pentru evolution ---
+[2025-11-12 13:28:51] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:28:51] Tabelele de evoluție au fost golite.
+[2025-11-12 13:28:51] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:28:51] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:28:51] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:28:51] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:28:51] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:28:51] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:28:51] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:28:51] Salvare 'evolution' reușită.
+[2025-11-12 13:28:52] --- Cerere POST pentru data ---
+[2025-11-12 13:28:52] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:28:52] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:28:52] Salvare 'data' reușită.
+[2025-11-12 13:28:53] --- Cerere POST pentru evolution ---
+[2025-11-12 13:28:53] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:28:53] Tabelele de evoluție au fost golite.
+[2025-11-12 13:28:53] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:28:53] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:28:53] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:28:53] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:28:53] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:28:53] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:28:53] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:28:53] Salvare 'evolution' reușită.
+[2025-11-12 13:28:55] --- Cerere POST pentru data ---
+[2025-11-12 13:28:55] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:28:55] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:28:55] Salvare 'data' reușită.
+[2025-11-12 13:28:55] --- Cerere POST pentru evolution ---
+[2025-11-12 13:28:55] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:28:55] Tabelele de evoluție au fost golite.
+[2025-11-12 13:28:55] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:28:55] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:28:55] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:28:55] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:28:55] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:28:55] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:28:55] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:28:55] Salvare 'evolution' reușită.
+[2025-11-12 13:28:56] --- Cerere POST pentru data ---
+[2025-11-12 13:28:56] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:28:56] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:28:57] Salvare 'data' reușită.
+[2025-11-12 13:28:57] --- Cerere POST pentru evolution ---
+[2025-11-12 13:28:57] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:28:57] Tabelele de evoluție au fost golite.
+[2025-11-12 13:28:57] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:28:57] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:28:57] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:28:57] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:28:57] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:28:57] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:28:57] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:28:57] Salvare 'evolution' reușită.
+[2025-11-12 13:28:58] --- Cerere POST pentru data ---
+[2025-11-12 13:28:58] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:28:58] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:28:59] Salvare 'data' reușită.
+[2025-11-12 13:28:59] --- Cerere POST pentru evolution ---
+[2025-11-12 13:28:59] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:28:59] Tabelele de evoluție au fost golite.
+[2025-11-12 13:28:59] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:28:59] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:28:59] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:28:59] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:28:59] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:28:59] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:28:59] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:28:59] Salvare 'evolution' reușită.
+[2025-11-12 13:29:18] --- Cerere POST pentru data ---
+[2025-11-12 13:29:18] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:29:18] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:29:18] Salvare 'data' reușită.
+[2025-11-12 13:29:18] --- Cerere POST pentru evolution ---
+[2025-11-12 13:29:18] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:29:18] Tabelele de evoluție au fost golite.
+[2025-11-12 13:29:18] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:29:18] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:29:18] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:29:18] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:29:18] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:29:18] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:29:18] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:29:18] Salvare 'evolution' reușită.
+[2025-11-12 13:29:20] --- Cerere POST pentru data ---
+[2025-11-12 13:29:20] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:29:20] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:29:20] Salvare 'data' reușită.
+[2025-11-12 13:29:20] --- Cerere POST pentru evolution ---
+[2025-11-12 13:29:20] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:29:20] Tabelele de evoluție au fost golite.
+[2025-11-12 13:29:20] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:29:20] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:29:20] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:29:20] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:29:20] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:29:20] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:29:20] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:29:20] Salvare 'evolution' reușită.
+[2025-11-12 13:29:24] --- Cerere POST pentru data ---
+[2025-11-12 13:29:24] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:29:24] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:29:25] Salvare 'data' reușită.
+[2025-11-12 13:29:25] --- Cerere POST pentru evolution ---
+[2025-11-12 13:29:25] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:29:25] Tabelele de evoluție au fost golite.
+[2025-11-12 13:29:25] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:29:25] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:29:25] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:29:25] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:29:25] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:29:25] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:29:25] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:29:25] Salvare 'evolution' reușită.
+[2025-11-12 13:29:29] --- Cerere POST pentru data ---
+[2025-11-12 13:29:29] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:29:29] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:29:30] Salvare 'data' reușită.
+[2025-11-12 13:29:30] --- Cerere POST pentru evolution ---
+[2025-11-12 13:29:30] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:29:30] Tabelele de evoluție au fost golite.
+[2025-11-12 13:29:30] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:29:30] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:29:30] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:29:30] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:29:30] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:29:30] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:29:30] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:29:30] Salvare 'evolution' reușită.
+[2025-11-12 13:29:32] --- Cerere POST pentru data ---
+[2025-11-12 13:29:32] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:29:32] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:29:32] Salvare 'data' reușită.
+[2025-11-12 13:29:32] --- Cerere POST pentru evolution ---
+[2025-11-12 13:29:32] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:29:32] Tabelele de evoluție au fost golite.
+[2025-11-12 13:29:32] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:29:32] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:29:32] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:29:32] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:29:32] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:29:32] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:29:32] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:29:32] Salvare 'evolution' reușită.
+[2025-11-12 13:29:34] --- Cerere POST pentru data ---
+[2025-11-12 13:29:34] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:29:34] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:29:35] Salvare 'data' reușită.
+[2025-11-12 13:29:35] --- Cerere POST pentru evolution ---
+[2025-11-12 13:29:35] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:29:35] Tabelele de evoluție au fost golite.
+[2025-11-12 13:29:35] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:29:35] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:29:35] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:29:35] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:29:35] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:29:35] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:29:35] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:29:35] Salvare 'evolution' reușită.
+[2025-11-12 13:29:46] --- Cerere POST pentru data ---
+[2025-11-12 13:29:46] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:29:46] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:29:46] Salvare 'data' reușită.
+[2025-11-12 13:29:46] --- Cerere POST pentru evolution ---
+[2025-11-12 13:29:46] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:29:46] Tabelele de evoluție au fost golite.
+[2025-11-12 13:29:46] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:29:46] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:29:46] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:29:46] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:29:46] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:29:46] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:29:46] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:29:46] Salvare 'evolution' reușită.
+[2025-11-12 13:29:47] --- Cerere POST pentru data ---
+[2025-11-12 13:29:47] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:29:47] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:29:48] Salvare 'data' reușită.
+[2025-11-12 13:29:48] --- Cerere POST pentru evolution ---
+[2025-11-12 13:29:48] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:29:48] Tabelele de evoluție au fost golite.
+[2025-11-12 13:29:48] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:29:48] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:29:48] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:29:48] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:29:48] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:29:48] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:29:48] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:29:48] Salvare 'evolution' reușită.
+[2025-11-12 13:29:50] --- Cerere POST pentru data ---
+[2025-11-12 13:29:50] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:29:50] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:29:50] Salvare 'data' reușită.
+[2025-11-12 13:29:50] --- Cerere POST pentru evolution ---
+[2025-11-12 13:29:50] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:29:50] Tabelele de evoluție au fost golite.
+[2025-11-12 13:29:50] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:29:50] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:29:50] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:29:50] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:29:50] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:29:50] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:29:50] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:29:50] Salvare 'evolution' reușită.
+[2025-11-12 13:29:53] --- Cerere POST pentru data ---
+[2025-11-12 13:29:53] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:29:53] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:29:53] Salvare 'data' reușită.
+[2025-11-12 13:29:53] --- Cerere POST pentru evolution ---
+[2025-11-12 13:29:53] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:29:53] Tabelele de evoluție au fost golite.
+[2025-11-12 13:29:53] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:29:53] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:29:53] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:29:53] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:29:53] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:29:53] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:29:53] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:29:53] Salvare 'evolution' reușită.
+[2025-11-12 13:29:59] --- Cerere POST pentru data ---
+[2025-11-12 13:29:59] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:29:59] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:30:00] Salvare 'data' reușită.
+[2025-11-12 13:30:00] --- Cerere POST pentru evolution ---
+[2025-11-12 13:30:00] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:30:00] Tabelele de evoluție au fost golite.
+[2025-11-12 13:30:00] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:30:00] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:30:00] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:30:00] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:30:00] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:30:00] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:30:00] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:30:00] Salvare 'evolution' reușită.
+[2025-11-12 13:30:02] --- Cerere POST pentru data ---
+[2025-11-12 13:30:02] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:30:02] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:30:04] Salvare 'data' reușită.
+[2025-11-12 13:30:04] --- Cerere POST pentru evolution ---
+[2025-11-12 13:30:04] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:30:04] Tabelele de evoluție au fost golite.
+[2025-11-12 13:30:04] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:30:04] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:30:04] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:30:04] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:30:04] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:30:04] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:30:04] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:30:04] Salvare 'evolution' reușită.
+[2025-11-12 13:30:07] --- Cerere POST pentru data ---
+[2025-11-12 13:30:07] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:30:07] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:30:08] Salvare 'data' reușită.
+[2025-11-12 13:30:08] --- Cerere POST pentru evolution ---
+[2025-11-12 13:30:08] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:30:08] Tabelele de evoluție au fost golite.
+[2025-11-12 13:30:08] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:30:08] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:30:08] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:30:08] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:30:08] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:30:08] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:30:08] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:30:08] Salvare 'evolution' reușită.
+[2025-11-12 13:30:19] --- Cerere POST pentru data ---
+[2025-11-12 13:30:19] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:30:19] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:30:19] Salvare 'data' reușită.
+[2025-11-12 13:30:19] --- Cerere POST pentru evolution ---
+[2025-11-12 13:30:19] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:30:19] Tabelele de evoluție au fost golite.
+[2025-11-12 13:30:19] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:30:19] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:30:19] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:30:19] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:30:19] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:30:19] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:30:19] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:30:19] Salvare 'evolution' reușită.
+[2025-11-12 13:30:24] --- Cerere POST pentru data ---
+[2025-11-12 13:30:24] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:30:24] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:30:24] Salvare 'data' reușită.
+[2025-11-12 13:30:24] --- Cerere POST pentru evolution ---
+[2025-11-12 13:30:24] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:30:24] Tabelele de evoluție au fost golite.
+[2025-11-12 13:30:24] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:30:24] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:30:24] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:30:24] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:30:24] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:30:24] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:30:24] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:30:24] Salvare 'evolution' reușită.
+[2025-11-12 13:30:26] --- Cerere POST pentru data ---
+[2025-11-12 13:30:26] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:30:26] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:30:27] Salvare 'data' reușită.
+[2025-11-12 13:30:27] --- Cerere POST pentru evolution ---
+[2025-11-12 13:30:27] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:30:27] Tabelele de evoluție au fost golite.
+[2025-11-12 13:30:27] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:30:27] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:30:27] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:30:27] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:30:27] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:30:27] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:30:27] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:30:27] Salvare 'evolution' reușită.
+[2025-11-12 13:30:28] --- Cerere POST pentru data ---
+[2025-11-12 13:30:28] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:30:28] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:30:28] Salvare 'data' reușită.
+[2025-11-12 13:30:28] --- Cerere POST pentru evolution ---
+[2025-11-12 13:30:28] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:30:28] Tabelele de evoluție au fost golite.
+[2025-11-12 13:30:28] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:30:28] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:30:28] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:30:28] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:30:28] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:30:28] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:30:28] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:30:28] Salvare 'evolution' reușită.
+[2025-11-12 13:30:31] --- Cerere POST pentru data ---
+[2025-11-12 13:30:31] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:30:31] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:30:31] Salvare 'data' reușită.
+[2025-11-12 13:30:33] --- Cerere PUT pentru events/evt1762637972340umvfl4kr7 ---
+[2025-11-12 13:30:33] Eveniment actualizat: evt1762637972340umvfl4kr7
+[2025-11-12 13:30:41] --- Cerere POST pentru data ---
+[2025-11-12 13:30:41] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:30:41] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:30:41] Salvare 'data' reușită.
+[2025-11-12 13:30:53] --- Cerere POST pentru data ---
+[2025-11-12 13:30:53] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:30:53] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:30:53] Salvare 'data' reușită.
+[2025-11-12 13:30:53] --- Cerere POST pentru evolution ---
+[2025-11-12 13:30:53] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:30:53] Tabelele de evoluție au fost golite.
+[2025-11-12 13:30:53] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:30:53] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:30:53] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:30:53] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:30:53] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:30:53] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:30:53] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:30:53] Salvare 'evolution' reușită.
+[2025-11-12 13:30:59] --- Cerere POST pentru data ---
+[2025-11-12 13:30:59] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:30:59] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:30:59] Salvare 'data' reușită.
+[2025-11-12 13:31:00] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:00] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:00] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:00] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:00] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:00] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:00] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:00] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:00] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:00] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:00] Salvare 'evolution' reușită.
+[2025-11-12 13:31:11] --- Cerere POST pentru data ---
+[2025-11-12 13:31:11] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:11] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:11] Salvare 'data' reușită.
+[2025-11-12 13:31:11] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:11] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:11] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:11] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:11] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:11] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:11] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:11] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:11] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:11] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:11] Salvare 'evolution' reușită.
+[2025-11-12 13:31:13] --- Cerere POST pentru data ---
+[2025-11-12 13:31:13] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:13] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:13] Salvare 'data' reușită.
+[2025-11-12 13:31:13] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:13] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:13] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:13] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:13] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:13] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:13] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:13] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:13] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:13] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:13] Salvare 'evolution' reușită.
+[2025-11-12 13:31:16] --- Cerere POST pentru data ---
+[2025-11-12 13:31:16] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:16] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:16] Salvare 'data' reușită.
+[2025-11-12 13:31:17] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:17] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:17] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:17] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:17] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:17] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:17] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:17] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:17] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:17] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:17] Salvare 'evolution' reușită.
+[2025-11-12 13:31:18] --- Cerere POST pentru data ---
+[2025-11-12 13:31:18] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:18] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:18] Salvare 'data' reușită.
+[2025-11-12 13:31:18] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:18] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:18] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:18] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:18] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:18] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:18] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:18] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:18] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:18] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:18] Salvare 'evolution' reușită.
+[2025-11-12 13:31:20] --- Cerere POST pentru data ---
+[2025-11-12 13:31:20] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:20] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:20] Salvare 'data' reușită.
+[2025-11-12 13:31:20] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:20] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:20] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:20] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:20] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:20] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:20] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:20] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:20] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:20] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:20] Salvare 'evolution' reușită.
+[2025-11-12 13:31:22] --- Cerere POST pentru data ---
+[2025-11-12 13:31:22] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:22] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:22] Salvare 'data' reușită.
+[2025-11-12 13:31:22] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:22] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:22] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:22] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:22] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:22] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:22] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:22] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:22] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:22] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:22] Salvare 'evolution' reușită.
+[2025-11-12 13:31:24] --- Cerere POST pentru data ---
+[2025-11-12 13:31:24] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:24] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:24] Salvare 'data' reușită.
+[2025-11-12 13:31:25] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:25] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:25] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:25] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:25] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:25] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:25] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:25] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:25] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:25] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:25] Salvare 'evolution' reușită.
+[2025-11-12 13:31:26] --- Cerere POST pentru data ---
+[2025-11-12 13:31:26] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:26] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:27] Salvare 'data' reușită.
+[2025-11-12 13:31:27] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:27] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:27] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:27] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:27] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:27] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:27] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:27] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:27] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:27] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:27] Salvare 'evolution' reușită.
+[2025-11-12 13:31:28] --- Cerere POST pentru data ---
+[2025-11-12 13:31:28] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:28] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:28] Salvare 'data' reușită.
+[2025-11-12 13:31:29] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:29] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:29] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:29] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:29] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:29] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:29] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:29] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:29] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:29] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:29] Salvare 'evolution' reușită.
+[2025-11-12 13:31:31] --- Cerere POST pentru data ---
+[2025-11-12 13:31:31] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:31] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:31] Salvare 'data' reușită.
+[2025-11-12 13:31:31] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:31] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:31] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:31] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:31] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:31] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:31] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:31] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:31] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:31] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:31] Salvare 'evolution' reușită.
+[2025-11-12 13:31:35] --- Cerere POST pentru data ---
+[2025-11-12 13:31:35] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:35] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:35] Salvare 'data' reușită.
+[2025-11-12 13:31:35] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:35] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:35] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:35] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:35] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:35] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:35] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:35] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:35] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:35] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:35] Salvare 'evolution' reușită.
+[2025-11-12 13:31:37] --- Cerere POST pentru data ---
+[2025-11-12 13:31:37] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:37] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:38] Salvare 'data' reușită.
+[2025-11-12 13:31:38] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:38] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:38] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:38] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:38] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:38] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:38] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:38] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:38] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:38] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:38] Salvare 'evolution' reușită.
+[2025-11-12 13:31:40] --- Cerere POST pentru data ---
+[2025-11-12 13:31:40] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:40] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:40] Salvare 'data' reușită.
+[2025-11-12 13:31:40] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:40] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:40] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:40] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:40] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:40] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:40] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:40] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:40] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:40] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:40] Salvare 'evolution' reușită.
+[2025-11-12 13:31:42] --- Cerere POST pentru data ---
+[2025-11-12 13:31:42] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:42] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:42] Salvare 'data' reușită.
+[2025-11-12 13:31:43] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:43] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:43] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:43] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:43] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:43] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:43] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:43] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:43] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:43] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:43] Salvare 'evolution' reușită.
+[2025-11-12 13:31:47] --- Cerere POST pentru data ---
+[2025-11-12 13:31:47] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:47] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:47] Salvare 'data' reușită.
+[2025-11-12 13:31:47] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:47] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:47] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:47] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:47] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:47] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:47] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:47] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:47] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:47] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:47] Salvare 'evolution' reușită.
+[2025-11-12 13:31:48] --- Cerere POST pentru data ---
+[2025-11-12 13:31:48] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:48] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:49] Salvare 'data' reușită.
+[2025-11-12 13:31:49] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:49] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:49] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:49] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:49] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:49] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:49] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:49] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:49] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:49] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:49] Salvare 'evolution' reușită.
+[2025-11-12 13:31:50] --- Cerere POST pentru data ---
+[2025-11-12 13:31:50] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:50] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:50] Salvare 'data' reușită.
+[2025-11-12 13:31:51] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:51] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:51] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:51] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:51] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:51] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:51] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:51] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:51] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:51] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:51] Salvare 'evolution' reușită.
+[2025-11-12 13:31:52] --- Cerere POST pentru data ---
+[2025-11-12 13:31:52] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:52] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:52] Salvare 'data' reușită.
+[2025-11-12 13:31:52] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:52] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:52] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:52] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:52] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:52] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:52] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:52] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:52] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:52] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:52] Salvare 'evolution' reușită.
+[2025-11-12 13:31:53] --- Cerere POST pentru data ---
+[2025-11-12 13:31:53] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:31:53] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:31:54] Salvare 'data' reușită.
+[2025-11-12 13:31:54] --- Cerere POST pentru evolution ---
+[2025-11-12 13:31:54] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 13:31:54] Tabelele de evoluție au fost golite.
+[2025-11-12 13:31:54] Se procesează evoluția pentru client: client1111
+[2025-11-12 13:31:54] Se procesează evoluția pentru client: irina4275
+[2025-11-12 13:31:54] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 13:31:54] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 13:31:54] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 13:31:54] Se procesează evoluția pentru client: eve2345
+[2025-11-12 13:31:54] Se procesează evoluția pentru client: zian2206
+[2025-11-12 13:31:54] Salvare 'evolution' reușită.
+[2025-11-12 13:31:57] --- Cerere PUT pentru events/evt1762637972340umvfl4kr7 ---
+[2025-11-12 13:31:57] Eveniment actualizat: evt1762637972340umvfl4kr7
+[2025-11-12 13:32:04] --- Cerere POST pentru data ---
+[2025-11-12 13:32:04] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:32:04] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:32:04] Salvare 'data' reușită.
+[2025-11-12 13:32:08] --- Cerere POST pentru data ---
+[2025-11-12 13:32:08] Salvare 'data'. Se salvează 62 clienți și 1022 evenimente.
+[2025-11-12 13:32:08] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:32:09] Salvare 'data' reușită.
+[2025-11-12 13:48:29] --- Cerere POST pentru  ---
+[2025-11-12 13:48:29] Eroare la decodarea JSON: Syntax error
+[2025-11-12 13:48:29] Login attempt: username=dana, user_found=yes
+[2025-11-12 13:48:29] Login SUCCESS: user_id=dana, role=therapist
+[2025-11-12 13:49:09] --- Cerere POST pentru data ---
+[2025-11-12 13:49:09] Salvare 'data'. Se salvează 62 clienți și 1023 evenimente.
+[2025-11-12 13:49:09] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:49:09] Salvare 'data' reușită.
+[2025-11-12 13:49:59] --- Cerere POST pentru data ---
+[2025-11-12 13:49:59] Salvare 'data'. Se salvează 62 clienți și 1023 evenimente.
+[2025-11-12 13:49:59] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:49:59] Salvare 'data' reușită.
+[2025-11-12 13:50:13] --- Cerere POST pentru data ---
+[2025-11-12 13:50:13] Salvare 'data'. Se salvează 62 clienți și 1023 evenimente.
+[2025-11-12 13:50:13] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:50:13] Salvare 'data' reușită.
+[2025-11-12 13:51:19] --- Cerere POST pentru data ---
+[2025-11-12 13:51:19] Salvare 'data'. Se salvează 62 clienți și 1023 evenimente.
+[2025-11-12 13:51:19] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 13:51:19] Salvare 'data' reușită.
+[2025-11-12 14:38:14] --- Cerere POST pentru data ---
+[2025-11-12 14:38:14] Salvare 'data'. Se salvează 62 clienți și 1023 evenimente.
+[2025-11-12 14:38:14] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 14:38:14] Salvare 'data' reușită.
+[2025-11-12 15:07:13] --- Cerere POST pentru  ---
+[2025-11-12 15:07:13] Eroare la decodarea JSON: Syntax error
+[2025-11-12 15:07:13] Login attempt: username=alexandra, user_found=yes
+[2025-11-12 15:07:13] Login SUCCESS: user_id=alexandra, role=therapist
+[2025-11-12 15:09:00] --- Cerere POST pentru  ---
+[2025-11-12 15:09:00] Eroare la decodarea JSON: Syntax error
+[2025-11-12 15:09:00] Login attempt: username=alexandra, user_found=yes
+[2025-11-12 15:09:00] Login SUCCESS: user_id=alexandra, role=therapist
+[2025-11-12 15:09:34] --- Cerere DELETE pentru clients/client2202 ---
+[2025-11-12 15:09:34] Client șters: client2202
+[2025-11-12 15:09:34] --- Cerere POST pentru evolution ---
+[2025-11-12 15:09:34] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 15:09:34] Tabelele de evoluție au fost golite.
+[2025-11-12 15:09:34] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:09:34] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:09:34] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:09:34] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:09:34] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:09:34] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:09:34] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:09:34] Salvare 'evolution' reușită.
+[2025-11-12 15:09:34] --- Cerere POST pentru billings ---
+[2025-11-12 15:09:34] Salvare 'billings'. Se primesc date pentru 1 clienți.
+[2025-11-12 15:09:34] Tabelul 'payments' a fost golit.
+[2025-11-12 15:09:34] Se procesează plăți pentru client: cezar1802
+[2025-11-12 15:09:34] Salvare 'billings' reușită. 1 înregistrări adăugate.
+[2025-11-12 15:09:50] --- Cerere PUT pentru clients/client1111 ---
+[2025-11-12 15:09:50] Client actualizat: client1111 -> client1111
+[2025-11-12 15:17:48] --- Cerere POST pentru clients ---
+[2025-11-12 15:17:48] Client creat: client1103
+[2025-11-12 15:27:05] --- Cerere PUT pentru clients/client1103 ---
+[2025-11-12 15:27:05] Client actualizat: client1103 -> client1103
+[2025-11-12 15:27:13] --- Cerere PUT pentru clients/client1103 ---
+[2025-11-12 15:27:13] Client actualizat: client1103 -> client1103
+[2025-11-12 15:27:17] --- Cerere DELETE pentru clients/client1103 ---
+[2025-11-12 15:27:17] Client șters: client1103
+[2025-11-12 15:27:17] --- Cerere POST pentru evolution ---
+[2025-11-12 15:27:17] Salvare 'evolution'. Se primesc date pentru 7 clienți.
+[2025-11-12 15:27:17] Tabelele de evoluție au fost golite.
+[2025-11-12 15:27:17] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:27:17] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:27:17] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:27:17] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:27:17] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:27:17] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:27:17] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:27:17] Salvare 'evolution' reușită.
+[2025-11-12 15:27:17] --- Cerere POST pentru billings ---
+[2025-11-12 15:27:17] Salvare 'billings'. Se primesc date pentru 1 clienți.
+[2025-11-12 15:27:17] Tabelul 'payments' a fost golit.
+[2025-11-12 15:27:17] Se procesează plăți pentru client: cezar1802
+[2025-11-12 15:27:17] Salvare 'billings' reușită. 1 înregistrări adăugate.
+[2025-11-12 15:29:29] --- Cerere POST pentru  ---
+[2025-11-12 15:29:29] Eroare la decodarea JSON: Syntax error
+[2025-11-12 15:29:29] Login attempt: username=stefan, user_found=yes
+[2025-11-12 15:29:29] Login SUCCESS: user_id=stefan, role=admin
+[2025-11-12 15:30:53] --- Cerere POST pentru  ---
+[2025-11-12 15:30:53] Eroare la decodarea JSON: Syntax error
+[2025-11-12 15:30:53] Login attempt: username=stefan, user_found=yes
+[2025-11-12 15:30:53] Login SUCCESS: user_id=stefan, role=admin
+[2025-11-12 15:31:05] --- Cerere PUT pentru clients/client1111 ---
+[2025-11-12 15:31:05] Client actualizat: client1111 -> client1111
+[2025-11-12 15:32:18] --- Cerere POST pentru users ---
+[2025-11-12 15:32:18] Utilizator creat: ID=member_1762954338239, username=test, role=therapist
+[2025-11-12 15:32:18] --- Cerere POST pentru data ---
+[2025-11-12 15:32:18] Salvare 'data'. Se salvează 61 clienți și 1023 evenimente.
+[2025-11-12 15:32:18] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:32:19] Salvare 'data' reușită.
+[2025-11-12 15:32:23] --- Cerere DELETE pentru users/member_1762954338239 ---
+[2025-11-12 15:32:23] Utilizator șters: ID=member_1762954338239
+[2025-11-12 15:32:23] --- Cerere POST pentru data ---
+[2025-11-12 15:32:23] Salvare 'data'. Se salvează 61 clienți și 1023 evenimente.
+[2025-11-12 15:32:23] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:32:24] Salvare 'data' reușită.
+[2025-11-12 15:37:42] --- Cerere POST pentru  ---
+[2025-11-12 15:37:42] Eroare la decodarea JSON: Syntax error
+[2025-11-12 15:37:42] Login attempt: username=corina, user_found=yes
+[2025-11-12 15:37:42] Login SUCCESS: user_id=corina, role=admin
+[2025-11-12 15:38:06] --- Cerere DELETE pentru events/evt1762767452298vbjecu4lw ---
+[2025-11-12 15:38:06] Eveniment șters: evt1762767452298vbjecu4lw
+[2025-11-12 15:38:31] --- Cerere POST pentru events ---
+[2025-11-12 15:38:31] Eveniment(e) creat(e): 3
+[2025-11-12 15:39:40] --- Cerere POST pentru events ---
+[2025-11-12 15:39:40] Eveniment(e) creat(e): 3
+[2025-11-12 15:40:14] --- Cerere POST pentru events ---
+[2025-11-12 15:40:14] Eveniment(e) creat(e): 3
+[2025-11-12 15:41:55] --- Cerere POST pentru data ---
+[2025-11-12 15:41:55] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:41:55] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:41:56] Salvare 'data' reușită.
+[2025-11-12 15:42:18] --- Cerere POST pentru  ---
+[2025-11-12 15:42:18] Eroare la decodarea JSON: Syntax error
+[2025-11-12 15:42:18] Login attempt: username=dana, user_found=yes
+[2025-11-12 15:42:18] Login SUCCESS: user_id=dana, role=therapist
+[2025-11-12 15:45:23] --- Cerere POST pentru data ---
+[2025-11-12 15:45:23] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:23] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:23] Salvare 'data' reușită.
+[2025-11-12 15:45:23] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:23] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:23] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:23] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:23] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:23] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:23] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:23] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:23] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:23] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:23] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:23] Salvare 'evolution' reușită.
+[2025-11-12 15:45:24] --- Cerere POST pentru data ---
+[2025-11-12 15:45:24] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:24] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:24] Salvare 'data' reușită.
+[2025-11-12 15:45:24] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:24] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:24] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:24] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:24] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:24] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:24] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:24] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:24] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:24] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:24] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:24] Salvare 'evolution' reușită.
+[2025-11-12 15:45:26] --- Cerere POST pentru data ---
+[2025-11-12 15:45:26] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:26] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:26] Salvare 'data' reușită.
+[2025-11-12 15:45:26] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:26] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:26] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:26] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:26] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:26] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:26] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:26] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:26] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:26] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:26] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:26] Salvare 'evolution' reușită.
+[2025-11-12 15:45:35] --- Cerere POST pentru data ---
+[2025-11-12 15:45:35] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:35] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:35] Salvare 'data' reușită.
+[2025-11-12 15:45:35] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:35] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:35] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:35] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:35] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:35] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:35] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:35] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:35] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:35] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:35] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:35] Salvare 'evolution' reușită.
+[2025-11-12 15:45:36] --- Cerere POST pentru data ---
+[2025-11-12 15:45:36] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:36] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:36] Salvare 'data' reușită.
+[2025-11-12 15:45:36] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:36] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:36] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:36] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:36] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:36] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:36] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:36] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:36] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:36] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:36] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:36] Salvare 'evolution' reușită.
+[2025-11-12 15:45:37] --- Cerere POST pentru data ---
+[2025-11-12 15:45:37] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:37] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:37] Salvare 'data' reușită.
+[2025-11-12 15:45:38] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:38] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:38] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:38] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:38] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:38] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:38] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:38] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:38] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:38] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:38] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:38] Salvare 'evolution' reușită.
+[2025-11-12 15:45:38] --- Cerere POST pentru data ---
+[2025-11-12 15:45:38] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:38] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:38] Salvare 'data' reușită.
+[2025-11-12 15:45:39] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:39] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:39] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:39] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:39] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:39] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:39] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:39] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:39] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:39] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:39] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:39] Salvare 'evolution' reușită.
+[2025-11-12 15:45:42] --- Cerere POST pentru data ---
+[2025-11-12 15:45:42] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:42] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:42] Salvare 'data' reușită.
+[2025-11-12 15:45:42] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:42] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:42] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:42] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:42] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:42] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:42] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:42] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:42] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:42] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:42] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:42] Salvare 'evolution' reușită.
+[2025-11-12 15:45:43] --- Cerere POST pentru data ---
+[2025-11-12 15:45:43] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:43] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:43] Salvare 'data' reușită.
+[2025-11-12 15:45:43] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:43] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:43] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:43] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:43] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:43] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:43] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:43] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:43] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:43] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:43] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:43] Salvare 'evolution' reușită.
+[2025-11-12 15:45:44] --- Cerere POST pentru data ---
+[2025-11-12 15:45:44] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:44] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:44] Salvare 'data' reușită.
+[2025-11-12 15:45:44] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:44] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:44] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:44] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:44] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:44] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:44] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:44] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:44] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:44] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:44] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:44] Salvare 'evolution' reușită.
+[2025-11-12 15:45:45] --- Cerere POST pentru data ---
+[2025-11-12 15:45:45] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:45] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:45] Salvare 'data' reușită.
+[2025-11-12 15:45:45] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:45] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:45] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:45] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:45] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:45] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:45] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:45] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:45] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:45] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:45] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:45] Salvare 'evolution' reușită.
+[2025-11-12 15:45:46] --- Cerere POST pentru data ---
+[2025-11-12 15:45:46] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:46] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:46] Salvare 'data' reușită.
+[2025-11-12 15:45:46] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:46] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:46] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:46] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:46] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:46] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:46] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:46] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:46] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:46] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:46] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:46] Salvare 'evolution' reușită.
+[2025-11-12 15:45:47] --- Cerere POST pentru data ---
+[2025-11-12 15:45:47] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:47] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:47] Salvare 'data' reușită.
+[2025-11-12 15:45:48] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:48] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:48] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:48] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:48] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:48] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:48] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:48] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:48] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:48] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:48] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:48] Salvare 'evolution' reușită.
+[2025-11-12 15:45:49] --- Cerere POST pentru data ---
+[2025-11-12 15:45:49] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:49] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:49] Salvare 'data' reușită.
+[2025-11-12 15:45:50] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:50] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:50] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:50] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:50] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:50] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:50] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:50] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:50] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:50] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:50] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:50] Salvare 'evolution' reușită.
+[2025-11-12 15:45:50] --- Cerere POST pentru data ---
+[2025-11-12 15:45:50] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:50] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:50] Salvare 'data' reușită.
+[2025-11-12 15:45:51] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:51] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:51] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:51] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:51] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:51] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:51] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:51] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:51] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:51] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:51] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:51] Salvare 'evolution' reușită.
+[2025-11-12 15:45:51] --- Cerere POST pentru data ---
+[2025-11-12 15:45:51] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:51] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:51] Salvare 'data' reușită.
+[2025-11-12 15:45:52] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:52] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:52] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:52] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:52] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:52] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:52] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:52] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:52] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:52] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:52] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:52] Salvare 'evolution' reușită.
+[2025-11-12 15:45:57] --- Cerere POST pentru data ---
+[2025-11-12 15:45:57] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:57] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:57] Salvare 'data' reușită.
+[2025-11-12 15:45:57] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:57] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:57] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:57] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:57] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:57] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:57] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:57] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:57] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:57] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:57] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:57] Salvare 'evolution' reușită.
+[2025-11-12 15:45:58] --- Cerere POST pentru data ---
+[2025-11-12 15:45:58] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:58] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:58] Salvare 'data' reușită.
+[2025-11-12 15:45:58] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:58] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:58] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:58] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:58] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:58] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:58] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:58] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:58] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:58] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:58] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:58] Salvare 'evolution' reușită.
+[2025-11-12 15:45:59] --- Cerere POST pentru data ---
+[2025-11-12 15:45:59] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:45:59] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:45:59] Salvare 'data' reușită.
+[2025-11-12 15:45:59] --- Cerere POST pentru evolution ---
+[2025-11-12 15:45:59] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:45:59] Tabelele de evoluție au fost golite.
+[2025-11-12 15:45:59] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:45:59] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:45:59] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:45:59] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:45:59] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:45:59] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:45:59] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:45:59] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:45:59] Salvare 'evolution' reușită.
+[2025-11-12 15:46:00] --- Cerere POST pentru data ---
+[2025-11-12 15:46:00] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:00] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:00] Salvare 'data' reușită.
+[2025-11-12 15:46:01] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:01] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:01] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:01] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:01] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:01] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:01] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:01] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:01] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:01] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:01] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:01] Salvare 'evolution' reușită.
+[2025-11-12 15:46:01] --- Cerere POST pentru data ---
+[2025-11-12 15:46:01] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:01] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:01] Salvare 'data' reușită.
+[2025-11-12 15:46:02] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:02] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:02] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:02] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:02] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:02] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:02] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:02] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:02] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:02] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:02] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:02] Salvare 'evolution' reușită.
+[2025-11-12 15:46:15] --- Cerere POST pentru data ---
+[2025-11-12 15:46:15] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:15] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:15] Salvare 'data' reușită.
+[2025-11-12 15:46:16] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:16] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:16] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:16] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:16] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:16] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:16] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:16] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:16] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:16] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:16] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:16] Salvare 'evolution' reușită.
+[2025-11-12 15:46:16] --- Cerere POST pentru data ---
+[2025-11-12 15:46:16] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:16] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:17] Salvare 'data' reușită.
+[2025-11-12 15:46:17] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:17] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:17] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:17] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:17] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:17] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:17] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:17] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:17] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:17] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:17] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:17] Salvare 'evolution' reușită.
+[2025-11-12 15:46:17] --- Cerere POST pentru data ---
+[2025-11-12 15:46:17] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:17] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:18] Salvare 'data' reușită.
+[2025-11-12 15:46:18] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:18] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:18] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:18] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:18] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:18] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:18] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:18] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:18] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:18] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:18] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:18] Salvare 'evolution' reușită.
+[2025-11-12 15:46:18] --- Cerere POST pentru data ---
+[2025-11-12 15:46:18] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:18] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:19] Salvare 'data' reușită.
+[2025-11-12 15:46:19] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:19] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:19] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:19] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:19] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:19] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:19] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:19] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:19] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:19] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:19] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:19] Salvare 'evolution' reușită.
+[2025-11-12 15:46:19] --- Cerere POST pentru data ---
+[2025-11-12 15:46:19] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:19] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:20] Salvare 'data' reușită.
+[2025-11-12 15:46:20] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:20] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:20] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:20] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:20] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:20] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:20] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:20] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:20] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:20] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:20] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:20] Salvare 'evolution' reușită.
+[2025-11-12 15:46:21] --- Cerere POST pentru data ---
+[2025-11-12 15:46:21] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:21] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:21] Salvare 'data' reușită.
+[2025-11-12 15:46:21] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:21] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:21] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:21] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:21] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:21] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:21] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:21] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:21] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:21] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:21] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:21] Salvare 'evolution' reușită.
+[2025-11-12 15:46:30] --- Cerere POST pentru data ---
+[2025-11-12 15:46:30] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:30] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:30] Salvare 'data' reușită.
+[2025-11-12 15:46:31] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:31] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:31] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:31] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:31] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:31] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:31] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:31] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:31] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:31] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:31] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:31] Salvare 'evolution' reușită.
+[2025-11-12 15:46:31] --- Cerere POST pentru data ---
+[2025-11-12 15:46:31] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:31] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:31] Salvare 'data' reușită.
+[2025-11-12 15:46:32] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:32] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:32] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:32] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:32] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:32] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:32] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:32] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:32] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:32] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:32] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:32] Salvare 'evolution' reușită.
+[2025-11-12 15:46:32] --- Cerere POST pentru data ---
+[2025-11-12 15:46:32] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:32] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:33] Salvare 'data' reușită.
+[2025-11-12 15:46:33] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:33] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:33] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:33] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:33] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:33] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:33] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:33] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:33] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:33] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:33] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:33] Salvare 'evolution' reușită.
+[2025-11-12 15:46:33] --- Cerere POST pentru data ---
+[2025-11-12 15:46:33] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:33] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:34] Salvare 'data' reușită.
+[2025-11-12 15:46:34] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:34] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:34] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:34] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:34] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:34] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:34] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:34] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:34] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:34] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:34] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:34] Salvare 'evolution' reușită.
+[2025-11-12 15:46:41] --- Cerere POST pentru data ---
+[2025-11-12 15:46:41] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:41] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:42] Salvare 'data' reușită.
+[2025-11-12 15:46:42] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:42] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:42] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:42] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:42] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:42] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:42] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:42] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:42] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:42] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:42] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:42] Salvare 'evolution' reușită.
+[2025-11-12 15:46:42] --- Cerere POST pentru data ---
+[2025-11-12 15:46:42] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:42] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:43] Salvare 'data' reușită.
+[2025-11-12 15:46:43] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:43] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:43] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:43] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:43] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:43] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:43] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:43] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:43] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:43] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:43] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:43] Salvare 'evolution' reușită.
+[2025-11-12 15:46:43] --- Cerere POST pentru data ---
+[2025-11-12 15:46:43] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:43] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:44] Salvare 'data' reușită.
+[2025-11-12 15:46:44] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:44] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:44] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:44] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:44] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:44] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:44] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:44] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:44] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:44] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:44] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:44] Salvare 'evolution' reușită.
+[2025-11-12 15:46:44] --- Cerere POST pentru data ---
+[2025-11-12 15:46:44] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:44] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:45] Salvare 'data' reușită.
+[2025-11-12 15:46:45] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:45] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:45] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:45] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:45] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:45] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:45] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:45] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:45] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:45] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:45] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:45] Salvare 'evolution' reușită.
+[2025-11-12 15:46:45] --- Cerere POST pentru data ---
+[2025-11-12 15:46:45] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:45] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:46] Salvare 'data' reușită.
+[2025-11-12 15:46:46] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:46] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:46] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:46] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:46] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:46] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:46] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:46] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:46] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:46] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:46] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:46] Salvare 'evolution' reușită.
+[2025-11-12 15:46:51] --- Cerere POST pentru data ---
+[2025-11-12 15:46:51] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:51] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:51] Salvare 'data' reușită.
+[2025-11-12 15:46:51] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:51] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:51] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:51] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:51] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:51] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:51] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:51] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:51] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:51] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:51] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:51] Salvare 'evolution' reușită.
+[2025-11-12 15:46:52] --- Cerere POST pentru data ---
+[2025-11-12 15:46:52] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:52] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:52] Salvare 'data' reușită.
+[2025-11-12 15:46:53] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:53] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:53] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:53] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:53] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:53] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:53] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:53] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:53] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:53] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:53] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:53] Salvare 'evolution' reușită.
+[2025-11-12 15:46:53] --- Cerere POST pentru data ---
+[2025-11-12 15:46:53] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:53] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:53] Salvare 'data' reușită.
+[2025-11-12 15:46:54] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:54] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:54] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:54] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:54] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:54] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:54] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:54] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:54] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:54] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:54] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:54] Salvare 'evolution' reușită.
+[2025-11-12 15:46:54] --- Cerere POST pentru data ---
+[2025-11-12 15:46:54] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:54] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:55] Salvare 'data' reușită.
+[2025-11-12 15:46:55] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:55] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:55] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:55] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:55] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:55] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:55] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:55] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:55] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:55] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:55] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:55] Salvare 'evolution' reușită.
+[2025-11-12 15:46:56] --- Cerere POST pentru data ---
+[2025-11-12 15:46:56] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:46:56] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:46:56] Salvare 'data' reușită.
+[2025-11-12 15:46:56] --- Cerere POST pentru evolution ---
+[2025-11-12 15:46:56] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:46:56] Tabelele de evoluție au fost golite.
+[2025-11-12 15:46:56] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:46:56] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:46:56] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:46:56] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:46:56] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:46:56] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:46:56] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:46:56] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:46:56] Salvare 'evolution' reușită.
+[2025-11-12 15:47:03] --- Cerere POST pentru data ---
+[2025-11-12 15:47:03] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:47:03] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:47:03] Salvare 'data' reușită.
+[2025-11-12 15:47:04] --- Cerere POST pentru evolution ---
+[2025-11-12 15:47:04] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:47:04] Tabelele de evoluție au fost golite.
+[2025-11-12 15:47:04] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:47:04] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:47:04] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:47:04] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:47:04] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:47:04] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:47:04] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:47:04] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:47:04] Salvare 'evolution' reușită.
+[2025-11-12 15:47:04] --- Cerere POST pentru data ---
+[2025-11-12 15:47:04] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:47:04] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:47:05] Salvare 'data' reușită.
+[2025-11-12 15:47:05] --- Cerere POST pentru evolution ---
+[2025-11-12 15:47:05] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:47:05] Tabelele de evoluție au fost golite.
+[2025-11-12 15:47:05] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:47:05] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:47:05] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:47:05] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:47:05] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:47:05] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:47:05] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:47:05] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:47:05] Salvare 'evolution' reușită.
+[2025-11-12 15:47:05] --- Cerere POST pentru data ---
+[2025-11-12 15:47:05] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:47:05] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:47:06] Salvare 'data' reușită.
+[2025-11-12 15:47:06] --- Cerere POST pentru evolution ---
+[2025-11-12 15:47:06] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:47:06] Tabelele de evoluție au fost golite.
+[2025-11-12 15:47:06] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:47:06] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:47:06] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:47:06] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:47:06] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:47:06] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:47:06] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:47:06] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:47:06] Salvare 'evolution' reușită.
+[2025-11-12 15:47:10] --- Cerere POST pentru data ---
+[2025-11-12 15:47:10] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:47:10] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:47:11] Salvare 'data' reușită.
+[2025-11-12 15:47:11] --- Cerere POST pentru evolution ---
+[2025-11-12 15:47:11] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:47:11] Tabelele de evoluție au fost golite.
+[2025-11-12 15:47:11] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:47:11] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:47:11] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:47:11] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:47:11] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:47:11] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:47:11] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:47:11] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:47:11] Salvare 'evolution' reușită.
+[2025-11-12 15:47:11] --- Cerere POST pentru data ---
+[2025-11-12 15:47:11] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:47:11] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:47:12] Salvare 'data' reușită.
+[2025-11-12 15:47:12] --- Cerere POST pentru evolution ---
+[2025-11-12 15:47:12] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:47:12] Tabelele de evoluție au fost golite.
+[2025-11-12 15:47:12] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:47:12] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:47:12] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:47:12] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:47:12] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:47:12] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:47:12] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:47:12] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:47:12] Salvare 'evolution' reușită.
+[2025-11-12 15:47:13] --- Cerere POST pentru data ---
+[2025-11-12 15:47:13] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:47:13] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:47:13] Salvare 'data' reușită.
+[2025-11-12 15:47:13] --- Cerere POST pentru evolution ---
+[2025-11-12 15:47:13] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:47:13] Tabelele de evoluție au fost golite.
+[2025-11-12 15:47:13] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:47:13] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:47:13] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:47:13] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:47:13] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:47:13] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:47:13] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:47:13] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:47:13] Salvare 'evolution' reușită.
+[2025-11-12 15:47:14] --- Cerere POST pentru data ---
+[2025-11-12 15:47:14] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:47:14] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:47:14] Salvare 'data' reușită.
+[2025-11-12 15:47:14] --- Cerere POST pentru evolution ---
+[2025-11-12 15:47:14] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:47:14] Tabelele de evoluție au fost golite.
+[2025-11-12 15:47:14] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:47:14] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:47:14] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:47:14] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:47:14] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:47:14] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:47:14] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:47:14] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:47:14] Salvare 'evolution' reușită.
+[2025-11-12 15:47:15] --- Cerere POST pentru data ---
+[2025-11-12 15:47:15] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:47:15] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:47:15] Salvare 'data' reușită.
+[2025-11-12 15:47:15] --- Cerere POST pentru evolution ---
+[2025-11-12 15:47:15] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:47:15] Tabelele de evoluție au fost golite.
+[2025-11-12 15:47:15] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:47:15] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:47:15] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:47:15] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:47:15] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:47:15] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:47:15] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:47:15] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:47:15] Salvare 'evolution' reușită.
+[2025-11-12 15:47:16] --- Cerere POST pentru data ---
+[2025-11-12 15:47:16] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:47:16] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:47:16] Salvare 'data' reușită.
+[2025-11-12 15:47:16] --- Cerere POST pentru evolution ---
+[2025-11-12 15:47:16] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:47:16] Tabelele de evoluție au fost golite.
+[2025-11-12 15:47:16] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:47:16] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:47:16] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:47:16] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:47:16] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:47:16] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:47:16] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:47:16] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:47:16] Salvare 'evolution' reușită.
+[2025-11-12 15:47:18] --- Cerere POST pentru data ---
+[2025-11-12 15:47:18] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:47:18] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:47:19] Salvare 'data' reușită.
+[2025-11-12 15:47:19] --- Cerere POST pentru evolution ---
+[2025-11-12 15:47:19] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:47:19] Tabelele de evoluție au fost golite.
+[2025-11-12 15:47:19] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:47:19] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:47:19] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:47:19] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:47:19] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:47:19] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:47:19] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:47:19] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:47:19] Salvare 'evolution' reușită.
+[2025-11-12 15:47:20] --- Cerere POST pentru data ---
+[2025-11-12 15:47:20] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:47:20] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:47:20] Salvare 'data' reușită.
+[2025-11-12 15:47:20] --- Cerere POST pentru evolution ---
+[2025-11-12 15:47:20] Salvare 'evolution'. Se primesc date pentru 8 clienți.
+[2025-11-12 15:47:20] Tabelele de evoluție au fost golite.
+[2025-11-12 15:47:20] Se procesează evoluția pentru client: client1111
+[2025-11-12 15:47:20] Se procesează evoluția pentru client: irina4275
+[2025-11-12 15:47:20] Se procesează evoluția pentru client: gabriela0307
+[2025-11-12 15:47:20] Se procesează evoluția pentru client: zian2206
+[2025-11-12 15:47:20] Se procesează evoluția pentru client: tudor0107
+[2025-11-12 15:47:20] Se procesează evoluția pentru client: cezar1802
+[2025-11-12 15:47:20] Se procesează evoluția pentru client: eve2345
+[2025-11-12 15:47:20] Se procesează evoluția pentru client: suditu1912
+[2025-11-12 15:47:20] Salvare 'evolution' reușită.
+[2025-11-12 15:47:23] --- Cerere PUT pentru events/evt1762954814066lq4glpx4y ---
+[2025-11-12 15:47:23] Eveniment actualizat: evt1762954814066lq4glpx4y
+[2025-11-12 15:47:25] --- Cerere POST pentru data ---
+[2025-11-12 15:47:25] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:47:25] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:47:26] Salvare 'data' reușită.
+[2025-11-12 15:48:13] --- Cerere PUT pentru events/evt1762421509750lrsxyhjvv ---
+[2025-11-12 15:48:13] Eveniment actualizat: evt1762421509750lrsxyhjvv
+[2025-11-12 15:48:30] --- Cerere POST pentru data ---
+[2025-11-12 15:48:30] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 15:48:30] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 15:48:30] Salvare 'data' reușită.
+[2025-11-12 16:00:39] --- Cerere POST pentru data ---
+[2025-11-12 16:00:39] Salvare 'data'. Se salvează 61 clienți și 1031 evenimente.
+[2025-11-12 16:00:39] Curățat 0 înregistrări vechi din program_history.
+[2025-11-12 16:00:39] Salvare 'data' reușită.
+[2025-11-12 16:01:16] --- Cerere POST pentru  ---
+[2025-11-12 16:01:16] Eroare la decodarea JSON: Syntax error
+[2025-11-12 16:01:16] Login attempt: username=alexandra, user_found=yes
+[2025-11-12 16:01:16] Login SUCCESS: user_id=alexandra, role=therapist
+[2025-11-12 16:12:05] --- Cerere PUT pentru clients/client1111 ---
+[2025-11-12 16:12:05] Client actualizat: client1111 -> client1111
+[2025-11-12 18:42:49] --- Cerere PUT pentru clients/test2202 ---
+[2025-11-12 18:42:49] Client actualizat: test2202 -> test2202
+[2025-11-12 18:43:21] --- Cerere PUT pentru clients/test2202 ---
+[2025-11-12 18:43:21] Client actualizat: test2202 -> test2202
+[2025-11-12 18:44:07] --- Cerere POST pentru  ---
+[2025-11-12 18:44:07] Eroare la decodarea JSON: Syntax error
+[2025-11-12 18:44:07] Login attempt: username=stefan, user_found=yes
+[2025-11-12 18:44:07] Login SUCCESS: user_id=stefan, role=admin
+[2025-11-12 18:44:33] --- Cerere PUT pentru clients/test2202 ---
+[2025-11-12 18:44:33] Client actualizat: test2202 -> test2202
