@@ -126,6 +126,62 @@ if (isset($_GET['action']) && $_GET['action'] === 'login') {
     }
 }
 
+// Handle demo user registration
+if (isset($_GET['action']) && $_GET['action'] === 'register_demo_user') {
+    try {
+        // Get JSON input
+        $input = file_get_contents('php://input');
+        $data = json_decode($input, true);
+
+        if (!$data) {
+            sendResponse(['success' => false, 'message' => 'Invalid JSON data'], 400);
+        }
+
+        $name = trim($data['name'] ?? '');
+        $email = trim($data['email'] ?? '');
+        $phone = trim($data['phone'] ?? '');
+        $organization = trim($data['organization'] ?? '');
+
+        // Validate required fields
+        if (empty($name) || empty($email) || empty($phone) || empty($organization)) {
+            sendResponse(['success' => false, 'message' => 'Toate câmpurile sunt obligatorii'], 400);
+        }
+
+        // Validate email format
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            sendResponse(['success' => false, 'message' => 'Adresa de email nu este validă'], 400);
+        }
+
+        // Check if demo_users table exists, create if not
+        $pdo->exec("CREATE TABLE IF NOT EXISTS demo_users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL,
+            phone VARCHAR(50) NOT NULL,
+            organization VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            INDEX idx_email (email),
+            INDEX idx_created_at (created_at)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+
+        // Insert demo user
+        $stmt = $pdo->prepare("INSERT INTO demo_users (name, email, phone, organization) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$name, $email, $phone, $organization]);
+
+        debugLog("Demo user registered: name=$name, email=$email, organization=$organization");
+
+        sendResponse([
+            'success' => true,
+            'message' => 'Înregistrare reușită',
+            'user_id' => $pdo->lastInsertId()
+        ]);
+
+    } catch (Exception $e) {
+        debugLog("Demo registration error: " . $e->getMessage());
+        sendError('Eroare la înregistrare: ' . $e->getMessage(), 500);
+    }
+}
+
 // Route requests
 try {
     switch ($path) {

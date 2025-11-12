@@ -88,6 +88,83 @@
         </div>
     </div>
 
+    <!-- Registration Modal -->
+    <div id="registrationModal" class="registration-modal" role="dialog" aria-modal="true" aria-labelledby="registrationModalTitle">
+        <div class="registration-modal-content">
+            <div class="registration-modal-header">
+                <h2 id="registrationModalTitle">Bine ai venit la Demo Tempo!</h2>
+                <p class="registration-subtitle">Te rugăm să completezi câteva informații pentru a accesa demonstrația.</p>
+            </div>
+            <div class="registration-modal-body">
+                <form id="registrationForm" class="registration-form">
+                    <div class="form-group">
+                        <label for="userName" class="form-label">
+                            Nume complet <span class="required">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="userName"
+                            name="name"
+                            class="form-input"
+                            placeholder="Ex: Ion Popescu"
+                            required
+                            aria-required="true"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userEmail" class="form-label">
+                            Email <span class="required">*</span>
+                        </label>
+                        <input
+                            type="email"
+                            id="userEmail"
+                            name="email"
+                            class="form-input"
+                            placeholder="ex@exemplu.ro"
+                            required
+                            aria-required="true"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userPhone" class="form-label">
+                            Telefon <span class="required">*</span>
+                        </label>
+                        <input
+                            type="tel"
+                            id="userPhone"
+                            name="phone"
+                            class="form-input"
+                            placeholder="0712345678"
+                            required
+                            aria-required="true"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userOrganization" class="form-label">
+                            Organizație <span class="required">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="userOrganization"
+                            name="organization"
+                            class="form-input"
+                            placeholder="Numele organizației"
+                            required
+                            aria-required="true"
+                        />
+                    </div>
+
+                    <button type="submit" class="registration-submit-btn" id="registrationSubmitBtn">
+                        Accesează Demo
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         // Import toast functions
         import { showErrorToast, showWarningToast, showSuccessToast } from './js/uiService.js';
@@ -1591,11 +1668,101 @@ function generateProgramHistoryTable(programHistory) {
             labelEl.textContent = label;
         }
         
+        // --- Registration Modal Logic ---
+
+        function checkRegistration() {
+            const isRegistered = sessionStorage.getItem('demo_registered');
+            if (!isRegistered) {
+                showRegistrationModal();
+            }
+        }
+
+        function showRegistrationModal() {
+            const modal = document.getElementById('registrationModal');
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+
+            // Disable scrolling on body
+            document.body.style.overflow = 'hidden';
+
+            // Focus first input
+            setTimeout(() => {
+                document.getElementById('userName').focus();
+            }, 100);
+        }
+
+        function hideRegistrationModal() {
+            const modal = document.getElementById('registrationModal');
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+
+            // Re-enable scrolling
+            document.body.style.overflow = '';
+        }
+
+        async function handleRegistrationSubmit(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const submitBtn = document.getElementById('registrationSubmitBtn');
+
+            // Get form data
+            const formData = new FormData(form);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                organization: formData.get('organization')
+            };
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Se înregistrează...';
+
+            try {
+                const response = await fetch(`${API_BASE}?action=register_demo_user`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Mark as registered in session
+                    sessionStorage.setItem('demo_registered', 'true');
+
+                    // Show success message
+                    showSuccessToast('Înregistrare reușită! Bine ai venit la demo.', 'Succes');
+
+                    // Hide modal
+                    hideRegistrationModal();
+                } else {
+                    showErrorToast(result.message || 'A apărut o eroare. Te rugăm să încerci din nou.', 'Eroare');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Accesează Demo';
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showErrorToast('Nu s-a putut finaliza înregistrarea. Verifică conexiunea și încearcă din nou.', 'Eroare de rețea');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Accesează Demo';
+            }
+        }
+
+        // Set up registration form
+        document.getElementById('registrationForm').addEventListener('submit', handleRegistrationSubmit);
+
         // --- Inițializare ---
 
         // Initialize theme
         const savedTheme = localStorage.getItem('calendar-theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // Check registration status and show modal if needed
+        checkRegistration();
 
         // Load users on page load
         renderUserCards();
