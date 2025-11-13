@@ -1367,7 +1367,7 @@ function addUserInfoToHeader() {
     userInfo.className = 'user-info-badge';
 
     // 4. Aplică stiluri flex (fără fundal/padding, preluate de containerul HTML)
-    userInfo.style.cssText = 'display: flex; align-items: center; gap: 0.75rem; width: 100%;';
+    userInfo.style.cssText = 'display: flex; align-items: center; gap: 0.75rem; width: 100%; cursor: pointer;';
 
     // 5. Setează conținutul HTML (cu clase speciale pentru colapsare)
     userInfo.innerHTML = `
@@ -1380,7 +1380,12 @@ function addUserInfoToHeader() {
         </div>
     `;
 
-    // 6. Adaugă badge-ul în container
+    // 6. Add click handler to open team member modal with current user's info
+    userInfo.addEventListener('click', () => {
+        ui.openTeamMemberModal(currentUser.id);
+    });
+
+    // 7. Adaugă badge-ul în container
     container.appendChild(userInfo);
 }
 
