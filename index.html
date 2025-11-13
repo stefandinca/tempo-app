@@ -92,9 +92,6 @@
         // API Configuration
         const API_BASE = 'api.php';
 
-        // Store username mapping (team member ID -> username)
-        let usernameMap = {};
-
         // Performance Optimization: Debounce utility
         function debounce(func, wait) {
             let timeout;
@@ -228,31 +225,6 @@
             }
         }
 
-        // Function to verify password via API
-        async function verifyPassword(userId, password) {
-            try {
-                const formData = new FormData();
-                // Use the mapped username instead of userId
-                const username = usernameMap[userId] || userId;
-                formData.append('username', username);
-                formData.append('password', password);
-
-                const response = await fetch(`${API_BASE}?action=login`, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (response.ok) {
-                    const result = await response.json();
-                    return result.success;
-                }
-                return false;
-            } catch (error) {
-                console.error('Login error:', error);
-                return false;
-            }
-        }
-
         // Store current selected month for schedule viewing
         let currentScheduleDate = new Date();
 
@@ -359,17 +331,6 @@
         async function renderUserCards() {
             const container = document.getElementById('userCardsContainer');
 
-            // Load username mapping first
-            try {
-                const response = await fetch(`${API_BASE}?path=user-map`);
-                if (response.ok) {
-                    usernameMap = await response.json();
-                    console.log('Username map loaded:', usernameMap);
-                }
-            } catch (error) {
-                console.error('Failed to load username map:', error);
-            }
-
             const teamMembers = await loadAllData();
 
             console.log('Rendering user cards...');
@@ -385,29 +346,13 @@
 
             // Add team member cards
             teamMembers.forEach(member => {
-                const username = usernameMap[member.id] || member.id;
                 cardsHTML += `
-                    <div class="user-card bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-lg" data-user-id="${member.id}" role="listitem" tabindex="0" aria-label="Cont ${member.name}, ${getRoleLabel(member.role)}">
+                    <div class="user-card bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-lg clickable-card" data-user-id="${member.id}" role="listitem" tabindex="0" aria-label="Cont ${member.name}, ${getRoleLabel(member.role)}">
                         <div class="user-avatar" style="background-color: ${member.color}" aria-hidden="true">
                             ${member.initials}
                         </div>
                         <h3 class="user-card-name">${member.name}</h3>
-                        <p style="font-size: 0.875rem; opacity: 0.6; margin: 0.25rem 0 0.5rem;">@${username}</p>
                         <span class="role-badge ${getRoleClass(member.role)}" aria-label="Rol: ${getRoleLabel(member.role)}">${getRoleLabel(member.role)}</span>
-
-                        <div class="password-input-container">
-                            <input
-                                type="password"
-                                id="pass_${member.id}"
-                                class="password-input"
-                                placeholder="Parolă"
-                                aria-label="Parolă pentru ${member.name}"
-                                aria-required="true"
-                            />
-                            <button id="login_btn_${member.id}" class="login-btn" data-user-id="${member.id}" aria-label="Intră în contul pentru ${member.name}">
-                                Intră în cont
-                            </button>
-                        </div>
                     </div>
                 `;
             });
@@ -439,90 +384,22 @@
 
             container.innerHTML = cardsHTML;
 
-            // --- Logica de login "Netflix" ---
-            const allCards = container.querySelectorAll('.user-card[data-user-id]');
+            // --- Direct login by clicking user cards ---
+            const allCards = container.querySelectorAll('.user-card.clickable-card[data-user-id]');
 
-            container.addEventListener('click', (e) => {
-                const card = e.target.closest('.user-card[data-user-id]');
+            // Add click handlers for direct login
+            allCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const userId = card.dataset.userId;
+                    selectUser(userId);
+                });
 
-                if (!card) {
-                    if (!e.target.closest('.user-card')) {
-                        container.classList.remove('selection-active');
-                        allCards.forEach(c => c.classList.remove('active'));
-                    }
-                    return;
-                }
-
-                const isAlreadyActive = card.classList.contains('active');
-
-                container.classList.add('selection-active');
-                allCards.forEach(c => c.classList.remove('active'));
-
-                if (!isAlreadyActive) {
-                    card.classList.add('active');
-                    card.querySelector('.password-input').focus();
-                } else {
-                    container.classList.remove('selection-active');
-                }
-            });
-
-            // Keyboard navigation for user cards
-            allCards.forEach((card, index) => {
+                // Keyboard navigation for user cards
                 card.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
-                        card.click();
-                    } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                        e.preventDefault();
-                        const nextIndex = (index + 1) % allCards.length;
-                        allCards[nextIndex].focus();
-                    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                        e.preventDefault();
-                        const prevIndex = (index - 1 + allCards.length) % allCards.length;
-                        allCards[prevIndex].focus();
-                    }
-                });
-            });
-
-            // --- Ascultători pentru submit-ul parolei ---
-            teamMembers.forEach(member => {
-                const loginBtn = document.getElementById(`login_btn_${member.id}`);
-                const passInput = document.getElementById(`pass_${member.id}`);
-                
-                if (!loginBtn || !passInput) return;
-
-                const handleLogin = async () => {
-                    const userId = loginBtn.dataset.userId;
-                    const password = passInput.value;
-                    
-                    if (!password) {
-                        showWarningToast('Parolă lipsă', 'Vă rugăm introduceți parola!');
-                        return;
-                    }
-                    
-                    // Disable button and show loading state
-                    loginBtn.disabled = true;
-                    const originalText = loginBtn.textContent;
-                    loginBtn.textContent = 'Se verifică...';
-                    
-                    const isValid = await verifyPassword(userId, password);
-                    
-                    if (isValid) {
+                        const userId = card.dataset.userId;
                         selectUser(userId);
-                    } else {
-                        showErrorToast('Autentificare eșuată', 'Parolă incorectă!');
-                        passInput.value = '';
-                        passInput.focus();
-                        loginBtn.disabled = false;
-                        loginBtn.textContent = originalText;
-                    }
-                };
-
-                loginBtn.addEventListener('click', handleLogin);
-                
-                passInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        handleLogin();
                     }
                 });
             });
