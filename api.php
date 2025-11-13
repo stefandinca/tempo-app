@@ -943,6 +943,22 @@ try {
                     $evolutionData->$clientId->evaluations->$domain->$date = (int)$row['score'];
                 }
 
+                // 1.5. Portage Checked Items
+                $stmt_portage_checked = $pdo->query("SELECT * FROM portage_checked_items");
+                while ($row = $stmt_portage_checked->fetch()) {
+                    $clientId = $row['client_id'];
+                    $domain = $row['domain'];
+                    $date = $row['eval_date'];
+                    if (!isset($evolutionData->$clientId)) $evolutionData->$clientId = new stdClass();
+                    if (!isset($evolutionData->$clientId->portageCheckedItems)) $evolutionData->$clientId->portageCheckedItems = new stdClass();
+                    if (!isset($evolutionData->$clientId->portageCheckedItems->$domain)) $evolutionData->$clientId->portageCheckedItems->$domain = new stdClass();
+
+                    $checkedItems = json_decode($row['checked_items_json'], true);
+                    if (json_last_error() === JSON_ERROR_NONE && is_array($checkedItems)) {
+                        $evolutionData->$clientId->portageCheckedItems->$domain->$date = $checkedItems;
+                    }
+                }
+
                 // 2. Program History
                 $stmt_history = $pdo->query("
                     SELECT h.*, p.title as programTitle 
@@ -1025,9 +1041,10 @@ try {
                     $valid_program_ids = $pdo->query("SELECT id FROM programs")->fetchAll(PDO::FETCH_COLUMN, 0);
 
                     $pdo->beginTransaction();
-                    
+
                     // 2. Șterge datele vechi
                     $pdo->exec("DELETE FROM portage_evaluations;");
+                    $pdo->exec("DELETE FROM portage_checked_items;");
                     $pdo->exec("DELETE FROM program_history;");
                     $pdo->exec("DELETE FROM logopedic_evaluations;");
                     $pdo->exec("DELETE FROM ablls_evaluations;");
@@ -1036,6 +1053,7 @@ try {
 
                     // 3. Pregătește statement-urile
                     $stmt_portage = $pdo->prepare("INSERT INTO portage_evaluations (client_id, domain, eval_date, score) VALUES (?, ?, ?, ?)");
+                    $stmt_portage_checked = $pdo->prepare("INSERT INTO portage_checked_items (client_id, domain, eval_date, checked_items_json) VALUES (?, ?, ?, ?)");
                     $stmt_history = $pdo->prepare("INSERT INTO program_history (client_id, event_id, program_id, score, eval_date) VALUES (?, ?, ?, ?, ?)");
                     $stmt_logo = $pdo->prepare("INSERT INTO logopedic_evaluations (client_id, eval_date, scores_json, comments) VALUES (?, ?, ?, ?)");
                     $stmt_ablls = $pdo->prepare("INSERT INTO ablls_evaluations (client_id, domain, eval_date, score) VALUES (?, ?, ?, ?)");
@@ -1048,6 +1066,14 @@ try {
                         foreach ($data['evaluations'] ?? [] as $domain => $dates) {
                             foreach ($dates as $date => $score) {
                                 $stmt_portage->execute([$clientId, $domain, $date, $score]);
+                            }
+                        }
+                        foreach ($data['portageCheckedItems'] ?? [] as $domain => $dates) {
+                            foreach ($dates as $date => $checkedItems) {
+                                if (is_array($checkedItems)) {
+                                    $checkedItemsJson = json_encode($checkedItems);
+                                    $stmt_portage_checked->execute([$clientId, $domain, $date, $checkedItemsJson]);
+                                }
                             }
                         }
                         foreach ($data['programHistory'] ?? [] as $entry) {
