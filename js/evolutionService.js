@@ -283,6 +283,26 @@ function renderEvaluationReportsList(clientData, client) {
         });
     }
 
+    // 2.5. Adaugă evaluările ABLLS-R
+    if (clientData.evaluationsABLLS) {
+        // Colectăm toate datele unice din toate domeniile ABLLS
+        const abllsDates = new Set();
+        Object.keys(clientData.evaluationsABLLS).forEach(domain => {
+            Object.keys(clientData.evaluationsABLLS[domain]).forEach(date => {
+                abllsDates.add(date);
+            });
+        });
+
+        // Adăugăm fiecare dată unică ca o evaluare ABLLS-R
+        abllsDates.forEach(date => {
+            allEvaluations.push({
+                type: 'ablls',
+                date: date,
+                title: 'Evaluare ABLLS-R'
+            });
+        });
+    }
+
     // 3. Sortează evaluările (cele mai noi primele)
     allEvaluations.sort((a, b) => new Date(b.date) - new Date(a.date));
 
@@ -301,9 +321,17 @@ function renderEvaluationReportsList(clientData, client) {
             day: '2-digit', month: '2-digit', year: 'numeric'
         });
         // Pictograme diferite pentru fiecare tip de raport
-        const icon = ev.type === 'portage' 
-            ? '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9l-5 5-4-4-6 6"/></svg>'
-            : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-megaphone" viewBox="0 0 16 16"><path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-.214c-2.162-1.241-4.49-1.843-6.912-2.083l.405 2.712A1 1 0 0 1 5.51 15.1h-.548a1 1 0 0 1-.916-.599l-1.85-3.49-.202-.003A2.014 2.014 0 0 1 0 9V7a2.02 2.02 0 0 1 1.992-2.013 75 75 0 0 0 2.483-.075c3.043-.154 6.148-.849 8.525-2.199zm1 0v11a.5.5 0 0 0 1 0v-11a.5.5 0 0 0-1 0m-1 1.35c-2.344 1.205-5.209 1.842-8 2.033v4.233q.27.015.537.036c2.568.189 5.093.744 7.463 1.993zm-9 6.215v-4.13a95 95 0 0 1-1.992.052A1.02 1.02 0 0 0 1 7v2c0 .55.448 1.002 1.006 1.009A61 61 0 0 1 4 10.065m-.657.975 1.609 3.037.01.024h.548l-.002-.014-.443-2.966a68 68 0 0 0-1.722-.082z"/></svg>';
+        let icon;
+        if (ev.type === 'portage') {
+            // Chart icon for Portage
+            icon = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9l-5 5-4-4-6 6"/></svg>';
+        } else if (ev.type === 'ablls') {
+            // Checklist icon for ABLLS-R
+            icon = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>';
+        } else {
+            // Megaphone icon for Logopedic
+            icon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-megaphone" viewBox="0 0 16 16"><path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-.214c-2.162-1.241-4.49-1.843-6.912-2.083l.405 2.712A1 1 0 0 1 5.51 15.1h-.548a1 1 0 0 1-.916-.599l-1.85-3.49-.202-.003A2.014 2.014 0 0 1 0 9V7a2.02 2.02 0 0 1 1.992-2.013 75 75 0 0 0 2.483-.075c3.043-.154 6.148-.849 8.525-2.199zm1 0v11a.5.5 0 0 0 1 0v-11a.5.5 0 0 0-1 0m-1 1.35c-2.344 1.205-5.209 1.842-8 2.033v4.233q.27.015.537.036c2.568.189 5.093.744 7.463 1.993zm-9 6.215v-4.13a95 95 0 0 1-1.992.052A1.02 1.02 0 0 0 1 7v2c0 .55.448 1.002 1.006 1.009A61 61 0 0 1 4 10.065m-.657.975 1.609 3.037.01.024h.548l-.002-.014-.443-2.966a68 68 0 0 0-1.722-.082z"/></svg>';
+        }
 
         return `
             <button class="btn btn-action-text evaluation-report-button" data-type="${ev.type}" data-date="${ev.date}">
@@ -362,6 +390,9 @@ async function handleEvaluationReportDownload(e) {
         } else if (type === 'logopedica') {
             htmlContent = generateLogopedicaReportHTML(client, clientData, date);
             fileName = `Raport_Logopedic_${fileName}`;
+        } else if (type === 'ablls') {
+            htmlContent = await generateABLLSReportHTML(client, clientData, date);
+            fileName = `Raport_ABLLS-R_${fileName}`;
         } else {
             return;
         }
@@ -384,7 +415,12 @@ async function handleEvaluationReportDownload(e) {
         // Reactivează butonul
         button.disabled = false;
         const formattedDate = new Date(date).toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        button.querySelector('span').textContent = `${type === 'portage' ? 'Evaluare Portage' : 'Evaluare Logopedică'} - ${formattedDate}`;
+        const titleMap = {
+            'portage': 'Evaluare Portage',
+            'logopedica': 'Evaluare Logopedică',
+            'ablls': 'Evaluare ABLLS-R'
+        };
+        button.querySelector('span').textContent = `${titleMap[type] || 'Evaluare'} - ${formattedDate}`;
     }
 }
 
@@ -808,6 +844,247 @@ function generateLogopedicaReportHTML(client, clientData, date) {
 }
 
 
+/**
+ * Generator HTML pentru Raport ABLLS-R Individual (printabil)
+ */
+async function generateABLLSReportHTML(client, clientData, date) {
+    const evalData = clientData.evaluationsABLLS;
+    if (!evalData) return '<h1>Eroare: Evaluarea ABLLS-R nu a fost găsită.</h1>';
+
+    // Load ABLLS data to get full item descriptions
+    const abllsData = await loadABLLSData();
+    if (!abllsData) return '<h1>Eroare: Nu s-au putut încărca datele ABLLS-R.</h1>';
+
+    // Collect scores for this date across all domains
+    const domainScores = {};
+    Object.keys(evalData).forEach(domain => {
+        if (evalData[domain][date] !== undefined) {
+            domainScores[domain] = evalData[domain][date];
+        }
+    });
+
+    if (Object.keys(domainScores).length === 0) {
+        return '<h1>Eroare: Nu există date pentru această dată.</h1>';
+    }
+
+    const formattedDate = new Date(date).toLocaleDateString('ro-RO', {
+        day: '2-digit', month: '2-digit', year: 'numeric'
+    });
+
+    // Generate domain rows
+    let domainRows = '';
+    let totalScore = 0;
+    let totalPossible = 0;
+
+    Object.keys(domainScores).forEach(domainKey => {
+        const score = domainScores[domainKey];
+        const domainName = domainKey.replace('ABLLS - ', '');
+        const items = abllsData[domainName] || [];
+        const maxScore = items.length;
+
+        totalScore += score;
+        totalPossible += maxScore;
+
+        const percentage = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
+
+        domainRows += `
+            <tr>
+                <td style="font-weight: 600;">${domainName}</td>
+                <td style="text-align: center;">${score} / ${maxScore}</td>
+                <td style="text-align: center;">${percentage}%</td>
+            </tr>
+        `;
+    });
+
+    const overallPercentage = totalPossible > 0 ? Math.round((totalScore / totalPossible) * 100) : 0;
+
+    return `
+        <!DOCTYPE html>
+        <html lang="ro">
+        <head>
+            <meta charset="UTF-8">
+            <title>Raport ABLLS-R - ${client.name}</title>
+            <style>
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                body {
+                    font-family: 'Arial', 'Helvetica', sans-serif;
+                    padding: 2cm;
+                    background: white;
+                    color: #333;
+                    line-height: 1.6;
+                }
+                .header {
+                    text-align: center;
+                    margin-bottom: 2rem;
+                    border-bottom: 3px solid #2563eb;
+                    padding-bottom: 1rem;
+                }
+                .header h1 {
+                    font-size: 2rem;
+                    color: #1e40af;
+                    margin-bottom: 0.5rem;
+                }
+                .header .subtitle {
+                    font-size: 1.2rem;
+                    color: #64748b;
+                    font-style: italic;
+                }
+                .client-info {
+                    background: #f1f5f9;
+                    padding: 1.5rem;
+                    border-radius: 8px;
+                    margin-bottom: 2rem;
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 1rem;
+                }
+                .info-item {
+                    display: flex;
+                    gap: 0.5rem;
+                }
+                .info-label {
+                    font-weight: 600;
+                    color: #475569;
+                }
+                .info-value {
+                    color: #1e293b;
+                }
+                .summary-box {
+                    background: #eff6ff;
+                    border: 2px solid #3b82f6;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                    margin-bottom: 2rem;
+                    text-align: center;
+                }
+                .summary-box h2 {
+                    color: #1e40af;
+                    margin-bottom: 1rem;
+                    font-size: 1.5rem;
+                }
+                .summary-stats {
+                    display: flex;
+                    justify-content: center;
+                    gap: 3rem;
+                    font-size: 1.1rem;
+                }
+                .stat {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+                .stat-value {
+                    font-size: 2rem;
+                    font-weight: 700;
+                    color: #2563eb;
+                }
+                .stat-label {
+                    color: #64748b;
+                    font-size: 0.9rem;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 1.5rem;
+                }
+                thead {
+                    background: #1e40af;
+                    color: white;
+                }
+                th {
+                    padding: 1rem;
+                    text-align: left;
+                    font-weight: 600;
+                }
+                td {
+                    padding: 0.75rem 1rem;
+                    border-bottom: 1px solid #e2e8f0;
+                }
+                tbody tr:nth-child(even) {
+                    background: #f8fafc;
+                }
+                tbody tr:hover {
+                    background: #f1f5f9;
+                }
+                .footer {
+                    margin-top: 3rem;
+                    padding-top: 1.5rem;
+                    border-top: 2px solid #e2e8f0;
+                    text-align: center;
+                    color: #64748b;
+                    font-size: 0.9rem;
+                }
+                @media print {
+                    body { padding: 0; }
+                    .no-print { display: none; }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>Raport Evaluare ABLLS-R</h1>
+                <div class="subtitle">Assessment of Basic Language and Learning Skills - Revised</div>
+            </div>
+
+            <div class="client-info">
+                <div class="info-item">
+                    <span class="info-label">Nume client:</span>
+                    <span class="info-value">${client.name}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Data evaluării:</span>
+                    <span class="info-value">${formattedDate}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">ID client:</span>
+                    <span class="info-value">${client.id}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Data nașterii:</span>
+                    <span class="info-value">${client.birthDate ? new Date(client.birthDate).toLocaleDateString('ro-RO') : 'N/A'}</span>
+                </div>
+            </div>
+
+            <div class="summary-box">
+                <h2>Scor Total</h2>
+                <div class="summary-stats">
+                    <div class="stat">
+                        <div class="stat-value">${totalScore}</div>
+                        <div class="stat-label">Puncte obținute</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${totalPossible}</div>
+                        <div class="stat-label">Puncte posibile</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${overallPercentage}%</div>
+                        <div class="stat-label">Procent finalizare</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="color: #1e40af; margin-bottom: 1rem; font-size: 1.5rem;">Rezultate pe Domenii</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Domeniu ABLLS-R</th>
+                        <th style="text-align: center;">Scor</th>
+                        <th style="text-align: center;">Procent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${domainRows}
+                </tbody>
+            </table>
+
+            <div class="footer">
+                <p>Document generat automat din sistemul Tempo App</p>
+                <p>Data generării: ${new Date().toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
+            </div>
+        </body>
+        </html>
+    `;
+}
 
 
 // --- Secțiunea Istoric Programe ---
