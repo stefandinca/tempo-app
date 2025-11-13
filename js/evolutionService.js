@@ -196,33 +196,52 @@ function renderEvolutionChart(clientData) {
 
     if (evolutionChartInstance) evolutionChartInstance.destroy();
 
+    // Add null/undefined check for clientData
+    if (!clientData) {
+        console.warn('renderEvolutionChart: clientData is undefined');
+        return;
+    }
+
     const colors = ['#4A90E2', '#FF6B6B', '#12C4D9', '#9B59B6', '#1DD75B', '#FFA500', '#E91E63'];
     const datasets = [];
     const allDates = new Set();
-    
+
+    // Ensure evaluations object exists
     if (!clientData.evaluations) {
         clientData.evaluations = {};
     }
 
-    Object.values(clientData.evaluations).forEach(values => {
-        Object.keys(values).forEach(date => allDates.add(date));
-    });
+    // Safely iterate through evaluations with additional null checks
+    if (clientData.evaluations && typeof clientData.evaluations === 'object') {
+        Object.values(clientData.evaluations).forEach(values => {
+            if (values && typeof values === 'object') {
+                Object.keys(values).forEach(date => allDates.add(date));
+            }
+        });
+    }
+
     const sortedDates = Array.from(allDates).sort((a, b) => new Date(a) - new Date(b));
 
-    Object.entries(clientData.evaluations).forEach(([test, values], i) => {
-        const color = colors[i % colors.length];
-        datasets.push({
-            label: test,
-            data: sortedDates.map(date => values[date] ?? null),
-            borderColor: color,
-            backgroundColor: color,
-            borderWidth: 2,
-            fill: false,
-            tension: 0.3,
-            pointRadius: 4,
-            pointHoverRadius: 6
+    // Build datasets with proper null checks
+    if (clientData.evaluations && typeof clientData.evaluations === 'object') {
+        Object.entries(clientData.evaluations).forEach(([test, values], i) => {
+            // Only add dataset if values exist and is an object
+            if (values && typeof values === 'object') {
+                const color = colors[i % colors.length];
+                datasets.push({
+                    label: test,
+                    data: sortedDates.map(date => values[date] ?? null),
+                    borderColor: color,
+                    backgroundColor: color,
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.3,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                });
+            }
         });
-    });
+    }
 
     evolutionChartInstance = new Chart(ctx, {
         type: 'line',
@@ -249,6 +268,13 @@ function renderEvolutionChart(clientData) {
 function renderEvaluationReportsList(clientData, client) {
     const container = $('evolutionSummary');
     if (!container) return;
+
+    // Add null/undefined check for clientData
+    if (!clientData) {
+        console.warn('renderEvaluationReportsList: clientData is undefined');
+        container.innerHTML = '<p class="text-gray-500">Nu există date de evaluare disponibile.</p>';
+        return;
+    }
 
     // --- MODIFICARE: Apelăm funcția de generare a sumarului ---
     const summaryTableHTML = generatePortageSummaryHTML(clientData, client);
@@ -334,10 +360,20 @@ function renderEvaluationReportsList(clientData, client) {
         }
 
         return `
-            <button class="btn btn-action-text evaluation-report-button" data-type="${ev.type}" data-date="${ev.date}">
-                ${icon}
-                <span>${ev.title} - ${formattedDate}</span>
-            </button>
+            <div class="evaluation-report-item">
+                <button class="btn btn-action-text evaluation-report-button" data-type="${ev.type}" data-date="${ev.date}">
+                    ${icon}
+                    <span>${ev.title} - ${formattedDate}</span>
+                </button>
+                <div class="evaluation-report-actions">
+                    <button class="btn-icon-small evaluation-edit-btn" data-type="${ev.type}" data-date="${ev.date}" title="Editează evaluarea">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    </button>
+                    <button class="btn-icon-small evaluation-remove-btn" data-type="${ev.type}" data-date="${ev.date}" title="Șterge evaluarea">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                    </button>
+                </div>
+            </div>
         `;
     }).join('');
 
@@ -350,16 +386,33 @@ function renderEvaluationReportsList(clientData, client) {
         </div>
     `;
 
-    // 5. Adaugă event listener (delegare)
+    // 5. Adaugă event listeners (delegare)
     // Asigură-te că nu adaugi listeneri multipli
-    container.removeEventListener('click', handleEvaluationReportDownload); 
-    container.addEventListener('click', handleEvaluationReportDownload);
+    container.removeEventListener('click', handleEvaluationReportClick);
+    container.addEventListener('click', handleEvaluationReportClick);
 }
 
 /**
- * NOU: Handler pentru click pe butoanele de descărcare
+ * Handler centralizat pentru toate acțiunile pe rapoartele de evaluare
  */
-async function handleEvaluationReportDownload(e) {
+async function handleEvaluationReportClick(e) {
+    // Check for edit button click
+    const editBtn = e.target.closest('.evaluation-edit-btn');
+    if (editBtn) {
+        e.stopPropagation();
+        await handleEvaluationEdit(editBtn.dataset.type, editBtn.dataset.date);
+        return;
+    }
+
+    // Check for remove button click
+    const removeBtn = e.target.closest('.evaluation-remove-btn');
+    if (removeBtn) {
+        e.stopPropagation();
+        await handleEvaluationRemove(removeBtn.dataset.type, removeBtn.dataset.date);
+        return;
+    }
+
+    // Check for download button click
     const button = e.target.closest('.evaluation-report-button');
     if (!button) return;
 
@@ -422,6 +475,206 @@ async function handleEvaluationReportDownload(e) {
         };
         button.querySelector('span').textContent = `${titleMap[type] || 'Evaluare'} - ${formattedDate}`;
     }
+}
+
+/**
+ * Handler pentru ștergerea unei evaluări
+ */
+async function handleEvaluationRemove(type, date) {
+    const client = calendarState.getClientById(currentClientId);
+    if (!client) {
+        showCustomAlert('Clientul nu a fost găsit.', 'Eroare');
+        return;
+    }
+
+    const formattedDate = new Date(date).toLocaleDateString('ro-RO', {
+        day: '2-digit', month: '2-digit', year: 'numeric'
+    });
+
+    const typeMap = {
+        'portage': 'Portage',
+        'ablls': 'ABLLS-R',
+        'logopedica': 'Logopedică'
+    };
+
+    const evaluationName = typeMap[type] || 'Evaluare';
+
+    // Show confirmation dialog
+    const confirmed = await showCustomConfirm(
+        `Sigur doriți să ștergeți evaluarea ${evaluationName} din data ${formattedDate}?`,
+        'Confirmare ștergere'
+    );
+
+    if (!confirmed) return;
+
+    try {
+        // Call API to delete evaluation
+        const response = await fetch('api.php?path=delete-evaluation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                clientId: currentClientId,
+                evaluationType: type,
+                date: date
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // Remove from local state
+            const { evolutionData } = calendarState.getState();
+            const clientData = evolutionData[currentClientId];
+
+            if (clientData) {
+                if (type === 'portage' && clientData.evaluations) {
+                    // Remove all domains for this date
+                    Object.keys(clientData.evaluations).forEach(domain => {
+                        if (clientData.evaluations[domain] && clientData.evaluations[domain][date]) {
+                            delete clientData.evaluations[domain][date];
+                        }
+                    });
+                } else if (type === 'ablls' && clientData.evaluationsABLLS) {
+                    // Remove all domains for this date
+                    Object.keys(clientData.evaluationsABLLS).forEach(domain => {
+                        if (clientData.evaluationsABLLS[domain] && clientData.evaluationsABLLS[domain][date]) {
+                            delete clientData.evaluationsABLLS[domain][date];
+                        }
+                    });
+                } else if (type === 'logopedica' && clientData.evaluationsLogopedica) {
+                    // Remove the logopedic evaluation for this date
+                    if (clientData.evaluationsLogopedica[date]) {
+                        delete clientData.evaluationsLogopedica[date];
+                    }
+                }
+
+                // Update state - directly update the evolutionData object and then set it back
+                evolutionData[currentClientId] = clientData;
+                calendarState.setEvolutionData(evolutionData);
+            }
+
+            // Re-render the reports list
+            renderEvaluationReportsList(clientData, client);
+
+            // Show success message
+            showCustomAlert(`Evaluarea ${evaluationName} a fost ștearsă cu succes.`, 'Succes');
+
+            // Re-render the chart if it's currently visible
+            renderEvolutionChart(clientData);
+
+        } else {
+            showCustomAlert(result.error || 'A apărut o eroare la ștergerea evaluării.', 'Eroare');
+        }
+
+    } catch (err) {
+        console.error('Error removing evaluation:', err);
+        showCustomAlert('A apărut o eroare la ștergerea evaluării.', 'Eroare');
+    }
+}
+
+/**
+ * Handler pentru editarea unei evaluări
+ */
+async function handleEvaluationEdit(type, date) {
+    const client = calendarState.getClientById(currentClientId);
+    if (!client) {
+        showCustomAlert('Clientul nu a fost găsit.', 'Eroare');
+        return;
+    }
+
+    const { evolutionData } = calendarState.getState();
+    const clientData = evolutionData[currentClientId];
+
+    if (!clientData) {
+        showCustomAlert('Nu există date de evaluare pentru acest client.', 'Eroare');
+        return;
+    }
+
+    // Switch to Add Evaluation tab
+    const addEvalTab = document.querySelector('.evolution-tabs button[data-tab="addEvaluation"]');
+    if (addEvalTab) {
+        addEvalTab.click();
+    }
+
+    // Set the evaluation date
+    const evalDateInput = $('evalDate');
+    if (evalDateInput) {
+        evalDateInput.value = date;
+    }
+
+    // Set the evaluation type
+    const evalTypeSelect = $('evalType');
+    if (evalTypeSelect) {
+        evalTypeSelect.value = type;
+        // Trigger change event to show the correct form
+        evalTypeSelect.dispatchEvent(new Event('change'));
+    }
+
+    // Wait a bit for the form to render
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    // Load data based on evaluation type
+    if (type === 'portage') {
+        // Load Portage data
+        if (clientData.evaluations) {
+            Object.keys(clientData.evaluations).forEach(domain => {
+                if (clientData.evaluations[domain] && clientData.evaluations[domain][date]) {
+                    const score = clientData.evaluations[domain][date];
+                    const input = document.querySelector(`input[name="portage-${domain}"]`);
+                    if (input) {
+                        input.value = score;
+                    }
+                }
+            });
+        }
+    } else if (type === 'ablls') {
+        // Load ABLLS data
+        if (clientData.evaluationsABLLS) {
+            Object.keys(clientData.evaluationsABLLS).forEach(domain => {
+                if (clientData.evaluationsABLLS[domain] && clientData.evaluationsABLLS[domain][date]) {
+                    const checkedItems = clientData.evaluationsABLLS[domain][date];
+
+                    // If it's an array (new format), check the corresponding checkboxes
+                    if (Array.isArray(checkedItems)) {
+                        checkedItems.forEach(itemId => {
+                            const checkbox = document.querySelector(`input[name="ablls-${domain}"][value="${itemId}"]`);
+                            if (checkbox) {
+                                checkbox.checked = true;
+                            }
+                        });
+                    }
+                    // Old format (numeric score) - we can't restore checkboxes from this
+                }
+            });
+        }
+    } else if (type === 'logopedica') {
+        // Load Logopedic data
+        if (clientData.evaluationsLogopedica && clientData.evaluationsLogopedica[date]) {
+            const evalData = clientData.evaluationsLogopedica[date];
+
+            // Load scores
+            if (evalData.scores) {
+                Object.keys(evalData.scores).forEach(category => {
+                    const input = document.querySelector(`input[name="logopedica-${category}"]`);
+                    if (input) {
+                        input.value = evalData.scores[category];
+                    }
+                });
+            }
+
+            // Load comments
+            if (evalData.comments) {
+                const commentsTextarea = $('logopedicaComments');
+                if (commentsTextarea) {
+                    commentsTextarea.value = evalData.comments;
+                }
+            }
+        }
+    }
+
+    showCustomAlert('Evaluarea a fost încărcată pentru editare. Modificați datele și salvați din nou.', 'Editare Evaluare');
 }
 
 /**

@@ -1802,6 +1802,72 @@ try {
             break;
 
         // ==========================================================
+        // CAZUL 'delete-evaluation' - Șterge o evaluare specifică
+        // ==========================================================
+        case 'delete-evaluation':
+            if ($method === 'POST') {
+                try {
+                    if ($input === null) {
+                        sendError('Invalid JSON data', 400);
+                    }
+
+                    $clientId = $input['clientId'] ?? null;
+                    $evaluationType = $input['evaluationType'] ?? null; // 'portage', 'ablls', 'logopedica'
+                    $date = $input['date'] ?? null;
+
+                    if (!$clientId || !$evaluationType || !$date) {
+                        sendError('clientId, evaluationType, and date are required', 400);
+                    }
+
+                    debugLog("Ștergere evaluare: type=$evaluationType, client=$clientId, date=$date");
+
+                    $pdo->beginTransaction();
+
+                    $deletedCount = 0;
+
+                    // Șterge în funcție de tipul evaluării
+                    if ($evaluationType === 'portage') {
+                        // Șterge toate domeniile Portage pentru această dată
+                        $stmt = $pdo->prepare("DELETE FROM portage_evaluations WHERE client_id = ? AND eval_date = ?");
+                        $stmt->execute([$clientId, $date]);
+                        $deletedCount = $stmt->rowCount();
+                    } elseif ($evaluationType === 'ablls') {
+                        // Șterge toate domeniile ABLLS pentru această dată
+                        $stmt = $pdo->prepare("DELETE FROM ablls_evaluations WHERE client_id = ? AND eval_date = ?");
+                        $stmt->execute([$clientId, $date]);
+                        $deletedCount = $stmt->rowCount();
+                    } elseif ($evaluationType === 'logopedica') {
+                        // Șterge evaluarea logopedică pentru această dată
+                        $stmt = $pdo->prepare("DELETE FROM logopedic_evaluations WHERE client_id = ? AND eval_date = ?");
+                        $stmt->execute([$clientId, $date]);
+                        $deletedCount = $stmt->rowCount();
+                    } else {
+                        $pdo->rollBack();
+                        sendError('Invalid evaluation type', 400);
+                    }
+
+                    $pdo->commit();
+
+                    debugLog("Evaluare ștearsă cu succes: $deletedCount înregistrări");
+                    sendResponse([
+                        'success' => true,
+                        'message' => 'Evaluation deleted successfully',
+                        'deletedCount' => $deletedCount
+                    ]);
+
+                } catch (Exception $e) {
+                    if ($pdo->inTransaction()) {
+                        $pdo->rollBack();
+                    }
+                    debugLog("Eroare la ștergerea evaluării: " . $e->getMessage());
+                    sendError('Failed to delete evaluation: ' . $e->getMessage());
+                }
+            } else {
+                sendError('Only POST method is supported for delete-evaluation', 405);
+            }
+            break;
+
+        // ==========================================================
         // CAZUL 'analytics' - Returnează date pentru Analytics Dashboard
         // ==========================================================
         case 'analytics':
