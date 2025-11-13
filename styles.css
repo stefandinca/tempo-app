@@ -5500,11 +5500,13 @@ input[type="time"].form-input::-webkit-datetime-edit-fields-wrapper {
     .section-content-grid {
         grid-template-columns: 1fr;
         overflow-y: auto;
-        height: auto;
+        height: calc(100vh - 60px - 2rem); /* Full height minus header and padding */
+        max-height: calc(100vh - 60px - 2rem);
     }
     .section-col-form,
     .section-col-list {
-        height: 70vh;
+        height: 100%;
+        min-height: 0; /* Allow proper flexbox sizing */
     }
     
      .tabs {
