@@ -3841,6 +3841,20 @@ INSERT INTO `monthly_themes` (`id`, `client_id`, `month_key`, `theme_text`) VALU
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ablls_evaluations`
+--
+
+CREATE TABLE `ablls_evaluations` (
+  `id` int(11) NOT NULL,
+  `client_id` varchar(255) NOT NULL,
+  `domain` varchar(255) NOT NULL,
+  `eval_date` date NOT NULL,
+  `score` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `payments`
 --
 
@@ -4109,6 +4123,14 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`, `created_at`) VALUES
 --
 
 --
+-- Indexes for table `ablls_evaluations`
+--
+ALTER TABLE `ablls_evaluations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_client_ablls` (`client_id`),
+  ADD KEY `idx_date_ablls` (`eval_date`);
+
+--
 -- Indexes for table `clients`
 --
 ALTER TABLE `clients`
@@ -4212,6 +4234,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `ablls_evaluations`
+--
+ALTER TABLE `ablls_evaluations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `client_documents`
 --
 ALTER TABLE `client_documents`
@@ -4256,6 +4284,12 @@ ALTER TABLE `system_options`
 --
 ALTER TABLE `client_documents`
   ADD CONSTRAINT `client_documents_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `ablls_evaluations`
+--
+ALTER TABLE `ablls_evaluations`
+  ADD CONSTRAINT `ablls_evaluations_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `event_clients`

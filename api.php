@@ -976,6 +976,18 @@ try {
                     ];
                 }
 
+                // 3.5. ABLLS-R
+                $stmt_ablls = $pdo->query("SELECT * FROM ablls_evaluations");
+                while ($row = $stmt_ablls->fetch()) {
+                    $clientId = $row['client_id'];
+                    $domain = $row['domain'];
+                    $date = $row['eval_date'];
+                    if (!isset($evolutionData->$clientId)) $evolutionData->$clientId = new stdClass();
+                    if (!isset($evolutionData->$clientId->evaluationsABLLS)) $evolutionData->$clientId->evaluationsABLLS = new stdClass();
+                    if (!isset($evolutionData->$clientId->evaluationsABLLS->$domain)) $evolutionData->$clientId->evaluationsABLLS->$domain = new stdClass();
+                    $evolutionData->$clientId->evaluationsABLLS->$domain->$date = (int)$row['score'];
+                }
+
                 // 4. Monthly Themes
                 $stmt_theme = $pdo->query("SELECT * FROM monthly_themes");
                 while ($row = $stmt_theme->fetch()) {
@@ -1005,6 +1017,7 @@ try {
                     $pdo->exec("DELETE FROM portage_evaluations;");
                     $pdo->exec("DELETE FROM program_history;");
                     $pdo->exec("DELETE FROM logopedic_evaluations;");
+                    $pdo->exec("DELETE FROM ablls_evaluations;");
                     $pdo->exec("DELETE FROM monthly_themes;");
                     debugLog("Tabelele de evoluție au fost golite.");
 
@@ -1012,6 +1025,7 @@ try {
                     $stmt_portage = $pdo->prepare("INSERT INTO portage_evaluations (client_id, domain, eval_date, score) VALUES (?, ?, ?, ?)");
                     $stmt_history = $pdo->prepare("INSERT INTO program_history (client_id, event_id, program_id, score, eval_date) VALUES (?, ?, ?, ?, ?)");
                     $stmt_logo = $pdo->prepare("INSERT INTO logopedic_evaluations (client_id, eval_date, scores_json, comments) VALUES (?, ?, ?, ?)");
+                    $stmt_ablls = $pdo->prepare("INSERT INTO ablls_evaluations (client_id, domain, eval_date, score) VALUES (?, ?, ?, ?)");
                     $stmt_theme = $pdo->prepare("INSERT INTO monthly_themes (client_id, month_key, theme_text) VALUES (?, ?, ?)");
 
                     // 4. Inserează datele noi (fără validare client_id)
@@ -1032,6 +1046,11 @@ try {
                         }
                         foreach ($data['evaluationsLogopedica'] ?? [] as $date => $entry) {
                             $stmt_logo->execute([$clientId, $date, json_encode($entry['scores']), $entry['comments']]);
+                        }
+                        foreach ($data['evaluationsABLLS'] ?? [] as $domain => $dates) {
+                            foreach ($dates as $date => $score) {
+                                $stmt_ablls->execute([$clientId, $domain, $date, $score]);
+                            }
                         }
                         foreach ($data['monthlyThemes'] ?? [] as $monthKey => $text) {
                             $stmt_theme->execute([$clientId, $monthKey, $text]);

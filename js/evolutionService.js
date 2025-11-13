@@ -13,6 +13,7 @@ import { showCustomAlert, showCustomConfirm } from './uiService.js';
 
 
 let portrigeData = null; // Cache pentru datele Portage
+let abllsData = null; // Cache pentru datele ABLLS-R
 let currentClientId = null; // Clientul selectat curent
 
 // Queue to prevent race conditions when saving evolution data
@@ -1690,6 +1691,178 @@ async function saveLogopedicaEvaluation() {
 }
 }
 
+// ==========================================================
+// ABLLS-R EVALUATION FUNCTIONS
+// ==========================================================
+
+/**
+ * Load ABLLS-R data from JSON file
+ */
+async function loadABLLSData() {
+    if (abllsData) return abllsData;
+
+    try {
+        const response = await fetch('ablls.json');
+        if (!response.ok) throw new Error('Failed to load ABLLS data');
+        abllsData = await response.json();
+        return abllsData;
+    } catch (error) {
+        console.error('Error loading ABLLS data:', error);
+        showCustomAlert('Nu s-au putut încărca datele ABLLS-R', 'Eroare');
+        return null;
+    }
+}
+
+/**
+ * Render ABLLS-R domains and items
+ */
+async function renderABLLSDomains() {
+    const container = $('abllsDomainsContainer');
+    if (!container) return;
+
+    container.innerHTML = '<p style="text-align: center; padding: 1rem;">Se încarcă datele ABLLS-R...</p>';
+
+    const data = await loadABLLSData();
+    if (!data) {
+        container.innerHTML = '<p style="text-align: center; padding: 1rem; color: red;">Eroare la încărcarea datelor ABLLS-R</p>';
+        return;
+    }
+
+    const evalDate = $('evaluationDateInput').value;
+    if (!evalDate) {
+        container.innerHTML = '<p style="text-align: center; padding: 1rem; color: #f59e0b;">Vă rugăm selectați o dată de evaluare.</p>';
+        return;
+    }
+
+    const { evolutionData } = calendarState.getState();
+    const existingData = evolutionData?.[currentClientId]?.evaluationsABLLS || {};
+
+    container.innerHTML = '';
+
+    // Render each domain
+    Object.keys(data).forEach(domainName => {
+        const items = data[domainName];
+        const domainKey = `ABLLS - ${domainName}`;
+
+        // Get existing score for this domain and date
+        const existingScore = existingData?.[domainKey]?.[evalDate] || 0;
+
+        const domainDiv = document.createElement('div');
+        domainDiv.className = 'portage-domain';
+        domainDiv.style.marginBottom = '2rem';
+        domainDiv.style.border = '1px solid var(--border-color)';
+        domainDiv.style.borderRadius = '8px';
+        domainDiv.style.padding = '1rem';
+        domainDiv.style.backgroundColor = 'var(--bg-secondary)';
+
+        // Domain header
+        const header = document.createElement('div');
+        header.style.cssText = 'display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color);';
+        header.innerHTML = `
+            <h4 style="margin: 0; font-size: 1.1rem; font-weight: 600; color: var(--text-primary);">${domainName}</h4>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="color: var(--text-secondary); font-size: 0.9rem;">${items.length} items</span>
+                <input type="number"
+                       class="form-input ablls-domain-score"
+                       data-domain="${domainKey}"
+                       value="${existingScore}"
+                       min="0"
+                       max="${items.length}"
+                       style="width: 80px; text-align: center; font-weight: 600;"
+                       placeholder="0">
+                <span style="color: var(--text-secondary);">/ ${items.length}</span>
+            </div>
+        `;
+        domainDiv.appendChild(header);
+
+        // Items list
+        const itemsList = document.createElement('div');
+        itemsList.style.cssText = 'display: grid; gap: 0.5rem; font-size: 0.9rem;';
+
+        items.forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.style.cssText = 'display: flex; gap: 0.75rem; padding: 0.5rem; background: var(--bg-primary); border-radius: 4px;';
+            itemDiv.innerHTML = `
+                <span style="font-weight: 600; color: var(--text-secondary); min-width: 50px;">${item.id}</span>
+                <span style="color: var(--text-primary);">${item.text}</span>
+            `;
+            itemsList.appendChild(itemDiv);
+        });
+
+        domainDiv.appendChild(itemsList);
+        container.appendChild(domainDiv);
+    });
+}
+
+/**
+ * Save ABLLS-R evaluation
+ */
+async function saveABLLSEvaluation() {
+    const { evolutionData, clients } = calendarState.getState();
+    const evalDate = $('evaluationDateInput').value;
+
+    if (!evalDate) {
+        showCustomAlert('Vă rugăm selectați o dată de evaluare.', 'Eroare');
+        return;
+    }
+
+    if (!currentClientId) {
+        showCustomAlert('Niciun client selectat.', 'Eroare');
+        return;
+    }
+
+    const client = clients.find(c => c.id === currentClientId);
+    if (!client) {
+        showCustomAlert('Clientul nu a fost găsit.', 'Eroare');
+        return;
+    }
+
+    // Collect scores from inputs
+    const scoreInputs = document.querySelectorAll('.ablls-domain-score');
+    const scores = {};
+
+    scoreInputs.forEach(input => {
+        const domain = input.dataset.domain;
+        const score = parseInt(input.value) || 0;
+        scores[domain] = score;
+    });
+
+    // Initialize structure if needed
+    if (!evolutionData[currentClientId]) {
+        evolutionData[currentClientId] = {};
+    }
+    if (!evolutionData[currentClientId].evaluationsABLLS) {
+        evolutionData[currentClientId].evaluationsABLLS = {};
+    }
+
+    // Save scores for each domain
+    Object.keys(scores).forEach(domain => {
+        if (!evolutionData[currentClientId].evaluationsABLLS[domain]) {
+            evolutionData[currentClientId].evaluationsABLLS[domain] = {};
+        }
+        evolutionData[currentClientId].evaluationsABLLS[domain][evalDate] = scores[domain];
+    });
+
+    // Update state
+    calendarState.setEvolutionData(evolutionData);
+
+    // Save to server
+    try {
+        await queuedSaveEvolutionData(evolutionData);
+        showCustomAlert('Evaluarea ABLLS-R a fost salvată cu succes!', 'Succes');
+
+        if (window.logActivity) {
+            window.logActivity("Evaluare ABLLS-R salvată", client.name, 'evaluation', currentClientId);
+        }
+
+        renderEvaluationReportsList(evolutionData[currentClientId], client);
+        activateTab('tabGrafice');
+    } catch (err) {
+        console.error('Eroare la salvarea evaluării ABLLS-R:', err);
+        showCustomAlert('Nu s-a putut salva evaluarea ABLLS-R pe server.', 'Eroare');
+    }
+}
+
 
 // --- Inițializare Event Listeners ---
 
@@ -1723,9 +1896,9 @@ $('saveEvaluationBtn')?.addEventListener('click', (e) => {
     if (selectedType === 'portage') {
         savePortageEvaluation(); // Apelăm funcția existentă pentru Portage
     } else if (selectedType === 'logopedica') {
-        // Deocamdată afișăm o alertă, deoarece logica de salvare nu a fost specificată
         saveLogopedicaEvaluation();
-        // Aici s-ar adăuga logica de salvare pentru câmpurile logoInput1, 2, 3
+    } else if (selectedType === 'ablls') {
+        saveABLLSEvaluation();
     }
 });
 $('cancelEvaluationBtn')?.addEventListener('click', (e) => {
@@ -1740,13 +1913,21 @@ if (evalTypeSelect) {
         const selectedType = e.target.value;
         const portageContainer = $('portageFormContainer');
         const logopedicaContainer = $('logopedicaFormContainer');
+        const abllsContainer = $('abllsFormContainer');
 
         if (selectedType === 'portage') {
             if (portageContainer) portageContainer.style.display = 'block';
             if (logopedicaContainer) logopedicaContainer.style.display = 'none';
+            if (abllsContainer) abllsContainer.style.display = 'none';
         } else if (selectedType === 'logopedica') {
             if (portageContainer) portageContainer.style.display = 'none';
             if (logopedicaContainer) logopedicaContainer.style.display = 'block';
+            if (abllsContainer) abllsContainer.style.display = 'none';
+        } else if (selectedType === 'ablls') {
+            if (portageContainer) portageContainer.style.display = 'none';
+            if (logopedicaContainer) logopedicaContainer.style.display = 'none';
+            if (abllsContainer) abllsContainer.style.display = 'block';
+            renderABLLSDomains();
         }
     });
 }
