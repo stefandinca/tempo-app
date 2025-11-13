@@ -855,15 +855,15 @@ async function generateABLLSReportHTML(client, clientData, date) {
     const abllsData = await loadABLLSData();
     if (!abllsData) return '<h1>Eroare: Nu s-au putut încărca datele ABLLS-R.</h1>';
 
-    // Collect scores for this date across all domains
-    const domainScores = {};
+    // Collect checked items for this date across all domains
+    const domainData = {};
     Object.keys(evalData).forEach(domain => {
         if (evalData[domain][date] !== undefined) {
-            domainScores[domain] = evalData[domain][date];
+            domainData[domain] = evalData[domain][date];
         }
     });
 
-    if (Object.keys(domainScores).length === 0) {
+    if (Object.keys(domainData).length === 0) {
         return '<h1>Eroare: Nu există date pentru această dată.</h1>';
     }
 
@@ -876,11 +876,14 @@ async function generateABLLSReportHTML(client, clientData, date) {
     let totalScore = 0;
     let totalPossible = 0;
 
-    Object.keys(domainScores).forEach(domainKey => {
-        const score = domainScores[domainKey];
+    Object.keys(domainData).forEach(domainKey => {
+        const checkedItems = domainData[domainKey];
         const domainName = domainKey.replace('ABLLS - ', '');
         const items = abllsData[domainName] || [];
         const maxScore = items.length;
+
+        // Calculate score based on checked items (array) or legacy numeric score
+        const score = Array.isArray(checkedItems) ? checkedItems.length : (checkedItems || 0);
 
         totalScore += score;
         totalPossible += maxScore;
@@ -2021,54 +2024,144 @@ async function renderABLLSDomains() {
         const items = data[domainName];
         const domainKey = `ABLLS - ${domainName}`;
 
-        // Get existing score for this domain and date
-        const existingScore = existingData?.[domainKey]?.[evalDate] || 0;
+        // Get existing checked items for this domain and date
+        const existingData_raw = existingData?.[domainKey]?.[evalDate] || [];
 
-        const domainDiv = document.createElement('div');
-        domainDiv.className = 'portage-domain';
-        domainDiv.style.marginBottom = '2rem';
-        domainDiv.style.border = '1px solid var(--border-color)';
-        domainDiv.style.borderRadius = '8px';
-        domainDiv.style.padding = '1rem';
-        domainDiv.style.backgroundColor = 'var(--bg-secondary)';
+        // Handle backward compatibility: convert old numeric format to array
+        const existingCheckedItems = Array.isArray(existingData_raw)
+            ? existingData_raw
+            : [];
 
-        // Domain header
-        const header = document.createElement('div');
-        header.style.cssText = 'display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color);';
-        header.innerHTML = `
-            <h4 style="margin: 0; font-size: 1.1rem; font-weight: 600; color: var(--text-primary);">${domainName}</h4>
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <span style="color: var(--text-secondary); font-size: 0.9rem;">${items.length} items</span>
-                <input type="number"
-                       class="form-input ablls-domain-score"
-                       data-domain="${domainKey}"
-                       value="${existingScore}"
-                       min="0"
-                       max="${items.length}"
-                       style="width: 80px; text-align: center; font-weight: 600;"
-                       placeholder="0">
-                <span style="color: var(--text-secondary);">/ ${items.length}</span>
-            </div>
-        `;
-        domainDiv.appendChild(header);
+        const block = document.createElement('div');
+        block.className = 'domain-block';
 
-        // Items list
-        const itemsList = document.createElement('div');
-        itemsList.style.cssText = 'display: grid; gap: 0.5rem; font-size: 0.9rem;';
-
+        // Build items HTML with checkboxes
+        let itemsHtml = '';
         items.forEach(item => {
-            const itemDiv = document.createElement('div');
-            itemDiv.style.cssText = 'display: flex; gap: 0.75rem; padding: 0.5rem; background: var(--bg-primary); border-radius: 4px;';
-            itemDiv.innerHTML = `
-                <span style="font-weight: 600; color: var(--text-secondary); min-width: 50px;">${item.id}</span>
-                <span style="color: var(--text-primary);">${item.text}</span>
+            const isChecked = existingCheckedItems.includes(item.id);
+            itemsHtml += `
+                <div class="ablls-item" data-domain="${domainKey}" data-item-id="${item.id}">
+                    <input type="checkbox" data-domain="${domainKey}" data-id="${item.id}" ${isChecked ? 'checked' : ''}>
+                    <label><strong>${item.id}</strong> - ${item.text}</label>
+                </div>
             `;
-            itemsList.appendChild(itemDiv);
         });
 
-        domainDiv.appendChild(itemsList);
-        container.appendChild(domainDiv);
+        // Calculate initial score
+        const initialScore = existingCheckedItems.length;
+
+        block.innerHTML = `
+            <div class="domain-header">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <input type="checkbox" class="ablls-domain-toggle" data-domain="${domainKey}" ${initialScore === items.length ? 'checked' : ''}>
+                    <span>${domainName}</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span class="ablls-domain-score" data-domain="${domainKey}" style="font-weight: 600; color: var(--primary-color);">${initialScore} / ${items.length}</span>
+                    <button type="button" class="domain-toggle-btn">Ascunde</button>
+                </div>
+            </div>
+            <div class="checkbox-grid">${itemsHtml}</div>
+        `;
+
+        // Toggle domain visibility
+        const grid = block.querySelector('.checkbox-grid');
+        const toggleBtn = block.querySelector('.domain-header .domain-toggle-btn');
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            grid.classList.toggle('collapsed');
+            toggleBtn.textContent = grid.classList.contains('collapsed') ? 'Arată' : 'Ascunde';
+        });
+
+        // Make entire header clickable (except checkbox and button)
+        block.querySelector('.domain-header').addEventListener('click', (e) => {
+            if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
+                grid.classList.toggle('collapsed');
+                toggleBtn.textContent = grid.classList.contains('collapsed') ? 'Arată' : 'Ascunde';
+            }
+        });
+
+        // Domain checkbox toggle - checks/unchecks all items
+        const domainCheckbox = block.querySelector('.ablls-domain-toggle');
+        domainCheckbox.addEventListener('change', (e) => {
+            const isChecked = e.target.checked;
+            const itemCheckboxes = block.querySelectorAll('.ablls-item input[type="checkbox"]');
+
+            itemCheckboxes.forEach(cb => {
+                cb.checked = isChecked;
+                cb.closest('.ablls-item').classList.toggle('checked', isChecked);
+            });
+
+            updateABLLSDomainScore(domainKey, block);
+        });
+
+        // Individual item checkbox handlers
+        block.querySelectorAll('.ablls-item').forEach(item => {
+            const checkbox = item.querySelector('input[type="checkbox"]');
+            if (!checkbox) return;
+
+            // Click on entire row toggles checkbox
+            item.addEventListener('click', (e) => {
+                if (e.target.tagName === 'INPUT') {
+                    return; // Let the checkbox handle its own click
+                }
+                checkbox.checked = !checkbox.checked;
+                item.classList.toggle('checked', checkbox.checked);
+                updateABLLSDomainScore(domainKey, block);
+                updateABLLSDomainCheckbox(domainKey, block);
+            });
+
+            // Checkbox change handler
+            checkbox.addEventListener('change', (e) => {
+                item.classList.toggle('checked', e.target.checked);
+                updateABLLSDomainScore(domainKey, block);
+                updateABLLSDomainCheckbox(domainKey, block);
+            });
+
+            // Initialize checked class
+            if (checkbox.checked) {
+                item.classList.add('checked');
+            }
+        });
+
+        container.appendChild(block);
     });
+}
+
+/**
+ * Update the score display for an ABLLS domain
+ */
+function updateABLLSDomainScore(domainKey, block) {
+    const checkboxes = block.querySelectorAll('.ablls-item input[type="checkbox"]');
+    const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+    const totalCount = checkboxes.length;
+
+    const scoreDisplay = block.querySelector(`.ablls-domain-score[data-domain="${domainKey}"]`);
+    if (scoreDisplay) {
+        scoreDisplay.textContent = `${checkedCount} / ${totalCount}`;
+    }
+}
+
+/**
+ * Update the domain checkbox state based on individual items
+ */
+function updateABLLSDomainCheckbox(domainKey, block) {
+    const domainCheckbox = block.querySelector('.ablls-domain-toggle');
+    const itemCheckboxes = block.querySelectorAll('.ablls-item input[type="checkbox"]');
+
+    const allChecked = Array.from(itemCheckboxes).every(cb => cb.checked);
+    const noneChecked = Array.from(itemCheckboxes).every(cb => !cb.checked);
+
+    if (allChecked) {
+        domainCheckbox.checked = true;
+        domainCheckbox.indeterminate = false;
+    } else if (noneChecked) {
+        domainCheckbox.checked = false;
+        domainCheckbox.indeterminate = false;
+    } else {
+        domainCheckbox.checked = false;
+        domainCheckbox.indeterminate = true;
+    }
 }
 
 /**
@@ -2094,14 +2187,25 @@ async function saveABLLSEvaluation() {
         return;
     }
 
-    // Collect scores from inputs
-    const scoreInputs = document.querySelectorAll('.ablls-domain-score');
-    const scores = {};
+    // Collect checked items for each domain
+    const container = $('abllsDomainsContainer');
+    const domains = {};
 
-    scoreInputs.forEach(input => {
-        const domain = input.dataset.domain;
-        const score = parseInt(input.value) || 0;
-        scores[domain] = score;
+    // Get all domain blocks
+    container.querySelectorAll('.domain-block').forEach(block => {
+        // Get domain name from the first checkbox
+        const firstCheckbox = block.querySelector('.ablls-item input[type="checkbox"]');
+        if (!firstCheckbox) return;
+
+        const domainKey = firstCheckbox.dataset.domain;
+        const checkedItems = [];
+
+        // Collect all checked item IDs
+        block.querySelectorAll('.ablls-item input[type="checkbox"]:checked').forEach(cb => {
+            checkedItems.push(cb.dataset.id);
+        });
+
+        domains[domainKey] = checkedItems;
     });
 
     // Initialize structure if needed
@@ -2112,12 +2216,12 @@ async function saveABLLSEvaluation() {
         evolutionData[currentClientId].evaluationsABLLS = {};
     }
 
-    // Save scores for each domain
-    Object.keys(scores).forEach(domain => {
+    // Save checked items for each domain
+    Object.keys(domains).forEach(domain => {
         if (!evolutionData[currentClientId].evaluationsABLLS[domain]) {
             evolutionData[currentClientId].evaluationsABLLS[domain] = {};
         }
-        evolutionData[currentClientId].evaluationsABLLS[domain][evalDate] = scores[domain];
+        evolutionData[currentClientId].evaluationsABLLS[domain][evalDate] = domains[domain];
     });
 
     // Update state

@@ -985,7 +985,20 @@ try {
                     if (!isset($evolutionData->$clientId)) $evolutionData->$clientId = new stdClass();
                     if (!isset($evolutionData->$clientId->evaluationsABLLS)) $evolutionData->$clientId->evaluationsABLLS = new stdClass();
                     if (!isset($evolutionData->$clientId->evaluationsABLLS->$domain)) $evolutionData->$clientId->evaluationsABLLS->$domain = new stdClass();
-                    $evolutionData->$clientId->evaluationsABLLS->$domain->$date = (int)$row['score'];
+
+                    // Handle both old (numeric) and new (array) format
+                    $scoreData = $row['score'];
+                    if ($scoreData !== null) {
+                        // Try to decode as JSON first (new format)
+                        $decoded = json_decode($scoreData, true);
+                        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                            // New format: array of checked items
+                            $evolutionData->$clientId->evaluationsABLLS->$domain->$date = $decoded;
+                        } else {
+                            // Old format: numeric score (for backward compatibility)
+                            $evolutionData->$clientId->evaluationsABLLS->$domain->$date = (int)$scoreData;
+                        }
+                    }
                 }
 
                 // 4. Monthly Themes
@@ -1048,8 +1061,16 @@ try {
                             $stmt_logo->execute([$clientId, $date, json_encode($entry['scores']), $entry['comments']]);
                         }
                         foreach ($data['evaluationsABLLS'] ?? [] as $domain => $dates) {
-                            foreach ($dates as $date => $score) {
-                                $stmt_ablls->execute([$clientId, $domain, $date, $score]);
+                            foreach ($dates as $date => $scoreData) {
+                                // Handle both old (numeric) and new (array) format
+                                if (is_array($scoreData)) {
+                                    // New format: array of checked items
+                                    $scoreJson = json_encode($scoreData);
+                                    $stmt_ablls->execute([$clientId, $domain, $date, $scoreJson]);
+                                } else {
+                                    // Old format: numeric score (for backward compatibility)
+                                    $stmt_ablls->execute([$clientId, $domain, $date, $scoreData]);
+                                }
                             }
                         }
                         foreach ($data['monthlyThemes'] ?? [] as $monthKey => $text) {
