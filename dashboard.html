@@ -964,6 +964,12 @@
                 </div>
                 
                 <div id="tabGrafice" class="tab-content active">
+                    <!-- Evaluation Type Switcher -->
+                    <div class="evaluation-type-switcher" style="margin-bottom: 1rem; display: flex; gap: 0.5rem; justify-content: center;">
+                        <button id="showPortageChart" class="btn btn-secondary active" data-eval-type="portage">Portage</button>
+                        <button id="showABLLSChart" class="btn btn-secondary" data-eval-type="ablls">ABLLS-R</button>
+                    </div>
+
                     <div id="evolutionChartContainer" class="chart-container">
                         <canvas id="evolutionChart"></canvas>
                         </div>

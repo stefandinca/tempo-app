@@ -342,16 +342,33 @@ async function generateClientHTML(reportData) {
             evolutionChartHTML = `
                 <h2 style="color: #10b981; border-bottom-color: #10b98150;">Evoluție Portage (Grafic)</h2>
                 <div class="summary-box" style="padding: 10px; text-align: center; border-left-color: #10b981; background: #f0fdf4;">
-                    <img src="${chartImageBase64}" alt="Grafic Evoluție" style="max-width: 100%; height: auto; border-radius: 8px;">
+                    <img src="${chartImageBase64}" alt="Grafic Evoluție Portage" style="max-width: 100%; height: auto; border-radius: 8px;">
                 </div>
             `;
         }
     } catch (err) {
-        console.error("Eroare la generarea imaginii graficului:", err);
-        evolutionChartHTML = '<h2 style="color: #dc2626;">Graficul nu a putut fi generat.</h2>';
+        console.error("Eroare la generarea imaginii graficului Portage:", err);
+        evolutionChartHTML = '<h2 style="color: #dc2626;">Graficul Portage nu a putut fi generat.</h2>';
+    }
+
+    // Generate ABLLS-R chart
+    let abllsChartHTML = '';
+    try {
+        const abllsChartImageBase64 = await generateABLLSChartImage(clientEvolution);
+        if (abllsChartImageBase64) {
+            abllsChartHTML = `
+                <h2 style="color: #9B59B6; border-bottom-color: #9B59B650;">Evoluție ABLLS-R (Grafic)</h2>
+                <div class="summary-box" style="padding: 10px; text-align: center; border-left-color: #9B59B6; background: #9B59B610;">
+                    <img src="${abllsChartImageBase64}" alt="Grafic Evoluție ABLLS-R" style="max-width: 100%; height: auto; border-radius: 8px;">
+                </div>
+            `;
+        }
+    } catch (err) {
+        console.error("Eroare la generarea imaginii graficului ABLLS-R:", err);
     }
 
     const portageSummaryHTML = generatePortageSummaryHTML(clientEvolution, client);
+    const abllsSummaryHTML = generateABLLSSummaryHTML(clientEvolution);
     const programHistoryHTML = generateProgramHistoryHTML(clientEvolution.programHistory);
 
 
@@ -473,9 +490,13 @@ async function generateClientHTML(reportData) {
             </div>` : '<p style="text-align: center; color: #6b7280;">Nu există sesiuni programate pentru luna curentă.</p>'}
             
             ${evolutionChartHTML}
-            
+
             ${portageSummaryHTML}
-            
+
+            ${abllsChartHTML}
+
+            ${abllsSummaryHTML}
+
             ${programHistoryHTML}
 
             <div class="footer"><p>Raport generat automat - Tempo</p></div>
@@ -792,6 +813,170 @@ async function generateChartImage(clientData) {
             resolve(dataUrl);
         }, 250); // Un sfert de secundă ar trebui să fie suficient
     });
+}
+
+/**
+ * Generates ABLLS-R chart image for reports
+ */
+async function generateABLLSChartImage(clientData) {
+    if (!clientData || !clientData.evaluationsABLLS || Object.keys(clientData.evaluationsABLLS).length === 0) {
+        return null; // No data to chart
+    }
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 800;
+    canvas.height = 400;
+    const ctx = canvas.getContext('2d');
+
+    const colors = ['#4A90E2', '#FF6B6B', '#12C4D9', '#9B59B6', '#1DD75B', '#FFA500', '#E91E63'];
+    const datasets = [];
+    const allDates = new Set();
+
+    // Collect all dates
+    Object.values(clientData.evaluationsABLLS).forEach(domainData => {
+        if (domainData && typeof domainData === 'object') {
+            Object.keys(domainData).forEach(date => allDates.add(date));
+        }
+    });
+
+    const sortedDates = Array.from(allDates).sort((a, b) => new Date(a) - new Date(b));
+
+    // Build datasets - each domain is a line
+    Object.entries(clientData.evaluationsABLLS).forEach(([domain, dates], i) => {
+        if (dates && typeof dates === 'object') {
+            const color = colors[i % colors.length];
+            datasets.push({
+                label: domain,
+                data: sortedDates.map(date => {
+                    const items = dates[date];
+                    // Count checked items (items is an array of checked IDs)
+                    return Array.isArray(items) ? items.length : null;
+                }),
+                borderColor: color,
+                backgroundColor: color,
+                borderWidth: 2,
+                fill: false,
+                tension: 0.3,
+                pointRadius: 4,
+                pointHoverRadius: 6
+            });
+        }
+    });
+
+    return new Promise((resolve) => {
+        if (typeof Chart === 'undefined') {
+            console.error('Chart.js nu este încărcat. Nu se poate genera graficul.');
+            resolve(null);
+            return;
+        }
+
+        const chartInstance = new Chart(ctx, {
+            type: 'line',
+            data: { labels: sortedDates, datasets },
+            options: {
+                responsive: false,
+                animation: {
+                    duration: 0,
+                },
+                events: [],
+                plugins: {
+                    legend: { display: true, position: 'bottom', labels: { padding: 20 } },
+                    title: { display: true, text: `Evoluție Scoruri ABLLS-R`, font: { size: 16 } }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Număr Itemi Reușiți'
+                        }
+                    }
+                }
+            }
+        });
+
+        setTimeout(() => {
+            const dataUrl = canvas.toDataURL('image/png');
+            chartInstance.destroy();
+            resolve(dataUrl);
+        }, 250);
+    });
+}
+
+/**
+ * Generates HTML for ABLLS-R summary table
+ */
+function generateABLLSSummaryHTML(clientData) {
+    if (!clientData.evaluationsABLLS || Object.keys(clientData.evaluationsABLLS).length === 0) {
+        return '';
+    }
+
+    // Collect all unique dates
+    const allDates = new Set();
+    Object.values(clientData.evaluationsABLLS).forEach(domain => {
+        Object.keys(domain).forEach(date => allDates.add(date));
+    });
+
+    const sortedDates = Array.from(allDates).sort((a, b) => new Date(a) - new Date(b));
+
+    if (sortedDates.length === 0) {
+        return '';
+    }
+
+    // Build results for each date
+    const results = [];
+    sortedDates.forEach(date => {
+        let totalItems = 0;
+        let domainCount = 0;
+
+        Object.entries(clientData.evaluationsABLLS).forEach(([domain, dates]) => {
+            if (dates[date]) {
+                const checkedItems = dates[date];
+                if (Array.isArray(checkedItems)) {
+                    totalItems += checkedItems.length;
+                    domainCount++;
+                }
+            }
+        });
+
+        if (domainCount > 0) {
+            const avgScore = totalItems / domainCount;
+            results.push({ date, totalItems, domainCount, avgScore });
+        }
+    });
+
+    if (results.length === 0) {
+        return '';
+    }
+
+    // Generate table rows
+    const tableRows = results.map(r => {
+        return `<tr>
+            <td data-label="Data">${new Date(r.date).toLocaleDateString('ro-RO')}</td>
+            <td data-label="Total Itemi">${r.totalItems}</td>
+            <td data-label="Domenii Evaluate">${r.domainCount}</td>
+            <td data-label="Medie/Domeniu">${r.avgScore.toFixed(1)}</td>
+        </tr>`;
+    }).join('');
+
+    return `
+        <h2 style="color: #9B59B6; border-bottom-color: #9B59B650;">Evoluție Generală ABLLS-R</h2>
+        <div class="summary-box" style="border-left-color: #9B59B6; background: #9B59B610;">
+            <table>
+                <thead>
+                    <tr style="background: #9B59B6; color: white;">
+                        <th>Data Evaluării</th>
+                        <th style="text-align: right;">Total Itemi Reușiți</th>
+                        <th style="text-align: right;">Domenii Evaluate</th>
+                        <th style="text-align: right;">Medie Itemi/Domeniu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${tableRows}
+                </tbody>
+            </table>
+        </div>
+    `;
 }
 
 

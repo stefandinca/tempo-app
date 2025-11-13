@@ -15,6 +15,7 @@ import { showCustomAlert, showCustomConfirm } from './uiService.js';
 let portrigeData = null; // Cache pentru datele Portage
 let abllsData = null; // Cache pentru datele ABLLS-R
 let currentClientId = null; // Clientul selectat curent
+let currentEvaluationType = 'portage'; // Current evaluation type for charts/summary
 
 // Queue to prevent race conditions when saving evolution data
 let saveQueue = Promise.resolve();
@@ -260,6 +261,156 @@ function renderEvolutionChart(clientData) {
     });
 }
 
+/**
+ * Renders ABLLS-R evolution chart
+ */
+function renderABLLSChart(clientData) {
+    const chartCanvas = $('evolutionChart');
+    if (!chartCanvas) return;
+    const ctx = chartCanvas.getContext('2d');
+
+    if (evolutionChartInstance) evolutionChartInstance.destroy();
+
+    if (!clientData || !clientData.evaluationsABLLS) {
+        console.warn('renderABLLSChart: No ABLLS data available');
+        return;
+    }
+
+    const colors = ['#4A90E2', '#FF6B6B', '#12C4D9', '#9B59B6', '#1DD75B', '#FFA500', '#E91E63'];
+    const datasets = [];
+    const allDates = new Set();
+
+    // Collect all dates
+    Object.values(clientData.evaluationsABLLS).forEach(domainData => {
+        if (domainData && typeof domainData === 'object') {
+            Object.keys(domainData).forEach(date => allDates.add(date));
+        }
+    });
+
+    const sortedDates = Array.from(allDates).sort((a, b) => new Date(a) - new Date(b));
+
+    // Build datasets - each domain is a line
+    Object.entries(clientData.evaluationsABLLS).forEach(([domain, dates], i) => {
+        if (dates && typeof dates === 'object') {
+            const color = colors[i % colors.length];
+            datasets.push({
+                label: domain,
+                data: sortedDates.map(date => {
+                    const items = dates[date];
+                    // Count checked items (items is an array of checked IDs)
+                    return Array.isArray(items) ? items.length : null;
+                }),
+                borderColor: color,
+                backgroundColor: color,
+                borderWidth: 2,
+                fill: false,
+                tension: 0.3,
+                pointRadius: 4,
+                pointHoverRadius: 6
+            });
+        }
+    });
+
+    evolutionChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: { labels: sortedDates, datasets },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true, position: 'bottom', labels: { padding: 10, boxWidth: 12 } },
+                title: { display: true, text: `Evoluție Scoruri ABLLS-R`, font: { size: 14 } }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Număr Itemi Reușiți'
+                    }
+                }
+            }
+        }
+    });
+}
+
+/**
+ * Generates ABLLS-R summary HTML table
+ */
+function generateABLLSSummaryHTML(clientData) {
+    // Check if ABLLS data exists
+    if (!clientData.evaluationsABLLS || Object.keys(clientData.evaluationsABLLS).length === 0) {
+        return ''; // No data available
+    }
+
+    // Collect all unique dates
+    const allDates = new Set();
+    Object.values(clientData.evaluationsABLLS).forEach(domain => {
+        Object.keys(domain).forEach(date => allDates.add(date));
+    });
+
+    const sortedDates = Array.from(allDates).sort((a, b) => new Date(a) - new Date(b));
+
+    if (sortedDates.length === 0) {
+        return '';
+    }
+
+    // Build results for each date
+    const results = [];
+    sortedDates.forEach(date => {
+        let totalItems = 0;
+        let domainCount = 0;
+
+        Object.entries(clientData.evaluationsABLLS).forEach(([domain, dates]) => {
+            if (dates[date]) {
+                const checkedItems = dates[date];
+                if (Array.isArray(checkedItems)) {
+                    totalItems += checkedItems.length;
+                    domainCount++;
+                }
+            }
+        });
+
+        if (domainCount > 0) {
+            const avgScore = totalItems / domainCount;
+            results.push({ date, totalItems, domainCount, avgScore });
+        }
+    });
+
+    if (results.length === 0) {
+        return '';
+    }
+
+    // Generate table rows
+    const tableRows = results.map(r => {
+        return `<tr>
+            <td data-label="Data">${new Date(r.date).toLocaleDateString('ro-RO')}</td>
+            <td data-label="Total Itemi">${r.totalItems}</td>
+            <td data-label="Domenii Evaluate">${r.domainCount}</td>
+            <td data-label="Medie/Domeniu">${r.avgScore.toFixed(1)}</td>
+        </tr>`;
+    }).join('');
+
+    return `
+        <h3 class="evolution-summary-title">Evoluție Generală ABLLS-R</h3>
+        <div class="evolution-table-container" style="margin-top: 0; padding-top: 0;">
+            <table class="evolution-table">
+                <thead>
+                    <tr>
+                        <th>Data Evaluării</th>
+                        <th>Total Itemi Reușiți</th>
+                        <th>Domenii Evaluate</th>
+                        <th>Medie Itemi/Domeniu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${tableRows}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
+
 // În fișierul: js/evolutionService.js
 
 /**
@@ -276,8 +427,10 @@ function renderEvaluationReportsList(clientData, client) {
         return;
     }
 
-    // --- MODIFICARE: Apelăm funcția de generare a sumarului ---
-    const summaryTableHTML = generatePortageSummaryHTML(clientData, client);
+    // --- MODIFICARE: Apelăm funcția de generare a sumarului bazat pe tipul curent ---
+    const summaryTableHTML = currentEvaluationType === 'ablls'
+        ? generateABLLSSummaryHTML(clientData)
+        : generatePortageSummaryHTML(clientData, client);
 
     const allEvaluations = [];
 
@@ -2576,6 +2729,39 @@ evolutionModal?.addEventListener('click', (e) => {
 });
 document.querySelectorAll('.tab-button').forEach(btn => {
     btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+});
+
+// Listeners pentru switch-ul de tip evaluare în grafice
+$('showPortageChart')?.addEventListener('click', () => {
+    currentEvaluationType = 'portage';
+
+    // Update button styles
+    $('showPortageChart')?.classList.add('active');
+    $('showABLLSChart')?.classList.remove('active');
+
+    // Re-render chart and summary
+    const { evolutionData } = calendarState.getState();
+    const client = calendarState.getClientById(currentClientId);
+    if (evolutionData && currentClientId && evolutionData[currentClientId]) {
+        renderEvolutionChart(evolutionData[currentClientId]);
+        renderEvaluationReportsList(evolutionData[currentClientId], client);
+    }
+});
+
+$('showABLLSChart')?.addEventListener('click', () => {
+    currentEvaluationType = 'ablls';
+
+    // Update button styles
+    $('showPortageChart')?.classList.remove('active');
+    $('showABLLSChart')?.classList.add('active');
+
+    // Re-render chart and summary
+    const { evolutionData } = calendarState.getState();
+    const client = calendarState.getClientById(currentClientId);
+    if (evolutionData && currentClientId && evolutionData[currentClientId]) {
+        renderABLLSChart(evolutionData[currentClientId]);
+        renderEvaluationReportsList(evolutionData[currentClientId], client);
+    }
 });
 
 // Listeners pentru tab-ul de evaluare
