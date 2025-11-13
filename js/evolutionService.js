@@ -652,6 +652,16 @@ async function handleEvaluationEdit(type, date) {
             });
         }
     } else if (type === 'ablls') {
+        // Set the evaluation type selector to ABLLS
+        const evalTypeSelect = $('evaluationTypeSelect');
+        if (evalTypeSelect) {
+            evalTypeSelect.value = 'ablls';
+            evalTypeSelect.dispatchEvent(new Event('change'));
+        }
+
+        // Wait for the form to render
+        await new Promise(resolve => setTimeout(resolve, 200));
+
         // Load ABLLS data
         if (clientData.evaluationsABLLS) {
             Object.keys(clientData.evaluationsABLLS).forEach(domain => {
@@ -661,9 +671,14 @@ async function handleEvaluationEdit(type, date) {
                     // If it's an array (new format), check the corresponding checkboxes
                     if (Array.isArray(checkedItems)) {
                         checkedItems.forEach(itemId => {
-                            const checkbox = document.querySelector(`input[name="ablls-${domain}"][value="${itemId}"]`);
+                            const checkbox = document.querySelector(`input[data-domain="${domain}"][data-id="${itemId}"]`);
                             if (checkbox) {
                                 checkbox.checked = true;
+                                // Also add the visual 'checked' class to the parent item
+                                const parentItem = checkbox.closest('.ablls-item');
+                                if (parentItem) {
+                                    parentItem.classList.add('checked');
+                                }
                             }
                         });
                     }
@@ -672,6 +687,16 @@ async function handleEvaluationEdit(type, date) {
             });
         }
     } else if (type === 'logopedica') {
+        // Set the evaluation type selector to logopedic
+        const evalTypeSelect = $('evaluationTypeSelect');
+        if (evalTypeSelect) {
+            evalTypeSelect.value = 'logopedica';
+            evalTypeSelect.dispatchEvent(new Event('change'));
+        }
+
+        // Wait for the form to render
+        await new Promise(resolve => setTimeout(resolve, 200));
+
         // Load Logopedic data
         if (clientData.evaluationsLogopedica && clientData.evaluationsLogopedica[date]) {
             const evalData = clientData.evaluationsLogopedica[date];
