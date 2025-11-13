@@ -126,6 +126,49 @@ if (isset($_GET['action']) && $_GET['action'] === 'login') {
     }
 }
 
+// Handle save-demo-client action
+if (isset($_GET['action']) && $_GET['action'] === 'save-demo-client') {
+    try {
+        $name = $_POST['name'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $phone = $_POST['phone'] ?? '';
+        $organization = $_POST['organization'] ?? '';
+
+        // Validate required fields
+        if (empty($name) || empty($email) || empty($phone)) {
+            sendResponse(['success' => false, 'message' => 'Nume, email și telefon sunt obligatorii'], 400);
+        }
+
+        // Validate email format
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            sendResponse(['success' => false, 'message' => 'Email invalid'], 400);
+        }
+
+        debugLog("Save demo user: name=$name, email=$email, phone=$phone, organization=$organization");
+
+        // Insert into demo_users table
+        $stmt = $pdo->prepare("INSERT INTO demo_users (name, email, phone, organization, created_at) VALUES (?, ?, ?, ?, NOW())");
+        $result = $stmt->execute([$name, $email, $phone, $organization]);
+
+        if ($result) {
+            $userId = $pdo->lastInsertId();
+            debugLog("Demo user saved successfully with ID: $userId");
+
+            sendResponse([
+                'success' => true,
+                'message' => 'Datele au fost salvate cu succes',
+                'user_id' => $userId
+            ]);
+        } else {
+            debugLog("Failed to save demo user");
+            sendResponse(['success' => false, 'message' => 'Eroare la salvarea datelor'], 500);
+        }
+    } catch (Exception $e) {
+        debugLog("Save demo user error: " . $e->getMessage());
+        sendError('Error saving demo user: ' . $e->getMessage(), 500);
+    }
+}
+
 // Route requests
 try {
     switch ($path) {

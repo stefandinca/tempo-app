@@ -88,6 +88,84 @@
         </div>
     </div>
 
+    <!-- Welcome Modal for First Visit -->
+    <div id="welcomeModal" class="welcome-modal" role="dialog" aria-modal="true" aria-labelledby="welcomeModalTitle" aria-hidden="true">
+        <div class="welcome-modal-content">
+            <div class="welcome-modal-header">
+                <h2 id="welcomeModalTitle">Bine ați venit la Tempo!</h2>
+                <p class="welcome-modal-subtitle">Vă rugăm să completați câteva informații pentru a începe demo-ul</p>
+            </div>
+            <form id="welcomeForm" class="welcome-modal-body">
+                <div class="form-group">
+                    <label for="demoName" class="form-label">
+                        <span>Nume complet</span>
+                        <span class="required-mark">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="demoName"
+                        name="name"
+                        class="form-input"
+                        placeholder="ex: Ion Popescu"
+                        required
+                        aria-required="true"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="demoEmail" class="form-label">
+                        <span>Email</span>
+                        <span class="required-mark">*</span>
+                    </label>
+                    <input
+                        type="email"
+                        id="demoEmail"
+                        name="email"
+                        class="form-input"
+                        placeholder="ex: ion.popescu@email.com"
+                        required
+                        aria-required="true"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="demoPhone" class="form-label">
+                        <span>Telefon</span>
+                        <span class="required-mark">*</span>
+                    </label>
+                    <input
+                        type="tel"
+                        id="demoPhone"
+                        name="phone"
+                        class="form-input"
+                        placeholder="ex: 0712345678"
+                        required
+                        aria-required="true"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="demoOrganization" class="form-label">
+                        <span>Organizație</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="demoOrganization"
+                        name="organization"
+                        class="form-input"
+                        placeholder="ex: Centrul de Terapie ABC"
+                    />
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="welcome-submit-btn" id="welcomeSubmitBtn">
+                        Începe Demo
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script type="module">
         // API Configuration
         const API_BASE = 'api.php';
@@ -1636,11 +1714,106 @@ function generateProgramHistoryTable(programHistory) {
             labelEl.textContent = label;
         }
 
-        // --- Inițializare ---
+        // ==========================================================
+        // --- WELCOME MODAL FOR FIRST VISIT ---
+        // ==========================================================
+
+        function checkFirstVisit() {
+            const hasVisited = localStorage.getItem('tempo-demo-visited');
+            if (!hasVisited) {
+                showWelcomeModal();
+            }
+        }
+
+        function showWelcomeModal() {
+            const modal = document.getElementById('welcomeModal');
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+
+            // Focus on first input
+            setTimeout(() => {
+                const firstInput = document.getElementById('demoName');
+                if (firstInput) firstInput.focus();
+            }, 100);
+        }
+
+        function closeWelcomeModal() {
+            const modal = document.getElementById('welcomeModal');
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+
+            // Mark as visited
+            localStorage.setItem('tempo-demo-visited', 'true');
+        }
+
+        async function submitWelcomeForm(formData) {
+            try {
+                const response = await fetch(`${API_BASE}?action=save-demo-client`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showSuccessToast('Bine ați venit!', 'Datele au fost salvate cu succes.');
+                    closeWelcomeModal();
+                } else {
+                    showErrorToast('Eroare', result.message || 'A apărut o eroare la salvarea datelor.');
+                }
+            } catch (error) {
+                console.error('Error submitting welcome form:', error);
+                showErrorToast('Eroare', 'Nu s-au putut salva datele. Vă rugăm încercați din nou.');
+            }
+        }
+
+        // Setup welcome form
+        const welcomeForm = document.getElementById('welcomeForm');
+        if (welcomeForm) {
+            welcomeForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const submitBtn = document.getElementById('welcomeSubmitBtn');
+                const formData = new FormData(welcomeForm);
+
+                // Disable button and show loading state
+                submitBtn.disabled = true;
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Se salvează...';
+
+                await submitWelcomeForm(formData);
+
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            });
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const welcomeModal = document.getElementById('welcomeModal');
+                if (welcomeModal && welcomeModal.classList.contains('active')) {
+                    // Don't allow closing with Escape on first visit - require form submission
+                    // closeWelcomeModal();
+                }
+            }
+        });
+
+        // ==========================================================
+        // --- INITIALIZATION ---
+        // ==========================================================
 
         // Initialize theme
         const savedTheme = localStorage.getItem('calendar-theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // Check first visit and show welcome modal if needed
+        checkFirstVisit();
 
         // Load users on page load
         renderUserCards();
