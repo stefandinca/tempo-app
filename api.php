@@ -1278,6 +1278,80 @@ try {
             break;
 
         // ==========================================================
+        // CAZUL 'activities' - Activity Logging
+        // ==========================================================
+        case 'activities':
+            if ($method === 'GET') {
+                try {
+                    // Get limit parameter, default to 50
+                    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 50;
+
+                    // Fetch recent activities with limit
+                    $stmt = $pdo->prepare("
+                        SELECT
+                            id,
+                            user_id,
+                            user_name,
+                            action,
+                            details,
+                            action_type,
+                            related_id,
+                            created_at
+                        FROM activities
+                        ORDER BY created_at DESC
+                        LIMIT ?
+                    ");
+                    $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+                    $stmt->execute();
+                    $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                    sendResponse(['success' => true, 'activities' => $activities]);
+                } catch (Exception $e) {
+                    debugLog("Eroare la încărcarea activităților: " . $e->getMessage());
+                    sendError('Failed to load activities: ' . $e->getMessage());
+                }
+            } elseif ($method === 'POST') {
+                try {
+                    if ($input === null) {
+                        sendError('Invalid JSON data', 400);
+                    }
+
+                    // Validate required fields
+                    if (empty($input['user_id']) || empty($input['user_name']) || empty($input['action']) || empty($input['action_type'])) {
+                        sendError('Missing required fields: user_id, user_name, action, action_type', 400);
+                    }
+
+                    // Insert activity
+                    $stmt = $pdo->prepare("
+                        INSERT INTO activities
+                        (user_id, user_name, action, details, action_type, related_id, created_at)
+                        VALUES (?, ?, ?, ?, ?, ?, NOW())
+                    ");
+
+                    $stmt->execute([
+                        $input['user_id'],
+                        $input['user_name'],
+                        $input['action'],
+                        $input['details'] ?? '',
+                        $input['action_type'],
+                        $input['related_id'] ?? null
+                    ]);
+
+                    $activityId = $pdo->lastInsertId();
+                    debugLog("Activitate creată: ID=$activityId, user=" . $input['user_name'] . ", action=" . $input['action']);
+
+                    sendResponse(['success' => true, 'message' => 'Activity logged successfully', 'id' => $activityId]);
+
+                } catch (Exception $e) {
+                    debugLog("Eroare la salvarea activității: " . $e->getMessage());
+                    sendError('Failed to log activity: ' . $e->getMessage());
+                }
+            } else {
+                sendError('Unsupported method for activities', 405);
+            }
+            break;
+
+        // ==========================================================
         // CAZUL 'system-options' - Obține opțiunile sistemului
         // ==========================================================
         case 'system-options':

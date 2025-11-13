@@ -706,6 +706,18 @@ function addProgramScoreListeners(eventId, canModify = true) {
                 // 8. Update program history locally (will be saved to database when modal closes)
                 updateProgramHistoryLocal(event, programId, scoreString || null);
 
+                // 9. Log activity for each client
+                const clientIds = event.clientIds || (event.clientId ? [event.clientId] : []);
+                const program = calendarState.getProgramById(programId);
+                if (program && clientIds.length > 0) {
+                    clientIds.forEach(clientId => {
+                        const client = calendarState.getClientById(clientId);
+                        if (client) {
+                            window.logActivity('a actualizat o evaluare', `${client.name} - ${program.title}: ${scoreString}`, 'evaluation', clientId);
+                        }
+                    });
+                }
+
             } catch (err) {
                 console.error("Eroare la salvarea scorului:", err);
                 showCustomAlert("A apărut o eroare la salvarea scorului.", "Eroare");

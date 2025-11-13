@@ -119,7 +119,7 @@ function generateScoreHTML(scoreData) {
  * Inițializează și afișează modalul de evoluție pentru un client.
  * @param {string} clientId
  */
-export async function showEvolutionModal(clientId) {
+export async function showEvolutionModal(clientId, activeTabId = 'tabGrafice') {
     currentClientId = clientId;
     const { clients, evolutionData } = calendarState.getState();
     const client = calendarState.getClientById(clientId);
@@ -131,18 +131,18 @@ export async function showEvolutionModal(clientId) {
     }
 
     // 2. Creăm un obiect gol dacă nu există date, ÎN LOC SĂ AFIȘĂM ALERTA
-    const clientData = evolutionData[clientId] || 
-                     evolutionData[`client_${clientId}`] || 
+    const clientData = evolutionData[clientId] ||
+                     evolutionData[`client_${clientId}`] ||
                      { name: client.name, evaluations: {}, programHistory: [] };
 
     // Continuăm cu deschiderea modalului
     $('evolutionTitle').textContent = `Evoluție - ${client.name}`;
     evolutionModal.style.display = 'flex';
 
-    
-    
-    // Asigură-te că primul tab este activ
-    activateTab('tabGrafice');
+
+
+    // Activate the specified tab (default to charts)
+    activateTab(activeTabId);
 
     // Randează componentele (acestea vor gestiona starea goală)
     renderEvolutionChart(clientData);

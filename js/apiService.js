@@ -117,6 +117,12 @@ export async function createEvent(eventData) {
             'Eveniment creat',
             isMultiple ? `${eventData.length} evenimente create cu succes` : 'Evenimentul a fost creat cu succes'
         );
+
+        // Log activity
+        const eventName = isMultiple ? `${eventData.length} evenimente` : (eventData.name || 'Eveniment nou');
+        const eventDate = isMultiple ? eventData[0].date : eventData.date;
+        await window.logActivity('a creat eveniment', eventName, 'event', eventDate);
+
         return result;
     } catch (error) {
         showErrorToast('Eroare la creare', 'Nu s-a putut crea evenimentul');
@@ -137,6 +143,11 @@ export async function updateEvent(eventData) {
     try {
         const result = await apiFetch(`events/${eventData.id}`, options);
         showSuccessToast('Eveniment actualizat', 'Modificările au fost salvate cu succes');
+
+        // Log activity
+        const eventName = eventData.name || 'Eveniment';
+        await window.logActivity('a actualizat eveniment', eventName, 'event', eventData.date);
+
         return result;
     } catch (error) {
         showErrorToast('Eroare la actualizare', 'Nu s-a putut actualiza evenimentul');
@@ -153,6 +164,10 @@ export async function deleteEvent(eventId) {
     try {
         const result = await apiFetch(`events/${eventId}`, options);
         showSuccessToast('Eveniment șters', 'Evenimentul a fost șters cu succes');
+
+        // Log activity
+        await window.logActivity('a șters eveniment', eventId, 'event', null);
+
         return result;
     } catch (error) {
         showErrorToast('Eroare la ștergere', 'Nu s-a putut șterge evenimentul');
@@ -172,6 +187,10 @@ export async function createClient(clientData) {
     try {
         const result = await apiFetch('clients', options);
         showSuccessToast('Client creat', `Clientul ${clientData.name} a fost adăugat cu succes`);
+
+        // Log activity
+        await window.logActivity('a adăugat client', clientData.name, 'client', clientData.id);
+
         return result;
     } catch (error) {
         showErrorToast('Eroare la creare', 'Nu s-a putut crea clientul');
@@ -195,6 +214,10 @@ export async function updateClient(clientData, oldId = null) {
     try {
         const result = await apiFetch(`clients/${clientIdForUrl}`, options);
         showSuccessToast('Client actualizat', 'Modificările au fost salvate cu succes');
+
+        // Log activity
+        await window.logActivity('a actualizat profil client', clientData.name, 'client', clientData.id);
+
         return result;
     } catch (error) {
         showErrorToast('Eroare la actualizare', 'Nu s-a putut actualiza clientul');
@@ -210,6 +233,10 @@ export async function deleteClient(clientId) {
     try {
         const result = await apiFetch(`clients/${clientId}`, options);
         showSuccessToast('Client șters', 'Clientul a fost arhivat cu succes');
+
+        // Log activity
+        await window.logActivity('a arhivat client', clientId, 'client', clientId);
+
         return result;
     } catch (error) {
         showErrorToast('Eroare la arhivare', 'Nu s-a putut arhiva clientul');
@@ -249,6 +276,10 @@ export async function saveEvolutionData(data) {
     try {
         const result = await apiFetch('evolution', options);
         showSuccessToast('Evoluție salvată', 'Datele de evoluție au fost salvate cu succes');
+
+        // Note: Activity logging for specific evolution actions (like monthly themes)
+        // is handled in evolutionService.js where the specific client context is known
+
         return result;
     } catch (error) {
         showErrorToast('Eroare la salvare', 'Nu s-au putut salva datele de evoluție');
@@ -656,6 +687,10 @@ export async function uploadClientDocument(clientId, file) {
 
         const result = await response.json();
         showSuccessToast('Document încărcat', 'Documentul a fost încărcat cu succes');
+
+        // Log activity
+        await window.logActivity('a încărcat document', file.name, 'document', clientId);
+
         return result;
     } catch (error) {
         showErrorToast('Eroare la încărcare', error.message || 'Nu s-a putut încărca documentul');
@@ -669,12 +704,19 @@ export async function uploadClientDocument(clientId, file) {
  * Șterge un document al unui client.
  * Apel DELETE la api.php?path=client-documents/:id
  * @param {number} documentId - ID-ul documentului
+ * @param {string} clientId - ID-ul clientului (optional, pentru activity logging)
  */
-export async function deleteClientDocument(documentId) {
+export async function deleteClientDocument(documentId, clientId = null) {
     const options = { method: 'DELETE' };
     try {
         const result = await apiFetch(`client-documents/${documentId}`, options);
         showSuccessToast('Document șters', 'Documentul a fost șters cu succes');
+
+        // Log activity
+        if (clientId) {
+            await window.logActivity('a șters document', `Document ID: ${documentId}`, 'document', clientId);
+        }
+
         return result;
     } catch (error) {
         showErrorToast('Eroare la ștergere', 'Nu s-a putut șterge documentul');

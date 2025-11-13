@@ -1895,57 +1895,86 @@
             return "acum câteva secunde";
         }
 
-        // Populate recent activity
-        function populateRecentActivity() {
+        // Populate recent activity from database
+        async function populateRecentActivity() {
             const container = document.getElementById('dashboardRecentActivity');
             if (!container) return;
 
-            let activityLog = [];
             try {
-                activityLog = JSON.parse(localStorage.getItem('recentActivity')) || [];
-            } catch (e) {
-                activityLog = [];
-            }
+                // Fetch activities and team members data
+                const [activitiesResponse, dataResponse] = await Promise.all([
+                    fetch('api.php?path=activities&limit=30'),
+                    fetch('api.php?path=data')
+                ]);
 
-            if (activityLog.length === 0) {
-                container.innerHTML = '<p class="text-gray-500 dark:text-gray-400 py-4 text-center">Nicio activitate recentă.</p>';
-                return;
-            }
+                const activitiesResult = await activitiesResponse.json();
+                const data = await dataResponse.json();
 
-            const icons = {
-                event: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-600 dark:text-gray-400"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>',
-                report: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-600 dark:text-gray-400"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
-                evaluation: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-600 dark:text-gray-400"><path d="M3 3v18h18"/><path d="M18 17V9l-5 5-4-4-6 6"/></svg>',
-                generic: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-600 dark:text-gray-400"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'
-            };
-
-            let html = '';
-            activityLog.forEach(entry => {
-                const actionType = entry.actionType || 'generic';
-                const icon = icons[actionType] || icons.generic;
-                let actionButton = '';
-
-                if (actionType === 'event' && entry.relatedId) {
-                    actionButton = `<button class="px-3 py-1.5 text-xs md:text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg transition-colors whitespace-nowrap" data-action="goToDate" data-date="${entry.relatedId}">Vezi Ziua</button>`;
-                } else if (actionType === 'evaluation' && entry.relatedId) {
-                    actionButton = `<button class="px-3 py-1.5 text-xs md:text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg transition-colors whitespace-nowrap" data-action="goToClientEvolution" data-client-id="${entry.relatedId}">Vezi Evoluție</button>`;
-                } else if (actionType === 'report' && entry.relatedId) {
-                    actionButton = `<button class="px-3 py-1.5 text-xs md:text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg transition-colors whitespace-nowrap" data-action="goToClient" data-client-id="${entry.relatedId}">Vezi Client</button>`;
+                if (!activitiesResult.success || !activitiesResult.activities || activitiesResult.activities.length === 0) {
+                    container.innerHTML = '<p class="text-gray-500 dark:text-gray-400 py-4 text-center">Nicio activitate recentă.</p>';
+                    return;
                 }
 
-                html += `
-                <div class="grid grid-cols-[auto_1fr_auto_auto] items-center gap-3 md:gap-4 py-3 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
-                    <div class="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">${icon}</div>
-                    <div class="text-sm text-gray-700 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap">
-                        <strong>${entry.action}</strong>: ${entry.details}
+                const activityLog = activitiesResult.activities;
+
+                // Create a user color map from team members
+                const userColorMap = {};
+                if (data.teamMembers && Array.isArray(data.teamMembers)) {
+                    data.teamMembers.forEach(member => {
+                        userColorMap[member.id] = member.color || '#6366f1'; // Default to indigo
+                    });
+                }
+
+                const icons = {
+                    event: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-600 dark:text-gray-400"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>',
+                    report: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-600 dark:text-gray-400"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+                    evaluation: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-600 dark:text-gray-400"><path d="M3 3v18h18"/><path d="M18 17V9l-5 5-4-4-6 6"/></svg>',
+                    client: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-600 dark:text-gray-400"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+                    document: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-600 dark:text-gray-400"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
+                    generic: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-600 dark:text-gray-400"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'
+                };
+
+                let html = '';
+                activityLog.forEach(entry => {
+                    const actionType = entry.action_type || 'generic';
+                    const icon = icons[actionType] || icons.generic;
+                    let actionButton = '';
+
+                    // Get user color from map, fallback to indigo
+                    const userColor = userColorMap[entry.user_id] || '#6366f1';
+
+                    if (actionType === 'event' && entry.related_id) {
+                        actionButton = `<button class="px-3 py-1.5 text-xs md:text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg transition-colors whitespace-nowrap" data-action="goToDate" data-date="${entry.related_id}">Vezi Ziua</button>`;
+                    } else if (actionType === 'evaluation' && entry.related_id) {
+                        actionButton = `<button class="px-3 py-1.5 text-xs md:text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg transition-colors whitespace-nowrap" data-action="goToClientEvolution" data-client-id="${entry.related_id}">Vezi Evoluție</button>`;
+                    } else if (actionType === 'report' && entry.related_id) {
+                        actionButton = `<button class="px-3 py-1.5 text-xs md:text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg transition-colors whitespace-nowrap" data-action="goToClient" data-client-id="${entry.related_id}">Vezi Client</button>`;
+                    } else if (actionType === 'client' && entry.related_id) {
+                        actionButton = `<button class="px-3 py-1.5 text-xs md:text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg transition-colors whitespace-nowrap" data-action="goToClient" data-client-id="${entry.related_id}">Vezi Client</button>`;
+                    } else if (actionType === 'document' && entry.related_id) {
+                        actionButton = `<button class="px-3 py-1.5 text-xs md:text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg transition-colors whitespace-nowrap" data-action="goToClient" data-client-id="${entry.related_id}">Vezi Client</button>`;
+                    }
+
+                    html += `
+                    <div class="grid grid-cols-[auto_1fr_auto_auto] items-center gap-3 md:gap-4 py-3 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
+                        <div class="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">${icon}</div>
+                        <div class="text-sm text-gray-700 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap">
+                            <strong style="color: ${userColor};">${entry.user_name}</strong> ${entry.action}: ${entry.details}
+                        </div>
+                        <div class="text-xs md:text-sm text-gray-500 dark:text-gray-400 flex-shrink-0 whitespace-nowrap">${formatTimeAgo(entry.created_at)}</div>
+                        <div class="flex-shrink-0">${actionButton}</div>
                     </div>
-                    <div class="text-xs md:text-sm text-gray-500 dark:text-gray-400 flex-shrink-0 whitespace-nowrap">${formatTimeAgo(entry.timestamp)}</div>
-                    <div class="flex-shrink-0">${actionButton}</div>
-                </div>
-                `;
-            });
-            container.innerHTML = html;
+                    `;
+                });
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading activities:', error);
+                container.innerHTML = '<p class="text-red-500 dark:text-red-400 py-4 text-center">Eroare la încărcarea activităților.</p>';
+            }
         }
+
+        // Make function globally available for refresh
+        window.refreshDashboardActivities = populateRecentActivity;
 
         // Initialize on DOM load
         document.addEventListener('DOMContentLoaded', () => {
@@ -2009,11 +2038,12 @@
                 if (action === 'goToClientEvolution') {
                     const clientId = button.dataset.clientId;
                     if (!clientId) return;
-                    
+
                     document.querySelector('.menu-item[data-view="client"]').click();
-                    
+
                     import('./js/evolutionService.js').then(({ showEvolutionModal }) => {
-                        showEvolutionModal(clientId);
+                        // Open evolution modal and switch to Program History tab
+                        showEvolutionModal(clientId, 'tabPrograme');
                     });
                 }
 

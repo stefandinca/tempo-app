@@ -1184,38 +1184,52 @@ function createRecurringEvents(eventBase, defaultAttendance = {}) { // 1. Accept
 // --- Helper Functions ---
 
 /**
- * Logs a recent activity to localStorage.
+ * Logs a recent activity to the database.
  * @param {string} action - The action performed (e.g., "Client adăugat").
  * @param {string} details - The name/details of the item (e.g., "Stefan Negru").
- * @param {string} actionType - 'event', 'report', 'evaluation', 'generic'
- * @param {string} relatedId - Client ID or Event Date
+ * @param {string} actionType - 'event', 'report', 'evaluation', 'generic', 'client', 'document', etc.
+ * @param {string} relatedId - Client ID or Event Date or related entity ID
  */
-window.logActivity = function(action, details, actionType = 'generic', relatedId = null) {
-    let activityLog = [];
+window.logActivity = async function(action, details, actionType = 'generic', relatedId = null) {
+    const currentUser = auth.getCurrentUser();
+
+    // If no user is logged in, skip logging
+    if (!currentUser) {
+        console.warn('Cannot log activity: No user logged in');
+        return;
+    }
+
     try {
-        activityLog = JSON.parse(localStorage.getItem('recentActivity')) || [];
-    } catch (e) {
-        activityLog = [];
+        // Save to database via API
+        const response = await fetch('api.php?path=activities', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user_id: currentUser.id,
+                user_name: currentUser.name,
+                action: action,
+                details: details,
+                action_type: actionType,
+                related_id: relatedId
+            })
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+            console.error('Failed to log activity:', result.error);
+        }
+
+        // Refresh dashboard activities if we're on the dashboard
+        if (document.getElementById('dashboardSection') &&
+            document.getElementById('dashboardSection').style.display !== 'none') {
+            await refreshDashboardActivities();
+        }
+    } catch (error) {
+        console.error('Error logging activity:', error);
     }
-
-    const newEntry = {
-        timestamp: new Date().toISOString(),
-        action: action,
-        details: details,
-        actionType: actionType,
-        relatedId: relatedId
-    };
-
-    // Add new entry to the top
-    activityLog.unshift(newEntry);
-
-    // Keep the log to a reasonable size (e.g, last 15 items)
-    if (activityLog.length > 15) {
-        activityLog.pop();
-    }
-
-    // Save back to localStorage
-    localStorage.setItem('recentActivity', JSON.stringify(activityLog));
 }
 
 /**
@@ -2184,7 +2198,7 @@ async function init() {
             if (!confirmed) return;
 
             try {
-                await api.deleteClientDocument(documentId);
+                await api.deleteClientDocument(documentId, clientId);
                 // Refresh document list
                 await ui.renderClientDocuments(clientId);
             } catch (error) {
