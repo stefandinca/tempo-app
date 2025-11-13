@@ -593,38 +593,60 @@ async function handleEvaluationEdit(type, date) {
     }
 
     // Switch to Add Evaluation tab
-    const addEvalTab = document.querySelector('.evolution-tabs button[data-tab="addEvaluation"]');
-    if (addEvalTab) {
-        addEvalTab.click();
-    }
+    activateTab('tabEvaluare');
 
-    // Set the evaluation date
-    const evalDateInput = $('evalDate');
-    if (evalDateInput) {
-        evalDateInput.value = date;
-    }
-
-    // Set the evaluation type
-    const evalTypeSelect = $('evalType');
-    if (evalTypeSelect) {
-        evalTypeSelect.value = type;
-        // Trigger change event to show the correct form
-        evalTypeSelect.dispatchEvent(new Event('change'));
-    }
-
-    // Wait a bit for the form to render
+    // Wait a bit for the tab to render
     await new Promise(resolve => setTimeout(resolve, 100));
 
     // Load data based on evaluation type
     if (type === 'portage') {
-        // Load Portage data
-        if (clientData.evaluations) {
-            Object.keys(clientData.evaluations).forEach(domain => {
-                if (clientData.evaluations[domain] && clientData.evaluations[domain][date]) {
-                    const score = clientData.evaluations[domain][date];
-                    const input = document.querySelector(`input[name="portage-${domain}"]`);
-                    if (input) {
-                        input.value = score;
+        // Set the evaluation type selector
+        const evalTypeSelect = $('evaluationTypeSelect');
+        if (evalTypeSelect) {
+            evalTypeSelect.value = 'portage';
+            evalTypeSelect.dispatchEvent(new Event('change'));
+        }
+
+        // Load Portage data - set the evaluation date first
+        const evalDateInput = $('evaluationDateInput');
+        if (evalDateInput) {
+            evalDateInput.value = date;
+        }
+
+        // Set birth date if available
+        const birthDateInput = $('childBirthDateInput');
+        if (birthDateInput && client.birthDate) {
+            birthDateInput.value = client.birthDate;
+            updateChildAgeDisplay(client.birthDate);
+        }
+
+        // Trigger evaluation date change to re-render portage domains
+        if (evalDateInput) {
+            evalDateInput.dispatchEvent(new Event('change'));
+        }
+
+        // Wait for domains to render
+        await new Promise(resolve => setTimeout(resolve, 200));
+
+        // Restore checked items from saved data
+        if (clientData.portageCheckedItems) {
+            Object.keys(clientData.portageCheckedItems).forEach(domain => {
+                if (clientData.portageCheckedItems[domain] && clientData.portageCheckedItems[domain][date]) {
+                    const checkedItemIds = clientData.portageCheckedItems[domain][date];
+
+                    // Check the corresponding checkboxes
+                    if (Array.isArray(checkedItemIds)) {
+                        checkedItemIds.forEach(itemId => {
+                            const checkbox = document.querySelector(`input[data-id="${itemId}"]`);
+                            if (checkbox) {
+                                checkbox.checked = true;
+                                // Also add the visual 'checked' class to the parent item
+                                const parentItem = checkbox.closest('.portage-item');
+                                if (parentItem) {
+                                    parentItem.classList.add('checked');
+                                }
+                            }
+                        });
                     }
                 }
             });
@@ -2105,10 +2127,18 @@ async function savePortageEvaluation() {
     // 3. Acum `clientEvals` este o referință SIGURĂ la obiectul din state care trebuie modificat
     const clientEvals = evolutionData[currentClientId].evaluations;
     
+    // --- START: Asigură-te că există și structura pentru checkedItems ---
+    if (!evolutionData[currentClientId].portageCheckedItems) {
+        evolutionData[currentClientId].portageCheckedItems = {};
+    }
+    // --- END ---
+
     // Calculează vârsta de dezvoltare și salvează scorul
     for (const domain in domainScores) {
         const items = portrigeData[domain].filter(item => item.months <= ageMonths);
         let developmentalAge = 0;
+        const checkedItemIds = []; // Array to store checked item IDs
+
         if (items.length > 0) {
             // (logica de calculare a vârstei rămâne neschimbată)
             const checkedItems = domainItems[domain].filter(cb => cb.checked).map(cb => cb.closest('.portage-item'));
@@ -2117,16 +2147,30 @@ async function savePortageEvaluation() {
                 developmentalAge = parseInt(lastCheckedItem.dataset.months) || 0;
             }
         }
-        
+
+        // Collect IDs of all checked items for this domain
+        domainItems[domain].forEach(cb => {
+            if (cb.checked) {
+                checkedItemIds.push(cb.dataset.id);
+            }
+        });
+
         const key = `Portrige - ${domain}`; // Cheia pentru grafic
-        
+
         // 4. Asigură-te că domeniul (ex: "Portrige - Limbaj") există
         if (!clientEvals[key]) {
             clientEvals[key] = {};
         }
-        
+
         // 5. Adaugă/Actualizează data evaluării FĂRĂ a suprascrie întregul domeniu
         clientEvals[key][evalDate] = developmentalAge;
+
+        // --- NEW: Save the checked item IDs ---
+        if (!evolutionData[currentClientId].portageCheckedItems[key]) {
+            evolutionData[currentClientId].portageCheckedItems[key] = {};
+        }
+        evolutionData[currentClientId].portageCheckedItems[key][evalDate] = checkedItemIds;
+        // --- END NEW ---
     }
     
     // `evolutionData` a fost deja modificat prin referință
