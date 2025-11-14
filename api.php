@@ -1451,8 +1451,8 @@ try {
                     // Connect to main database
                     $mainHost = '127.0.0.1';
                     $mainDb = 'incjzljm_tempo_app_main';
-                    $mainUser = 'incjzljm_tempo_livebetterlife';
-                    $mainPass = 'livebetterlife';
+                    $mainUser = 'incjzljm_tempo_logoland';
+                    $mainPass = 'tempologoland';
                     $mainCharset = 'utf8mb4';
 
                     $mainDsn = "mysql:host=$mainHost;dbname=$mainDb;charset=$mainCharset";
