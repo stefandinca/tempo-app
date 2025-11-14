@@ -65,6 +65,21 @@ function sendError($message, $statusCode = 500) {
     sendResponse(['error' => $message], $statusCode);
 }
 
+/**
+ * Validate that an event type exists in the database
+ * @param PDO $pdo Database connection
+ * @param string $typeId Event type ID to validate
+ * @return bool True if type exists, false otherwise
+ */
+function validateEventType($pdo, $typeId) {
+    if (empty($typeId)) {
+        return false;
+    }
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM event_types WHERE id = ?");
+    $stmt->execute([$typeId]);
+    return $stmt->fetchColumn() > 0;
+}
+
 // Parse request
 $method = $_SERVER['REQUEST_METHOD'];
 $path   = isset($_GET['path']) ? $_GET['path'] : '';
@@ -321,13 +336,25 @@ try {
                         if ($input === null) {
                             sendError('Invalid JSON data', 400);
                         }
-                        
+
+                        // Validate event type exists
+                        $eventType = $input['type'] ?? null;
+                        if (empty($eventType)) {
+                            sendError('Event type is required', 400);
+                        }
+                        if (!validateEventType($pdo, $eventType)) {
+                            sendError('Invalid event type: ' . $eventType, 400);
+                        }
+
+                        // Begin transaction to ensure all updates succeed or fail together
+                        $pdo->beginTransaction();
+
                         // Update event in database
                         $stmt = $pdo->prepare("UPDATE events SET name=?, details=?, type=?, date=?, startTime=?, duration=?, isPublic=?, isBillable=?, repeating_json=?, comments=?, attendance=? WHERE id=?");
                         $stmt->execute([
                             $input['name'] ?? null,
                             $input['details'] ?? null,
-                            $input['type'] ?? 'therapy',
+                            $eventType,
                             $input['date'],
                             $input['startTime'],
                             $input['duration'] ?? null,
@@ -338,32 +365,39 @@ try {
                             json_encode($input['attendance'] ?? new stdClass()),
                             $eventId
                         ]);
-                        
+
                         // Update team members (delete old, insert new)
                         $pdo->prepare("DELETE FROM event_team_members WHERE event_id=?")->execute([$eventId]);
                         $stmt_team = $pdo->prepare("INSERT INTO event_team_members (event_id, team_member_id) VALUES (?, ?)");
                         foreach ($input['teamMemberIds'] ?? [] as $id) {
                             $stmt_team->execute([$eventId, $id]);
                         }
-                        
+
                         // Update clients
                         $pdo->prepare("DELETE FROM event_clients WHERE event_id=?")->execute([$eventId]);
                         $stmt_client = $pdo->prepare("INSERT INTO event_clients (event_id, client_id) VALUES (?, ?)");
                         foreach ($input['clientIds'] ?? [] as $id) {
                             $stmt_client->execute([$eventId, $id]);
                         }
-                        
+
                         // Update programs
                         $pdo->prepare("DELETE FROM event_programs WHERE event_id=?")->execute([$eventId]);
                         $stmt_prog = $pdo->prepare("INSERT INTO event_programs (event_id, program_id) VALUES (?, ?)");
                         foreach ($input['programIds'] ?? [] as $id) {
                             $stmt_prog->execute([$eventId, $id]);
                         }
-                        
+
+                        // Commit transaction - all updates succeeded
+                        $pdo->commit();
+
                         debugLog("Eveniment actualizat: $eventId");
                         sendResponse(['success' => true, 'message' => 'Event updated successfully']);
-                        
+
                     } catch (Exception $e) {
+                        // Rollback transaction on error to maintain data integrity
+                        if ($pdo->inTransaction()) {
+                            $pdo->rollBack();
+                        }
                         debugLog("Eroare la actualizarea evenimentului: " . $e->getMessage());
                         sendError('Failed to update event: ' . $e->getMessage());
                     }
@@ -407,18 +441,29 @@ try {
                         $stmt_evt_prog = $pdo->prepare("INSERT INTO event_programs (event_id, program_id) VALUES (?, ?)");
                         
                         $pdo->beginTransaction();
-                        
+
                         foreach ($events as $e) {
+                            // Validate event type exists
+                            $eventType = $e['type'] ?? null;
+                            if (empty($eventType)) {
+                                $pdo->rollBack();
+                                sendError('Event type is required', 400);
+                            }
+                            if (!validateEventType($pdo, $eventType)) {
+                                $pdo->rollBack();
+                                sendError('Invalid event type: ' . $eventType, 400);
+                            }
+
                             $startTime = $e['startTime'] ?? null;
                             if ($startTime && strlen($startTime) > 5) {
                                 $startTime = substr($startTime, 0, 5);
                             }
-                            
+
                             $stmt_evt->execute([
                                 $e['id'],
                                 $e['name'] ?? null,
                                 $e['details'] ?? null,
-                                $e['type'] ?? 'therapy',
+                                $eventType,
                                 $e['date'],
                                 $startTime,
                                 $e['duration'] ?? null,
@@ -447,6 +492,42 @@ try {
                     sendError('Unsupported method for events', 405);
                 }
                 break;
+
+        // ==========================================================
+        // CAZUL 'event_types/{id}' - DELETE event type with path param
+        // ==========================================================
+        case (preg_match('/^event_types\/(.+)$/', $path, $matches) ? true : false):
+            $eventTypeId = $matches[1];
+
+            if ($method === 'DELETE') {
+                try {
+                    // Check if any events use this type
+                    $checkStmt = $pdo->prepare("SELECT COUNT(*) as count FROM events WHERE type = ?");
+                    $checkStmt->execute([$eventTypeId]);
+                    $result = $checkStmt->fetch();
+
+                    if ($result['count'] > 0) {
+                        sendError("Nu poți șterge acest tip. Există {$result['count']} evenimente care îl folosesc.", 409);
+                    }
+
+                    $stmt = $pdo->prepare("DELETE FROM event_types WHERE id = ?");
+                    $stmt->execute([$eventTypeId]);
+
+                    if ($stmt->rowCount() === 0) {
+                        sendError('Event type not found', 404);
+                    }
+
+                    debugLog("Tip eveniment șters: $eventTypeId");
+                    sendResponse(['success' => true, 'message' => 'Event type deleted successfully']);
+
+                } catch (Exception $e) {
+                    debugLog("Eroare la ștergerea tipului: " . $e->getMessage());
+                    sendError('Failed to delete event type: ' . $e->getMessage());
+                }
+            } else {
+                sendError('Unsupported method for event_types/{id}', 405);
+            }
+            break;
 
         // ==========================================================
         // CAZUL 'event_types' - Gestionează tipurile de evenimente din DB
@@ -540,41 +621,8 @@ try {
                     debugLog("Eroare la actualizarea tipului: " . $e->getMessage());
                     sendError('Failed to update event type: ' . $e->getMessage());
                 }
-            } elseif ($method === 'DELETE') {
-                // Delete event type
-                try {
-                    // Get ID from query string for DELETE
-                    $id = $_GET['id'] ?? null;
-                    
-                    if (!$id) {
-                        sendError('ID is required', 400);
-                    }
-                    
-                    // Check if any events use this type
-                    $checkStmt = $pdo->prepare("SELECT COUNT(*) as count FROM events WHERE type = ?");
-                    $checkStmt->execute([$id]);
-                    $result = $checkStmt->fetch();
-                    
-                    if ($result['count'] > 0) {
-                        sendError("Nu poți șterge acest tip. Există {$result['count']} evenimente care îl folosesc.", 409);
-                    }
-                    
-                    $stmt = $pdo->prepare("DELETE FROM event_types WHERE id = ?");
-                    $stmt->execute([$id]);
-                    
-                    if ($stmt->rowCount() === 0) {
-                        sendError('Event type not found', 404);
-                    }
-                    
-                    debugLog("Tip eveniment șters: $id");
-                    sendResponse(['success' => true, 'message' => 'Event type deleted successfully']);
-                    
-                } catch (Exception $e) {
-                    debugLog("Eroare la ștergerea tipului: " . $e->getMessage());
-                    sendError('Failed to delete event type: ' . $e->getMessage());
-                }
             } else {
-                sendError('Unsupported method for event_types', 405);
+                sendError('Unsupported method for event_types. Use event_types/{id} for DELETE operations.', 405);
             }
             break; // <-- Make sure to copy down to the break;
 
@@ -804,9 +852,54 @@ try {
             break;
 
         // ==========================================================
+        // CAZUL 'programs/{id}' - DELETE program with path param
+        // ==========================================================
+        case (preg_match('/^programs\/(.+)$/', $path, $matches) ? true : false):
+            $programId = $matches[1];
+
+            if ($method === 'DELETE') {
+                try {
+                    // Check if any events use this program
+                    $checkStmt = $pdo->prepare("SELECT COUNT(*) as count FROM event_programs WHERE program_id = ?");
+                    $checkStmt->execute([$programId]);
+                    $result = $checkStmt->fetch();
+
+                    if ($result['count'] > 0) {
+                        sendError("Nu poți șterge acest program. Există {$result['count']} evenimente care îl folosesc.", 409);
+                    }
+
+                    // Check if any program history uses this program
+                    $checkHistoryStmt = $pdo->prepare("SELECT COUNT(*) as count FROM program_history WHERE program_id = ?");
+                    $checkHistoryStmt->execute([$programId]);
+                    $historyResult = $checkHistoryStmt->fetch();
+
+                    if ($historyResult['count'] > 0) {
+                        sendError("Nu poți șterge acest program. Există {$historyResult['count']} înregistrări în istoricul programelor.", 409);
+                    }
+
+                    $stmt = $pdo->prepare("DELETE FROM programs WHERE id = ?");
+                    $stmt->execute([$programId]);
+
+                    if ($stmt->rowCount() === 0) {
+                        sendError('Programul nu a fost găsit', 404);
+                    }
+
+                    debugLog("Program șters: $programId");
+                    sendResponse(['success' => true, 'message' => 'Program șters cu succes']);
+
+                } catch (Exception $e) {
+                    debugLog("Eroare la ștergerea programului: " . $e->getMessage());
+                    sendError('Nu s-a putut șterge programul: ' . $e->getMessage());
+                }
+            } else {
+                sendError('Unsupported method for programs/{id}', 405);
+            }
+            break;
+
+        // ==========================================================
         // CAZUL 'programs'
         // ==========================================================
-        
+
         case 'programs':
     if ($method === 'GET') {
         // Already handled - returns programs from database
@@ -878,49 +971,8 @@ try {
             sendError('Nu s-a putut actualiza programul: ' . $e->getMessage());
         }
         
-    } elseif ($method === 'DELETE') {
-        // Delete program
-        try {
-            $id = $_GET['id'] ?? null;
-            
-            if (!$id) {
-                sendError('ID-ul este obligatoriu', 400);
-            }
-            
-            // Check if any events use this program
-            $checkStmt = $pdo->prepare("SELECT COUNT(*) as count FROM event_programs WHERE program_id = ?");
-            $checkStmt->execute([$id]);
-            $result = $checkStmt->fetch();
-            
-            if ($result['count'] > 0) {
-                sendError("Nu poți șterge acest program. Există {$result['count']} evenimente care îl folosesc.", 409);
-            }
-            
-            // Check if any program history uses this program
-            $checkHistoryStmt = $pdo->prepare("SELECT COUNT(*) as count FROM program_history WHERE program_id = ?");
-            $checkHistoryStmt->execute([$id]);
-            $historyResult = $checkHistoryStmt->fetch();
-            
-            if ($historyResult['count'] > 0) {
-                sendError("Nu poți șterge acest program. Există {$historyResult['count']} înregistrări în istoricul programelor.", 409);
-            }
-            
-            $stmt = $pdo->prepare("DELETE FROM programs WHERE id = ?");
-            $stmt->execute([$id]);
-            
-            if ($stmt->rowCount() === 0) {
-                sendError('Programul nu a fost găsit', 404);
-            }
-            
-            debugLog("Program șters: $id");
-            sendResponse(['success' => true, 'message' => 'Program șters cu succes']);
-            
-        } catch (Exception $e) {
-            debugLog("Eroare la ștergerea programului: " . $e->getMessage());
-            sendError('Nu s-a putut șterge programul: ' . $e->getMessage());
-        }
     } else {
-        sendError('Metodă nepermisă pentru programs', 405);
+        sendError('Metodă nepermisă pentru programs. Use programs/{id} for DELETE operations.', 405);
     }
     break;
         

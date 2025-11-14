@@ -406,7 +406,7 @@ export async function updateEventType(eventType) {
 
 /**
  * Șterge un tip de eveniment.
- * Apel DELETE la api.php?path=event_types&id=...
+ * Apel DELETE la api.php?path=event_types/{id}
  * @param {string} id - ID-ul tipului de eveniment
  */
 export async function deleteEventType(id) {
@@ -414,7 +414,7 @@ export async function deleteEventType(id) {
         method: 'DELETE'
     };
     try {
-        const result = await apiFetch(`event_types&id=${id}`, options);
+        const result = await apiFetch(`event_types/${id}`, options);
         showSuccessToast('Tip eveniment șters', 'Tipul de eveniment a fost șters cu succes');
         return result;
     } catch (error) {
@@ -465,6 +465,7 @@ export async function updateProgram(program) {
 
 /**
  * Șterge un program.
+ * Apel DELETE la api.php?path=programs/{id}
  * @param {string} id - ID-ul programului
  */
 export async function deleteProgram(id) {
@@ -472,7 +473,7 @@ export async function deleteProgram(id) {
         method: 'DELETE'
     };
     try {
-        const result = await apiFetch(`programs&id=${id}`, options);
+        const result = await apiFetch(`programs/${id}`, options);
         showSuccessToast('Program șters', 'Programul a fost șters cu succes');
         return result;
     } catch (error) {

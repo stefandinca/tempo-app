@@ -533,16 +533,18 @@ async function reloadEventTypes() {
     try {
         const eventTypes = await api.loadEventTypes();
         calendarState.setEventTypes(eventTypes);
-        
+
         // Actualizează dropdown-ul din modalul de evenimente
         if (window.populateEventTypeDropdown) {
             window.populateEventTypeDropdown(eventTypes);
         }
-        
+
         // Actualizează lista
         renderList();
-        
+
     } catch (error) {
         console.error('Eroare la reîncărcarea tipurilor:', error);
+        // Re-throw error so caller can handle it and prevent modal from closing
+        throw new Error('Nu s-a putut reîncărca lista de tipuri de evenimente. Vă rugăm reîmprospătați pagina.');
     }
 }

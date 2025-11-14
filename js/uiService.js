@@ -340,8 +340,10 @@ export function openEventModal(eventId) {
 
     if ($('clientSearch')) $('clientSearch').value = '';
     if ($('programSearch')) $('programSearch').value = '';
-    
-    updateEventTypeDependencies($('eventType').value);
+
+    // When editing an existing event, preserve the isBillable checkbox value
+    // When creating a new event, set it to the event type's default
+    updateEventTypeDependencies($('eventType').value, !!eventId);
     modal.classList.add('active');
 }
 
@@ -1352,11 +1354,11 @@ export function updateEventTitle() {
     }
 }
 
-export function updateEventTypeDependencies(eventType) {
+export function updateEventTypeDependencies(eventType, preserveIsBillable = false) {
     const startTimeField = $('startTime');
     const durationField = $('duration');
     const eventTypeSelect = $('eventType');
-    
+
     // Obține opțiunea selectată și atributele sale
     const selectedOption = eventTypeSelect ? eventTypeSelect.selectedOptions[0] : null;
     const requiresTime = selectedOption ? (selectedOption.dataset.requiresTime === 'true') : true;
@@ -1373,9 +1375,11 @@ export function updateEventTypeDependencies(eventType) {
             }
         }
     });
-    
+
+    // Only update isBillable checkbox if we're not preserving the existing value
+    // (i.e., when creating a new event or when user manually changes event type)
     const isBillableCheckbox = $('isBillable');
-    if (isBillableCheckbox) {
+    if (isBillableCheckbox && !preserveIsBillable) {
         isBillableCheckbox.checked = isBillableByDefault;
     }
 }
