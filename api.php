@@ -1410,20 +1410,16 @@ try {
             if ($method === 'GET') {
                 try {
                     // Get the latest system options entry
-                    $stmt = $pdo->query("SELECT * FROM system_options ORDER BY date_created DESC LIMIT 1");
+                    $stmt = $pdo->query("SELECT * FROM system_options LIMIT 1");
                     $options = $stmt->fetch(PDO::FETCH_ASSOC);
 
                     if ($options) {
-                        // Convert to integers
-                        $options['max_clients'] = (int)$options['max_clients'];
-                        $options['max_users'] = (int)$options['max_users'];
                         sendResponse($options);
                     } else {
                         // Return default values if no options exist
                         sendResponse([
-                            'max_clients' => 999,
-                            'max_users' => 999,
-                            'subscription_type' => 'unlimited'
+                            'id' => 1,
+                            'subscriber_id' => null
                         ]);
                     }
                 } catch (Exception $e) {
@@ -1432,6 +1428,56 @@ try {
                 }
             } else {
                 sendError('Unsupported method for system-options', 405);
+            }
+            break;
+
+        // ==========================================================
+        // CAZUL 'verify-subscriber' - Verifică subscriber_id în baza de date principală
+        // ==========================================================
+        case 'verify-subscriber':
+            if ($method === 'GET') {
+                try {
+                    // Get subscriber_id from local database
+                    $stmt = $pdo->query("SELECT subscriber_id FROM system_options LIMIT 1");
+                    $localOptions = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    if (!$localOptions || !$localOptions['subscriber_id']) {
+                        sendResponse(['verified' => false, 'message' => 'No subscriber ID found']);
+                        break;
+                    }
+
+                    $localSubscriberId = $localOptions['subscriber_id'];
+
+                    // Connect to main database
+                    $mainHost = '127.0.0.1';
+                    $mainDb = 'incjzljm_tempo_app_main';
+                    $mainUser = 'incjzljm_tempo_livebetterlife';
+                    $mainPass = 'livebetterlife';
+                    $mainCharset = 'utf8mb4';
+
+                    $mainDsn = "mysql:host=$mainHost;dbname=$mainDb;charset=$mainCharset";
+                    $mainPdo = new PDO($mainDsn, $mainUser, $mainPass, $options);
+
+                    // Check if subscriber_id exists in main database and get limits
+                    $stmt = $mainPdo->prepare("SELECT subscriber_id, max_clients, max_users FROM subscribers WHERE subscriber_id = ? LIMIT 1");
+                    $stmt->execute([$localSubscriberId]);
+                    $mainSubscriber = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    if ($mainSubscriber) {
+                        sendResponse([
+                            'verified' => true,
+                            'max_clients' => (int)$mainSubscriber['max_clients'],
+                            'max_users' => (int)$mainSubscriber['max_users']
+                        ]);
+                    } else {
+                        sendResponse(['verified' => false, 'message' => 'Subscriber ID not found in main database']);
+                    }
+                } catch (Exception $e) {
+                    debugLog("Eroare la verificarea subscriber: " . $e->getMessage());
+                    sendResponse(['verified' => false, 'message' => 'Database error: ' . $e->getMessage()]);
+                }
+            } else {
+                sendError('Unsupported method for verify-subscriber', 405);
             }
             break;
 

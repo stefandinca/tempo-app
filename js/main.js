@@ -124,6 +124,12 @@ const dom = {
 //useri
 let currentUser = null;
 
+// Subscriber limits from main database
+let subscriberLimits = {
+    max_clients: 999,
+    max_users: 999
+};
+
 /**
  * Generate a client ID from first name + birthday (DDMM format)
  * Format: firstname_ddmm (e.g., cezar_2102, tudor_1503)
@@ -774,25 +780,19 @@ async function handleSaveClient(e) {
 
     // Check client limit when creating new client
     if (!editingClientId) {
-        try {
-            const systemOptions = await api.loadSystemOptions();
-            const { clients } = calendarState.getState();
+        const { clients } = calendarState.getState();
 
-            // Count active (non-archived) clients
-            const activeClients = clients.filter(c => c.is_archived !== 1 && c.is_archived !== true);
-            const activeClientCount = activeClients.length;
-            const maxClients = systemOptions.max_clients || 999;
+        // Count active (non-archived) clients
+        const activeClients = clients.filter(c => c.is_archived !== 1 && c.is_archived !== true);
+        const activeClientCount = activeClients.length;
+        const maxClients = subscriberLimits.max_clients;
 
-            if (activeClientCount >= maxClients) {
-                ui.showCustomAlert(
-                    `Numarul maxim de clienti alocat este ${maxClients}. Contactați echipa Tempo sau arhivați clienții inactivi.`,
-                    'Limită Clienți Atinsă'
-                );
-                return; // Prevent creating new client
-            }
-        } catch (error) {
-            console.error('Eroare la verificarea limitei de clienți:', error);
-            // Continue anyway if check fails
+        if (activeClientCount >= maxClients) {
+            ui.showCustomAlert(
+                `Numarul maxim de clienti alocat este ${maxClients}. Contactați echipa Tempo sau arhivați clienții inactivi.`,
+                'Limită Clienți Atinsă'
+            );
+            return; // Prevent creating new client
         }
     }
 
@@ -825,24 +825,17 @@ async function handleSaveClient(e) {
 
     // Check client limit when unarchiving
     if (isBeingUnarchived) {
-        try {
-            const systemOptions = await api.loadSystemOptions();
+        // Count active (non-archived) clients
+        const activeClients = clients.filter(c => c.is_archived !== 1 && c.is_archived !== true);
+        const activeClientCount = activeClients.length;
+        const maxClients = subscriberLimits.max_clients;
 
-            // Count active (non-archived) clients
-            const activeClients = clients.filter(c => c.is_archived !== 1 && c.is_archived !== true);
-            const activeClientCount = activeClients.length;
-            const maxClients = systemOptions.max_clients || 999;
-
-            if (activeClientCount >= maxClients) {
-                ui.showCustomAlert(
-                    `Numarul maxim de clienti alocat este ${maxClients}. Nu puteți activa mai mulți clienți. Contactați echipa Tempo.`,
-                    'Limită Clienți Atinsă'
-                );
-                return; // Prevent unarchiving
-            }
-        } catch (error) {
-            console.error('Eroare la verificarea limitei de clienți:', error);
-            // Continue anyway if check fails
+        if (activeClientCount >= maxClients) {
+            ui.showCustomAlert(
+                `Numarul maxim de clienti alocat este ${maxClients}. Nu puteți activa mai mulți clienți. Contactați echipa Tempo.`,
+                'Limită Clienți Atinsă'
+            );
+            return; // Prevent unarchiving
         }
     }
 
@@ -965,23 +958,17 @@ async function handleSaveTeamMember(e) {
 
     // Check user limit when creating new team member
     if (!editingMemberId) {
-        try {
-            const systemOptions = await api.loadSystemOptions();
-            const { teamMembers } = calendarState.getState();
+        const { teamMembers } = calendarState.getState();
 
-            const teamMemberCount = teamMembers.length;
-            const maxUsers = systemOptions.max_users || 999;
+        const teamMemberCount = teamMembers.length;
+        const maxUsers = subscriberLimits.max_users;
 
-            if (teamMemberCount >= maxUsers) {
-                ui.showCustomAlert(
-                    `Numarul maxim de utilizatori alocat este ${maxUsers}. Contactați echipa Tempo.`,
-                    'Limită Utilizatori Atinsă'
-                );
-                return; // Prevent creating new team member
-            }
-        } catch (error) {
-            console.error('Eroare la verificarea limitei de utilizatori:', error);
-            // Continue anyway if check fails
+        if (teamMemberCount >= maxUsers) {
+            ui.showCustomAlert(
+                `Numarul maxim de utilizatori alocat este ${maxUsers}. Contactați echipa Tempo.`,
+                'Limită Utilizatori Atinsă'
+            );
+            return; // Prevent creating new team member
         }
     }
 
@@ -1472,6 +1459,35 @@ function calculateEndTime(startTime, durationMinutes) {
 async function init() {
     console.log('Inițializare aplicație Tempo (modular)...');
 
+    // === SUBSCRIBER VERIFICATION CHECK ===
+    try {
+        const verificationResult = await api.verifySubscriber();
+        if (!verificationResult.verified) {
+            // Show error modal and block the application
+            const errorModal = document.getElementById('subscriberErrorModal');
+            if (errorModal) {
+                errorModal.style.display = 'flex';
+            }
+            console.error('Subscriber verification failed:', verificationResult.message);
+            return; // Stop initialization
+        }
+
+        // Store subscriber limits from main database
+        subscriberLimits.max_clients = verificationResult.max_clients || 999;
+        subscriberLimits.max_users = verificationResult.max_users || 999;
+
+        console.log('Subscriber verification successful', subscriberLimits);
+    } catch (error) {
+        console.error('Eroare la verificarea subscriber:', error);
+        // Show error modal on verification failure
+        const errorModal = document.getElementById('subscriberErrorModal');
+        if (errorModal) {
+            errorModal.style.display = 'flex';
+        }
+        return; // Stop initialization
+    }
+    // === END SUBSCRIBER VERIFICATION CHECK ===
+
     // === AUTHENTICATION CHECK - ADD THIS BLOCK ===
     try {
         const data = await api.loadData();
@@ -1533,38 +1549,32 @@ async function init() {
     }
     // === END AUTHENTICATION BLOCK ===
 
-    // === SYSTEM OPTIONS CHECK - Client & User Limits Warning ===
-    try {
-        const systemOptions = await api.loadSystemOptions();
-        const { clients, teamMembers } = calendarState.getState();
+    // === SUBSCRIBER LIMITS CHECK - Display Warnings ===
+    const { clients, teamMembers } = calendarState.getState();
 
-        // Check client limit
-        const activeClients = clients.filter(c => c.is_archived !== 1 && c.is_archived !== true);
-        const activeClientCount = activeClients.length;
-        const maxClients = systemOptions.max_clients || 999;
+    // Check client limit
+    const activeClients = clients.filter(c => c.is_archived !== 1 && c.is_archived !== true);
+    const activeClientCount = activeClients.length;
+    const maxClients = subscriberLimits.max_clients;
 
-        if (activeClientCount >= maxClients) {
-            ui.showCustomAlert(
-                `Numarul maxim de clienti alocat este ${maxClients}. Contactați echipa Tempo sau arhivați clienții inactivi.`,
-                'Limită Clienți Atinsă'
-            );
-        }
-
-        // Check user limit
-        const teamMemberCount = teamMembers.length;
-        const maxUsers = systemOptions.max_users || 999;
-
-        if (teamMemberCount >= maxUsers) {
-            ui.showCustomAlert(
-                `Numarul maxim de utilizatori alocat este ${maxUsers}. Contactați echipa Tempo.`,
-                'Limită Utilizatori Atinsă'
-            );
-        }
-    } catch (error) {
-        console.error('Eroare la verificarea opțiunilor sistem:', error);
-        // Don't block app if system options check fails
+    if (activeClientCount >= maxClients) {
+        ui.showCustomAlert(
+            `Numarul maxim de clienti alocat este ${maxClients}. Contactați echipa Tempo sau arhivați clienții inactivi.`,
+            'Limită Clienți Atinsă'
+        );
     }
-    // === END SYSTEM OPTIONS CHECK ===
+
+    // Check user limit
+    const teamMemberCount = teamMembers.length;
+    const maxUsers = subscriberLimits.max_users;
+
+    if (teamMemberCount >= maxUsers) {
+        ui.showCustomAlert(
+            `Numarul maxim de utilizatori alocat este ${maxUsers}. Contactați echipa Tempo.`,
+            'Limită Utilizatori Atinsă'
+        );
+    }
+    // === END SUBSCRIBER LIMITS CHECK ===
 
     calendarState.setIsAdminView(true);
 

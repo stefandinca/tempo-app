@@ -568,6 +568,15 @@ export async function loadSystemOptions() {
 }
 
 /**
+ * Verifică subscriber_id împotriva bazei de date principale
+ * Apel GET la api.php?path=verify-subscriber
+ * @returns {Promise<{verified: boolean, message?: string}>}
+ */
+export async function verifySubscriber() {
+    return apiFetch('verify-subscriber');
+}
+
+/**
  * Creează un utilizator nou în tabelul users.
  * Apel POST la api.php?path=users
  * @param {object} userData - Datele utilizatorului {id, username, password, role}
