@@ -265,6 +265,94 @@ export function renderDayView(onEventClick) {
 // --- Funcție Helper pentru Evenimente (Săptămână/Zi) ---
 
 /**
+ * Detectează suprapunerile între evenimente și alocă coloane pentru afișare side-by-side
+ * @param {Array} events - Lista de evenimente ale unui terapeut
+ * @returns {Array} - Array de obiecte cu {event, column, totalColumns}
+ */
+function assignColumnsToOverlappingEvents(events) {
+    if (!events || events.length === 0) return [];
+
+    // Helper: get event start time in minutes from midnight
+    const getStartMinutes = (event) => {
+        if (!event.startTime) return 0;
+        const [h, m] = event.startTime.split(':').map(Number);
+        return h * 60 + m;
+    };
+
+    // Helper: get event end time in minutes from midnight
+    const getEndMinutes = (event) => {
+        if (!event.startTime || !event.duration) return 0;
+        return getStartMinutes(event) + (parseInt(event.duration, 10) || 0);
+    };
+
+    // Helper: check if two events overlap
+    const eventsOverlap = (event1, event2) => {
+        const start1 = getStartMinutes(event1);
+        const end1 = getEndMinutes(event1);
+        const start2 = getStartMinutes(event2);
+        const end2 = getEndMinutes(event2);
+
+        // Events overlap if one starts before the other ends
+        return start1 < end2 && start2 < end1;
+    };
+
+    // Sort all events by start time
+    const sortedEvents = [...events].sort((a, b) => {
+        const startDiff = getStartMinutes(a) - getStartMinutes(b);
+        if (startDiff !== 0) return startDiff;
+        return getEndMinutes(b) - getEndMinutes(a);
+    });
+
+    const eventColumns = [];
+    const assignedColumns = new Map(); // Map event ID to column number
+
+    sortedEvents.forEach(event => {
+        // Find all events that overlap with THIS specific event
+        const overlappingEvents = events.filter(e =>
+            e.id !== event.id && eventsOverlap(event, e)
+        );
+
+        // If no overlaps, always use column 0 with full width
+        if (overlappingEvents.length === 0) {
+            eventColumns.push({
+                event: event,
+                column: 0,
+                totalColumns: 1
+            });
+            assignedColumns.set(event.id, 0);
+            return;
+        }
+
+        // This event overlaps with others - find which columns are taken by overlapping events
+        const takenColumns = new Set();
+        overlappingEvents.forEach(e => {
+            if (assignedColumns.has(e.id)) {
+                takenColumns.add(assignedColumns.get(e.id));
+            }
+        });
+
+        // Find the first available column (0, 1, 2, ...)
+        let assignedColumn = 0;
+        while (takenColumns.has(assignedColumn)) {
+            assignedColumn++;
+        }
+
+        // Total columns = number of events that overlap with this one, plus this event itself
+        const totalColumns = overlappingEvents.length + 1;
+
+        eventColumns.push({
+            event: event,
+            column: assignedColumn,
+            totalColumns: totalColumns
+        });
+
+        assignedColumns.set(event.id, assignedColumn);
+    });
+
+    return eventColumns;
+}
+
+/**
  * Plasează evenimentele în grila de ore pentru vizualizarea de săptămână/zi.
  * MODIFICAT: Fiecare terapeut are propriul track vertical.
  * @param {Date[]} days - Array-ul de zile de randat (7 pt. săptămână, 1 pt. zi)
@@ -307,25 +395,28 @@ function renderEventsInGrid(days, viewElement, onEventClick) {
         // Randează evenimentele pentru fiecare terapeut în track-ul lor
         visibleTherapists.forEach((therapist, therapistIndex) => {
             const therapistEvents = eventsByTherapist[therapist.id] || [];
-            
+
+            // Detect overlaps and assign columns for this therapist's events
+            const eventsWithColumns = assignColumnsToOverlappingEvents(therapistEvents);
+
             therapistEvents.forEach((event) => {
                 // Parsare timp
                 const timeParts = event.startTime.split(':').map(Number);
                 const startHour = timeParts[0] || 0;
                 const startMinute = timeParts[1] || 0;
                 const formattedStartTime = `${String(startHour).padStart(2, '0')}:${String(startMinute).padStart(2, '0')}`;
-                
+
                 // Găsește containerul corect
                 const containerSelector = `.event-container[data-date="${dateStr}"][data-hour="${startHour}"]`;
                 const container = viewElement.querySelector(containerSelector);
-                
+
                 if (!container) return;
-                
+
                 // Creează blocul evenimentului
                 const eventBlock = document.createElement('div');
                 eventBlock.className = 'event-block';
                 eventBlock.classList.add(`event-type-${event.type}`);
-                
+
                 // Stilizare Admin vs Public
                 if (isAdminView) {
                     eventBlock.classList.add('admin-view');
@@ -342,17 +433,26 @@ function renderEventsInGrid(days, viewElement, onEventClick) {
                         eventBlock.style.color = therapist.color;
                     }
                 }
-                
+
                 // Poziționare și dimensiune
                 const topOffset = (startMinute / 60) * 120;
                 const height = (event.duration / 60) * 120;
-                
+
                 eventBlock.style.top = `${topOffset}px`;
                 eventBlock.style.height = `${height}px`;
-                
-                // MODIFICARE PRINCIPALĂ: Poziționare în track-ul terapeutului
-                eventBlock.style.width = `${trackWidth}%`;
-                eventBlock.style.left = `${trackWidth * therapistIndex}%`;
+
+                // Get column information for this event
+                const columnInfo = eventsWithColumns.find(e => e.event.id === event.id);
+                const column = columnInfo ? columnInfo.column : 0;
+                const totalColumns = columnInfo ? columnInfo.totalColumns : 1;
+
+                // Calculate width and position within therapist's track
+                const eventWidth = trackWidth / totalColumns;
+                const eventLeft = (trackWidth * therapistIndex) + (eventWidth * column);
+
+                // MODIFICARE PRINCIPALĂ: Poziționare cu suport pentru overlap side-by-side
+                eventBlock.style.width = `${eventWidth}%`;
+                eventBlock.style.left = `${eventLeft}%`;
                 
                 const endTime = calculateEndTime(event.startTime, event.duration);
                 
