@@ -444,6 +444,63 @@ function handleEventClick(eventId) {
     ui.showEventDetails(eventId);
 }
 
+// --- Helper function to detect overlapping events ---
+function detectOverlappingEvents(teamMemberIds, eventDate, startTime, duration, excludeEventId = null) {
+    const events = calendarState.getState().events;
+
+    // Helper: get event start time in minutes from midnight
+    const getStartMinutes = (time) => {
+        if (!time) return 0;
+        const [h, m] = time.split(':').map(Number);
+        return h * 60 + m;
+    };
+
+    // Helper: get event end time in minutes from midnight
+    const getEndMinutes = (time, dur) => {
+        if (!time || !dur) return 0;
+        return getStartMinutes(time) + parseInt(dur, 10);
+    };
+
+    // Helper: check if two time ranges overlap
+    const timesOverlap = (start1, end1, start2, end2) => {
+        return start1 < end2 && start2 < end1;
+    };
+
+    const newEventStart = getStartMinutes(startTime);
+    const newEventEnd = getEndMinutes(startTime, duration);
+
+    const overlappingEvents = [];
+
+    // Check each team member for overlaps
+    teamMemberIds.forEach(memberId => {
+        const memberEvents = events.filter(event => {
+            // Skip the event being edited
+            if (excludeEventId && event.id === excludeEventId) return false;
+
+            // Check if event is on the same date
+            if (event.date !== eventDate) return false;
+
+            // Check if event involves this team member
+            const eventTeamMembers = event.teamMemberIds || (event.teamMemberId ? [event.teamMemberId] : []);
+            if (!eventTeamMembers.includes(memberId)) return false;
+
+            // Check if times overlap
+            const eventStart = getStartMinutes(event.startTime);
+            const eventEnd = getEndMinutes(event.startTime, event.duration);
+
+            return timesOverlap(newEventStart, newEventEnd, eventStart, eventEnd);
+        });
+
+        overlappingEvents.push(...memberEvents);
+    });
+
+    // Remove duplicates (events that overlap with multiple selected team members)
+    const uniqueOverlaps = Array.from(new Set(overlappingEvents.map(e => e.id)))
+        .map(id => overlappingEvents.find(e => e.id === id));
+
+    return uniqueOverlaps;
+}
+
 // --- Handlers Modal Evenimente (Adăugare/Editare) ---
 
 async function handleSaveEvent(e) {
@@ -508,6 +565,24 @@ console.log('===========================');
     if (requiresTime && (!startTime || isNaN(duration))) {
          ui.showCustomAlert('Te rog completează ora de început și durata.', 'Validare');
         return;
+    }
+
+    // Check for overlapping events
+    const eventDate = formData.get('eventDate');
+    const overlappingEvents = detectOverlappingEvents(
+        teamMemberIds,
+        eventDate,
+        startTime,
+        duration,
+        editingEventId // Exclude current event if editing
+    );
+
+    // If overlaps detected, show warning modal
+    if (overlappingEvents.length > 0) {
+        const userConfirmed = await ui.showOverlapWarningModal(overlappingEvents);
+        if (!userConfirmed) {
+            return; // User cancelled, don't save
+        }
     }
 
     const eventBase = {

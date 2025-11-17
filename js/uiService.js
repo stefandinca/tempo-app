@@ -241,7 +241,7 @@ export function showRecurringEditModal(message = 'Acesta este un eveniment recur
             resolve('cancel'); // Failsafe
             return;
         }
-        
+
         $('recurringEditModalMessage').textContent = message;
         modal.style.display = 'flex';
 
@@ -256,7 +256,7 @@ export function showRecurringEditModal(message = 'Acesta este un eveniment recur
             resolve(result);
         };
         const handleBackdrop = (e) => { if (e.target === modal) handle('cancel'); };
-        
+
         const cleanup = () => {
             cancelBtn.removeEventListener('click', cancelHandler);
             singleBtn.removeEventListener('click', singleHandler);
@@ -264,7 +264,7 @@ export function showRecurringEditModal(message = 'Acesta este un eveniment recur
             closeBtn.removeEventListener('click', cancelHandler);
             modal.removeEventListener('click', handleBackdrop);
         };
-        
+
         const cancelHandler = () => handle('cancel');
         const singleHandler = () => handle('single');
         const allHandler = () => handle('all');
@@ -272,6 +272,58 @@ export function showRecurringEditModal(message = 'Acesta este un eveniment recur
         cancelBtn.addEventListener('click', cancelHandler);
         singleBtn.addEventListener('click', singleHandler);
         allBtn.addEventListener('click', allHandler);
+        closeBtn.addEventListener('click', cancelHandler);
+        modal.addEventListener('click', handleBackdrop);
+    });
+}
+
+export function showOverlapWarningModal(overlappingEvents) {
+    return new Promise((resolve) => {
+        const modal = $('overlapWarningModal');
+        if (!modal) {
+            console.error('overlapWarningModal not found in DOM');
+            resolve(false); // Failsafe - don't proceed
+            return;
+        }
+
+        // Build the list of overlapping events
+        const eventsList = $('overlappingEventsList');
+        eventsList.innerHTML = overlappingEvents.map(event => {
+            const endTime = calculateEndTime(event.startTime, parseInt(event.duration, 10));
+            return `
+                <div class="overlap-event-item">
+                    <div class="event-name">${event.name}</div>
+                    <div class="event-time">${event.startTime} - ${endTime}</div>
+                </div>
+            `;
+        }).join('');
+
+        modal.style.display = 'flex';
+
+        const confirmBtn = $('overlapWarningConfirm');
+        const cancelBtn = $('overlapWarningCancel');
+        const closeBtn = $('closeOverlapWarningModal');
+
+        const handle = (result) => {
+            modal.style.display = 'none';
+            eventsList.innerHTML = ''; // Clean up
+            cleanup();
+            resolve(result);
+        };
+        const handleBackdrop = (e) => { if (e.target === modal) handle(false); };
+
+        const cleanup = () => {
+            confirmBtn.removeEventListener('click', confirmHandler);
+            cancelBtn.removeEventListener('click', cancelHandler);
+            closeBtn.removeEventListener('click', cancelHandler);
+            modal.removeEventListener('click', handleBackdrop);
+        };
+
+        const confirmHandler = () => handle(true);
+        const cancelHandler = () => handle(false);
+
+        confirmBtn.addEventListener('click', confirmHandler);
+        cancelBtn.addEventListener('click', cancelHandler);
         closeBtn.addEventListener('click', cancelHandler);
         modal.addEventListener('click', handleBackdrop);
     });

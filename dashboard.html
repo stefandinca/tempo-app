@@ -1672,6 +1672,28 @@
         </div>
     </div>
 
+    <!-- Overlap Warning Modal -->
+    <div id="overlapWarningModal" class="modal-backdrop modal-small">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="overlapWarningModalTitle" class="modal-title">Avertisment Suprapunere Evenimente</h2>
+                <button id="closeOverlapWarningModal" class="btn-icon btn-close" title="Închide">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="overlapWarningMessage">Există deja un eveniment în acest interval!</p>
+                <div id="overlappingEventsList" class="overlapping-events-list"></div>
+                <p class="warning-text"><strong>Ești sigur că vrei să adaugi un alt eveniment?</strong></p>
+                <p class="info-text">Evenimentele se vor suprapune și vor fi adăugate separat la facturare.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="overlapWarningConfirm" class="btn btn-primary">Da, adaugă oricum</button>
+                <button id="overlapWarningCancel" class="btn btn-secondary">Anulează</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Clone Month Modal -->
     <div id="cloneMonthModal" class="modal-backdrop modal-small">
         <div class="modal-content">
