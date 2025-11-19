@@ -49,6 +49,19 @@
   --accent-primary-light: #DBEAFE;
   --accent-secondary: #F4E8D8;
 
+  /* Aliases for consistency */
+  --primary-color: #4A90E2;
+  --bg-secondary: #F5F7FA;
+  --bg-tertiary: #F9FAFB;
+  --accent-hover: #3B82F6;
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F5F7FA;
+  --color-text-primary: #111827;
+  --color-text-secondary: #6B7280;
+  --color-warning: #F59E0B;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+
   /* Semantic Colors - Success */
   --success: #10B981;
   --success-hover: #059669;
@@ -121,6 +134,19 @@
   --text-secondary: #D1D5DB;
   --text-tertiary: #9CA3AF;
   --text-inverse: #111827;
+
+  /* Aliases for consistency */
+  --primary-color: #4A90E2;
+  --bg-secondary: #1F2937;
+  --bg-tertiary: #111827;
+  --accent-hover: #3B82F6;
+  --color-bg-primary: #1F2937;
+  --color-bg-secondary: #111827;
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #D1D5DB;
+  --color-warning: #F59E0B;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
 
   /* Semantic Colors - Adjusted for dark mode */
   --success-light: #064E3B;
