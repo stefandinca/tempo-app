@@ -18,7 +18,7 @@
             }
         }
     </script>
-   <link rel="stylesheet" href="styles.css">
+   <link rel="stylesheet" href="styles.css?v=2">
     <link rel="stylesheet" href="dashboard-styles.css">
     <link rel="stylesheet" href="tailwind-custom.css">
     <link rel="icon" href="icon.png" type="image/png">
@@ -883,29 +883,54 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                     </button>
                 </div>
-                
-                <div class="modal-body modal-grid">
-                    
-                    <div class="modal-col">
+
+                <!-- Step Indicator (only visible in create mode) -->
+                <div id="stepIndicator" class="step-indicator" style="display: none;">
+                    <div class="step-item active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Detalii</div>
+                    </div>
+                    <div class="step-item" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Echipa</div>
+                    </div>
+                    <div class="step-item" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Clienți</div>
+                    </div>
+                    <div class="step-item" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Programe</div>
+                    </div>
+                    <div class="step-item" data-step="5">
+                        <div class="step-number">5</div>
+                        <div class="step-label">Opțiuni</div>
+                    </div>
+                </div>
+
+                <div class="modal-body" id="eventModalBody">
+
+                    <!-- Step 1: Detalii -->
+                    <div class="wizard-step" data-step="1">
                         <h3>Detalii Eveniment</h3>
-                        
+
                         <div class="form-group">
                             <label for="eventName">Nume Eveniment</label>
                             <input type="text" id="eventName" name="eventName" class="form-input" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="eventDetails">Detalii Eveniment (Optionale)</label>
                             <textarea id="eventDetails" name="eventDetails" class="form-input" rows="3"></textarea>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="eventType">Tip Eveniment</label>
                             <select id="eventType" name="eventType" class="form-input" required>
                                 <option value="">Se încarcă...</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-grid-2">
                             <div class="form-group">
                                 <label for="eventDate">Data</label>
@@ -946,7 +971,40 @@
                                 <input type="number" id="duration" name="duration" class="form-input" value="60" step="15" min="15" required>
                             </div>
                         </div>
-                        
+                    </div>
+
+                    <!-- Step 2: Echipa -->
+                    <div class="wizard-step" data-step="2" style="display: none;">
+                        <h3>Echipa (Terapeuti)</h3>
+                        <div class="form-group">
+                            <label>Selecteaza membrii echipei</label>
+                        </div>
+                        <div id="teamMemberCheckboxes" class="checkbox-list"></div>
+                    </div>
+
+                    <!-- Step 3: Clienți -->
+                    <div class="wizard-step" data-step="3" style="display: none;">
+                        <h3>Clienti</h3>
+                        <div class="form-group">
+                            <input type="search" id="clientSearch" class="form-input" placeholder="Cauta client...">
+                        </div>
+                        <div id="clientCheckboxes" class="checkbox-list"></div>
+                        <button type="button" id="addNewClientBtnInModal" class="btn btn-secondary btn-full-width">Adauga Client Nou</button>
+                    </div>
+
+                    <!-- Step 4: Programe -->
+                    <div class="wizard-step" data-step="4" style="display: none;">
+                        <h3>Programe</h3>
+                        <div class="form-group">
+                            <input type="search" id="programSearch" class="form-input" placeholder="Cauta program...">
+                        </div>
+                        <div id="programCheckboxes" class="checkbox-list program-list"></div>
+                    </div>
+
+                    <!-- Step 5: Opțiuni -->
+                    <div class="wizard-step" data-step="5" style="display: none;">
+                        <h3>Opțiuni Eveniment</h3>
+
                         <div class="form-group">
                             <label>Recurenta (in aceasta luna)</label>
                             <div class="repeating-days">
@@ -969,41 +1027,28 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="modal-col">
-                        <h3>Clienti</h3>
-                        <div class="form-group">
-                            <input type="search" id="clientSearch" class="form-input" placeholder="Cauta client...">
-                        </div>
-                        <div id="clientCheckboxes" class="checkbox-list">
-                            </div>
-                        <button type="button" id="addNewClientBtnInModal" class="btn btn-secondary btn-full-width">Adauga Client Nou</button>
-                        
-                        <h3 style="margin-top: 1.5rem;">Programe</h3>
-                        <div class="form-group">
-                            <input type="search" id="programSearch" class="form-input" placeholder="Cauta program...">
-                        </div>
-                        <div id="programCheckboxes" class="checkbox-list program-list">
-                            </div>
-                    </div>
-                    
-                    <div class="modal-col">
-                        <h3>Echipa (Terapeuti)</h3>
-                        <div class="form-group">
-                            <label>Selecteaza membrii echipei</label>
-                        </div>
-                        <div id="teamMemberCheckboxes" class="checkbox-list">
-                            </div>
-                    </div>
-                    
+
                 </div>
                 
-                <div class="modal-footer justify-between">
+                <!-- Footer for Wizard Mode (Create) -->
+                <div class="modal-footer justify-between" id="wizardFooter" style="display: none;">
+                    <div>
+                        <button id="wizardPrevBtn" type="button" class="btn btn-secondary" style="display: none;">Inapoi</button>
+                    </div>
+                    <div>
+                        <button id="cancelBtn" type="button" class="btn btn-secondary">Anuleaza</button>
+                        <button id="wizardNextBtn" type="button" class="btn btn-primary">Urmatorul</button>
+                        <button id="wizardFinishBtn" type="submit" class="btn btn-primary" style="display: none;">Salveaza Eveniment</button>
+                    </div>
+                </div>
+
+                <!-- Footer for Edit Mode -->
+                <div class="modal-footer justify-between" id="editFooter">
                     <div>
                         <button id="deleteBtn" type="button" class="btn btn-danger-outline">Sterge Eveniment</button>
                     </div>
                     <div>
-                        <button id="cancelBtn" type="button" class="btn btn-secondary">Anuleaza</button>
+                        <button id="cancelBtnEdit" type="button" class="btn btn-secondary">Anuleaza</button>
                         <button type="submit" class="btn btn-primary">Salveaza Eveniment</button>
                     </div>
                 </div>
@@ -1999,10 +2044,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/main.js?v=3">
     
     <script type="module">
-        import { openEventModal } from './js/uiService.js';
+        import { openEventModal } from './js/uiService.js?v=2';
         
         // Format time ago function
         function formatTimeAgo(isoString) {

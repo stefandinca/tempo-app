@@ -53,11 +53,6 @@ export function openModal(clientId) {
     const client = clients.find(c => c.id === clientId);
     const plan = interventionPlans[clientId];
 
-    console.log('Opening intervention plan modal for client:', clientId);
-    console.log('Client found:', client);
-    console.log('Plan found:', plan);
-    console.log('Available programs:', programs);
-
     if (!client) {
         showCustomAlert('Client nu a fost găsit.', 'Eroare');
         return;
@@ -69,11 +64,6 @@ export function openModal(clientId) {
 
     // If plan exists, populate the form
     if (plan) {
-        console.log('Populating form with existing plan data');
-        console.log('Start date:', plan.startDate);
-        console.log('End date:', plan.endDate);
-        console.log('Program IDs:', plan.programIds);
-
         dom.startDate.value = plan.startDate;
         dom.endDate.value = plan.endDate;
         dom.notes.value = plan.notes || '';
@@ -87,7 +77,6 @@ export function openModal(clientId) {
         dom.updatedAt.textContent = new Date(plan.updatedAt).toLocaleString('ro-RO');
         dom.deleteBtn.style.display = 'inline-block';
     } else {
-        console.log('No existing plan found, creating new plan');
         // Set default dates (today and 3 months from now)
         const today = new Date();
         const threeMonthsLater = new Date(today);

@@ -60,11 +60,20 @@ const dom = {
     // Modal Evenimente (Adăugare/Editare)
     closeModalBtn: $('closeModal'),
     cancelModalBtn: $('cancelBtn'),
+    cancelBtnEdit: $('cancelBtnEdit'),
     eventForm: $('eventForm'),
     deleteEventBtn: $('deleteBtn'),
     eventTypeSelect: $('eventType'),
     clientSearch: $('clientSearch'),
     programSearch: $('programSearch'),
+
+    // Wizard Elements
+    stepIndicator: $('stepIndicator'),
+    wizardFooter: $('wizardFooter'),
+    editFooter: $('editFooter'),
+    wizardPrevBtn: $('wizardPrevBtn'),
+    wizardNextBtn: $('wizardNextBtn'),
+    wizardFinishBtn: $('wizardFinishBtn'),
     
     // Modal Detalii Eveniment
     closeEventDetailsModalBtn: $('closeEventDetailsModal'),
@@ -2259,8 +2268,120 @@ async function init() {
     // Modal Evenimente (Adăugare/Editare) (with null checks)
     if (dom.closeModalBtn) dom.closeModalBtn.addEventListener('click', ui.closeEventModal);
     if (dom.cancelModalBtn) dom.cancelModalBtn.addEventListener('click', ui.closeEventModal);
+    if (dom.cancelBtnEdit) dom.cancelBtnEdit.addEventListener('click', ui.closeEventModal);
     if (dom.eventForm) dom.eventForm.addEventListener('submit', handleSaveEvent);
     if (dom.deleteEventBtn) dom.deleteEventBtn.addEventListener('click', handleDeleteEvent);
+
+    // Wizard Navigation
+    let currentWizardStep = 1;
+    const totalWizardSteps = 5;
+
+    function showWizardStep(step) {
+        // Hide all steps
+        document.querySelectorAll('.wizard-step').forEach(stepEl => {
+            stepEl.style.display = 'none';
+        });
+
+        // Show current step
+        const currentStepEl = document.querySelector(`.wizard-step[data-step="${step}"]`);
+        if (currentStepEl) {
+            currentStepEl.style.display = 'block';
+        }
+
+        // Update step indicator
+        document.querySelectorAll('.step-item').forEach(item => {
+            const itemStep = parseInt(item.dataset.step);
+            if (itemStep === step) {
+                item.classList.add('active');
+            } else if (itemStep < step) {
+                item.classList.add('completed');
+                item.classList.remove('active');
+            } else {
+                item.classList.remove('active', 'completed');
+            }
+        });
+
+        // Update navigation buttons
+        if (dom.wizardPrevBtn) {
+            dom.wizardPrevBtn.style.display = step > 1 ? 'inline-block' : 'none';
+        }
+        if (dom.wizardNextBtn) {
+            dom.wizardNextBtn.style.display = step < totalWizardSteps ? 'inline-block' : 'none';
+        }
+        if (dom.wizardFinishBtn) {
+            dom.wizardFinishBtn.style.display = step === totalWizardSteps ? 'inline-block' : 'none';
+        }
+    }
+
+    function nextWizardStep() {
+        // Validate before advancing
+        if (currentWizardStep === 2) {
+            // Step 2: Echipa - Check if at least one team member is selected
+            const selectedTeamMembers = document.querySelectorAll('#teamMemberCheckboxes input[type="checkbox"]:checked');
+            if (selectedTeamMembers.length === 0) {
+                ui.showCustomAlert('Vă rugăm selectați cel puțin un membru al echipei.', 'Validare');
+                return;
+            }
+        }
+
+        if (currentWizardStep < totalWizardSteps) {
+            currentWizardStep++;
+            showWizardStep(currentWizardStep);
+        }
+    }
+
+    function prevWizardStep() {
+        if (currentWizardStep > 1) {
+            currentWizardStep--;
+            showWizardStep(currentWizardStep);
+        }
+    }
+
+    function initWizardMode() {
+        currentWizardStep = 1;
+        showWizardStep(1);
+
+        // Show wizard elements
+        if (dom.stepIndicator) dom.stepIndicator.style.display = 'flex';
+        if (dom.wizardFooter) dom.wizardFooter.style.display = 'flex';
+        if (dom.editFooter) dom.editFooter.style.display = 'none';
+
+        // Remove modal-grid class for single column layout
+        const modalBody = $('eventModalBody');
+        if (modalBody) {
+            modalBody.classList.remove('modal-grid');
+        }
+    }
+
+    function initEditMode() {
+        // Show all steps at once
+        document.querySelectorAll('.wizard-step').forEach(stepEl => {
+            stepEl.style.display = 'block';
+        });
+
+        // Hide wizard elements
+        if (dom.stepIndicator) dom.stepIndicator.style.display = 'none';
+        if (dom.wizardFooter) dom.wizardFooter.style.display = 'none';
+        if (dom.editFooter) dom.editFooter.style.display = 'flex';
+
+        // Add modal-grid class for multi-column layout
+        const modalBody = $('eventModalBody');
+        if (modalBody) {
+            modalBody.classList.add('modal-grid');
+        }
+    }
+
+    // Wizard navigation button listeners
+    if (dom.wizardPrevBtn) {
+        dom.wizardPrevBtn.addEventListener('click', prevWizardStep);
+    }
+    if (dom.wizardNextBtn) {
+        dom.wizardNextBtn.addEventListener('click', nextWizardStep);
+    }
+
+    // Export wizard functions to be called from openEventModal
+    window.initWizardMode = initWizardMode;
+    window.initEditMode = initEditMode;
 
     // Modal Detalii Eveniment (with null checks)
     if (dom.closeEventDetailsModalBtn) dom.closeEventDetailsModalBtn.addEventListener('click', ui.closeEventDetailsModal);

@@ -338,19 +338,20 @@ export function openEventModal(eventId) {
 
     const modal = $('eventModal');
     const form = $('eventForm');
-    
+
     calendarState.openEventModal(eventId);
-    
-    populateTeamMemberCheckboxes();
-    populateClientCheckboxes('');
-    populateProgramCheckboxes('');
-    
+
     ['repeatMon', 'repeatTue', 'repeatWed', 'repeatThu', 'repeatFri'].forEach(id => {
         if ($(id)) $(id).checked = false;
     });
 
     if (eventId) {
         // Mod Editare
+        // Initialize edit mode first (show all fields at once)
+        if (window.initEditMode) {
+            window.initEditMode();
+        }
+
         const event = calendarState.getEventById(eventId);
         if (event) {
             $('eventName').value = event.name;
@@ -367,27 +368,42 @@ export function openEventModal(eventId) {
                 const checkbox = $(`team_${id}`);
                 if (checkbox) checkbox.checked = true;
             });
-            
+
             if (event.repeating && event.repeating.length > 0) {
                 const checkboxIds = ['repeatMon', 'repeatTue', 'repeatWed', 'repeatThu', 'repeatFri'];
                 event.repeating.forEach(day => {
                     if (day >= 1 && day <= 5) $(checkboxIds[day - 1]).checked = true;
                 });
             }
-            
+
             $('deleteBtn').style.display = 'block';
         }
+
+        // Populate after mode is set
+        populateTeamMemberCheckboxes();
+        populateClientCheckboxes('');
+        populateProgramCheckboxes('');
     } else {
         // Mod Adăugare Nouă
+        // Initialize wizard mode FIRST (step-by-step)
+        if (window.initWizardMode) {
+            window.initWizardMode();
+        }
+
         form.reset();
         $('eventDate').value = formatDateISO(currentDate);
         $('eventType').value = 'therapy';
         $('duration').value = '60';
         $('isBillable').checked = true;
         $('deleteBtn').style.display = 'none';
-        
+
+        // Populate after wizard mode is initialized
         populateTeamMemberCheckboxes();
         populateClientCheckboxes('');
+
+        // Pre-select programs from intervention plans for selected clients
+        preSelectInterventionPlanPrograms();
+
         populateProgramCheckboxes('');
     }
 
@@ -609,6 +625,58 @@ function buildEventDetailsHTML(event) {
                 </div>
             </div>
         `;
+    }
+
+    // --- Display Intervention Plan Notes (read-only) ---
+    if (eventClients.length > 0) {
+        // Check if any client has intervention plan notes
+        const { interventionPlans } = calendarState.getState();
+        const plansWithNotes = eventClients
+            .map(client => {
+                const plan = interventionPlans[client.id];
+                if (plan && plan.notes && plan.notes.trim()) {
+                    return {
+                        clientName: client.name,
+                        notes: plan.notes,
+                        endDate: plan.endDate
+                    };
+                }
+                return null;
+            })
+            .filter(Boolean);
+
+        if (plansWithNotes.length > 0) {
+            html += `
+                <div class="event-details-section intervention-plan-notes-section">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom; margin-right: 0.5rem;">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        Notițe Plan de Intervenție
+                    </h3>
+                    ${plansWithNotes.map(p => `
+                        <div class="intervention-plan-note">
+                            <div class="intervention-plan-note-header">
+                                <strong>${p.clientName}</strong>
+                                <span class="intervention-plan-note-date">Până la ${new Date(p.endDate).toLocaleDateString('ro-RO')}</span>
+                            </div>
+                            <div class="intervention-plan-note-content">${p.notes}</div>
+                        </div>
+                    `).join('')}
+                    <p class="intervention-plan-note-info">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom;">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 16v-4"/>
+                            <path d="M12 8h.01"/>
+                        </svg>
+                        Aceste notițe provin din Planul de Intervenție și nu pot fi editate aici.
+                    </p>
+                </div>
+            `;
+        }
     }
 
     // --- AICI SE GENEREAZĂ HTML-UL PENTRU STILUL NOU ---
@@ -1295,24 +1363,62 @@ function populateTeamMemberCheckboxes() {
     const { teamMembers } = calendarState.getState();
     const container = $('teamMemberCheckboxes');
     container.innerHTML = '';
-    
+
     if (teamMembers.length === 0) {
         container.innerHTML = '<p class="empty-list-message">Nu exista membri</p>';
         return;
     }
-    
-    teamMembers.forEach(member => {
-        const div = document.createElement('div');
-        div.className = 'checkbox-item';
-        div.innerHTML = `
-            <input type="checkbox" id="team_${member.id}" name="teamMemberCheckbox" value="${member.id}">
-            <label for="team_${member.id}" class="checkbox-label-with-dot">
-                <span class="color-dot" style="background-color: ${member.color};"></span>
-                ${member.name}
-            </label>
-        `;
-        container.appendChild(div);
-    });
+
+    // Check if we're in wizard mode (step indicator visible)
+    const stepIndicator = $('stepIndicator');
+    const isWizardMode = stepIndicator && stepIndicator.style.display !== 'none';
+
+    if (isWizardMode) {
+        // Avatar-based selection for wizard mode
+        container.className = 'team-avatar-grid';
+
+        teamMembers.forEach(member => {
+            // Get initials from name
+            const initials = member.name
+                .split(' ')
+                .map(word => word[0])
+                .join('')
+                .toUpperCase()
+                .substring(0, 2);
+
+            const div = document.createElement('div');
+            div.className = 'team-avatar-item';
+            div.innerHTML = `
+                <input type="checkbox" id="team_${member.id}" name="teamMemberCheckbox" value="${member.id}" class="avatar-checkbox">
+                <label for="team_${member.id}" class="avatar-label">
+                    <div class="avatar" style="background-color: ${member.color};">
+                        ${initials}
+                    </div>
+                    <span class="avatar-name">${member.name}</span>
+                    <div class="avatar-checkmark">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                </label>
+            `;
+            container.appendChild(div);
+        });
+    } else {
+        // Traditional checkbox list for edit mode
+        container.className = 'checkbox-list';
+
+        teamMembers.forEach(member => {
+            const div = document.createElement('div');
+            div.className = 'checkbox-item';
+            div.innerHTML = `
+                <input type="checkbox" id="team_${member.id}" name="teamMemberCheckbox" value="${member.id}">
+                <label for="team_${member.id}" class="checkbox-label-with-dot">
+                    <span class="color-dot" style="background-color: ${member.color};"></span>
+                    ${member.name}
+                </label>
+            `;
+            container.appendChild(div);
+        });
+    }
 }
 
 function populateClientCheckboxes(searchTerm = '') {
@@ -1343,15 +1449,31 @@ function populateClientCheckboxes(searchTerm = '') {
         return;
     }
 
+    const { interventionPlans } = calendarState.getState();
+
     filteredClients.forEach(client => {
         const idStr = String(client.id);
         const isChecked = selectedClientIds.has(idStr);
-        
+
+        // Check if client has an active intervention plan
+        const plan = interventionPlans[idStr];
+        const hasActivePlan = plan && new Date(plan.endDate) >= new Date();
+
         const div = document.createElement('div');
         div.className = 'checkbox-item';
         div.innerHTML = `
             <input type="checkbox" id="client_${idStr}" value="${idStr}" ${isChecked ? 'checked' : ''}>
-            <label for="client_${idStr}">${client.name}</label>
+            <label for="client_${idStr}">
+                ${client.name}
+                ${hasActivePlan ? `
+                    <span class="client-plan-badge" title="Are un plan de intervenție activ până la ${new Date(plan.endDate).toLocaleDateString('ro-RO')}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                        </svg>
+                        Plan Activ
+                    </span>
+                ` : ''}
+            </label>
         `;
         container.appendChild(div);
     });
@@ -1362,12 +1484,46 @@ function populateClientCheckboxes(searchTerm = '') {
             if (e.target.checked) selectedClientIds.add(e.target.value);
             else selectedClientIds.delete(e.target.value);
             updateEventTitle();
+
+            // Re-select programs from intervention plans when clients change
+            preSelectInterventionPlanPrograms();
+            populateProgramCheckboxes('');
         });
     });
 }
 
+/**
+ * Pre-select programs from intervention plans for selected clients
+ */
+function preSelectInterventionPlanPrograms() {
+    const { selectedClientIds, interventionPlans } = calendarState.getState();
+    const { selectedProgramIds } = calendarState.getState();
+
+    // Clear any previously selected programs (when creating new event)
+    selectedProgramIds.clear();
+
+    // Get program IDs from all selected clients' intervention plans
+    const programIdsToSelect = new Set();
+
+    selectedClientIds.forEach(clientId => {
+        const plan = interventionPlans[clientId];
+        if (plan && plan.programIds && Array.isArray(plan.programIds)) {
+            // Check if plan is still active (end date is in the future)
+            const isActive = new Date(plan.endDate) >= new Date();
+            if (isActive) {
+                plan.programIds.forEach(programId => {
+                    programIdsToSelect.add(String(programId));
+                });
+            }
+        }
+    });
+
+    // Add all collected program IDs to selectedProgramIds
+    programIdsToSelect.forEach(id => selectedProgramIds.add(id));
+}
+
 function populateProgramCheckboxes(searchTerm = '') {
-    const { programs, selectedProgramIds } = calendarState.getState();
+    const { programs, selectedProgramIds, selectedClientIds, interventionPlans } = calendarState.getState();
     const container = $('programCheckboxes');
     if (!container) return;
 
@@ -1375,6 +1531,33 @@ function populateProgramCheckboxes(searchTerm = '') {
     if (!Array.isArray(programs) || programs.length === 0) {
         container.innerHTML = '<p class="empty-list-message">Nu exista programe.</p>';
         return;
+    }
+
+    // Check if any selected client has an active intervention plan
+    let hasActivePlan = false;
+    if (selectedClientIds && selectedClientIds.size > 0) {
+        for (const clientId of selectedClientIds) {
+            const plan = interventionPlans[clientId];
+            if (plan && new Date(plan.endDate) >= new Date()) {
+                hasActivePlan = true;
+                break;
+            }
+        }
+    }
+
+    // Add info message if intervention plans exist
+    if (hasActivePlan) {
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'intervention-plan-info-message';
+        infoDiv.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4"/>
+                <path d="M12 8h.01"/>
+            </svg>
+            <span>Acest client are un Plan de intervenție activ. Programele au fost pre-selectate.</span>
+        `;
+        container.appendChild(infoDiv);
     }
 
     const term = searchTerm.toLowerCase();
