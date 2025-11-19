@@ -1441,16 +1441,29 @@ export function updateEventTypeDependencies(eventType, preserveIsBillable = fals
 function calculateClientHours(clientId, events, currentDate) {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
-    
+
     const monthEvents = events.filter(event => {
         const hasClient = event.clientId === clientId || (event.clientIds && event.clientIds.includes(clientId));
         if (!hasClient) return false;
-        
+
         const eventDate = new Date(event.date);
         return eventDate.getFullYear() === year && eventDate.getMonth() === month;
     });
-    
-const totalMinutes = monthEvents.reduce((sum, event) => sum + (Number(event.duration) || 0), 0);    return (totalMinutes / 60).toFixed(1);
+
+    // Calculate billable minutes, matching billing logic
+    let billableMinutes = 0;
+
+    monthEvents.forEach(event => {
+        const attendance = (event.attendance && event.attendance[clientId]) || 'present';
+        // Is billable AND client was present or absent (but not absent-motivated)
+        const isBillableAttendance = (attendance === 'present' || attendance === 'absent');
+
+        if (event.isBillable !== false && isBillableAttendance) {
+            billableMinutes += (Number(event.duration) || 0);
+        }
+    });
+
+    return (billableMinutes / 60).toFixed(1);
 }
 
 function formatDateISO(date) {
