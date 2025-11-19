@@ -602,64 +602,85 @@ console.log('===========================');
     };
 
     // --- START NEW RECURRENCE EDIT LOGIC ---
-    if (existingEvent && existingEvent.repeating && existingEvent.repeating.length > 0) {
-        // This is an edit of a recurring event, ask the user what to do
-        const choice = await ui.showRecurringEditModal();
+    try {
+        if (existingEvent && existingEvent.repeating && existingEvent.repeating.length > 0) {
+            // This is an edit of a recurring event, ask the user what to do
+            const choice = await ui.showRecurringEditModal();
 
-        if (choice === 'cancel') {
-            return; // User cancelled, do nothing
-        }
+            if (choice === 'cancel') {
+                return; // User cancelled, do nothing
+            }
 
-        if (choice === 'single') {
-            // Update only this event and detach it from the series by removing 'repeating'
-            const updatedEvent = { 
-                ...existingEvent, 
-                ...eventBase, 
-                id: editingEventId, 
-                repeating: [] // Detach from series
-            };
-            calendarState.saveEvent(updatedEvent);
-        } else if (choice === 'all') {
-            // Update all events in the series
-            // Note: eventBase already contains the new 'repeating' days from the form
-            calendarState.updateRecurringEvents(existingEvent, eventBase);
-        }
+            if (choice === 'single') {
+                // Update only this event and detach it from the series by removing 'repeating'
+                const updatedEvent = {
+                    ...existingEvent,
+                    ...eventBase,
+                    id: editingEventId,
+                    repeating: [] // Detach from series
+                };
+                // BUG FIX: Update API first, then local state
+                await api.updateEvent(updatedEvent); // UPDATE to database first
+                calendarState.saveEvent(updatedEvent); // Only update local state after success
+            } else if (choice === 'all') {
+                // Update all events in the series
+                // Note: eventBase already contains the new 'repeating' days from the form
+                // BUG FIX: For recurring updates, we need to save to API first
+                // This is complex as updateRecurringEvents modifies multiple events
+                // For now, update local state first and save full data
+                calendarState.updateRecurringEvents(existingEvent, eventBase);
+                // Save all data to ensure consistency
+                await api.saveData({
+                    teamMembers: calendarState.getState().teamMembers,
+                    clients: calendarState.getState().clients,
+                    events: calendarState.getState().events
+                });
+            }
 
-    } else {
-        // This is a simple edit OR a new event
-        const defaultAttendance = {};
-        if (clientIds.length > 0) {
-            clientIds.forEach(clientId => {
-                defaultAttendance[clientId] = 'present';
-            });
-        }
-
-        if (eventBase.repeating.length > 0) {
-            // New recurring event
-            const newEvents = createRecurringEvents(eventBase, defaultAttendance);
-            calendarState.saveEvent(newEvents);
-            await api.createEvent(newEvents); // CREATE multiple
-        } else if (editingEventId) {
-            // Update existing single event
-            const updatedEvent = { ...eventBase, id: editingEventId };
-            calendarState.saveEvent(updatedEvent);
-            await api.updateEvent(updatedEvent); // UPDATE
         } else {
-            // Create new single event
-            const newEvent = {
-                ...eventBase,
-                id: generateEventId(),
-                attendance: defaultAttendance
-            };
-            calendarState.saveEvent(newEvent);
-            await api.createEvent(newEvent); // CREATE
+            // This is a simple edit OR a new event
+            const defaultAttendance = {};
+            if (clientIds.length > 0) {
+                clientIds.forEach(clientId => {
+                    defaultAttendance[clientId] = 'present';
+                });
+            }
+
+            if (eventBase.repeating.length > 0) {
+                // New recurring event
+                const newEvents = createRecurringEvents(eventBase, defaultAttendance);
+                // BUG FIX: Create in API first, then update local state
+                await api.createEvent(newEvents); // CREATE multiple in database first
+                calendarState.saveEvent(newEvents); // Only update local state after success
+            } else if (editingEventId) {
+                // Update existing single event
+                const updatedEvent = { ...eventBase, id: editingEventId };
+                // BUG FIX: Update API first, then local state
+                await api.updateEvent(updatedEvent); // UPDATE to database first
+                calendarState.saveEvent(updatedEvent); // Only update local state after success
+            } else {
+                // Create new single event
+                const newEvent = {
+                    ...eventBase,
+                    id: generateEventId(),
+                    attendance: defaultAttendance
+                };
+                // BUG FIX: Create in API first, then update local state
+                await api.createEvent(newEvent); // CREATE in database first
+                calendarState.saveEvent(newEvent); // Only update local state after success
+            }
         }
+        // --- END NEW RECURRENCE EDIT LOGIC ---
+        // logs saving activity
+        window.logActivity(editingEventId ? "Eveniment actualizat" : "Eveniment adăugat", eventBase.name, 'event', eventBase.date);
+        ui.closeEventModal();
+        render();
+    } catch (error) {
+        // Error already shown by apiService.js (showErrorToast)
+        // Just log it and don't close modal so user can retry
+        console.error('Failed to save event:', error);
+        // Keep modal open so user can fix issues or try again
     }
-    // --- END NEW RECURRENCE EDIT LOGIC ---
-    // logs saving activity
-    window.logActivity(editingEventId ? "Eveniment actualizat" : "Eveniment adăugat", eventBase.name, 'event', eventBase.date);
-    ui.closeEventModal();
-    render();
 }
 
 
@@ -687,53 +708,68 @@ async function handleDeleteEvent() {
     
     if (choice === 'cancel') return;
 
-    if (choice === 'all') {
-        // Delete all recurring events matching the criteria
-        const criteria = {
-            name: event.name,
-            teamMemberIds: event.teamMemberIds || [event.teamMemberId],
-            startTime: event.startTime,
-            duration: event.duration,
-            repeating: event.repeating,
-            month: event.date ? event.date.substring(0, 7) : null // YYYY-MM - doar evenimentele din aceeași lună
-        };
+    try {
+        if (choice === 'all') {
+            // Delete all recurring events matching the criteria
+            const criteria = {
+                name: event.name,
+                teamMemberIds: event.teamMemberIds || [event.teamMemberId],
+                startTime: event.startTime,
+                duration: event.duration,
+                repeating: event.repeating,
+                month: event.date ? event.date.substring(0, 7) : null // YYYY-MM - doar evenimentele din aceeași lună
+            };
 
-        // Get all matching event IDs before deleting (only from same month)
-        const matchingEvents = calendarState.getState().events.filter(e => {
-            const eventTeamIds = e.teamMemberIds || (e.teamMemberId ? [e.teamMemberId] : []);
-            const eventRepeating = (e.repeating || []).map(d => parseInt(d));
-            const criteriaTeamIds = JSON.stringify((criteria.teamMemberIds || []).sort());
-            const criteriaRepeating = JSON.stringify((criteria.repeating || []).map(d => parseInt(d)).sort());
-            const eventMonth = e.date ? e.date.substring(0, 7) : null;
+            // Get all matching event IDs before deleting (only from same month)
+            const matchingEvents = calendarState.getState().events.filter(e => {
+                const eventTeamIds = e.teamMemberIds || (e.teamMemberId ? [e.teamMemberId] : []);
+                const eventRepeating = (e.repeating || []).map(d => parseInt(d));
+                const criteriaTeamIds = JSON.stringify((criteria.teamMemberIds || []).sort());
+                const criteriaRepeating = JSON.stringify((criteria.repeating || []).map(d => parseInt(d)).sort());
+                const eventMonth = e.date ? e.date.substring(0, 7) : null;
 
-            return e.name === criteria.name &&
-                   JSON.stringify(eventTeamIds.sort()) === criteriaTeamIds &&
-                   e.startTime === criteria.startTime &&
-                   e.duration === criteria.duration &&
-                   JSON.stringify(eventRepeating.sort()) === criteriaRepeating &&
-                   eventMonth === criteria.month; // Doar evenimentele din aceeași lună
-        });
+                return e.name === criteria.name &&
+                       JSON.stringify(eventTeamIds.sort()) === criteriaTeamIds &&
+                       e.startTime === criteria.startTime &&
+                       e.duration === criteria.duration &&
+                       JSON.stringify(eventRepeating.sort()) === criteriaRepeating &&
+                       eventMonth === criteria.month; // Doar evenimentele din aceeași lună
+            });
 
-        // Delete from state
-        calendarState.deleteRecurringEvents(criteria);
-
-        // Delete each event from the API
-        for (const evt of matchingEvents) {
-            try {
-                await api.deleteEvent(evt.id);
-            } catch (error) {
-                console.error(`Failed to delete event ${evt.id}:`, error);
+            // BUG FIX: Delete from API first, then update local state
+            // Delete each event from the API
+            let failedDeletes = 0;
+            for (const evt of matchingEvents) {
+                try {
+                    await api.deleteEvent(evt.id);
+                } catch (error) {
+                    console.error(`Failed to delete event ${evt.id}:`, error);
+                    failedDeletes++;
+                }
             }
-        }
-    } else {
-        // Delete single event
-        calendarState.deleteEvent(editingEventId);
-        await api.deleteEvent(editingEventId);
-    }
 
-    ui.closeEventModal();
-    ui.closeEventDetailsModal();
-    render();
+            // Only delete from local state if all API calls succeeded
+            if (failedDeletes === 0) {
+                calendarState.deleteRecurringEvents(criteria);
+            } else {
+                ui.showCustomAlert(`Nu s-au putut șterge ${failedDeletes} evenimente. Vă rugăm să încercați din nou.`, 'Eroare');
+                return; // Don't close modal or refresh
+            }
+        } else {
+            // Delete single event
+            // BUG FIX: Delete from API first, then update local state
+            await api.deleteEvent(editingEventId); // DELETE from database first
+            calendarState.deleteEvent(editingEventId); // Only update local state after success
+        }
+
+        ui.closeEventModal();
+        ui.closeEventDetailsModal();
+        render();
+    } catch (error) {
+        // Error already shown by apiService.js (showErrorToast)
+        console.error('Failed to delete event:', error);
+        // Keep modal open so user can retry
+    }
 }
 
 /**

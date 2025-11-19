@@ -17,6 +17,7 @@ const $ = (id) => document.getElementById(id);
 
 // --- Stocare ID Eveniment Curent (pentru detalii) ---
 export let currentDetailsEventId = null;
+let originalEventSnapshot = null; // Store original event state for change detection
 
 // --- Modale de Alertă/Confirmare ---
 
@@ -412,6 +413,8 @@ export function showEventDetails(eventId) {
     if (!event) return;
 
     currentDetailsEventId = eventId;
+    // Store a deep copy of the original event for change detection
+    originalEventSnapshot = JSON.parse(JSON.stringify(event));
     const modal = $('eventDetailsModal');
     const content = $('eventDetailsContent');
     const commentsArea = $('eventComments');
@@ -453,6 +456,21 @@ export function showEventDetails(eventId) {
 }
 
 
+/**
+ * Helper function to check if event was modified
+ * Compares relevant fields that can be changed in the details modal
+ */
+function hasEventChanged(originalEvent, currentEvent) {
+    if (!originalEvent || !currentEvent) return false;
+
+    // Compare fields that can be modified in the details modal
+    return (
+        JSON.stringify(originalEvent.attendance) !== JSON.stringify(currentEvent.attendance) ||
+        JSON.stringify(originalEvent.programScores) !== JSON.stringify(currentEvent.programScores) ||
+        (originalEvent.comments || '') !== (currentEvent.comments || '')
+    );
+}
+
 export async function closeEventDetailsModal() {
     const { isAdminView } = calendarState.getState();
     if (isAdminView && currentDetailsEventId) {
@@ -464,12 +482,20 @@ export async function closeEventDetailsModal() {
             // 2. Get the event that was modified
             const event = calendarState.getEventById(currentDetailsEventId);
 
-            // 3. Save event data (includes attendance and program scores)
-            await api.updateEvent(event);
+            // BUG FIX: Only save if event still exists (might have been deleted)
+            if (event) {
+                // OPTIMIZATION: Only save if event was actually modified
+                const eventChanged = hasEventChanged(originalEventSnapshot, event);
 
-            // 4. Save evolution data (includes program history)
-            const { evolutionData } = calendarState.getState();
-            await api.saveEvolutionData(evolutionData);
+                if (eventChanged) {
+                    // 3. Save event data (includes attendance and program scores)
+                    await api.updateEvent(event);
+
+                    // 4. Save evolution data (includes program history)
+                    const { evolutionData } = calendarState.getState();
+                    await api.saveEvolutionData(evolutionData);
+                }
+            }
 
         } catch (error) {
             console.error('Eroare la salvarea modificărilor:', error);
@@ -478,6 +504,7 @@ export async function closeEventDetailsModal() {
     }
     $('eventDetailsModal').classList.remove('active');
     currentDetailsEventId = null;
+    originalEventSnapshot = null; // Clear snapshot
 }
 
 /**
