@@ -4918,21 +4918,36 @@ input[type="time"].form-input::-webkit-datetime-edit-fields-wrapper {
 
 .checkbox-label {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     cursor: pointer;
     user-select: none;
 }
 
 .checkbox-label input[type="checkbox"] {
     margin-right: 0.75rem;
+    margin-top: 0.25rem;
     width: 18px;
     height: 18px;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
-.checkbox-label span {
+.checkbox-label .program-info {
+    flex: 1;
+}
+
+.checkbox-label .program-title {
     font-size: 0.95rem;
+    font-weight: 500;
     color: var(--text-primary);
+    display: block;
+}
+
+.checkbox-label .program-description {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+    line-height: 1.4;
 }
 
 .checkbox-label:hover {
@@ -4956,6 +4971,29 @@ input[type="time"].form-input::-webkit-datetime-edit-fields-wrapper {
     .form-row {
         grid-template-columns: 1fr;
     }
+}
+
+/* Client Intervention Plan Badge */
+.client-intervention-plan-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding: 0.5rem;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.client-intervention-plan-badge svg {
+    flex-shrink: 0;
+}
+
+.client-intervention-plan-badge span {
+    line-height: 1.2;
 }
 
 /* ==========================================================

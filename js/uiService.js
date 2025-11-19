@@ -890,7 +890,7 @@ function saveEventCommentsLocal() {
 // --- Management Secțiuni Admin (Client/Echipă) ---
 
 export function renderClientsList(searchTerm = '') {
-    const { clients, events, currentDate } = calendarState.getState();
+    const { clients, events, currentDate, interventionPlans } = calendarState.getState();
     const container = $('clientsList');
     container.innerHTML = '<h3>Clienți existenți</h3>';
 
@@ -907,6 +907,9 @@ export function renderClientsList(searchTerm = '') {
 
     filteredClients.forEach(client => {
         const monthHours = calculateClientHours(client.id, events, currentDate);
+        const plan = interventionPlans[client.id];
+        const hasActivePlan = plan && new Date(plan.endDate) >= new Date();
+
         const card = document.createElement('div');
         card.className = 'client-card';
         if (client.is_archived === 1 || client.is_archived === true) {
@@ -952,6 +955,17 @@ export function renderClientsList(searchTerm = '') {
                     <div class="client-stats">
                         <div class="client-hours">${monthHours}</div>
                         <div class="client-hours-label">ore luna aceasta</div>
+                        ${hasActivePlan ? `
+                            <div class="client-intervention-plan-badge">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                    <line x1="16" y1="2" x2="16" y2="6"/>
+                                    <line x1="8" y1="2" x2="8" y2="6"/>
+                                    <line x1="3" y1="10" x2="21" y2="10"/>
+                                </svg>
+                                <span>Plan Activ până la ${new Date(plan.endDate).toLocaleDateString('ro-RO')}</span>
+                            </div>
+                        ` : ''}
                     </div>
                 </div>
                 <div class="client-actions" data-client-id="${client.id}">

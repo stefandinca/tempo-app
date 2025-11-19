@@ -53,24 +53,33 @@ export function openModal(clientId) {
     const client = clients.find(c => c.id === clientId);
     const plan = interventionPlans[clientId];
 
+    console.log('Opening intervention plan modal for client:', clientId);
+    console.log('Client found:', client);
+    console.log('Plan found:', plan);
+    console.log('Available programs:', programs);
+
     if (!client) {
         showCustomAlert('Client nu a fost găsit.', 'Eroare');
         return;
     }
 
-    // Reset form
-    dom.form.reset();
+    // Set client info
     dom.clientId.value = clientId;
     dom.clientName.value = client.name;
 
-    // Populate programs checklist
-    populateProgramsList(programs, plan?.programIds || []);
-
     // If plan exists, populate the form
     if (plan) {
+        console.log('Populating form with existing plan data');
+        console.log('Start date:', plan.startDate);
+        console.log('End date:', plan.endDate);
+        console.log('Program IDs:', plan.programIds);
+
         dom.startDate.value = plan.startDate;
         dom.endDate.value = plan.endDate;
         dom.notes.value = plan.notes || '';
+
+        // Populate programs checklist with selected programs
+        populateProgramsList(programs, plan.programIds || []);
 
         // Show plan info
         dom.info.style.display = 'block';
@@ -78,6 +87,7 @@ export function openModal(clientId) {
         dom.updatedAt.textContent = new Date(plan.updatedAt).toLocaleString('ro-RO');
         dom.deleteBtn.style.display = 'inline-block';
     } else {
+        console.log('No existing plan found, creating new plan');
         // Set default dates (today and 3 months from now)
         const today = new Date();
         const threeMonthsLater = new Date(today);
@@ -85,6 +95,10 @@ export function openModal(clientId) {
 
         dom.startDate.value = today.toISOString().split('T')[0];
         dom.endDate.value = threeMonthsLater.toISOString().split('T')[0];
+        dom.notes.value = '';
+
+        // Populate programs checklist with no selection
+        populateProgramsList(programs, []);
 
         dom.info.style.display = 'none';
         dom.deleteBtn.style.display = 'none';
@@ -99,7 +113,16 @@ export function openModal(clientId) {
  */
 function closeModal() {
     dom.modal.style.display = 'none';
-    dom.form.reset();
+
+    // Clear all fields
+    dom.clientId.value = '';
+    dom.clientName.value = '';
+    dom.startDate.value = '';
+    dom.endDate.value = '';
+    dom.notes.value = '';
+    dom.programsList.innerHTML = '';
+    dom.info.style.display = 'none';
+    dom.deleteBtn.style.display = 'none';
 }
 
 /**
@@ -117,13 +140,19 @@ function populateProgramsList(programs, selectedProgramIds) {
         const isChecked = selectedProgramIds.includes(program.id);
         const checkbox = document.createElement('div');
         checkbox.className = 'program-checkbox-item';
+
+        const description = program.description ? `<div class="program-description">${program.description}</div>` : '';
+
         checkbox.innerHTML = `
             <label class="checkbox-label">
                 <input type="checkbox"
                        name="program"
                        value="${program.id}"
                        ${isChecked ? 'checked' : ''}>
-                <span>${program.name}</span>
+                <div class="program-info">
+                    <span class="program-title">${program.title}</span>
+                    ${description}
+                </div>
             </label>
         `;
         dom.programsList.appendChild(checkbox);
