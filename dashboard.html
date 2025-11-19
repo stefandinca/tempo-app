@@ -580,6 +580,98 @@
     </div>
 </div>
 
+<!-- Subscription Modal -->
+<div id="subscriptionModal" class="modal-backdrop modal-small">
+    <div class="modal-content">
+        <form id="subscriptionForm">
+            <div class="modal-header">
+                <h2 id="subscriptionModalTitle" class="modal-title">Adaugă/Modifică Abonament</h2>
+                <button id="closeSubscriptionModal" type="button" class="btn-icon btn-close" title="Inchide">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="subscriptionClientId">
+
+                <div class="form-group">
+                    <label for="subscriptionAmount">Valoare abonament (RON)</label>
+                    <input type="number" id="subscriptionAmount" class="form-input" required min="0" step="1" placeholder="ex: 500">
+                </div>
+
+                <div id="subscriptionStatus" class="subscription-status" style="display: none;">
+                    <span class="status-badge"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelSubscriptionBtn" type="button" class="btn btn-secondary">Anulează</button>
+                <button id="deactivateSubscriptionBtn" type="button" class="btn btn-warning" style="display: none;">Dezactivează</button>
+                <button id="activateSubscriptionBtn" type="submit" class="btn btn-primary">Activează</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Intervention Plan Modal -->
+<div id="interventionPlanModal" class="modal-backdrop modal-medium">
+    <div class="modal-content">
+        <form id="interventionPlanForm">
+            <div class="modal-header">
+                <h2 id="interventionPlanModalTitle" class="modal-title">Plan de Intervenție</h2>
+                <button id="closeInterventionPlanModal" type="button" class="btn-icon btn-close" title="Inchide">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="interventionPlanClientId">
+
+                <div class="form-group">
+                    <label for="interventionPlanClientName">Client</label>
+                    <input type="text" id="interventionPlanClientName" class="form-input" readonly style="background-color: #f3f4f6;">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="interventionPlanStartDate">Data Început</label>
+                        <input type="date" id="interventionPlanStartDate" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="interventionPlanEndDate">Data Sfârșit</label>
+                        <input type="date" id="interventionPlanEndDate" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="interventionPlanPrograms">Programe Selectate</label>
+                    <div id="interventionPlanProgramsList" class="programs-checklist">
+                        <!-- Programs will be populated here -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="interventionPlanNotes">Notițe (Opțional)</label>
+                    <textarea id="interventionPlanNotes" class="form-input" rows="4" placeholder="Adaugă notițe despre planul de intervenție..."></textarea>
+                </div>
+
+                <div id="interventionPlanInfo" class="intervention-plan-info" style="display: none;">
+                    <div class="info-row">
+                        <span class="label">Creat la:</span>
+                        <span id="interventionPlanCreatedAt"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Ultima actualizare:</span>
+                        <span id="interventionPlanUpdatedAt"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelInterventionPlanBtn" type="button" class="btn btn-secondary">Anulează</button>
+                <button id="deleteInterventionPlanBtn" type="button" class="btn btn-danger" style="display: none;">Șterge Plan</button>
+                <button type="submit" class="btn btn-primary">Salvează Plan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
     <!-- Event Types Section -->
     <section id="eventTypesSection" class="main-section">
         <header class="section-header">

@@ -355,6 +355,106 @@ export async function saveDiscountThresholds(thresholds) {
 }
 
 /**
+ * Încarcă abonamentele clienților.
+ * Apel GET la api.php?path=subscriptions
+ */
+export async function loadSubscriptions() {
+    return apiFetch('subscriptions');
+}
+
+/**
+ * Salvează sau actualizează un abonament pentru un client.
+ * Apel POST la api.php?path=subscriptions
+ * @param {object} subscription - Obiectul cu datele abonamentului {clientId, amount, isActive}
+ */
+export async function saveSubscription(subscription) {
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(subscription)
+    };
+    try {
+        const result = await apiFetch('subscriptions', options);
+        showSuccessToast('Abonament salvat', 'Abonamentul a fost salvat cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la salvare', 'Nu s-a putut salva abonamentul');
+        throw error;
+    }
+}
+
+/**
+ * Șterge abonamentul unui client.
+ * Apel DELETE la api.php?path=subscriptions
+ * @param {string} clientId - ID-ul clientului
+ */
+export async function deleteSubscription(clientId) {
+    const options = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientId })
+    };
+    try {
+        const result = await apiFetch('subscriptions', options);
+        showSuccessToast('Abonament șters', 'Abonamentul a fost șters cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la ștergere', 'Nu s-a putut șterge abonamentul');
+        throw error;
+    }
+}
+
+/**
+ * Încarcă planurile de intervenție pentru clienți.
+ * Apel GET la api.php?path=intervention-plans
+ */
+export async function loadInterventionPlans() {
+    return apiFetch('intervention-plans');
+}
+
+/**
+ * Salvează sau actualizează un plan de intervenție pentru un client.
+ * Apel POST la api.php?path=intervention-plans
+ * @param {object} plan - Obiectul cu datele planului {clientId, startDate, endDate, notes, programIds}
+ */
+export async function saveInterventionPlan(plan) {
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(plan)
+    };
+    try {
+        const result = await apiFetch('intervention-plans', options);
+        showSuccessToast('Plan salvat', 'Planul de intervenție a fost salvat cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la salvare', 'Nu s-a putut salva planul de intervenție');
+        throw error;
+    }
+}
+
+/**
+ * Șterge planul de intervenție al unui client.
+ * Apel DELETE la api.php?path=intervention-plans
+ * @param {string} clientId - ID-ul clientului
+ */
+export async function deleteInterventionPlan(clientId) {
+    const options = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientId })
+    };
+    try {
+        const result = await apiFetch('intervention-plans', options);
+        showSuccessToast('Plan șters', 'Planul de intervenție a fost șters cu succes');
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la ștergere', 'Nu s-a putut șterge planul de intervenție');
+        throw error;
+    }
+}
+
+/**
  * Încarcă tipurile de evenimente din baza de date.
  * Apel GET la api.php?path=event_types
  */

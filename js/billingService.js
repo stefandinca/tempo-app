@@ -44,6 +44,17 @@ const dom = {
     paymentAmount: $('paymentAmount'),
     paymentNotes: $('paymentNotes'),
     paymentModalTitle: $('paymentModalTitle'),
+
+    // Modal Abonament
+    subscriptionModal: $('subscriptionModal'),
+    subscriptionForm: $('subscriptionForm'),
+    closeSubscriptionModalBtn: $('closeSubscriptionModal'),
+    cancelSubscriptionBtn: $('cancelSubscriptionBtn'),
+    subscriptionClientId: $('subscriptionClientId'),
+    subscriptionAmount: $('subscriptionAmount'),
+    activateSubscriptionBtn: $('activateSubscriptionBtn'),
+    deactivateSubscriptionBtn: $('deactivateSubscriptionBtn'),
+    subscriptionStatus: $('subscriptionStatus'),
 };
 
 /**
@@ -73,6 +84,15 @@ export function init() {
     });
     dom.paymentForm.addEventListener('submit', handleSavePayment);
 
+    // Ascultători pentru modalul de abonament
+    dom.closeSubscriptionModalBtn.addEventListener('click', closeSubscriptionModal);
+    dom.cancelSubscriptionBtn.addEventListener('click', closeSubscriptionModal);
+    dom.subscriptionModal.addEventListener('click', (e) => {
+        if (e.target === dom.subscriptionModal) closeSubscriptionModal();
+    });
+    dom.subscriptionForm.addEventListener('submit', handleActivateSubscription);
+    dom.deactivateSubscriptionBtn.addEventListener('click', handleDeactivateSubscription);
+
     // Ascultător principal pentru acțiunile din listă (delegare evenimente)
     dom.clientList.addEventListener('click', (e) => {
         const actionBtn = e.target.closest('[data-action]');
@@ -88,6 +108,8 @@ export function init() {
         } else if (action === 'delete-payment') {
             const paymentId = actionBtn.dataset.paymentId;
             handleDeletePayment(clientId, monthKey, paymentId);
+        } else if (action === 'manage-subscription') {
+            openSubscriptionModal(clientId);
         }
     });
 }
@@ -133,26 +155,53 @@ export function renderBillingView() {
     }
 
     filteredClients.forEach(client => {
-        const hoursData = calculateClientHoursForMonth(client.id, year, month, events);
-        const totalBeforeDiscount = hoursData.totalDue;
-        const discountPercent = calculateDiscount(hoursData.billableHours);
-        const discountAmount = totalBeforeDiscount * (discountPercent / 100);
-        const totalDue = totalBeforeDiscount - discountAmount;
-        
+        const { subscriptions } = calendarState.getState();
+        const subscription = subscriptions[client.id];
+        const hasActiveSubscription = subscription?.isActive;
+
+        let hoursData, totalBeforeDiscount, discountPercent, discountAmount, totalDue;
+
+        if (!hasActiveSubscription) {
+            // Calculate regular billing with discounts
+            hoursData = calculateClientHoursForMonth(client.id, year, month, events);
+            totalBeforeDiscount = hoursData.totalDue;
+            discountPercent = calculateDiscount(hoursData.billableHours);
+            discountAmount = totalBeforeDiscount * (discountPercent / 100);
+            totalDue = totalBeforeDiscount - discountAmount;
+        } else {
+            // Use subscription amount, no discounts applied
+            hoursData = { billableHours: 0 };
+            totalDue = subscription.amount;
+            totalBeforeDiscount = totalDue;
+            discountPercent = 0;
+            discountAmount = 0;
+        }
+
         const card = document.createElement('div');
         card.className = 'billing-card';
         card.dataset.clientId = client.id;
         card.dataset.monthKey = monthKey;
 
+        const hoursDisplay = hasActiveSubscription
+            ? '<span class="subscription-badge">Abonament Activ</span>'
+            : `<span class="client-hours">${hoursData.billableHours.toFixed(1)} ore</span>`;
+
         card.innerHTML = `
             <div class="billing-header">
                 <span class="client-name">${client.name}</span>
-                <span class="client-hours">${hoursData.billableHours.toFixed(1)} ore</span>
+                ${hoursDisplay}
             </div>
             <div class="billing-body">
-                ${generatePaymentSummary(client.id, monthKey, totalDue, totalBeforeDiscount, discountPercent, discountAmount)}
+                ${generatePaymentSummary(client.id, monthKey, totalDue, totalBeforeDiscount, discountPercent, discountAmount, hasActiveSubscription)}
             </div>
             <div class="billing-actions">
+                <button class="btn btn-secondary btn-sm" data-action="manage-subscription">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
+                    </svg>
+                    Adaugă/Modifică Abonament
+                </button>
                 <button class="btn btn-primary btn-sm" data-action="add-payment">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/>
@@ -171,7 +220,7 @@ export function renderBillingView() {
 /**
  * Generează HTML pentru rezumatul financiar (Total, Achitat, Restant) și lista plăților.
  */
-function generatePaymentSummary(clientId, monthKey, totalDue, totalBeforeDiscount = totalDue, discountPercent = 0, discountAmount = 0) {
+function generatePaymentSummary(clientId, monthKey, totalDue, totalBeforeDiscount = totalDue, discountPercent = 0, discountAmount = 0, isSubscription = false) {
     const { billingsData } = calendarState.getState();
     const payments = billingsData[clientId]?.[monthKey] || [];
 
@@ -192,19 +241,28 @@ function generatePaymentSummary(clientId, monthKey, totalDue, totalBeforeDiscoun
         `).join('');
     }
 
-    // Show discount info if applicable
-    let discountHtml = '';
-    if (discountPercent > 0) {
-        discountHtml = `
-            <div class="summary-item bg-green-50 dark:bg-green-900/20 border-l-4 border-green-600">
-                <span class="label text-green-800 dark:text-green-300">💰 Discount Aplicat (${discountPercent}%)</span>
-                <span class="value text-green-800 dark:text-green-300">-${discountAmount.toFixed(2)} RON</span>
+    // For subscription mode, show simplified summary
+    let summaryHtml;
+    if (isSubscription) {
+        summaryHtml = `
+            <div class="summary-item total-due">
+                <span class="label">Valoare Abonament</span>
+                <span class="value">${totalDue.toFixed(2)} RON</span>
             </div>
         `;
-    }
+    } else {
+        // Show discount info if applicable
+        let discountHtml = '';
+        if (discountPercent > 0) {
+            discountHtml = `
+                <div class="summary-item bg-green-50 dark:bg-green-900/20 border-l-4 border-green-600">
+                    <span class="label text-green-800 dark:text-green-300">💰 Discount Aplicat (${discountPercent}%)</span>
+                    <span class="value text-green-800 dark:text-green-300">-${discountAmount.toFixed(2)} RON</span>
+                </div>
+            `;
+        }
 
-    return `
-        <div class="financial-summary">
+        summaryHtml = `
             ${discountPercent > 0 ? `
                 <div class="summary-item opacity-70">
                     <span class="label">Subtotal (înainte de discount)</span>
@@ -216,6 +274,12 @@ function generatePaymentSummary(clientId, monthKey, totalDue, totalBeforeDiscoun
                 <span class="label">Total de Plată</span>
                 <span class="value">${totalDue.toFixed(2)} RON</span>
             </div>
+        `;
+    }
+
+    return `
+        <div class="financial-summary">
+            ${summaryHtml}
             <div class="summary-item total-paid">
                 <span class="label">Total Achitat</span>
                 <span class="value">${totalPaid.toFixed(2)} RON</span>
@@ -369,6 +433,113 @@ async function handleDeletePayment(clientId, monthKey, paymentId) {
     } catch (err) {
         console.error('Eroare la ștergerea încasării:', err);
         showCustomAlert('Nu s-a putut șterge încasarea.', 'Eroare API');
+    }
+}
+
+// --- Management Abonamente ---
+
+function openSubscriptionModal(clientId) {
+    const { clients, subscriptions } = calendarState.getState();
+    const client = clients.find(c => c.id === clientId);
+    const subscription = subscriptions[clientId];
+
+    dom.subscriptionClientId.value = clientId;
+    dom.subscriptionForm.reset();
+
+    // If subscription exists, populate the form
+    if (subscription) {
+        dom.subscriptionAmount.value = subscription.amount;
+
+        // Show/hide buttons based on subscription status
+        if (subscription.isActive) {
+            dom.activateSubscriptionBtn.textContent = 'Actualizează';
+            dom.deactivateSubscriptionBtn.style.display = 'inline-block';
+            dom.subscriptionStatus.style.display = 'block';
+            dom.subscriptionStatus.innerHTML = '<span class="status-badge status-active">Abonament Activ</span>';
+        } else {
+            dom.activateSubscriptionBtn.textContent = 'Activează';
+            dom.deactivateSubscriptionBtn.style.display = 'none';
+            dom.subscriptionStatus.style.display = 'block';
+            dom.subscriptionStatus.innerHTML = '<span class="status-badge status-inactive">Abonament Inactiv</span>';
+        }
+    } else {
+        dom.activateSubscriptionBtn.textContent = 'Activează';
+        dom.deactivateSubscriptionBtn.style.display = 'none';
+        dom.subscriptionStatus.style.display = 'none';
+    }
+
+    dom.subscriptionModal.style.display = 'flex';
+    dom.subscriptionAmount.focus();
+}
+
+function closeSubscriptionModal() {
+    dom.subscriptionModal.style.display = 'none';
+    dom.subscriptionForm.reset();
+}
+
+async function handleActivateSubscription(e) {
+    e.preventDefault();
+    const clientId = dom.subscriptionClientId.value;
+    const amount = parseFloat(dom.subscriptionAmount.value);
+
+    if (!clientId || isNaN(amount) || amount < 0) {
+        showCustomAlert('Vă rugăm introduceți o valoare validă pentru abonament.', 'Eroare');
+        return;
+    }
+
+    try {
+        // Save subscription with active status
+        await api.saveSubscription({
+            clientId: clientId,
+            amount: amount,
+            isActive: true
+        });
+
+        // Reload subscriptions
+        const subscriptions = await api.loadSubscriptions();
+        calendarState.setSubscriptions(subscriptions);
+
+        renderBillingView();
+        closeSubscriptionModal();
+    } catch (err) {
+        console.error('Eroare la salvarea abonamentului:', err);
+        showCustomAlert('Nu s-a putut salva abonamentul.', 'Eroare API');
+    }
+}
+
+async function handleDeactivateSubscription() {
+    const clientId = dom.subscriptionClientId.value;
+    const amount = parseFloat(dom.subscriptionAmount.value);
+
+    if (!clientId) {
+        showCustomAlert('ID client invalid.', 'Eroare');
+        return;
+    }
+
+    const confirmed = await showCustomConfirm(
+        'Sunteți sigur că doriți să dezactivați abonamentul? Clientul va reveni la facturarea pe bază de ore.',
+        'Confirmare Dezactivare'
+    );
+
+    if (!confirmed) return;
+
+    try {
+        // Save subscription with inactive status
+        await api.saveSubscription({
+            clientId: clientId,
+            amount: amount || 0,
+            isActive: false
+        });
+
+        // Reload subscriptions
+        const subscriptions = await api.loadSubscriptions();
+        calendarState.setSubscriptions(subscriptions);
+
+        renderBillingView();
+        closeSubscriptionModal();
+    } catch (err) {
+        console.error('Eroare la dezactivarea abonamentului:', err);
+        showCustomAlert('Nu s-a putut dezactiva abonamentul.', 'Eroare API');
     }
 }
 

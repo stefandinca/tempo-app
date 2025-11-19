@@ -12,6 +12,7 @@ import * as view from './calendarView.js';
 import * as reportService from './reportService.js';
 import * as evolutionService from './evolutionService.js';
 import * as billing from './billingService.js';
+import * as interventionPlan from './interventionPlanService.js';
 import * as eventTypesService from './eventTypesService.js';
 import * as analyticsService from './analyticsService.js';
 
@@ -788,12 +789,14 @@ async function forceRefreshData() {
 
     try {
         // 1. Reîncarcă toate datele în paralel
-        const [data, programsData, evolutionData, billingsData, discountThresholds] = await Promise.all([
+        const [data, programsData, evolutionData, billingsData, discountThresholds, subscriptions, interventionPlans] = await Promise.all([
             api.loadData(),
             api.loadPrograms(),
             api.loadEvolutionData(),
             api.loadBillingsData(),
-            api.loadDiscountThresholds()
+            api.loadDiscountThresholds(),
+            api.loadSubscriptions(),
+            api.loadInterventionPlans()
         ]);
 
         // 2. Actualizează starea (state) cu noile date
@@ -802,6 +805,8 @@ async function forceRefreshData() {
         calendarState.setEvolutionData(evolutionData);
         calendarState.setBillingsData(billingsData);
         calendarState.setDiscountThresholds(discountThresholds);
+        calendarState.setSubscriptions(subscriptions);
+        calendarState.setInterventionPlans(interventionPlans);
 
         // 3. Re-randează complet UI-ul
         
@@ -1203,6 +1208,7 @@ function setupAdminListeners() {
                 case 'evolutie': evolutionService.showEvolutionModal(clientId); break;
                 case 'raport': reportService.downloadClientReport(clientId); break;
                 case 'email': reportService.emailClientReport(clientId); break;
+                case 'plan-interventie': interventionPlan.openModal(clientId); break;
                 case 'documente': ui.openClientDocumentsModal(clientId); break;
                 case 'editeaza': ui.editClientInModal(clientId); break;
                 case 'sterge':
@@ -1719,6 +1725,24 @@ async function init() {
     } catch (e) {
         console.warn('Nu s-au putut încărca pragurile de discount.', e);
         calendarState.setDiscountThresholds([]); // Inițializează ca array gol
+    }
+
+    // Încărcare abonamente
+    try {
+        const subscriptions = await api.loadSubscriptions();
+        calendarState.setSubscriptions(subscriptions);
+    } catch (e) {
+        console.warn('Nu s-au putut încărca abonamentele.', e);
+        calendarState.setSubscriptions({}); // Inițializează ca obiect gol
+    }
+
+    // Încărcare planuri de intervenție
+    try {
+        const interventionPlans = await api.loadInterventionPlans();
+        calendarState.setInterventionPlans(interventionPlans);
+    } catch (e) {
+        console.warn('Nu s-au putut încărca planurile de intervenție.', e);
+        calendarState.setInterventionPlans({}); // Inițializează ca obiect gol
     }
 
 
@@ -2360,6 +2384,7 @@ async function init() {
     // Inițializează serviciul de facturare
     if (auth.isAdmin()) {
         billing.init();
+        interventionPlan.init(); // Initialize intervention plan management
         eventTypesService.init(); // Initialize event types management
         analyticsService.init(); // Initialize analytics service
     }

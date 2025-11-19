@@ -970,12 +970,20 @@ export function renderClientsList(searchTerm = '') {
                         </svg>
                         <span>Descarcă Raport</span>
                     </button>
-                    <button class="btn btn-action btn-action-text" data-action="email" title="Trimite Raport">
+                    <button class="btn btn-action btn-action-text" data-action="plan-interventie" title="Plan de Intervenție">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                            <polyline points="22,6 12,13 2,6"/>
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                            <path d="M8 14h.01"/>
+                            <path d="M12 14h.01"/>
+                            <path d="M16 14h.01"/>
+                            <path d="M8 18h.01"/>
+                            <path d="M12 18h.01"/>
+                            <path d="M16 18h.01"/>
                         </svg>
-                        <span>Trimite Raport</span>
+                        <span>Plan de Intervenție</span>
                     </button>
                     <button class="btn btn-action btn-action-text" data-action="documente" title="Documente">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

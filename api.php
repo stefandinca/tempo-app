@@ -1283,6 +1283,221 @@ try {
             break;
 
         // ==========================================================
+        // CAZUL 'subscriptions'
+        // ==========================================================
+        case 'subscriptions':
+            if ($method === 'GET') {
+                try {
+                    $stmt = $pdo->query("SELECT * FROM subscriptions");
+                    $subscriptions = [];
+                    while ($row = $stmt->fetch()) {
+                        $subscriptions[$row['client_id']] = [
+                            'id' => $row['id'],
+                            'clientId' => $row['client_id'],
+                            'amount' => (float)$row['amount'],
+                            'isActive' => (bool)$row['is_active'],
+                            'createdAt' => $row['created_at'],
+                            'updatedAt' => $row['updated_at']
+                        ];
+                    }
+                    sendResponse($subscriptions);
+                } catch (Exception $e) {
+                    debugLog("EROARE DB la citirea subscriptions: " . $e->getMessage());
+                    sendError('Failed to read subscriptions: ' . $e->getMessage());
+                }
+
+            } elseif ($method === 'POST') {
+                if ($input === null) {
+                    sendError('Invalid JSON data for subscription', 400);
+                }
+
+                try {
+                    $clientId = $input['clientId'] ?? null;
+                    $amount = $input['amount'] ?? null;
+                    $isActive = $input['isActive'] ?? false;
+
+                    if (!$clientId) {
+                        sendError('Client ID is required', 400);
+                    }
+
+                    if ($amount === null || !is_numeric($amount) || $amount < 0) {
+                        sendError('Valid amount is required', 400);
+                    }
+
+                    // Check if subscription exists for this client
+                    $stmt = $pdo->prepare("SELECT id FROM subscriptions WHERE client_id = ?");
+                    $stmt->execute([$clientId]);
+                    $existing = $stmt->fetch();
+
+                    if ($existing) {
+                        // Update existing subscription
+                        $stmt = $pdo->prepare("UPDATE subscriptions SET amount = ?, is_active = ?, updated_at = NOW() WHERE client_id = ?");
+                        $stmt->execute([$amount, $isActive ? 1 : 0, $clientId]);
+                        debugLog("Subscription updated for client: $clientId");
+                    } else {
+                        // Insert new subscription
+                        $id = 'sub_' . time() . '_' . substr(md5($clientId), 0, 8);
+                        $stmt = $pdo->prepare("INSERT INTO subscriptions (id, client_id, amount, is_active) VALUES (?, ?, ?, ?)");
+                        $stmt->execute([$id, $clientId, $amount, $isActive ? 1 : 0]);
+                        debugLog("Subscription created for client: $clientId");
+                    }
+
+                    sendResponse(['success' => true, 'message' => 'Subscription saved']);
+                } catch (Exception $e) {
+                    debugLog("EROARE DB la salvarea subscription: " . $e->getMessage());
+                    sendError('Failed to save subscription: ' . $e->getMessage());
+                }
+
+            } elseif ($method === 'DELETE') {
+                if ($input === null || !isset($input['clientId'])) {
+                    sendError('Client ID is required', 400);
+                }
+
+                try {
+                    $clientId = $input['clientId'];
+                    $stmt = $pdo->prepare("DELETE FROM subscriptions WHERE client_id = ?");
+                    $stmt->execute([$clientId]);
+                    debugLog("Subscription deleted for client: $clientId");
+                    sendResponse(['success' => true, 'message' => 'Subscription deleted']);
+                } catch (Exception $e) {
+                    debugLog("EROARE DB la ștergerea subscription: " . $e->getMessage());
+                    sendError('Failed to delete subscription: ' . $e->getMessage());
+                }
+            }
+            break;
+
+        // ==========================================================
+        // CAZUL 'intervention-plans'
+        // ==========================================================
+        case 'intervention-plans':
+            if ($method === 'GET') {
+                try {
+                    // Get all intervention plans with their programs
+                    $stmt = $pdo->query("
+                        SELECT
+                            ip.*,
+                            GROUP_CONCAT(ipp.program_id) as program_ids
+                        FROM intervention_plans ip
+                        LEFT JOIN intervention_plan_programs ipp ON ip.id = ipp.plan_id
+                        GROUP BY ip.id
+                    ");
+
+                    $plans = [];
+                    while ($row = $stmt->fetch()) {
+                        $programIds = $row['program_ids'] ? explode(',', $row['program_ids']) : [];
+
+                        $plans[$row['client_id']] = [
+                            'id' => $row['id'],
+                            'clientId' => $row['client_id'],
+                            'startDate' => $row['start_date'],
+                            'endDate' => $row['end_date'],
+                            'notes' => $row['notes'],
+                            'programIds' => $programIds,
+                            'createdAt' => $row['created_at'],
+                            'updatedAt' => $row['updated_at']
+                        ];
+                    }
+
+                    sendResponse($plans);
+                } catch (Exception $e) {
+                    debugLog("EROARE DB la citirea intervention plans: " . $e->getMessage());
+                    sendError('Failed to read intervention plans: ' . $e->getMessage());
+                }
+
+            } elseif ($method === 'POST') {
+                if ($input === null) {
+                    sendError('Invalid JSON data for intervention plan', 400);
+                }
+
+                try {
+                    $clientId = $input['clientId'] ?? null;
+                    $startDate = $input['startDate'] ?? null;
+                    $endDate = $input['endDate'] ?? null;
+                    $notes = $input['notes'] ?? '';
+                    $programIds = $input['programIds'] ?? [];
+
+                    if (!$clientId || !$startDate || !$endDate) {
+                        sendError('Client ID, start date, and end date are required', 400);
+                    }
+
+                    // Validate dates
+                    if (strtotime($endDate) < strtotime($startDate)) {
+                        sendError('End date must be after start date', 400);
+                    }
+
+                    $pdo->beginTransaction();
+
+                    // Check if plan exists for this client
+                    $stmt = $pdo->prepare("SELECT id FROM intervention_plans WHERE client_id = ?");
+                    $stmt->execute([$clientId]);
+                    $existing = $stmt->fetch();
+
+                    if ($existing) {
+                        // Update existing plan
+                        $planId = $existing['id'];
+                        $stmt = $pdo->prepare("
+                            UPDATE intervention_plans
+                            SET start_date = ?, end_date = ?, notes = ?, updated_at = NOW()
+                            WHERE id = ?
+                        ");
+                        $stmt->execute([$startDate, $endDate, $notes, $planId]);
+
+                        // Delete old program associations
+                        $stmt = $pdo->prepare("DELETE FROM intervention_plan_programs WHERE plan_id = ?");
+                        $stmt->execute([$planId]);
+
+                        debugLog("Intervention plan updated for client: $clientId");
+                    } else {
+                        // Create new plan
+                        $planId = 'ip_' . time() . '_' . substr(md5($clientId), 0, 8);
+                        $stmt = $pdo->prepare("
+                            INSERT INTO intervention_plans (id, client_id, start_date, end_date, notes)
+                            VALUES (?, ?, ?, ?, ?)
+                        ");
+                        $stmt->execute([$planId, $clientId, $startDate, $endDate, $notes]);
+                        debugLog("Intervention plan created for client: $clientId");
+                    }
+
+                    // Add program associations
+                    if (!empty($programIds)) {
+                        $stmt = $pdo->prepare("
+                            INSERT INTO intervention_plan_programs (plan_id, program_id)
+                            VALUES (?, ?)
+                        ");
+                        foreach ($programIds as $programId) {
+                            $stmt->execute([$planId, $programId]);
+                        }
+                    }
+
+                    $pdo->commit();
+                    sendResponse(['success' => true, 'message' => 'Intervention plan saved', 'planId' => $planId]);
+                } catch (Exception $e) {
+                    if ($pdo->inTransaction()) {
+                        $pdo->rollBack();
+                    }
+                    debugLog("EROARE DB la salvarea intervention plan: " . $e->getMessage());
+                    sendError('Failed to save intervention plan: ' . $e->getMessage());
+                }
+
+            } elseif ($method === 'DELETE') {
+                if ($input === null || !isset($input['clientId'])) {
+                    sendError('Client ID is required', 400);
+                }
+
+                try {
+                    $clientId = $input['clientId'];
+                    $stmt = $pdo->prepare("DELETE FROM intervention_plans WHERE client_id = ?");
+                    $stmt->execute([$clientId]);
+                    debugLog("Intervention plan deleted for client: $clientId");
+                    sendResponse(['success' => true, 'message' => 'Intervention plan deleted']);
+                } catch (Exception $e) {
+                    debugLog("EROARE DB la ștergerea intervention plan: " . $e->getMessage());
+                    sendError('Failed to delete intervention plan: ' . $e->getMessage());
+                }
+            }
+            break;
+
+        // ==========================================================
         // CAZURILE .json (programs, portrige)
         // ==========================================================
         case 'programs':

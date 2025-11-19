@@ -23,6 +23,8 @@ const state = {
     billingsData: {},
     eventTypes: [], // Tipuri de evenimente din baza de date
     discountThresholds: [], // Praguri de discount pentru facturare
+    subscriptions: {}, // Abonamente pentru clienți {clientId: {id, clientId, amount, isActive}}
+    interventionPlans: {}, // Planuri de intervenție {clientId: {id, clientId, startDate, endDate, notes, programIds}}
 
     // Starea filtrelor
     activeFilters: [], // O listă de ID-uri ale membrilor echipei
@@ -122,6 +124,30 @@ export const calendarState = {
      */
     setDiscountThresholds: (thresholds) => {
         state.discountThresholds = thresholds || [];
+    },
+
+    /**
+     * Setează abonamentele clienților.
+     * @param {object} subscriptions - Obiect cu abonamente {clientId: {id, clientId, amount, isActive}}
+     */
+    setSubscriptions: (subscriptions) => {
+        if (Array.isArray(subscriptions)) {
+            state.subscriptions = {};
+        } else {
+            state.subscriptions = subscriptions || {};
+        }
+    },
+
+    /**
+     * Setează planurile de intervenție pentru clienți.
+     * @param {object} plans - Obiect cu planuri de intervenție {clientId: {id, clientId, startDate, endDate, notes, programIds}}
+     */
+    setInterventionPlans: (plans) => {
+        if (Array.isArray(plans)) {
+            state.interventionPlans = {};
+        } else {
+            state.interventionPlans = plans || {};
+        }
     },
 
     /**
