@@ -7549,6 +7549,33 @@ a:focus-visible {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    max-height: 5000px;
+    overflow: hidden;
+    opacity: 1;
+    transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+}
+
+.vbmapp-items-grid.collapsed {
+    max-height: 0 !important;
+    padding: 0 !important;
+    opacity: 0;
+}
+
+.vbmapp-future-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 5000px;
+    overflow: hidden;
+    opacity: 1;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    margin-top: 1rem;
+}
+
+.vbmapp-future-items.collapsed {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
 }
 
 .vbmapp-item {
@@ -7565,6 +7592,16 @@ a:focus-visible {
 .vbmapp-item:hover {
     border-color: var(--primary-color);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.vbmapp-item.disabled {
+    opacity: 0.6;
+    background: var(--bg-secondary);
+    pointer-events: none;
+}
+
+.vbmapp-item.disabled .vbmapp-item-text {
+    color: var(--text-secondary);
 }
 
 .vbmapp-item-text {
@@ -7604,6 +7641,18 @@ a:focus-visible {
     background: var(--primary-color);
     color: white;
     border-color: var(--primary-color);
+}
+
+.vbmapp-score-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--bg-secondary);
+}
+
+.vbmapp-score-btn:disabled:hover {
+    transform: none;
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
 }
 
 .vbmapp-summary {

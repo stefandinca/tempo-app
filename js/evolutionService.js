@@ -144,13 +144,30 @@ export async function showEvolutionModal(clientId, activeTabId = 'tabGrafice') {
     // Activate the specified tab (default to charts)
     activateTab(activeTabId);
 
-    // Randează componentele (acestea vor gestiona starea goală)
-    renderEvolutionChart(clientData);
-    renderEvaluationReportsList(clientData, client);
+    // Check if there's any evaluation data for any type
+    const hasPortageData = clientData.evaluations && Object.keys(clientData.evaluations).length > 0;
+    const hasABLLSData = clientData.evaluationsABLLS && Object.keys(clientData.evaluationsABLLS).length > 0;
+    const hasVBMAPPData = clientData.evaluationsVBMAPP && Object.keys(clientData.evaluationsVBMAPP).length > 0;
+    const hasAnyEvaluationData = hasPortageData || hasABLLSData || hasVBMAPPData;
+
+    // If no evaluation data exists for any type, show a general message
+    if (!hasAnyEvaluationData) {
+        const chartCanvas = $('evolutionChart');
+        const summaryDiv = $('evolutionSummary');
+        if (chartCanvas) chartCanvas.style.display = 'none';
+        if (summaryDiv) {
+            summaryDiv.innerHTML = '<p class="no-data">Nu există evaluări salvate pentru acest client. Adăugați o evaluare pentru a vizualiza progresul.</p>';
+        }
+    } else {
+        // Render the default chart (Portage)
+        renderEvolutionChart(clientData);
+        renderEvaluationReportsList(clientData, client);
+    }
+
     renderProgramHistory(clientData);
     renderPrivateNotes(client.id);
     renderMonthlyThemeHistory(clientData);
-    
+
     // Pregătește modalul de evaluare
     await setupEvaluationTab(client);
     setupMonthlyThemeTab();
@@ -179,6 +196,9 @@ function closeEvaluationModal() {
  * Activează un tab specific în modalul de evoluție.
  * @param {string} tabId - ID-ul tab-ului de activat
  */
+// Track if we're in edit mode
+let isEditingEvaluation = false;
+
 function activateTab(tabId) {
     document.querySelectorAll('.tab-button').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.tab === tabId);
@@ -186,6 +206,21 @@ function activateTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.toggle('active', content.id === tabId);
     });
+
+    // When switching to the Evaluation tab without being in edit mode, reset the form
+    if (tabId === 'tabEvaluare' && !isEditingEvaluation) {
+        const evalDateInput = $('evaluationDateInput');
+        if (evalDateInput) {
+            // Set to today's date to start a fresh evaluation
+            const today = new Date().toISOString().split('T')[0];
+            evalDateInput.value = today;
+        }
+    }
+
+    // Clear edit mode flag after activating any tab
+    if (tabId !== 'tabEvaluare') {
+        isEditingEvaluation = false;
+    }
 }
 
 // --- Secțiunea Grafice ---
@@ -444,9 +479,15 @@ function renderEvaluationReportsList(clientData, client) {
     }
 
     // --- MODIFICARE: Apelăm funcția de generare a sumarului bazat pe tipul curent ---
-    const summaryTableHTML = currentEvaluationType === 'ablls'
-        ? generateABLLSSummaryHTML(clientData)
-        : generatePortageSummaryHTML(clientData, client);
+    let summaryTableHTML = '';
+    if (currentEvaluationType === 'ablls') {
+        summaryTableHTML = generateABLLSSummaryHTML(clientData);
+    } else if (currentEvaluationType === 'vbmapp') {
+        // VB-MAPP summary is handled by renderVBMAPPSummary in renderVBMAPPChart
+        summaryTableHTML = '';
+    } else {
+        summaryTableHTML = generatePortageSummaryHTML(clientData, client);
+    }
 
     const allEvaluations = [];
 
@@ -498,6 +539,17 @@ function renderEvaluationReportsList(clientData, client) {
         });
     }
 
+    // 2.6. Adaugă evaluările VB-MAPP
+    if (clientData.evaluationsVBMAPP) {
+        Object.keys(clientData.evaluationsVBMAPP).forEach(date => {
+            allEvaluations.push({
+                type: 'vbmapp',
+                date: date,
+                title: 'Evaluare VB-MAPP'
+            });
+        });
+    }
+
     // 3. Sortează evaluările (cele mai noi primele)
     allEvaluations.sort((a, b) => new Date(b.date) - new Date(a.date));
 
@@ -523,6 +575,9 @@ function renderEvaluationReportsList(clientData, client) {
         } else if (ev.type === 'ablls') {
             // Checklist icon for ABLLS-R
             icon = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>';
+        } else if (ev.type === 'vbmapp') {
+            // Target/milestone icon for VB-MAPP
+            icon = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>';
         } else {
             // Megaphone icon for Logopedic
             icon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-megaphone" viewBox="0 0 16 16"><path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-.214c-2.162-1.241-4.49-1.843-6.912-2.083l.405 2.712A1 1 0 0 1 5.51 15.1h-.548a1 1 0 0 1-.916-.599l-1.85-3.49-.202-.003A2.014 2.014 0 0 1 0 9V7a2.02 2.02 0 0 1 1.992-2.013 75 75 0 0 0 2.483-.075c3.043-.154 6.148-.849 8.525-2.199zm1 0v11a.5.5 0 0 0 1 0v-11a.5.5 0 0 0-1 0m-1 1.35c-2.344 1.205-5.209 1.842-8 2.033v4.233q.27.015.537.036c2.568.189 5.093.744 7.463 1.993zm-9 6.215v-4.13a95 95 0 0 1-1.992.052A1.02 1.02 0 0 0 1 7v2c0 .55.448 1.002 1.006 1.009A61 61 0 0 1 4 10.065m-.657.975 1.609 3.037.01.024h.548l-.002-.014-.443-2.966a68 68 0 0 0-1.722-.082z"/></svg>';
@@ -615,6 +670,9 @@ async function handleEvaluationReportClick(e) {
         } else if (type === 'ablls') {
             htmlContent = await generateABLLSReportHTML(client, clientData, date);
             fileName = `Raport_ABLLS-R_${fileName}`;
+        } else if (type === 'vbmapp') {
+            htmlContent = await generateVBMAPPReportHTML(client, clientData, date);
+            fileName = `Raport_VB-MAPP_${fileName}`;
         } else {
             return;
         }
@@ -640,7 +698,8 @@ async function handleEvaluationReportClick(e) {
         const titleMap = {
             'portage': 'Evaluare Portage',
             'logopedica': 'Evaluare Logopedică',
-            'ablls': 'Evaluare ABLLS-R'
+            'ablls': 'Evaluare ABLLS-R',
+            'vbmapp': 'Evaluare VB-MAPP'
         };
         button.querySelector('span').textContent = `${titleMap[type] || 'Evaluare'} - ${formattedDate}`;
     }
@@ -760,6 +819,9 @@ async function handleEvaluationEdit(type, date) {
         showCustomAlert('Nu există date de evaluare pentru acest client.', 'Eroare');
         return;
     }
+
+    // Set edit mode flag before switching tabs
+    isEditingEvaluation = true;
 
     // Switch to Add Evaluation tab
     activateTab('tabEvaluare');
@@ -888,6 +950,34 @@ async function handleEvaluationEdit(type, date) {
                 }
             }
         }
+    } else if (type === 'vbmapp') {
+        // Set the evaluation type selector to VB-MAPP
+        const evalTypeSelect = $('evaluationTypeSelect');
+        if (evalTypeSelect) {
+            evalTypeSelect.value = 'vbmapp';
+            evalTypeSelect.dispatchEvent(new Event('change'));
+        }
+
+        // Set the evaluation date
+        const evalDateInput = $('evaluationDateInput');
+        if (evalDateInput) {
+            evalDateInput.value = date;
+        }
+
+        // Set birth date if available
+        const birthDateInput = $('childBirthDateInput');
+        if (birthDateInput && client.birthDate) {
+            birthDateInput.value = client.birthDate;
+            updateChildAgeDisplay(client.birthDate);
+        }
+
+        // Wait for the form to render
+        await new Promise(resolve => setTimeout(resolve, 200));
+
+        // Render VB-MAPP components with existing data
+        // The renderVBMAPPComponents function will automatically load the scores
+        // for the selected date from clientData.evaluationsVBMAPP[date]
+        await renderVBMAPPComponents();
     }
 
     showCustomAlert('Evaluarea a fost încărcată pentru editare. Modificați datele și salvați din nou.', 'Editare Evaluare');
@@ -1007,6 +1097,379 @@ function generatePortageReportHTML(client, clientData, date) {
                         </tfoot>
                     </table>
                 </div>
+            </div>
+        </body>
+        </html>
+    `;
+}
+
+/**
+ * Generator HTML pentru Raport VB-MAPP Individual (printabil)
+ */
+async function generateVBMAPPReportHTML(client, clientData, date) {
+    const evalData = clientData.evaluationsVBMAPP?.[date];
+    if (!evalData) return '<h1>Eroare: Evaluarea VB-MAPP nu a fost găsită.</h1>';
+
+    // Load VB-MAPP data to get full item descriptions
+    const vbmappData = await loadVBMAPPData();
+    if (!vbmappData) return '<h1>Eroare: Nu s-au putut încărca datele VB-MAPP.</h1>';
+
+    const formattedDate = new Date(date).toLocaleDateString('ro-RO', {
+        day: '2-digit', month: '2-digit', year: 'numeric'
+    });
+
+    // Calculate statistics for Milestones
+    let milestonesTotal = 0;
+    let milestonesCount = 0;
+    let milestonesMaxScore = 0;
+    let milestoneRows = '';
+
+    ['level1', 'level2', 'level3'].forEach(level => {
+        const levelData = vbmappData.milestones[level];
+        if (evalData.milestones?.[level]) {
+            Object.entries(levelData.areas).forEach(([areaKey, areaData]) => {
+                const areaScores = evalData.milestones[level][areaKey] || {};
+                let areaTotal = 0;
+                let areaCount = 0;
+
+                areaData.items.forEach(item => {
+                    const score = areaScores[item.id] || 0;
+                    areaTotal += score;
+                    areaCount++;
+                    milestonesMaxScore += 5; // Max score per item is 5
+                });
+
+                milestonesTotal += areaTotal;
+                milestonesCount += areaCount;
+
+                const areaAverage = areaCount > 0 ? (areaTotal / areaCount).toFixed(2) : '0.00';
+                const areaPercentage = areaCount > 0 ? Math.round((areaTotal / (areaCount * 5)) * 100) : 0;
+
+                milestoneRows += `
+                    <tr>
+                        <td style="font-weight: 600;">${areaData.name}</td>
+                        <td style="text-align: center;">${areaTotal} / ${areaCount * 5}</td>
+                        <td style="text-align: center;">${areaAverage}</td>
+                        <td style="text-align: center;">${areaPercentage}%</td>
+                    </tr>
+                `;
+            });
+        }
+    });
+
+    const milestonesAverage = milestonesCount > 0 ? (milestonesTotal / milestonesCount).toFixed(2) : '0.00';
+    const milestonesPercentage = milestonesMaxScore > 0 ? Math.round((milestonesTotal / milestonesMaxScore) * 100) : 0;
+
+    // Calculate statistics for Barriers
+    let barriersTotal = 0;
+    let barriersCount = vbmappData.barriers.items.length;
+    let barriersMaxScore = barriersCount * 5;
+
+    if (evalData.barriers) {
+        Object.values(evalData.barriers).forEach(score => {
+            barriersTotal += score;
+        });
+    }
+
+    const barriersAverage = barriersCount > 0 ? (barriersTotal / barriersCount).toFixed(2) : '0.00';
+    const barriersPercentage = barriersMaxScore > 0 ? Math.round((barriersTotal / barriersMaxScore) * 100) : 0;
+
+    // Calculate statistics for Transition
+    let transitionTotal = 0;
+    let transitionCount = vbmappData.transition.items.length;
+    let transitionMaxScore = transitionCount * 5;
+
+    if (evalData.transition) {
+        Object.values(evalData.transition).forEach(score => {
+            transitionTotal += score;
+        });
+    }
+
+    const transitionAverage = transitionCount > 0 ? (transitionTotal / transitionCount).toFixed(2) : '0.00';
+    const transitionPercentage = transitionMaxScore > 0 ? Math.round((transitionTotal / transitionMaxScore) * 100) : 0;
+
+    // Overall statistics
+    const overallTotal = milestonesTotal + barriersTotal + transitionTotal;
+    const overallMaxScore = milestonesMaxScore + barriersMaxScore + transitionMaxScore;
+    const overallAverage = ((milestonesAverage * milestonesCount) + (barriersAverage * barriersCount) + (transitionAverage * transitionCount)) / (milestonesCount + barriersCount + transitionCount);
+    const overallPercentage = overallMaxScore > 0 ? Math.round((overallTotal / overallMaxScore) * 100) : 0;
+
+    return `
+        <!DOCTYPE html>
+        <html lang="ro">
+        <head>
+            <meta charset="UTF-8">
+            <title>Raport VB-MAPP - ${client.name}</title>
+            <style>
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                body {
+                    font-family: 'Arial', 'Helvetica', sans-serif;
+                    padding: 2cm;
+                    background: white;
+                    color: #333;
+                    line-height: 1.6;
+                }
+                .header {
+                    text-align: center;
+                    margin-bottom: 2rem;
+                    border-bottom: 3px solid #4CAF50;
+                    padding-bottom: 1rem;
+                }
+                .header h1 {
+                    font-size: 2rem;
+                    color: #2e7d32;
+                    margin-bottom: 0.5rem;
+                }
+                .header .subtitle {
+                    font-size: 1.2rem;
+                    color: #64748b;
+                    font-style: italic;
+                }
+                .client-info {
+                    background: #f1f5f9;
+                    padding: 1.5rem;
+                    border-radius: 8px;
+                    margin-bottom: 2rem;
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 1rem;
+                }
+                .info-item {
+                    display: flex;
+                    gap: 0.5rem;
+                }
+                .info-label {
+                    font-weight: 600;
+                    color: #475569;
+                }
+                .info-value {
+                    color: #1e293b;
+                }
+                .summary-box {
+                    background: #e8f5e9;
+                    border: 2px solid #4CAF50;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                    margin-bottom: 2rem;
+                    text-align: center;
+                }
+                .summary-box h2 {
+                    color: #2e7d32;
+                    margin-bottom: 1rem;
+                    font-size: 1.5rem;
+                }
+                .summary-stats {
+                    display: flex;
+                    justify-content: center;
+                    gap: 2rem;
+                    font-size: 1.1rem;
+                    flex-wrap: wrap;
+                }
+                .stat {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+                .stat-value {
+                    font-size: 2rem;
+                    font-weight: 700;
+                    color: #2e7d32;
+                }
+                .stat-label {
+                    color: #64748b;
+                    font-size: 0.9rem;
+                }
+                .section {
+                    margin-top: 2rem;
+                    page-break-inside: avoid;
+                }
+                .section h2 {
+                    color: #2e7d32;
+                    margin-bottom: 1rem;
+                    font-size: 1.5rem;
+                    border-bottom: 2px solid #4CAF50;
+                    padding-bottom: 0.5rem;
+                }
+                .component-summary {
+                    background: #f8f9fa;
+                    padding: 1rem;
+                    border-radius: 6px;
+                    margin-bottom: 1rem;
+                    display: flex;
+                    justify-content: space-around;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                }
+                .component-stat {
+                    text-align: center;
+                }
+                .component-stat-value {
+                    font-size: 1.5rem;
+                    font-weight: 600;
+                    color: #2e7d32;
+                }
+                .component-stat-label {
+                    font-size: 0.85rem;
+                    color: #64748b;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 1rem;
+                }
+                thead {
+                    background: #2e7d32;
+                    color: white;
+                }
+                th {
+                    padding: 1rem;
+                    text-align: left;
+                    font-weight: 600;
+                }
+                td {
+                    padding: 0.75rem 1rem;
+                    border-bottom: 1px solid #e2e8f0;
+                }
+                tbody tr:nth-child(even) {
+                    background: #f8fafc;
+                }
+                tbody tr:hover {
+                    background: #f1f5f9;
+                }
+                .footer {
+                    margin-top: 3rem;
+                    padding-top: 1.5rem;
+                    border-top: 2px solid #e2e8f0;
+                    text-align: center;
+                    color: #64748b;
+                    font-size: 0.9rem;
+                }
+                @media print {
+                    body { padding: 1cm; }
+                    .no-print { display: none; }
+                    .section { page-break-inside: avoid; }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>Raport Evaluare VB-MAPP</h1>
+                <div class="subtitle">Verbal Behavior Milestones Assessment and Placement Program</div>
+            </div>
+
+            <div class="client-info">
+                <div class="info-item">
+                    <span class="info-label">Nume client:</span>
+                    <span class="info-value">${client.name}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Data evaluării:</span>
+                    <span class="info-value">${formattedDate}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">ID client:</span>
+                    <span class="info-value">${client.id}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Data nașterii:</span>
+                    <span class="info-value">${client.birthDate ? new Date(client.birthDate).toLocaleDateString('ro-RO') : 'N/A'}</span>
+                </div>
+            </div>
+
+            <div class="summary-box">
+                <h2>Scor General</h2>
+                <div class="summary-stats">
+                    <div class="stat">
+                        <div class="stat-value">${overallTotal}</div>
+                        <div class="stat-label">Puncte obținute</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${overallMaxScore}</div>
+                        <div class="stat-label">Puncte posibile</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${overallAverage.toFixed(2)}</div>
+                        <div class="stat-label">Scor mediu (0-5)</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${overallPercentage}%</div>
+                        <div class="stat-label">Procent finalizare</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Jaloane (Milestones)</h2>
+                <div class="component-summary">
+                    <div class="component-stat">
+                        <div class="component-stat-value">${milestonesTotal} / ${milestonesMaxScore}</div>
+                        <div class="component-stat-label">Scor Total</div>
+                    </div>
+                    <div class="component-stat">
+                        <div class="component-stat-value">${milestonesAverage}</div>
+                        <div class="component-stat-label">Scor Mediu</div>
+                    </div>
+                    <div class="component-stat">
+                        <div class="component-stat-value">${milestonesPercentage}%</div>
+                        <div class="component-stat-label">Procent</div>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aria de Dezvoltare</th>
+                            <th style="text-align: center;">Scor Total</th>
+                            <th style="text-align: center;">Scor Mediu</th>
+                            <th style="text-align: center;">Procent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${milestoneRows}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>Bariere în Învățare (Barriers)</h2>
+                <div class="component-summary">
+                    <div class="component-stat">
+                        <div class="component-stat-value">${barriersTotal} / ${barriersMaxScore}</div>
+                        <div class="component-stat-label">Scor Total</div>
+                    </div>
+                    <div class="component-stat">
+                        <div class="component-stat-value">${barriersAverage}</div>
+                        <div class="component-stat-label">Scor Mediu</div>
+                    </div>
+                    <div class="component-stat">
+                        <div class="component-stat-value">${barriersPercentage}%</div>
+                        <div class="component-stat-label">Procent</div>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; color: #64748b;">Total itemi bariere evaluați: ${barriersCount}</p>
+            </div>
+
+            <div class="section">
+                <h2>Tranziție (Transition Assessment)</h2>
+                <div class="component-summary">
+                    <div class="component-stat">
+                        <div class="component-stat-value">${transitionTotal} / ${transitionMaxScore}</div>
+                        <div class="component-stat-label">Scor Total</div>
+                    </div>
+                    <div class="component-stat">
+                        <div class="component-stat-value">${transitionAverage}</div>
+                        <div class="component-stat-label">Scor Mediu</div>
+                    </div>
+                    <div class="component-stat">
+                        <div class="component-stat-value">${transitionPercentage}%</div>
+                        <div class="component-stat-label">Procent</div>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; color: #64748b;">Total itemi tranziție evaluați: ${transitionCount}</p>
+            </div>
+
+            <div class="footer">
+                <p>Document generat automat din sistemul Tempo App</p>
+                <p>Data generării: ${new Date().toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
             </div>
         </body>
         </html>
@@ -2549,10 +3012,10 @@ async function renderABLLSDomains() {
                 </div>
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <span class="ablls-domain-score" data-domain="${domainKey}" style="font-weight: 600; color: var(--primary-color);">${initialScore} / ${items.length}</span>
-                    <button type="button" class="domain-toggle-btn">Ascunde</button>
+                    <button type="button" class="domain-toggle-btn">Arată</button>
                 </div>
             </div>
-            <div class="checkbox-grid">${itemsHtml}</div>
+            <div class="checkbox-grid collapsed">${itemsHtml}</div>
         `;
 
         // Toggle domain visibility
@@ -2779,9 +3242,12 @@ async function renderVBMAPPComponents() {
     const ageMonths = getAgeInMonths(birthDate, evalDate);
 
     // Get current client and evaluation data
+    // Only load existing scores if we're in edit mode
     const { evolutionData } = calendarState.getState();
     const clientData = evolutionData?.[currentClientId];
-    const existingScores = clientData?.evaluationsVBMAPP?.[evalDate] || {};
+    const existingScores = isEditingEvaluation
+        ? (clientData?.evaluationsVBMAPP?.[evalDate] || {})
+        : {};
 
     let html = '<div class="vbmapp-container">';
 
@@ -2819,7 +3285,7 @@ async function renderVBMAPPComponents() {
     `;
 
     data.barriers.items.forEach(item => {
-        const score = existingScores.barriers?.[item.id] || 0;
+        const score = existingScores.barriers?.[item.id];
         html += `
             <div class="vbmapp-item">
                 <div class="vbmapp-item-text">${item.text}</div>
@@ -2849,7 +3315,7 @@ async function renderVBMAPPComponents() {
     `;
 
     data.transition.items.forEach(item => {
-        const score = existingScores.transition?.[item.id] || 0;
+        const score = existingScores.transition?.[item.id];
         html += `
             <div class="vbmapp-item">
                 <div class="vbmapp-item-text">${item.text}</div>
@@ -2901,6 +3367,18 @@ async function renderVBMAPPComponents() {
             }
         });
     });
+
+    // Add toggle functionality for future items
+    container.querySelectorAll('.vbmapp-future-toggle').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const futureItemsContainer = btn.closest('.vbmapp-items-grid').querySelector('.vbmapp-future-items');
+            if (futureItemsContainer) {
+                futureItemsContainer.classList.toggle('collapsed');
+                btn.textContent = futureItemsContainer.classList.contains('collapsed') ? 'Arată iteme viitoare' : 'Ascunde iteme viitoare';
+            }
+        });
+    });
 }
 
 /**
@@ -2928,7 +3406,7 @@ function renderVBMAPPLevel(levelData, levelKey, existingScores = {}, ageMonths =
 
         // Render current age items
         currentAgeItems.forEach(item => {
-            const score = existingScores?.[areaKey]?.[item.id] || 0;
+            const score = existingScores?.[areaKey]?.[item.id];
             const ageInfo = item.months ? ` <i>(${item.months} luni)</i>` : '';
             html += `
                 <div class="vbmapp-item">
@@ -2952,7 +3430,7 @@ function renderVBMAPPLevel(levelData, levelKey, existingScores = {}, ageMonths =
             `;
 
             futureItems.forEach(item => {
-                const score = existingScores?.[areaKey]?.[item.id] || 0;
+                const score = existingScores?.[areaKey]?.[item.id];
                 const ageInfo = item.months ? ` <i>(${item.months} luni)</i>` : '';
                 html += `
                     <div class="vbmapp-item disabled">
@@ -2977,10 +3455,11 @@ function renderVBMAPPLevel(levelData, levelKey, existingScores = {}, ageMonths =
 /**
  * Render score buttons (0-5 scale) for an item
  */
-function renderScoreButtons(itemId, itemType, currentScore = 0, disabled = false) {
+function renderScoreButtons(itemId, itemType, currentScore = null, disabled = false) {
     let html = '';
     for (let score = 0; score <= 5; score++) {
-        const isSelected = score === currentScore ? 'selected' : '';
+        // Only mark as selected if currentScore is explicitly set to this score
+        const isSelected = (currentScore !== null && currentScore !== undefined && score === currentScore) ? 'selected' : '';
         const disabledAttr = disabled ? 'disabled' : '';
         html += `<button type="button" class="vbmapp-score-btn ${isSelected}" ${disabledAttr}
                         data-item-id="${itemId}"
@@ -3071,7 +3550,17 @@ async function saveVBMAPPEvaluation() {
             window.logActivity("Evaluare VB-MAPP salvată", client.name, 'evaluation', currentClientId);
         }
 
-        renderEvaluationReportsList(evolutionData[currentClientId], client);
+        // Set current evaluation type to VB-MAPP
+        currentEvaluationType = 'vbmapp';
+
+        // Update button states
+        $('showPortageChart')?.classList.remove('active');
+        $('showABLLSChart')?.classList.remove('active');
+        $('showVBMAPPChart')?.classList.add('active');
+
+        // Render VB-MAPP chart with summary
+        renderVBMAPPChart(evolutionData[currentClientId]);
+
         activateTab('tabGrafice');
     } catch (err) {
         console.error('Eroare la salvarea evaluării VB-MAPP:', err);
@@ -3213,8 +3702,14 @@ function renderVBMAPPChart(clientData) {
         }
     });
 
-    // Render summary table
+    // Render summary table and download buttons
     renderVBMAPPSummary(evaluations, dates);
+
+    // Get client for download buttons
+    const client = calendarState.getClientById(currentClientId);
+    if (client) {
+        appendEvaluationDownloadButtons(currentClientId);
+    }
 }
 
 /**
@@ -3224,14 +3719,14 @@ function renderVBMAPPSummary(evaluations, dates) {
     const summaryDiv = $('evolutionSummary');
     if (!summaryDiv) return;
 
-    let html = '<div class="vbmapp-summary">';
-    html += '<h3>Rezumat Evaluări VB-MAPP</h3>';
-    html += '<table class="summary-table">';
+    let html = '<h3 class="evolution-summary-title">Evoluție Generală VB-MAPP</h3>';
+    html += '<div class="evolution-table-container" style="margin-top: 0; padding-top: 0;">';
+    html += '<table class="evolution-table">';
     html += '<thead><tr>';
-    html += '<th>Data</th>';
-    html += '<th>Milestones (Mediu)</th>';
-    html += '<th>Barriers (Mediu)</th>';
-    html += '<th>Transition (Mediu)</th>';
+    html += '<th>Data Evaluării</th>';
+    html += '<th>Milestones (Scor Mediu)</th>';
+    html += '<th>Barriers (Scor Mediu)</th>';
+    html += '<th>Transition (Scor Mediu)</th>';
     html += '</tr></thead><tbody>';
 
     dates.forEach(date => {
@@ -3268,15 +3763,137 @@ function renderVBMAPPSummary(evaluations, dates) {
         }
 
         html += `<tr>`;
-        html += `<td>${new Date(date).toLocaleDateString('ro-RO')}</td>`;
-        html += `<td>${milestonesAvg}</td>`;
-        html += `<td>${barriersAvg}</td>`;
-        html += `<td>${transitionAvg}</td>`;
+        html += `<td data-label="Data">${new Date(date).toLocaleDateString('ro-RO')}</td>`;
+        html += `<td data-label="Milestones">${milestonesAvg}</td>`;
+        html += `<td data-label="Barriers">${barriersAvg}</td>`;
+        html += `<td data-label="Transition">${transitionAvg}</td>`;
         html += `</tr>`;
     });
 
     html += '</tbody></table></div>';
     summaryDiv.innerHTML = html;
+}
+
+/**
+ * Append evaluation download buttons to the evolutionSummary container
+ */
+function appendEvaluationDownloadButtons(clientId) {
+    const summaryDiv = $('evolutionSummary');
+    if (!summaryDiv) return;
+
+    const { evolutionData } = calendarState.getState();
+    const clientData = evolutionData?.[clientId];
+    if (!clientData) return;
+
+    const allEvaluations = [];
+
+    // Collect all evaluations (Portage, Logopedic, ABLLS, VB-MAPP)
+    if (clientData.evaluations) {
+        Object.keys(clientData.evaluations).forEach(domain => {
+            Object.keys(clientData.evaluations[domain]).forEach(date => {
+                if (!allEvaluations.some(e => e.type === 'portage' && e.date === date)) {
+                    allEvaluations.push({
+                        type: 'portage',
+                        date: date,
+                        title: 'Evaluare Portage'
+                    });
+                }
+            });
+        });
+    }
+
+    if (clientData.evaluationsLogopedica) {
+        Object.keys(clientData.evaluationsLogopedica).forEach(date => {
+            allEvaluations.push({
+                type: 'logopedica',
+                date: date,
+                title: 'Evaluare Logopedică'
+            });
+        });
+    }
+
+    if (clientData.evaluationsABLLS) {
+        const abllsDates = new Set();
+        Object.keys(clientData.evaluationsABLLS).forEach(domain => {
+            Object.keys(clientData.evaluationsABLLS[domain]).forEach(date => {
+                abllsDates.add(date);
+            });
+        });
+        abllsDates.forEach(date => {
+            allEvaluations.push({
+                type: 'ablls',
+                date: date,
+                title: 'Evaluare ABLLS-R'
+            });
+        });
+    }
+
+    if (clientData.evaluationsVBMAPP) {
+        Object.keys(clientData.evaluationsVBMAPP).forEach(date => {
+            allEvaluations.push({
+                type: 'vbmapp',
+                date: date,
+                title: 'Evaluare VB-MAPP'
+            });
+        });
+    }
+
+    // Sort evaluations (newest first)
+    allEvaluations.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    if (allEvaluations.length === 0) {
+        return;
+    }
+
+    // Generate buttons HTML
+    const buttonsHTML = allEvaluations.map(ev => {
+        const formattedDate = new Date(ev.date).toLocaleDateString('ro-RO', {
+            day: '2-digit', month: '2-digit', year: 'numeric'
+        });
+
+        let icon;
+        if (ev.type === 'portage') {
+            icon = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9l-5 5-4-4-6 6"/></svg>';
+        } else if (ev.type === 'ablls') {
+            icon = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>';
+        } else if (ev.type === 'vbmapp') {
+            icon = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>';
+        } else {
+            icon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-megaphone" viewBox="0 0 16 16"><path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-.214c-2.162-1.241-4.49-1.843-6.912-2.083l.405 2.712A1 1 0 0 1 5.51 15.1h-.548a1 1 0 0 1-.916-.599l-1.85-3.49-.202-.003A2.014 2.014 0 0 1 0 9V7a2.02 2.02 0 0 1 1.992-2.013 75 75 0 0 0 2.483-.075c3.043-.154 6.148-.849 8.525-2.199zm1 0v11a.5.5 0 0 0 1 0v-11a.5.5 0 0 0-1 0m-1 1.35c-2.344 1.205-5.209 1.842-8 2.033v4.233q.27.015.537.036c2.568.189 5.093.744 7.463 1.993zm-9 6.215v-4.13a95 95 0 0 1-1.992.052A1.02 1.02 0 0 0 1 7v2c0 .55.448 1.002 1.006 1.009A61 61 0 0 1 4 10.065m-.657.975 1.609 3.037.01.024h.548l-.002-.014-.443-2.966a68 68 0 0 0-1.722-.082z"/></svg>';
+        }
+
+        return `
+            <div class="evaluation-report-item">
+                <button class="btn btn-action-text evaluation-report-button" data-type="${ev.type}" data-date="${ev.date}">
+                    ${icon}
+                    <span>${ev.title} - ${formattedDate}</span>
+                </button>
+                <div class="evaluation-report-actions">
+                    <button class="btn-icon-small evaluation-edit-btn" data-type="${ev.type}" data-date="${ev.date}" title="Editează evaluarea">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    </button>
+                    <button class="btn-icon-small evaluation-remove-btn" data-type="${ev.type}" data-date="${ev.date}" title="Șterge evaluarea">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                    </button>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    // Append the download buttons section
+    const downloadSection = `
+        <h3 class="evolution-summary-title">Rapoarte Evaluări Salvate</h3>
+        <div class="evaluation-report-list">
+            ${buttonsHTML}
+        </div>
+    `;
+
+    summaryDiv.innerHTML += downloadSection;
+
+    // Re-attach event listeners for the buttons
+    summaryDiv.querySelectorAll('.evaluation-report-button, .evaluation-edit-btn, .evaluation-remove-btn').forEach(btn => {
+        btn.addEventListener('click', handleEvaluationReportClick);
+    });
 }
 
 
@@ -3338,8 +3955,8 @@ $('showVBMAPPChart')?.addEventListener('click', () => {
     const { evolutionData } = calendarState.getState();
     const client = calendarState.getClientById(currentClientId);
     if (evolutionData && currentClientId && evolutionData[currentClientId]) {
+        // renderVBMAPPChart already handles the summary and download buttons
         renderVBMAPPChart(evolutionData[currentClientId]);
-        renderEvaluationReportsList(evolutionData[currentClientId], client);
     }
 });
 
