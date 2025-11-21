@@ -1078,7 +1078,23 @@ try {
                     if (!isset($evolutionData->$clientId->monthlyThemes)) $evolutionData->$clientId->monthlyThemes = new stdClass();
                     $evolutionData->$clientId->monthlyThemes->$monthKey = $row['theme_text'];
                 }
-                
+
+                // 5. VB-MAPP
+                $stmt_vbmapp = $pdo->query("SELECT * FROM vbmapp_evaluations");
+                while ($row = $stmt_vbmapp->fetch()) {
+                    $clientId = $row['client_id'];
+                    $date = $row['eval_date'];
+                    if (!isset($evolutionData->$clientId)) $evolutionData->$clientId = new stdClass();
+                    if (!isset($evolutionData->$clientId->evaluationsVBMAPP)) $evolutionData->$clientId->evaluationsVBMAPP = new stdClass();
+
+                    $vbmappScores = [
+                        'milestones' => json_decode($row['milestones_scores_json'], true) ?: [],
+                        'barriers' => json_decode($row['barriers_scores_json'], true) ?: [],
+                        'transition' => json_decode($row['transition_scores_json'], true) ?: []
+                    ];
+                    $evolutionData->$clientId->evaluationsVBMAPP->$date = $vbmappScores;
+                }
+
                 sendResponse($evolutionData);
 
             } elseif ($method === 'POST') {
@@ -1101,6 +1117,7 @@ try {
                     $pdo->exec("DELETE FROM logopedic_evaluations;");
                     $pdo->exec("DELETE FROM ablls_evaluations;");
                     $pdo->exec("DELETE FROM monthly_themes;");
+                    $pdo->exec("DELETE FROM vbmapp_evaluations;");
                     debugLog("Tabelele de evoluție au fost golite.");
 
                     // 3. Pregătește statement-urile
@@ -1110,6 +1127,7 @@ try {
                     $stmt_logo = $pdo->prepare("INSERT INTO logopedic_evaluations (client_id, eval_date, scores_json, comments) VALUES (?, ?, ?, ?)");
                     $stmt_ablls = $pdo->prepare("INSERT INTO ablls_evaluations (client_id, domain, eval_date, score) VALUES (?, ?, ?, ?)");
                     $stmt_theme = $pdo->prepare("INSERT INTO monthly_themes (client_id, month_key, theme_text) VALUES (?, ?, ?)");
+                    $stmt_vbmapp = $pdo->prepare("INSERT INTO vbmapp_evaluations (client_id, eval_date, milestones_scores_json, barriers_scores_json, transition_scores_json) VALUES (?, ?, ?, ?, ?)");
 
                     // 4. Inserează datele noi (fără validare client_id)
                     foreach ($input as $clientId => $data) {
@@ -1154,8 +1172,14 @@ try {
                         foreach ($data['monthlyThemes'] ?? [] as $monthKey => $text) {
                             $stmt_theme->execute([$clientId, $monthKey, $text]);
                         }
+                        foreach ($data['evaluationsVBMAPP'] ?? [] as $date => $scores) {
+                            $milestonesJson = json_encode($scores['milestones'] ?? []);
+                            $barriersJson = json_encode($scores['barriers'] ?? []);
+                            $transitionJson = json_encode($scores['transition'] ?? []);
+                            $stmt_vbmapp->execute([$clientId, $date, $milestonesJson, $barriersJson, $transitionJson]);
+                        }
                     }
-                    
+
                     $pdo->commit();
                     debugLog("Salvare 'evolution' reușită.");
                     sendResponse(['success' => true, 'message' => 'Evolution data saved']);

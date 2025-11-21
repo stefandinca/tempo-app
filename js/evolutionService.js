@@ -193,15 +193,23 @@ function activateTab(tabId) {
 function renderEvolutionChart(clientData) {
     const chartCanvas = $('evolutionChart');
     if (!chartCanvas) return;
-    const ctx = chartCanvas.getContext('2d');
 
-    if (evolutionChartInstance) evolutionChartInstance.destroy();
+    // Destroy existing chart first
+    if (window.evolutionChartInstance) {
+        window.evolutionChartInstance.destroy();
+        window.evolutionChartInstance = null;
+    }
 
     // Add null/undefined check for clientData
-    if (!clientData) {
-        console.warn('renderEvolutionChart: clientData is undefined');
+    if (!clientData || !clientData.evaluations || Object.keys(clientData.evaluations).length === 0) {
+        console.warn('renderEvolutionChart: No Portage data available');
+        chartCanvas.style.display = 'none';
+        $('evolutionSummary').innerHTML = '<p class="no-data">Nu există evaluări Portage salvate pentru acest client.</p>';
         return;
     }
+
+    chartCanvas.style.display = 'block';
+    const ctx = chartCanvas.getContext('2d');
 
     const colors = ['#4A90E2', '#FF6B6B', '#12C4D9', '#9B59B6', '#1DD75B', '#FFA500', '#E91E63'];
     const datasets = [];
@@ -244,7 +252,7 @@ function renderEvolutionChart(clientData) {
         });
     }
 
-    evolutionChartInstance = new Chart(ctx, {
+    window.evolutionChartInstance = new Chart(ctx, {
         type: 'line',
         data: { labels: sortedDates, datasets },
         options: {
@@ -267,14 +275,22 @@ function renderEvolutionChart(clientData) {
 function renderABLLSChart(clientData) {
     const chartCanvas = $('evolutionChart');
     if (!chartCanvas) return;
-    const ctx = chartCanvas.getContext('2d');
 
-    if (evolutionChartInstance) evolutionChartInstance.destroy();
+    // Destroy existing chart first
+    if (window.evolutionChartInstance) {
+        window.evolutionChartInstance.destroy();
+        window.evolutionChartInstance = null;
+    }
 
-    if (!clientData || !clientData.evaluationsABLLS) {
+    if (!clientData || !clientData.evaluationsABLLS || Object.keys(clientData.evaluationsABLLS).length === 0) {
         console.warn('renderABLLSChart: No ABLLS data available');
+        chartCanvas.style.display = 'none';
+        $('evolutionSummary').innerHTML = '<p class="no-data">Nu există evaluări ABLLS-R salvate pentru acest client.</p>';
         return;
     }
+
+    chartCanvas.style.display = 'block';
+    const ctx = chartCanvas.getContext('2d');
 
     const colors = ['#4A90E2', '#FF6B6B', '#12C4D9', '#9B59B6', '#1DD75B', '#FFA500', '#E91E63'];
     const datasets = [];
@@ -311,7 +327,7 @@ function renderABLLSChart(clientData) {
         }
     });
 
-    evolutionChartInstance = new Chart(ctx, {
+    window.evolutionChartInstance = new Chart(ctx, {
         type: 'line',
         data: { labels: sortedDates, datasets },
         options: {
@@ -2719,6 +2735,550 @@ async function saveABLLSEvaluation() {
     }
 }
 
+// =============================================================================
+// VB-MAPP EVALUATION FUNCTIONS
+// =============================================================================
+
+/**
+ * Load VB-MAPP data from JSON file
+ */
+let vbmappData = null;
+async function loadVBMAPPData() {
+    if (vbmappData) return vbmappData;
+
+    try {
+        const response = await fetch('vbmapp.json');
+        vbmappData = await response.json();
+        return vbmappData;
+    } catch (error) {
+        console.error('Eroare la încărcarea datelor VB-MAPP:', error);
+        showCustomAlert('Nu s-au putut încărca datele VB-MAPP.', 'Eroare');
+        return null;
+    }
+}
+
+/**
+ * Render VB-MAPP components (Milestones, Barriers, Transition)
+ */
+async function renderVBMAPPComponents() {
+    const container = $('vbmappComponentsContainer');
+    if (!container) return;
+
+    const data = await loadVBMAPPData();
+    if (!data) return;
+
+    // Get birth date and evaluation date for age filtering
+    const birthDate = $('childBirthDateInput')?.value;
+    const evalDate = $('evaluationDateInput')?.value;
+
+    if (!birthDate) {
+        container.innerHTML = '<p>Introduceți data nașterii pentru a afișa itemii VB-MAPP.</p>';
+        return;
+    }
+
+    const ageMonths = getAgeInMonths(birthDate, evalDate);
+
+    // Get current client and evaluation data
+    const { evolutionData } = calendarState.getState();
+    const clientData = evolutionData?.[currentClientId];
+    const existingScores = clientData?.evaluationsVBMAPP?.[evalDate] || {};
+
+    let html = '<div class="vbmapp-container">';
+
+    // =========================
+    // MILESTONES ASSESSMENT
+    // =========================
+    html += '<div class="vbmapp-section">';
+    html += '<h3 class="vbmapp-section-title">Jaloane (Milestones)</h3>';
+
+    // Level 1
+    html += renderVBMAPPLevel(data.milestones.level1, 'level1', existingScores.milestones?.level1, ageMonths);
+
+    // Level 2
+    html += renderVBMAPPLevel(data.milestones.level2, 'level2', existingScores.milestones?.level2, ageMonths);
+
+    // Level 3
+    html += renderVBMAPPLevel(data.milestones.level3, 'level3', existingScores.milestones?.level3, ageMonths);
+
+    html += '</div>';
+
+    // =========================
+    // BARRIERS ASSESSMENT
+    // =========================
+    html += '<div class="vbmapp-section">';
+    html += '<h3 class="vbmapp-section-title">Bariere (Barriers)</h3>';
+
+    // Collapsible container for barriers
+    html += `
+        <div class="domain-block">
+            <div class="domain-header">
+                <span>Bariere în Învățare</span>
+                <button type="button" class="domain-toggle-btn">Arată</button>
+            </div>
+            <div class="vbmapp-items-grid collapsed">
+    `;
+
+    data.barriers.items.forEach(item => {
+        const score = existingScores.barriers?.[item.id] || 0;
+        html += `
+            <div class="vbmapp-item">
+                <div class="vbmapp-item-text">${item.text}</div>
+                <div class="vbmapp-score-selector">
+                    ${renderScoreButtons(item.id, 'barrier', score)}
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div></div></div>';
+
+    // =========================
+    // TRANSITION ASSESSMENT
+    // =========================
+    html += '<div class="vbmapp-section">';
+    html += '<h3 class="vbmapp-section-title">Tranziție (Transition)</h3>';
+
+    // Collapsible container for transition
+    html += `
+        <div class="domain-block">
+            <div class="domain-header">
+                <span>Pregătire pentru Tranziție</span>
+                <button type="button" class="domain-toggle-btn">Arată</button>
+            </div>
+            <div class="vbmapp-items-grid collapsed">
+    `;
+
+    data.transition.items.forEach(item => {
+        const score = existingScores.transition?.[item.id] || 0;
+        html += `
+            <div class="vbmapp-item">
+                <div class="vbmapp-item-text">${item.text}</div>
+                <div class="vbmapp-score-selector">
+                    ${renderScoreButtons(item.id, 'transition', score)}
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div></div></div>';
+    html += '</div>';
+
+    container.innerHTML = html;
+
+    // Add event listeners for score buttons
+    container.querySelectorAll('.vbmapp-score-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const itemId = this.dataset.itemId;
+            const itemType = this.dataset.itemType;
+            const score = parseInt(this.dataset.score);
+
+            // Update button styles
+            const parentSelector = this.closest('.vbmapp-score-selector');
+            parentSelector.querySelectorAll('.vbmapp-score-btn').forEach(b => b.classList.remove('selected'));
+            this.classList.add('selected');
+        });
+    });
+
+    // Add toggle functionality for collapsible sections
+    container.querySelectorAll('.domain-block').forEach(block => {
+        const header = block.querySelector('.domain-header');
+        const grid = block.querySelector('.vbmapp-items-grid');
+        const toggleBtn = block.querySelector('.domain-toggle-btn');
+
+        const toggleSection = () => {
+            grid.classList.toggle('collapsed');
+            toggleBtn.textContent = grid.classList.contains('collapsed') ? 'Arată' : 'Ascunde';
+        };
+
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleSection();
+        });
+
+        header.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'BUTTON') {
+                toggleSection();
+            }
+        });
+    });
+}
+
+/**
+ * Render a VB-MAPP level (helper function)
+ */
+function renderVBMAPPLevel(levelData, levelKey, existingScores = {}, ageMonths = 999) {
+    let html = `<div class="vbmapp-level">`;
+    html += `<h4 class="vbmapp-level-title">${levelData.name}</h4>`;
+
+    // Render each area within the level
+    for (const [areaKey, areaData] of Object.entries(levelData.areas)) {
+        // Check if area has any items within child's age
+        const currentAgeItems = areaData.items.filter(item => item.months <= ageMonths);
+        const futureItems = areaData.items.filter(item => item.months > ageMonths);
+        const hasFutureItems = futureItems.length > 0;
+
+        html += `<div class="domain-block vbmapp-area">`;
+        html += `
+            <div class="domain-header">
+                <span>${areaData.name}</span>
+                <button type="button" class="domain-toggle-btn">Arată</button>
+            </div>
+        `;
+        html += `<div class="vbmapp-items-grid collapsed">`;
+
+        // Render current age items
+        currentAgeItems.forEach(item => {
+            const score = existingScores?.[areaKey]?.[item.id] || 0;
+            const ageInfo = item.months ? ` <i>(${item.months} luni)</i>` : '';
+            html += `
+                <div class="vbmapp-item">
+                    <div class="vbmapp-item-text">${item.text}${ageInfo}</div>
+                    <div class="vbmapp-score-selector">
+                        ${renderScoreButtons(item.id, `milestone-${levelKey}-${areaKey}`, score)}
+                    </div>
+                </div>
+            `;
+        });
+
+        // Render future items warning and collapsed section
+        if (hasFutureItems) {
+            const ageYearsMonths = formatAgeInYearsMonths(ageMonths);
+            html += `
+                <div class="portage-future-warning">
+                    <p>Unele iteme sunt pentru vârste mai mari decât ${ageYearsMonths}.</p>
+                    <button type="button" class="domain-toggle-btn vbmapp-future-toggle">Arată iteme viitoare</button>
+                </div>
+                <div class="vbmapp-future-items collapsed">
+            `;
+
+            futureItems.forEach(item => {
+                const score = existingScores?.[areaKey]?.[item.id] || 0;
+                const ageInfo = item.months ? ` <i>(${item.months} luni)</i>` : '';
+                html += `
+                    <div class="vbmapp-item disabled">
+                        <div class="vbmapp-item-text">${item.text}${ageInfo}</div>
+                        <div class="vbmapp-score-selector">
+                            ${renderScoreButtons(item.id, `milestone-${levelKey}-${areaKey}`, score, true)}
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`; // Close vbmapp-future-items
+        }
+
+        html += `</div></div>`; // Close vbmapp-items-grid and domain-block
+    }
+
+    html += `</div>`;
+    return html;
+}
+
+/**
+ * Render score buttons (0-5 scale) for an item
+ */
+function renderScoreButtons(itemId, itemType, currentScore = 0, disabled = false) {
+    let html = '';
+    for (let score = 0; score <= 5; score++) {
+        const isSelected = score === currentScore ? 'selected' : '';
+        const disabledAttr = disabled ? 'disabled' : '';
+        html += `<button type="button" class="vbmapp-score-btn ${isSelected}" ${disabledAttr}
+                        data-item-id="${itemId}"
+                        data-item-type="${itemType}"
+                        data-score="${score}">${score}</button>`;
+    }
+    return html;
+}
+
+/**
+ * Save VB-MAPP evaluation
+ */
+async function saveVBMAPPEvaluation() {
+    const { evolutionData, clients } = calendarState.getState();
+    const evalDate = $('evaluationDateInput').value;
+    const client = clients.find(c => c.id === currentClientId);
+
+    if (!client || !evalDate) {
+        showCustomAlert('Completați data nașterii și data evaluării.', 'Eroare');
+        return;
+    }
+
+    // Collect scores from the UI
+    const scores = {
+        milestones: {
+            level1: {},
+            level2: {},
+            level3: {}
+        },
+        barriers: {},
+        transition: {}
+    };
+
+    // Collect all selected scores
+    const selectedButtons = document.querySelectorAll('.vbmapp-score-btn.selected');
+    selectedButtons.forEach(btn => {
+        const itemId = btn.dataset.itemId;
+        const itemType = btn.dataset.itemType;
+        const score = parseInt(btn.dataset.score);
+
+        if (itemType.startsWith('milestone-')) {
+            // Parse milestone type: milestone-level1-mand
+            const parts = itemType.split('-');
+            const level = parts[1]; // level1, level2, level3
+            const area = parts[2];  // mand, tact, etc.
+
+            if (!scores.milestones[level][area]) {
+                scores.milestones[level][area] = {};
+            }
+            scores.milestones[level][area][itemId] = score;
+        } else if (itemType === 'barrier') {
+            scores.barriers[itemId] = score;
+        } else if (itemType === 'transition') {
+            scores.transition[itemId] = score;
+        }
+    });
+
+    // Initialize evolution data for client if not exists
+    if (!evolutionData[currentClientId]) {
+        evolutionData[currentClientId] = {
+            name: client.name,
+            evaluations: {},
+            evaluationsABLLS: {},
+            evaluationsLogopedica: {},
+            evaluationsVBMAPP: {},
+            portageCheckedItems: {},
+            programHistory: [],
+            monthlyThemes: {}
+        };
+    }
+
+    if (!evolutionData[currentClientId].evaluationsVBMAPP) {
+        evolutionData[currentClientId].evaluationsVBMAPP = {};
+    }
+
+    // Save the scores
+    evolutionData[currentClientId].evaluationsVBMAPP[evalDate] = scores;
+
+    // Update state
+    calendarState.setEvolutionData(evolutionData);
+
+    // Save to server
+    try {
+        await queuedSaveEvolutionData(evolutionData);
+        showCustomAlert('Evaluarea VB-MAPP a fost salvată cu succes!', 'Succes');
+
+        if (window.logActivity) {
+            window.logActivity("Evaluare VB-MAPP salvată", client.name, 'evaluation', currentClientId);
+        }
+
+        renderEvaluationReportsList(evolutionData[currentClientId], client);
+        activateTab('tabGrafice');
+    } catch (err) {
+        console.error('Eroare la salvarea evaluării VB-MAPP:', err);
+        showCustomAlert('Nu s-a putut salva evaluarea VB-MAPP pe server.', 'Eroare');
+    }
+}
+
+/**
+ * Render VB-MAPP evolution chart
+ */
+function renderVBMAPPChart(clientData) {
+    const chartCanvas = $('evolutionChart');
+    if (!chartCanvas) return;
+
+    const evaluations = clientData.evaluationsVBMAPP || {};
+
+    if (Object.keys(evaluations).length === 0) {
+        chartCanvas.style.display = 'none';
+        $('evolutionSummary').innerHTML = '<p class="no-data">Nu există evaluări VB-MAPP salvate pentru acest client.</p>';
+        return;
+    }
+
+    chartCanvas.style.display = 'block';
+
+    // Sort dates
+    const dates = Object.keys(evaluations).sort((a, b) => new Date(a) - new Date(b));
+
+    // Calculate total scores for each date
+    const datasets = [];
+
+    // Milestones total score
+    const milestonesScores = dates.map(date => {
+        const evalData = evaluations[date];
+        let total = 0;
+        let count = 0;
+
+        // Sum up all milestone scores
+        ['level1', 'level2', 'level3'].forEach(level => {
+            if (evalData.milestones && evalData.milestones[level]) {
+                Object.values(evalData.milestones[level]).forEach(area => {
+                    Object.values(area).forEach(score => {
+                        total += score;
+                        count++;
+                    });
+                });
+            }
+        });
+
+        return count > 0 ? (total / count).toFixed(2) : 0;
+    });
+
+    datasets.push({
+        label: 'Milestones (Average)',
+        data: milestonesScores,
+        borderColor: '#4CAF50',
+        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+        tension: 0.3
+    });
+
+    // Barriers total score
+    const barriersScores = dates.map(date => {
+        const evalData = evaluations[date];
+        if (!evalData.barriers) return 0;
+
+        const scores = Object.values(evalData.barriers);
+        const total = scores.reduce((sum, s) => sum + s, 0);
+        return scores.length > 0 ? (total / scores.length).toFixed(2) : 0;
+    });
+
+    datasets.push({
+        label: 'Barriers (Average)',
+        data: barriersScores,
+        borderColor: '#FF9800',
+        backgroundColor: 'rgba(255, 152, 0, 0.1)',
+        tension: 0.3
+    });
+
+    // Transition total score
+    const transitionScores = dates.map(date => {
+        const evalData = evaluations[date];
+        if (!evalData.transition) return 0;
+
+        const scores = Object.values(evalData.transition);
+        const total = scores.reduce((sum, s) => sum + s, 0);
+        return scores.length > 0 ? (total / scores.length).toFixed(2) : 0;
+    });
+
+    datasets.push({
+        label: 'Transition (Average)',
+        data: transitionScores,
+        borderColor: '#2196F3',
+        backgroundColor: 'rgba(33, 150, 243, 0.1)',
+        tension: 0.3
+    });
+
+    // Destroy existing chart
+    if (window.evolutionChartInstance) {
+        window.evolutionChartInstance.destroy();
+    }
+
+    // Create new chart
+    const ctx = chartCanvas.getContext('2d');
+    window.evolutionChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates.map(d => new Date(d).toLocaleDateString('ro-RO')),
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'VB-MAPP - Evoluție Scoruri Medii',
+                    font: { size: 16 }
+                },
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 5,
+                    title: {
+                        display: true,
+                        text: 'Scor Mediu (0-5)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Data Evaluării'
+                    }
+                }
+            }
+        }
+    });
+
+    // Render summary table
+    renderVBMAPPSummary(evaluations, dates);
+}
+
+/**
+ * Render VB-MAPP summary table
+ */
+function renderVBMAPPSummary(evaluations, dates) {
+    const summaryDiv = $('evolutionSummary');
+    if (!summaryDiv) return;
+
+    let html = '<div class="vbmapp-summary">';
+    html += '<h3>Rezumat Evaluări VB-MAPP</h3>';
+    html += '<table class="summary-table">';
+    html += '<thead><tr>';
+    html += '<th>Data</th>';
+    html += '<th>Milestones (Mediu)</th>';
+    html += '<th>Barriers (Mediu)</th>';
+    html += '<th>Transition (Mediu)</th>';
+    html += '</tr></thead><tbody>';
+
+    dates.forEach(date => {
+        const evalData = evaluations[date];
+
+        // Calculate averages
+        let milestonesAvg = 0, milestonesCount = 0;
+        ['level1', 'level2', 'level3'].forEach(level => {
+            if (evalData.milestones?.[level]) {
+                Object.values(evalData.milestones[level]).forEach(area => {
+                    Object.values(area).forEach(score => {
+                        milestonesAvg += score;
+                        milestonesCount++;
+                    });
+                });
+            }
+        });
+        milestonesAvg = milestonesCount > 0 ? (milestonesAvg / milestonesCount).toFixed(2) : '-';
+
+        let barriersAvg = 0;
+        const barriersScores = evalData.barriers ? Object.values(evalData.barriers) : [];
+        if (barriersScores.length > 0) {
+            barriersAvg = (barriersScores.reduce((sum, s) => sum + s, 0) / barriersScores.length).toFixed(2);
+        } else {
+            barriersAvg = '-';
+        }
+
+        let transitionAvg = 0;
+        const transitionScores = evalData.transition ? Object.values(evalData.transition) : [];
+        if (transitionScores.length > 0) {
+            transitionAvg = (transitionScores.reduce((sum, s) => sum + s, 0) / transitionScores.length).toFixed(2);
+        } else {
+            transitionAvg = '-';
+        }
+
+        html += `<tr>`;
+        html += `<td>${new Date(date).toLocaleDateString('ro-RO')}</td>`;
+        html += `<td>${milestonesAvg}</td>`;
+        html += `<td>${barriersAvg}</td>`;
+        html += `<td>${transitionAvg}</td>`;
+        html += `</tr>`;
+    });
+
+    html += '</tbody></table></div>';
+    summaryDiv.innerHTML = html;
+}
+
 
 // --- Inițializare Event Listeners ---
 
@@ -2738,6 +3298,7 @@ $('showPortageChart')?.addEventListener('click', () => {
     // Update button styles
     $('showPortageChart')?.classList.add('active');
     $('showABLLSChart')?.classList.remove('active');
+    $('showVBMAPPChart')?.classList.remove('active');
 
     // Re-render chart and summary
     const { evolutionData } = calendarState.getState();
@@ -2754,12 +3315,30 @@ $('showABLLSChart')?.addEventListener('click', () => {
     // Update button styles
     $('showPortageChart')?.classList.remove('active');
     $('showABLLSChart')?.classList.add('active');
+    $('showVBMAPPChart')?.classList.remove('active');
 
     // Re-render chart and summary
     const { evolutionData } = calendarState.getState();
     const client = calendarState.getClientById(currentClientId);
     if (evolutionData && currentClientId && evolutionData[currentClientId]) {
         renderABLLSChart(evolutionData[currentClientId]);
+        renderEvaluationReportsList(evolutionData[currentClientId], client);
+    }
+});
+
+$('showVBMAPPChart')?.addEventListener('click', () => {
+    currentEvaluationType = 'vbmapp';
+
+    // Update button styles
+    $('showPortageChart')?.classList.remove('active');
+    $('showABLLSChart')?.classList.remove('active');
+    $('showVBMAPPChart')?.classList.add('active');
+
+    // Re-render chart and summary
+    const { evolutionData } = calendarState.getState();
+    const client = calendarState.getClientById(currentClientId);
+    if (evolutionData && currentClientId && evolutionData[currentClientId]) {
+        renderVBMAPPChart(evolutionData[currentClientId]);
         renderEvaluationReportsList(evolutionData[currentClientId], client);
     }
 });
@@ -2779,15 +3358,17 @@ $('evaluationDateInput')?.addEventListener('change', () => {
 });
 $('saveEvaluationBtn')?.addEventListener('click', (e) => {
     e.preventDefault();
-    
+
     const selectedType = $('evaluationTypeSelect').value;
-    
+
     if (selectedType === 'portage') {
         savePortageEvaluation(); // Apelăm funcția existentă pentru Portage
     } else if (selectedType === 'logopedica') {
         saveLogopedicaEvaluation();
     } else if (selectedType === 'ablls') {
         saveABLLSEvaluation();
+    } else if (selectedType === 'vbmapp') {
+        saveVBMAPPEvaluation();
     }
 });
 $('cancelEvaluationBtn')?.addEventListener('click', (e) => {
@@ -2803,20 +3384,30 @@ if (evalTypeSelect) {
         const portageContainer = $('portageFormContainer');
         const logopedicaContainer = $('logopedicaFormContainer');
         const abllsContainer = $('abllsFormContainer');
+        const vbmappContainer = $('vbmappFormContainer');
 
         if (selectedType === 'portage') {
             if (portageContainer) portageContainer.style.display = 'block';
             if (logopedicaContainer) logopedicaContainer.style.display = 'none';
             if (abllsContainer) abllsContainer.style.display = 'none';
+            if (vbmappContainer) vbmappContainer.style.display = 'none';
         } else if (selectedType === 'logopedica') {
             if (portageContainer) portageContainer.style.display = 'none';
             if (logopedicaContainer) logopedicaContainer.style.display = 'block';
             if (abllsContainer) abllsContainer.style.display = 'none';
+            if (vbmappContainer) vbmappContainer.style.display = 'none';
         } else if (selectedType === 'ablls') {
             if (portageContainer) portageContainer.style.display = 'none';
             if (logopedicaContainer) logopedicaContainer.style.display = 'none';
             if (abllsContainer) abllsContainer.style.display = 'block';
+            if (vbmappContainer) vbmappContainer.style.display = 'none';
             renderABLLSDomains();
+        } else if (selectedType === 'vbmapp') {
+            if (portageContainer) portageContainer.style.display = 'none';
+            if (logopedicaContainer) logopedicaContainer.style.display = 'none';
+            if (abllsContainer) abllsContainer.style.display = 'none';
+            if (vbmappContainer) vbmappContainer.style.display = 'block';
+            renderVBMAPPComponents();
         }
     });
 }
