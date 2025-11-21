@@ -1337,8 +1337,9 @@ window.logActivity = async function(action, details, actionType = 'generic', rel
 
         // Refresh dashboard activities if we're on the dashboard
         if (document.getElementById('dashboardSection') &&
-            document.getElementById('dashboardSection').style.display !== 'none') {
-            await refreshDashboardActivities();
+            document.getElementById('dashboardSection').style.display !== 'none' &&
+            window.refreshDashboardActivities) {
+            await window.refreshDashboardActivities();
         }
     } catch (error) {
         console.error('Error logging activity:', error);
