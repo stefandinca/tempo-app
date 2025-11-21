@@ -1,6 +1,6 @@
 -- Migration: Add VB-MAPP evaluations table
 -- VB-MAPP (Verbal Behavior Milestones Assessment and Placement Program)
--- Stores evaluations with 0-5 scale scoring for Milestones, Barriers, and Transition assessments
+-- Stores evaluations with 0-5 scale scoring for Milestones, Barriers, Transition, Task Analysis, and IEP Objectives
 
 CREATE TABLE IF NOT EXISTS `vbmapp_evaluations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS `vbmapp_evaluations` (
   `milestones_scores_json` TEXT DEFAULT NULL COMMENT 'JSON object with level/area/item scores (0-5 scale)',
   `barriers_scores_json` TEXT DEFAULT NULL COMMENT 'JSON array with barrier item scores (0-5 scale)',
   `transition_scores_json` TEXT DEFAULT NULL COMMENT 'JSON array with transition item scores (0-5 scale)',
+  `task_analysis_scores_json` TEXT DEFAULT NULL COMMENT 'JSON array with task analysis item scores (0-5 scale)',
+  `iep_objectives_scores_json` TEXT DEFAULT NULL COMMENT 'JSON array with IEP objectives item scores (0-5 scale)',
   `comments` text DEFAULT NULL COMMENT 'Optional evaluation notes',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

@@ -1090,7 +1090,9 @@ try {
                     $vbmappScores = [
                         'milestones' => json_decode($row['milestones_scores_json'], true) ?: [],
                         'barriers' => json_decode($row['barriers_scores_json'], true) ?: [],
-                        'transition' => json_decode($row['transition_scores_json'], true) ?: []
+                        'transition' => json_decode($row['transition_scores_json'], true) ?: [],
+                        'taskAnalysis' => isset($row['task_analysis_scores_json']) ? (json_decode($row['task_analysis_scores_json'], true) ?: []) : [],
+                        'iepObjectives' => isset($row['iep_objectives_scores_json']) ? (json_decode($row['iep_objectives_scores_json'], true) ?: []) : []
                     ];
                     $evolutionData->$clientId->evaluationsVBMAPP->$date = $vbmappScores;
                 }
@@ -1127,7 +1129,16 @@ try {
                     $stmt_logo = $pdo->prepare("INSERT INTO logopedic_evaluations (client_id, eval_date, scores_json, comments) VALUES (?, ?, ?, ?)");
                     $stmt_ablls = $pdo->prepare("INSERT INTO ablls_evaluations (client_id, domain, eval_date, score) VALUES (?, ?, ?, ?)");
                     $stmt_theme = $pdo->prepare("INSERT INTO monthly_themes (client_id, month_key, theme_text) VALUES (?, ?, ?)");
-                    $stmt_vbmapp = $pdo->prepare("INSERT INTO vbmapp_evaluations (client_id, eval_date, milestones_scores_json, barriers_scores_json, transition_scores_json) VALUES (?, ?, ?, ?, ?)");
+
+                    // Check if new VB-MAPP columns exist
+                    $columnsResult = $pdo->query("SHOW COLUMNS FROM vbmapp_evaluations LIKE 'task_analysis_scores_json'");
+                    $hasNewColumns = $columnsResult && $columnsResult->rowCount() > 0;
+
+                    if ($hasNewColumns) {
+                        $stmt_vbmapp = $pdo->prepare("INSERT INTO vbmapp_evaluations (client_id, eval_date, milestones_scores_json, barriers_scores_json, transition_scores_json, task_analysis_scores_json, iep_objectives_scores_json) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    } else {
+                        $stmt_vbmapp = $pdo->prepare("INSERT INTO vbmapp_evaluations (client_id, eval_date, milestones_scores_json, barriers_scores_json, transition_scores_json) VALUES (?, ?, ?, ?, ?)");
+                    }
 
                     // 4. Inserează datele noi (fără validare client_id)
                     foreach ($input as $clientId => $data) {
@@ -1176,7 +1187,14 @@ try {
                             $milestonesJson = json_encode($scores['milestones'] ?? []);
                             $barriersJson = json_encode($scores['barriers'] ?? []);
                             $transitionJson = json_encode($scores['transition'] ?? []);
-                            $stmt_vbmapp->execute([$clientId, $date, $milestonesJson, $barriersJson, $transitionJson]);
+
+                            if ($hasNewColumns) {
+                                $taskAnalysisJson = json_encode($scores['taskAnalysis'] ?? []);
+                                $iepObjectivesJson = json_encode($scores['iepObjectives'] ?? []);
+                                $stmt_vbmapp->execute([$clientId, $date, $milestonesJson, $barriersJson, $transitionJson, $taskAnalysisJson, $iepObjectivesJson]);
+                            } else {
+                                $stmt_vbmapp->execute([$clientId, $date, $milestonesJson, $barriersJson, $transitionJson]);
+                            }
                         }
                     }
 

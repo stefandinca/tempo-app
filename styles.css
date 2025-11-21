@@ -7643,6 +7643,13 @@ a:focus-visible {
     border-color: var(--primary-color);
 }
 
+.vbmapp-score-btn.selected:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    transform: scale(1.05);
+}
+
 .vbmapp-score-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;

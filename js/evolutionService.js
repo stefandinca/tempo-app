@@ -1188,10 +1188,38 @@ async function generateVBMAPPReportHTML(client, clientData, date) {
     const transitionAverage = transitionCount > 0 ? (transitionTotal / transitionCount).toFixed(2) : '0.00';
     const transitionPercentage = transitionMaxScore > 0 ? Math.round((transitionTotal / transitionMaxScore) * 100) : 0;
 
+    // Calculate statistics for Task Analysis
+    let taskAnalysisTotal = 0;
+    let taskAnalysisCount = vbmappData.taskAnalysis.items.length;
+    let taskAnalysisMaxScore = taskAnalysisCount * 5;
+
+    if (evalData.taskAnalysis) {
+        Object.values(evalData.taskAnalysis).forEach(score => {
+            taskAnalysisTotal += score;
+        });
+    }
+
+    const taskAnalysisAverage = taskAnalysisCount > 0 ? (taskAnalysisTotal / taskAnalysisCount).toFixed(2) : '0.00';
+    const taskAnalysisPercentage = taskAnalysisMaxScore > 0 ? Math.round((taskAnalysisTotal / taskAnalysisMaxScore) * 100) : 0;
+
+    // Calculate statistics for IEP Objectives
+    let iepObjectivesTotal = 0;
+    let iepObjectivesCount = vbmappData.iepObjectives.items.length;
+    let iepObjectivesMaxScore = iepObjectivesCount * 5;
+
+    if (evalData.iepObjectives) {
+        Object.values(evalData.iepObjectives).forEach(score => {
+            iepObjectivesTotal += score;
+        });
+    }
+
+    const iepObjectivesAverage = iepObjectivesCount > 0 ? (iepObjectivesTotal / iepObjectivesCount).toFixed(2) : '0.00';
+    const iepObjectivesPercentage = iepObjectivesMaxScore > 0 ? Math.round((iepObjectivesTotal / iepObjectivesMaxScore) * 100) : 0;
+
     // Overall statistics
-    const overallTotal = milestonesTotal + barriersTotal + transitionTotal;
-    const overallMaxScore = milestonesMaxScore + barriersMaxScore + transitionMaxScore;
-    const overallAverage = ((milestonesAverage * milestonesCount) + (barriersAverage * barriersCount) + (transitionAverage * transitionCount)) / (milestonesCount + barriersCount + transitionCount);
+    const overallTotal = milestonesTotal + barriersTotal + transitionTotal + taskAnalysisTotal + iepObjectivesTotal;
+    const overallMaxScore = milestonesMaxScore + barriersMaxScore + transitionMaxScore + taskAnalysisMaxScore + iepObjectivesMaxScore;
+    const overallAverage = ((milestonesAverage * milestonesCount) + (barriersAverage * barriersCount) + (transitionAverage * transitionCount) + (taskAnalysisAverage * taskAnalysisCount) + (iepObjectivesAverage * iepObjectivesCount)) / (milestonesCount + barriersCount + transitionCount + taskAnalysisCount + iepObjectivesCount);
     const overallPercentage = overallMaxScore > 0 ? Math.round((overallTotal / overallMaxScore) * 100) : 0;
 
     return `
@@ -1465,6 +1493,44 @@ async function generateVBMAPPReportHTML(client, clientData, date) {
                     </div>
                 </div>
                 <p style="margin-top: 1rem; color: #64748b;">Total itemi tranziție evaluați: ${transitionCount}</p>
+            </div>
+
+            <div class="section">
+                <h2>Analiză Sarcină (Task Analysis)</h2>
+                <div class="component-summary">
+                    <div class="component-stat">
+                        <div class="component-stat-value">${taskAnalysisTotal} / ${taskAnalysisMaxScore}</div>
+                        <div class="component-stat-label">Scor Total</div>
+                    </div>
+                    <div class="component-stat">
+                        <div class="component-stat-value">${taskAnalysisAverage}</div>
+                        <div class="component-stat-label">Scor Mediu</div>
+                    </div>
+                    <div class="component-stat">
+                        <div class="component-stat-value">${taskAnalysisPercentage}%</div>
+                        <div class="component-stat-label">Procent</div>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; color: #64748b;">Total itemi analiză sarcină evaluați: ${taskAnalysisCount}</p>
+            </div>
+
+            <div class="section">
+                <h2>Obiective IEP</h2>
+                <div class="component-summary">
+                    <div class="component-stat">
+                        <div class="component-stat-value">${iepObjectivesTotal} / ${iepObjectivesMaxScore}</div>
+                        <div class="component-stat-label">Scor Total</div>
+                    </div>
+                    <div class="component-stat">
+                        <div class="component-stat-value">${iepObjectivesAverage}</div>
+                        <div class="component-stat-label">Scor Mediu</div>
+                    </div>
+                    <div class="component-stat">
+                        <div class="component-stat-value">${iepObjectivesPercentage}%</div>
+                        <div class="component-stat-label">Procent</div>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; color: #64748b;">Total obiective IEP evaluate: ${iepObjectivesCount}</p>
             </div>
 
             <div class="footer">
@@ -3327,6 +3393,66 @@ async function renderVBMAPPComponents() {
     });
 
     html += '</div></div></div>';
+
+    // =========================
+    // TASK ANALYSIS
+    // =========================
+    html += '<div class="vbmapp-section">';
+    html += '<h3 class="vbmapp-section-title">Analiză Sarcină (Task Analysis)</h3>';
+
+    // Collapsible container for task analysis
+    html += `
+        <div class="domain-block">
+            <div class="domain-header">
+                <span>Descompunerea sarcinilor în pași</span>
+                <button type="button" class="domain-toggle-btn">Arată</button>
+            </div>
+            <div class="vbmapp-items-grid collapsed">
+    `;
+
+    data.taskAnalysis.items.forEach(item => {
+        const score = existingScores.taskAnalysis?.[item.id];
+        html += `
+            <div class="vbmapp-item">
+                <div class="vbmapp-item-text">${item.text}</div>
+                <div class="vbmapp-score-selector">
+                    ${renderScoreButtons(item.id, 'taskAnalysis', score)}
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div></div></div>';
+
+    // =========================
+    // IEP OBJECTIVES
+    // =========================
+    html += '<div class="vbmapp-section">';
+    html += '<h3 class="vbmapp-section-title">Obiective IEP</h3>';
+
+    // Collapsible container for IEP objectives
+    html += `
+        <div class="domain-block">
+            <div class="domain-header">
+                <span>Obiective Educaționale Individualizate</span>
+                <button type="button" class="domain-toggle-btn">Arată</button>
+            </div>
+            <div class="vbmapp-items-grid collapsed">
+    `;
+
+    data.iepObjectives.items.forEach(item => {
+        const score = existingScores.iepObjectives?.[item.id];
+        html += `
+            <div class="vbmapp-item">
+                <div class="vbmapp-item-text">${item.text}</div>
+                <div class="vbmapp-score-selector">
+                    ${renderScoreButtons(item.id, 'iepObjectives', score)}
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div></div></div>';
     html += '</div>';
 
     container.innerHTML = html;
@@ -3490,7 +3616,9 @@ async function saveVBMAPPEvaluation() {
             level3: {}
         },
         barriers: {},
-        transition: {}
+        transition: {},
+        taskAnalysis: {},
+        iepObjectives: {}
     };
 
     // Collect all selected scores
@@ -3514,6 +3642,10 @@ async function saveVBMAPPEvaluation() {
             scores.barriers[itemId] = score;
         } else if (itemType === 'transition') {
             scores.transition[itemId] = score;
+        } else if (itemType === 'taskAnalysis') {
+            scores.taskAnalysis[itemId] = score;
+        } else if (itemType === 'iepObjectives') {
+            scores.iepObjectives[itemId] = score;
         }
     });
 
@@ -3656,6 +3788,42 @@ function renderVBMAPPChart(clientData) {
         tension: 0.3
     });
 
+    // Task Analysis total score
+    const taskAnalysisScores = dates.map(date => {
+        const evalData = evaluations[date];
+        if (!evalData.taskAnalysis) return 0;
+
+        const scores = Object.values(evalData.taskAnalysis);
+        const total = scores.reduce((sum, s) => sum + s, 0);
+        return scores.length > 0 ? (total / scores.length).toFixed(2) : 0;
+    });
+
+    datasets.push({
+        label: 'Task Analysis (Average)',
+        data: taskAnalysisScores,
+        borderColor: '#9C27B0',
+        backgroundColor: 'rgba(156, 39, 176, 0.1)',
+        tension: 0.3
+    });
+
+    // IEP Objectives total score
+    const iepObjectivesScores = dates.map(date => {
+        const evalData = evaluations[date];
+        if (!evalData.iepObjectives) return 0;
+
+        const scores = Object.values(evalData.iepObjectives);
+        const total = scores.reduce((sum, s) => sum + s, 0);
+        return scores.length > 0 ? (total / scores.length).toFixed(2) : 0;
+    });
+
+    datasets.push({
+        label: 'IEP Objectives (Average)',
+        data: iepObjectivesScores,
+        borderColor: '#E91E63',
+        backgroundColor: 'rgba(233, 30, 99, 0.1)',
+        tension: 0.3
+    });
+
     // Destroy existing chart
     if (window.evolutionChartInstance) {
         window.evolutionChartInstance.destroy();
@@ -3724,9 +3892,11 @@ function renderVBMAPPSummary(evaluations, dates) {
     html += '<table class="evolution-table">';
     html += '<thead><tr>';
     html += '<th>Data Evaluării</th>';
-    html += '<th>Milestones (Scor Mediu)</th>';
-    html += '<th>Barriers (Scor Mediu)</th>';
-    html += '<th>Transition (Scor Mediu)</th>';
+    html += '<th>Milestones</th>';
+    html += '<th>Barriers</th>';
+    html += '<th>Transition</th>';
+    html += '<th>Task Analysis</th>';
+    html += '<th>IEP Objectives</th>';
     html += '</tr></thead><tbody>';
 
     dates.forEach(date => {
@@ -3762,11 +3932,29 @@ function renderVBMAPPSummary(evaluations, dates) {
             transitionAvg = '-';
         }
 
+        let taskAnalysisAvg = 0;
+        const taskAnalysisScores = evalData.taskAnalysis ? Object.values(evalData.taskAnalysis) : [];
+        if (taskAnalysisScores.length > 0) {
+            taskAnalysisAvg = (taskAnalysisScores.reduce((sum, s) => sum + s, 0) / taskAnalysisScores.length).toFixed(2);
+        } else {
+            taskAnalysisAvg = '-';
+        }
+
+        let iepObjectivesAvg = 0;
+        const iepObjectivesScores = evalData.iepObjectives ? Object.values(evalData.iepObjectives) : [];
+        if (iepObjectivesScores.length > 0) {
+            iepObjectivesAvg = (iepObjectivesScores.reduce((sum, s) => sum + s, 0) / iepObjectivesScores.length).toFixed(2);
+        } else {
+            iepObjectivesAvg = '-';
+        }
+
         html += `<tr>`;
         html += `<td data-label="Data">${new Date(date).toLocaleDateString('ro-RO')}</td>`;
         html += `<td data-label="Milestones">${milestonesAvg}</td>`;
         html += `<td data-label="Barriers">${barriersAvg}</td>`;
         html += `<td data-label="Transition">${transitionAvg}</td>`;
+        html += `<td data-label="Task Analysis">${taskAnalysisAvg}</td>`;
+        html += `<td data-label="IEP Objectives">${iepObjectivesAvg}</td>`;
         html += `</tr>`;
     });
 

@@ -504,5 +504,67 @@
       { "id": "transition-17", "text": "Bariere în calea învățării (ex: scoruri generale de bariere din Evaluarea Bariere VB-MAPP)" },
       { "id": "transition-18", "text": "Echilibrul general al abilităților (ex: gradul în care scorurile abilităților sunt consistente între domeniile de abilități, sau dacă unele domenii sunt semnificativ mai slabe)" }
     ]
+  },
+  "taskAnalysis": {
+    "name": "Analiză Sarcină (Task Analysis)",
+    "description": "Descompunerea sarcinilor în pași mai mici pentru urmărirea progresului",
+    "items": [
+      { "id": "task-1", "text": "Spălarea mâinilor: Deschide apa" },
+      { "id": "task-2", "text": "Spălarea mâinilor: Își udă mâinile" },
+      { "id": "task-3", "text": "Spălarea mâinilor: Pune săpun pe mâini" },
+      { "id": "task-4", "text": "Spălarea mâinilor: Freacă mâinile împreună" },
+      { "id": "task-5", "text": "Spălarea mâinilor: Clătește săpunul" },
+      { "id": "task-6", "text": "Spălarea mâinilor: Închide apa" },
+      { "id": "task-7", "text": "Spălarea mâinilor: Își usucă mâinile cu prosopul" },
+      { "id": "task-8", "text": "Periatul dinților: Ia periuța de dinți" },
+      { "id": "task-9", "text": "Periatul dinților: Pune pastă pe periuță" },
+      { "id": "task-10", "text": "Periatul dinților: Periază dinții de sus" },
+      { "id": "task-11", "text": "Periatul dinților: Periază dinții de jos" },
+      { "id": "task-12", "text": "Periatul dinților: Clătește gura" },
+      { "id": "task-13", "text": "Periatul dinților: Clătește periuța" },
+      { "id": "task-14", "text": "Periatul dinților: Pune periuța înapoi" },
+      { "id": "task-15", "text": "Îmbrăcatul: Alege hainele potrivite" },
+      { "id": "task-16", "text": "Îmbrăcatul: Pune tricoul (capul prin găură)" },
+      { "id": "task-17", "text": "Îmbrăcatul: Pune brațele prin mâneci" },
+      { "id": "task-18", "text": "Îmbrăcatul: Trage tricoul în jos" },
+      { "id": "task-19", "text": "Îmbrăcatul: Pune pantalonii (un picior)" },
+      { "id": "task-20", "text": "Îmbrăcatul: Pune pantalonii (celălalt picior)" },
+      { "id": "task-21", "text": "Îmbrăcatul: Trage pantalonii în sus" },
+      { "id": "task-22", "text": "Îmbrăcatul: Închide/prinde pantalonii" },
+      { "id": "task-23", "text": "Masă: Se așează la masă când i se cere" },
+      { "id": "task-24", "text": "Masă: Așteaptă până când toți sunt serviți" },
+      { "id": "task-25", "text": "Masă: Folosește corect lingura" },
+      { "id": "task-26", "text": "Masă: Folosește corect furculița" },
+      { "id": "task-27", "text": "Masă: Bea din pahar fără să verse" },
+      { "id": "task-28", "text": "Masă: Folosește șervețelul" },
+      { "id": "task-29", "text": "Masă: Cere mai multă mâncare dacă dorește" },
+      { "id": "task-30", "text": "Masă: Curăță după ce termină" }
+    ]
+  },
+  "iepObjectives": {
+    "name": "Obiective IEP (Individualized Education Program)",
+    "description": "Obiective educaționale individualizate derivate din evaluarea VB-MAPP",
+    "items": [
+      { "id": "iep-1", "text": "Va emite 20 de cereri spontane pentru obiecte, activități sau ajutor în diverse contexte" },
+      { "id": "iep-2", "text": "Va denumi 50 de obiecte, imagini, persoane sau acțiuni când i se solicită" },
+      { "id": "iep-3", "text": "Va răspunde corect la 25 de întrebări intraverbale simple (ex: Ce manânci? Unde dormi?)" },
+      { "id": "iep-4", "text": "Va selecta obiectul corect dintr-un câmp de 6-8 pentru 100 de ținte diferite" },
+      { "id": "iep-5", "text": "Va imita 20 de acțiuni motorii diferite cu obiecte și fără obiecte" },
+      { "id": "iep-6", "text": "Va echoa 50 de cuvinte și fraze diferite cu articulare clară" },
+      { "id": "iep-7", "text": "Va demonstra discriminări condiționale cu 10 perechi de stimuli (ex: arată mingea mare, arată mingea mică)" },
+      { "id": "iep-8", "text": "Va răspunde la întrebări despre povești simple (cine, ce, unde)" },
+      { "id": "iep-9", "text": "Va participa la activități de joc paralel cu colegii pentru 10 minute" },
+      { "id": "iep-10", "text": "Va cere și va răspunde la cereri de la colegi în contexte naturale" },
+      { "id": "iep-11", "text": "Va urmări instrucțiuni în 2-3 pași fără prompturi suplimentare" },
+      { "id": "iep-12", "text": "Va demonstra 15 tact-uri de atribute (culori, forme, mărimi)" },
+      { "id": "iep-13", "text": "Va completa activități independente pentru 15 minute fără întărire continuă" },
+      { "id": "iep-14", "text": "Va demonstra 10 intraverbale despre sine (nume, vârstă, preferințe)" },
+      { "id": "iep-15", "text": "Va se angaja în conversații de dus-întors cu 3-4 schimburi" },
+      { "id": "iep-16", "text": "Va participa la activități de grup urmând regulile și așteptând rândul" },
+      { "id": "iep-17", "text": "Va generaliza abilitățile învățate în 3 medii diferite cu 3 persoane diferite" },
+      { "id": "iep-18", "text": "Va reduce comportamentele problematice cu 80% față de nivelul de bază" },
+      { "id": "iep-19", "text": "Va folosi limbaj spontan pentru a comenta asupra mediului (10 exemple/zi)" },
+      { "id": "iep-20", "text": "Va demonstra abilități de auto-îngrijire (toaletă, spălat pe mâini, masă) cu independență 75%" }
+    ]
   }
 }
