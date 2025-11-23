@@ -423,10 +423,71 @@ export function closeEventModal() {
 
 // --- Management Modal Detalii Eveniment ---
 
+/**
+ * Reconstructs event.programScores from programHistory in evolutionData
+ * This fixes the bug where program scores disappear after page refresh
+ * @param {object} event - The event object to reconstruct scores for
+ */
+function reconstructProgramScoresFromHistory(event) {
+    const { evolutionData } = calendarState.getState();
+
+    // Initialize programScores if it doesn't exist
+    if (!event.programScores) {
+        event.programScores = {};
+    }
+
+    // Get all clients for this event
+    const clientIds = event.clientIds || (event.clientId ? [event.clientId] : []);
+
+    // For each client, find programHistory entries for this event
+    clientIds.forEach(clientId => {
+        const clientData = evolutionData[clientId];
+        if (!clientData || !Array.isArray(clientData.programHistory)) return;
+
+        // Find all program history entries for this specific event
+        const eventEntries = clientData.programHistory.filter(entry => entry.eventId === event.id);
+
+        // Reconstruct programScores from history entries
+        eventEntries.forEach(entry => {
+            const programId = entry.programId;
+            const scoreString = entry.score; // e.g., "P (2), + (1)"
+
+            if (!scoreString) return;
+
+            // Parse the score string back into the counter object
+            // Example: "P (2), + (1)" -> { "P": 2, "+": 1, "0": 0, "-": 0 }
+            const scoreObj = { "0": 0, "-": 0, "P": 0, "+": 0 };
+
+            // Match patterns like "P (2)" or "+ (1)"
+            const matches = scoreString.matchAll(/([0\-P\+])\s*\((\d+)\)/g);
+            for (const match of matches) {
+                const key = match[1];
+                const count = parseInt(match[2], 10);
+                if (key in scoreObj) {
+                    scoreObj[key] = count;
+                }
+            }
+
+            // Only set if we found valid scores
+            const hasScores = Object.values(scoreObj).some(val => val > 0);
+            if (hasScores) {
+                event.programScores[programId] = scoreObj;
+            }
+        });
+    });
+
+    // Save the reconstructed scores back to the event
+    calendarState.saveEvent(event);
+}
+
 export function showEventDetails(eventId) {
     const { isAdminView } = calendarState.getState();
     const event = calendarState.getEventById(eventId);
     if (!event) return;
+
+    // 🔧 FIX: Reconstruct programScores from programHistory before displaying
+    // This ensures scores persist after page refresh
+    reconstructProgramScoresFromHistory(event);
 
     currentDetailsEventId = eventId;
     // Store a deep copy of the original event for change detection
