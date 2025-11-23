@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 21, 2025 at 11:22 AM
+-- Generation Time: Nov 23, 2025 at 02:19 PM
 -- Server version: 10.6.19-MariaDB
 -- PHP Version: 8.1.31
 
@@ -40,42 +40,42 @@ CREATE TABLE `ablls_evaluations` (
 --
 
 INSERT INTO `ablls_evaluations` (`id`, `client_id`, `domain`, `eval_date`, `score`) VALUES
-(14851, 'test2202', 'ABLLS - A - Cooperare si Atentie', '2026-04-14', '[\"A1\",\"A2\",\"A3\",\"A4\",\"A5\",\"A6\",\"A7\",\"A8\",\"A9\",\"A10\"]'),
-(14852, 'test2202', 'ABLLS - A - Cooperare si Atentie', '2025-11-13', '[\"A1\",\"A2\",\"A3\",\"A4\",\"A5\",\"A6\",\"A7\",\"A8\",\"A9\",\"A10\"]'),
-(14853, 'test2202', 'ABLLS - B - Comportament Vizual', '2026-04-14', '[\"B1\",\"B2\",\"B3\",\"B4\",\"B5\",\"B6\",\"B7\",\"B8\",\"B9\",\"B10\"]'),
-(14854, 'test2202', 'ABLLS - B - Comportament Vizual', '2025-11-13', '[\"B1\",\"B2\",\"B3\",\"B4\",\"B5\",\"B6\",\"B7\",\"B8\",\"B9\",\"B10\"]'),
-(14855, 'test2202', 'ABLLS - C - Imitatie Motorie', '2026-04-14', '[\"C1\",\"C2\",\"C3\",\"C4\",\"C5\",\"C6\",\"C7\",\"C8\",\"C9\",\"C10\"]'),
-(14856, 'test2202', 'ABLLS - C - Imitatie Motorie', '2025-11-13', '[]'),
-(14857, 'test2202', 'ABLLS - D - Vorbire si Limbaj Receptiv', '2026-04-14', '[\"D1\",\"D2\",\"D3\",\"D4\",\"D5\",\"D6\",\"D7\",\"D8\",\"D9\",\"D10\"]'),
-(14858, 'test2202', 'ABLLS - D - Vorbire si Limbaj Receptiv', '2025-11-13', '[]'),
-(14859, 'test2202', 'ABLLS - E - Cereri (Mand)', '2026-04-14', '[]'),
-(14860, 'test2202', 'ABLLS - E - Cereri (Mand)', '2025-11-13', '[]'),
-(14861, 'test2202', 'ABLLS - F - Denumire (Tact)', '2026-04-14', '[]'),
-(14862, 'test2202', 'ABLLS - F - Denumire (Tact)', '2025-11-13', '[]'),
-(14863, 'test2202', 'ABLLS - G - Limbaj Intraverbal', '2026-04-14', '[]'),
-(14864, 'test2202', 'ABLLS - G - Limbaj Intraverbal', '2025-11-13', '[]'),
-(14865, 'test2202', 'ABLLS - H - Conversatie Spontana', '2026-04-14', '[]'),
-(14866, 'test2202', 'ABLLS - H - Conversatie Spontana', '2025-11-13', '[]'),
-(14867, 'test2202', 'ABLLS - I - Sintaxa si Gramatica', '2026-04-14', '[]'),
-(14868, 'test2202', 'ABLLS - I - Sintaxa si Gramatica', '2025-11-13', '[]'),
-(14869, 'test2202', 'ABLLS - J - Joc si Timp Liber', '2026-04-14', '[]'),
-(14870, 'test2202', 'ABLLS - J - Joc si Timp Liber', '2025-11-13', '[]'),
-(14871, 'test2202', 'ABLLS - K - Interactiuni Sociale', '2026-04-14', '[]'),
-(14872, 'test2202', 'ABLLS - K - Interactiuni Sociale', '2025-11-13', '[]'),
-(14873, 'test2202', 'ABLLS - L - Comportamente Adaptive', '2026-04-14', '[]'),
-(14874, 'test2202', 'ABLLS - L - Comportamente Adaptive', '2025-11-13', '[]'),
-(14875, 'test2202', 'ABLLS - M - Abilitati Motorii Grosiere', '2026-04-14', '[]'),
-(14876, 'test2202', 'ABLLS - M - Abilitati Motorii Grosiere', '2025-11-13', '[]'),
-(14877, 'test2202', 'ABLLS - N - Abilitati Motorii Fine', '2026-04-14', '[]'),
-(14878, 'test2202', 'ABLLS - N - Abilitati Motorii Fine', '2025-11-13', '[]'),
-(14879, 'test2202', 'ABLLS - O - Autonomie Personala', '2026-04-14', '[]'),
-(14880, 'test2202', 'ABLLS - O - Autonomie Personala', '2025-11-13', '[]'),
-(14881, 'test2202', 'ABLLS - P - Abilitati Matematice', '2026-04-14', '[]'),
-(14882, 'test2202', 'ABLLS - P - Abilitati Matematice', '2025-11-13', '[]'),
-(14883, 'test2202', 'ABLLS - Q - Citire', '2026-04-14', '[\"Q1\",\"Q2\",\"Q3\",\"Q4\",\"Q5\",\"Q6\",\"Q7\",\"Q8\",\"Q9\",\"Q10\"]'),
-(14884, 'test2202', 'ABLLS - Q - Citire', '2025-11-13', '[]'),
-(14885, 'test2202', 'ABLLS - R - Scriere', '2026-04-14', '[]'),
-(14886, 'test2202', 'ABLLS - R - Scriere', '2025-11-13', '[]');
+(15211, 'test2202', 'ABLLS - A - Cooperare si Atentie', '2026-04-14', '[\"A1\",\"A2\",\"A3\",\"A4\",\"A5\",\"A6\",\"A7\",\"A8\",\"A9\",\"A10\"]'),
+(15212, 'test2202', 'ABLLS - A - Cooperare si Atentie', '2025-11-13', '[\"A1\",\"A2\",\"A3\",\"A4\",\"A5\",\"A6\",\"A7\",\"A8\",\"A9\",\"A10\"]'),
+(15213, 'test2202', 'ABLLS - B - Comportament Vizual', '2026-04-14', '[\"B1\",\"B2\",\"B3\",\"B4\",\"B5\",\"B6\",\"B7\",\"B8\",\"B9\",\"B10\"]'),
+(15214, 'test2202', 'ABLLS - B - Comportament Vizual', '2025-11-13', '[\"B1\",\"B2\",\"B3\",\"B4\",\"B5\",\"B6\",\"B7\",\"B8\",\"B9\",\"B10\"]'),
+(15215, 'test2202', 'ABLLS - C - Imitatie Motorie', '2026-04-14', '[\"C1\",\"C2\",\"C3\",\"C4\",\"C5\",\"C6\",\"C7\",\"C8\",\"C9\",\"C10\"]'),
+(15216, 'test2202', 'ABLLS - C - Imitatie Motorie', '2025-11-13', '[]'),
+(15217, 'test2202', 'ABLLS - D - Vorbire si Limbaj Receptiv', '2026-04-14', '[\"D1\",\"D2\",\"D3\",\"D4\",\"D5\",\"D6\",\"D7\",\"D8\",\"D9\",\"D10\"]'),
+(15218, 'test2202', 'ABLLS - D - Vorbire si Limbaj Receptiv', '2025-11-13', '[]'),
+(15219, 'test2202', 'ABLLS - E - Cereri (Mand)', '2026-04-14', '[]'),
+(15220, 'test2202', 'ABLLS - E - Cereri (Mand)', '2025-11-13', '[]'),
+(15221, 'test2202', 'ABLLS - F - Denumire (Tact)', '2026-04-14', '[]'),
+(15222, 'test2202', 'ABLLS - F - Denumire (Tact)', '2025-11-13', '[]'),
+(15223, 'test2202', 'ABLLS - G - Limbaj Intraverbal', '2026-04-14', '[]'),
+(15224, 'test2202', 'ABLLS - G - Limbaj Intraverbal', '2025-11-13', '[]'),
+(15225, 'test2202', 'ABLLS - H - Conversatie Spontana', '2026-04-14', '[]'),
+(15226, 'test2202', 'ABLLS - H - Conversatie Spontana', '2025-11-13', '[]'),
+(15227, 'test2202', 'ABLLS - I - Sintaxa si Gramatica', '2026-04-14', '[]'),
+(15228, 'test2202', 'ABLLS - I - Sintaxa si Gramatica', '2025-11-13', '[]'),
+(15229, 'test2202', 'ABLLS - J - Joc si Timp Liber', '2026-04-14', '[]'),
+(15230, 'test2202', 'ABLLS - J - Joc si Timp Liber', '2025-11-13', '[]'),
+(15231, 'test2202', 'ABLLS - K - Interactiuni Sociale', '2026-04-14', '[]'),
+(15232, 'test2202', 'ABLLS - K - Interactiuni Sociale', '2025-11-13', '[]'),
+(15233, 'test2202', 'ABLLS - L - Comportamente Adaptive', '2026-04-14', '[]'),
+(15234, 'test2202', 'ABLLS - L - Comportamente Adaptive', '2025-11-13', '[]'),
+(15235, 'test2202', 'ABLLS - M - Abilitati Motorii Grosiere', '2026-04-14', '[]'),
+(15236, 'test2202', 'ABLLS - M - Abilitati Motorii Grosiere', '2025-11-13', '[]'),
+(15237, 'test2202', 'ABLLS - N - Abilitati Motorii Fine', '2026-04-14', '[]'),
+(15238, 'test2202', 'ABLLS - N - Abilitati Motorii Fine', '2025-11-13', '[]'),
+(15239, 'test2202', 'ABLLS - O - Autonomie Personala', '2026-04-14', '[]'),
+(15240, 'test2202', 'ABLLS - O - Autonomie Personala', '2025-11-13', '[]'),
+(15241, 'test2202', 'ABLLS - P - Abilitati Matematice', '2026-04-14', '[]'),
+(15242, 'test2202', 'ABLLS - P - Abilitati Matematice', '2025-11-13', '[]'),
+(15243, 'test2202', 'ABLLS - Q - Citire', '2026-04-14', '[\"Q1\",\"Q2\",\"Q3\",\"Q4\",\"Q5\",\"Q6\",\"Q7\",\"Q8\",\"Q9\",\"Q10\"]'),
+(15244, 'test2202', 'ABLLS - Q - Citire', '2025-11-13', '[]'),
+(15245, 'test2202', 'ABLLS - R - Scriere', '2026-04-14', '[]'),
+(15246, 'test2202', 'ABLLS - R - Scriere', '2025-11-13', '[]');
 
 -- --------------------------------------------------------
 
@@ -2408,7 +2408,103 @@ INSERT INTO `activities` (`id`, `user_id`, `user_name`, `action`, `details`, `ac
 (2301, 'dana', 'Dana G', 'a actualizat o evaluare', 'Gabriela Cristiana Maria Cozma - Comunicare si limbaj: - (4), P (4), + (5)', 'evaluation', 'gabriela0307', '2025-11-21 09:50:34'),
 (2302, 'dana', 'Dana G', 'a actualizat eveniment', 'Terapie - Gabriela Cristiana Maria Cozma', 'event', '2025-11-21', '2025-11-21 09:50:38'),
 (2303, 'dana', 'Dana G', 'a actualizat eveniment', 'Terapie - Gabriela Cristiana Maria Cozma', 'event', '2025-11-21', '2025-11-21 09:50:43'),
-(2304, 'dana', 'Dana G', 'Eveniment actualizat', 'Terapie - Gabriela Cristiana Maria Cozma', 'event', '2025-11-21', '2025-11-21 09:50:43');
+(2304, 'dana', 'Dana G', 'Eveniment actualizat', 'Terapie - Gabriela Cristiana Maria Cozma', 'event', '2025-11-21', '2025-11-21 09:50:43'),
+(2305, 'stefan', 'Stefan', 'a actualizat o evaluare', 'test - Imitare orala: 0 (1)', 'evaluation', 'test2202', '2025-11-21 11:26:27'),
+(2306, 'stefan', 'Stefan', 'a actualizat o evaluare', 'test - Joc si miscare: - (1)', 'evaluation', 'test2202', '2025-11-21 11:26:27'),
+(2307, 'stefan', 'Stefan', 'a actualizat o evaluare', 'test - Atentie: P (1)', 'evaluation', 'test2202', '2025-11-21 11:26:28'),
+(2308, 'stefan', 'Stefan', 'a actualizat eveniment', 'Terapie - test', 'event', '2025-11-20', '2025-11-21 11:26:29'),
+(2309, 'stefan', 'Stefan', 'a actualizat o evaluare', 'test - Atentie: - (1)', 'evaluation', 'test2202', '2025-11-21 11:27:00'),
+(2310, 'stefan', 'Stefan', 'a actualizat o evaluare', 'test - Asteapta: P (1)', 'evaluation', 'test2202', '2025-11-21 11:27:01'),
+(2311, 'stefan', 'Stefan', 'a actualizat o evaluare', 'test - Joc social: + (1)', 'evaluation', 'test2202', '2025-11-21 11:27:02'),
+(2312, 'stefan', 'Stefan', 'a actualizat eveniment', 'Terapie - test', 'event', '2025-11-20', '2025-11-21 11:27:03'),
+(2313, 'stefan', 'Stefan', 'a actualizat profil client', 'test', 'client', 'test2202', '2025-11-21 11:41:29'),
+(2314, 'stefan', 'Stefan', 'Client actualizat', 'test', 'generic', 'test2202', '2025-11-21 11:41:29'),
+(2315, 'stefan', 'Stefan', 'a actualizat profil client', 'test', 'client', 'test2202', '2025-11-21 11:41:35'),
+(2316, 'stefan', 'Stefan', 'Client actualizat', 'test', 'generic', 'test2202', '2025-11-21 11:41:35'),
+(2317, 'corina', 'Corina', 'a actualizat eveniment', 'Terapie - Ahmadi Adrin', 'event', '2025-11-21', '2025-11-21 12:06:30'),
+(2318, 'corina', 'Corina', 'a actualizat eveniment', 'Terapie - Ahmadi Adrin', 'event', '2025-11-21', '2025-11-21 12:06:36'),
+(2319, 'corina', 'Corina', 'a creat eveniment', '2 evenimente', 'event', '2025-11-21', '2025-11-21 12:08:33'),
+(2320, 'corina', 'Corina', 'Eveniment adăugat', 'Terapie - Maria Ecaterina Lucaci', 'event', '2025-11-21', '2025-11-21 12:08:33'),
+(2321, 'corina', 'Corina', 'a creat eveniment', '2 evenimente', 'event', '2025-11-21', '2025-11-21 12:09:28'),
+(2322, 'corina', 'Corina', 'Eveniment adăugat', 'Terapie - Medeea Ana Gabrielea Anghel', 'event', '2025-11-21', '2025-11-21 12:09:28'),
+(2323, 'stefan', 'Stefan', 'Evaluare VB-MAPP salvată', 'test', 'evaluation', 'test2202', '2025-11-21 19:13:02'),
+(2324, 'stefan', 'Stefan', 'Evaluare VB-MAPP salvată', 'test', 'evaluation', 'test2202', '2025-11-21 19:34:07'),
+(2325, 'stefan', 'Stefan', 'a actualizat profil client', 'test', 'client', 'test2202', '2025-11-21 20:01:44'),
+(2326, 'stefan', 'Stefan', 'Client actualizat', 'test', 'generic', 'test2202', '2025-11-21 20:01:44'),
+(2327, 'stefan', 'Stefan', 'Evaluare VB-MAPP salvată', 'test', 'evaluation', 'test2202', '2025-11-21 20:54:46'),
+(2328, 'stefan', 'Stefan', 'Evaluare VB-MAPP salvată', 'test', 'evaluation', 'test2202', '2025-11-21 23:39:54'),
+(2329, 'corina', 'Corina', 'a creat eveniment', '2 evenimente', 'event', '2025-11-21', '2025-11-23 09:31:45'),
+(2330, 'corina', 'Corina', 'Eveniment actualizat', 'stimulare verbala', 'event', '2025-11-21', '2025-11-23 09:31:45'),
+(2331, 'corina', 'Corina', 'a șters eveniment', 'evt1763461188332s5bes7793', 'event', NULL, '2025-11-23 09:31:56'),
+(2332, 'corina', 'Corina', 'a actualizat eveniment', 'Psihoterapie - Copaci Elisabeth Joy', 'event', '2025-11-21', '2025-11-23 09:34:25'),
+(2333, 'corina', 'Corina', 'Eveniment actualizat', 'Psihoterapie - Copaci Elisabeth Joy', 'event', '2025-11-21', '2025-11-23 09:34:25'),
+(2334, 'corina', 'Corina', 'Eveniment actualizat', 'terapie', 'event', '2025-11-19', '2025-11-23 10:04:03'),
+(2335, 'corina', 'Corina', 'a șters eveniment', 'evt1763385732254kajpiju8b', 'event', NULL, '2025-11-23 10:13:27'),
+(2336, 'stefan', 'Stefan', 'a actualizat eveniment', 'Terapie - Client test 1', 'event', '2025-11-14', '2025-11-23 14:12:54'),
+(2337, 'stefan', 'Stefan', 'Eveniment actualizat', 'Terapie - Client test 1', 'event', '2025-11-14', '2025-11-23 14:12:54'),
+(2338, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Asteapta: 0 (1)', 'evaluation', 'client1111', '2025-11-23 14:12:56'),
+(2339, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Atentie: - (1)', 'evaluation', 'client1111', '2025-11-23 14:12:57'),
+(2340, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Cauzalitatea emotiilor: P (1)', 'evaluation', 'client1111', '2025-11-23 14:12:58'),
+(2341, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Asteapta: 0 (1), - (1)', 'evaluation', 'client1111', '2025-11-23 14:12:59'),
+(2342, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Asteapta: 0 (1), - (1), P (1)', 'evaluation', 'client1111', '2025-11-23 14:12:59'),
+(2343, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Asteapta: 0 (1), - (1), P (1), + (1)', 'evaluation', 'client1111', '2025-11-23 14:12:59'),
+(2344, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Atentie: - (1), P (1)', 'evaluation', 'client1111', '2025-11-23 14:13:00'),
+(2345, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Atentie: - (1), P (1), + (1)', 'evaluation', 'client1111', '2025-11-23 14:13:00'),
+(2346, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Atentie: 0 (1), - (1), P (1), + (1)', 'evaluation', 'client1111', '2025-11-23 14:13:01'),
+(2347, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Asteapta: 0 (1), - (2), P (1), + (1)', 'evaluation', 'client1111', '2025-11-23 14:13:02'),
+(2348, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Atentie: 0 (1), - (2), P (1), + (1)', 'evaluation', 'client1111', '2025-11-23 14:13:02'),
+(2349, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Asteapta: 0 (1), - (2), P (2), + (1)', 'evaluation', 'client1111', '2025-11-23 14:13:03'),
+(2350, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Asteapta: 0 (1), - (2), P (3), + (1)', 'evaluation', 'client1111', '2025-11-23 14:13:03'),
+(2351, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Atentie: 0 (1), - (2), P (2), + (1)', 'evaluation', 'client1111', '2025-11-23 14:13:03'),
+(2352, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Atentie: 0 (1), - (2), P (3), + (1)', 'evaluation', 'client1111', '2025-11-23 14:13:04'),
+(2353, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Asteapta: 0 (1), - (2), P (3), + (2)', 'evaluation', 'client1111', '2025-11-23 14:13:04'),
+(2354, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Asteapta: 0 (1), - (2), P (3), + (3)', 'evaluation', 'client1111', '2025-11-23 14:13:04'),
+(2355, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Asteapta: 0 (1), - (2), P (3), + (4)', 'evaluation', 'client1111', '2025-11-23 14:13:05'),
+(2356, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Atentie: 0 (1), - (2), P (3), + (2)', 'evaluation', 'client1111', '2025-11-23 14:13:05'),
+(2357, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Atentie: 0 (1), - (2), P (3), + (3)', 'evaluation', 'client1111', '2025-11-23 14:13:06'),
+(2358, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Atentie: 0 (1), - (2), P (3), + (4)', 'evaluation', 'client1111', '2025-11-23 14:13:06'),
+(2359, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Cauzalitatea emotiilor: 0 (1), P (1)', 'evaluation', 'client1111', '2025-11-23 14:13:07'),
+(2360, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Cauzalitatea emotiilor: 0 (1), - (1), P (1)', 'evaluation', 'client1111', '2025-11-23 14:13:08'),
+(2361, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Cauzalitatea emotiilor: 0 (1), - (2), P (1)', 'evaluation', 'client1111', '2025-11-23 14:13:09');
+INSERT INTO `activities` (`id`, `user_id`, `user_name`, `action`, `details`, `action_type`, `related_id`, `created_at`) VALUES
+(2362, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Cauzalitatea emotiilor: 0 (1), - (2), P (2)', 'evaluation', 'client1111', '2025-11-23 14:13:09'),
+(2363, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Cauzalitatea emotiilor: 0 (1), - (2), P (3)', 'evaluation', 'client1111', '2025-11-23 14:13:09'),
+(2364, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Cauzalitatea emotiilor: 0 (1), - (2), P (3), + (1)', 'evaluation', 'client1111', '2025-11-23 14:13:10'),
+(2365, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Cauzalitatea emotiilor: 0 (1), - (2), P (3), + (2)', 'evaluation', 'client1111', '2025-11-23 14:13:10'),
+(2366, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Cauzalitatea emotiilor: 0 (1), - (2), P (3), + (3)', 'evaluation', 'client1111', '2025-11-23 14:13:10'),
+(2367, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Cauzalitatea emotiilor: 0 (1), - (2), P (3), + (4)', 'evaluation', 'client1111', '2025-11-23 14:13:11'),
+(2368, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Colorat/Desenat: 0 (1)', 'evaluation', 'client1111', '2025-11-23 14:13:12'),
+(2369, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Colorat/Desenat: 0 (1), - (1)', 'evaluation', 'client1111', '2025-11-23 14:13:12'),
+(2370, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Colorat/Desenat: 0 (1), - (2)', 'evaluation', 'client1111', '2025-11-23 14:13:12'),
+(2371, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Colorat/Desenat: 0 (1), - (2), P (1)', 'evaluation', 'client1111', '2025-11-23 14:13:13'),
+(2372, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Colorat/Desenat: 0 (1), - (2), P (2)', 'evaluation', 'client1111', '2025-11-23 14:13:13'),
+(2373, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Colorat/Desenat: 0 (1), - (2), P (3)', 'evaluation', 'client1111', '2025-11-23 14:13:13'),
+(2374, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Colorat/Desenat: 0 (1), - (2), P (3), + (1)', 'evaluation', 'client1111', '2025-11-23 14:13:14'),
+(2375, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Colorat/Desenat: 0 (1), - (2), P (3), + (2)', 'evaluation', 'client1111', '2025-11-23 14:13:14'),
+(2376, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Colorat/Desenat: 0 (1), - (2), P (3), + (3)', 'evaluation', 'client1111', '2025-11-23 14:13:14'),
+(2377, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Colorat/Desenat: 0 (1), - (2), P (3), + (4)', 'evaluation', 'client1111', '2025-11-23 14:13:15'),
+(2378, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Comunicare si limbaj: 0 (1)', 'evaluation', 'client1111', '2025-11-23 14:13:15'),
+(2379, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Comunicare si limbaj: 0 (1), - (1)', 'evaluation', 'client1111', '2025-11-23 14:13:16'),
+(2380, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Comunicare si limbaj: 0 (1), - (2)', 'evaluation', 'client1111', '2025-11-23 14:13:16'),
+(2381, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Comunicare si limbaj: 0 (1), - (2), P (1)', 'evaluation', 'client1111', '2025-11-23 14:13:17'),
+(2382, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Comunicare si limbaj: 0 (1), - (2), P (2)', 'evaluation', 'client1111', '2025-11-23 14:13:17'),
+(2383, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Comunicare si limbaj: 0 (1), - (2), P (3)', 'evaluation', 'client1111', '2025-11-23 14:13:17'),
+(2384, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Comunicare si limbaj: 0 (1), - (2), P (3), + (1)', 'evaluation', 'client1111', '2025-11-23 14:13:17'),
+(2385, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Comunicare si limbaj: 0 (1), - (2), P (3), + (2)', 'evaluation', 'client1111', '2025-11-23 14:13:18'),
+(2386, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Comunicare si limbaj: 0 (1), - (2), P (3), + (3)', 'evaluation', 'client1111', '2025-11-23 14:13:18'),
+(2387, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Comunicare si limbaj: 0 (1), - (2), P (3), + (4)', 'evaluation', 'client1111', '2025-11-23 14:13:18'),
+(2388, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Conversatie: 0 (1)', 'evaluation', 'client1111', '2025-11-23 14:13:19'),
+(2389, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Conversatie: 0 (1), - (1)', 'evaluation', 'client1111', '2025-11-23 14:13:20'),
+(2390, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Conversatie: 0 (1), - (2)', 'evaluation', 'client1111', '2025-11-23 14:13:20'),
+(2391, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Conversatie: 0 (1), - (2), P (1)', 'evaluation', 'client1111', '2025-11-23 14:13:20'),
+(2392, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Conversatie: 0 (1), - (2), P (2)', 'evaluation', 'client1111', '2025-11-23 14:13:21'),
+(2393, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Conversatie: 0 (1), - (2), P (3)', 'evaluation', 'client1111', '2025-11-23 14:13:21'),
+(2394, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Conversatie: 0 (1), - (2), P (3), + (1)', 'evaluation', 'client1111', '2025-11-23 14:13:21'),
+(2395, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Conversatie: 0 (1), - (2), P (3), + (2)', 'evaluation', 'client1111', '2025-11-23 14:13:21'),
+(2396, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Conversatie: 0 (1), - (2), P (3), + (3)', 'evaluation', 'client1111', '2025-11-23 14:13:22'),
+(2397, 'stefan', 'Stefan', 'a actualizat o evaluare', 'Client test 1 - Conversatie: 0 (1), - (2), P (3), + (4)', 'evaluation', 'client1111', '2025-11-23 14:13:22'),
+(2398, 'stefan', 'Stefan', 'a actualizat eveniment', 'Terapie - Client test 1', 'event', '2025-11-14', '2025-11-23 14:13:23'),
+(2399, 'stefan', 'Stefan', 'a actualizat eveniment', 'Terapie - Client test 1', 'event', '2025-11-14', '2025-11-23 14:13:36');
 
 -- --------------------------------------------------------
 
@@ -2484,7 +2580,7 @@ INSERT INTO `clients` (`id`, `name`, `email`, `phone`, `birthDate`, `medical`, `
 ('stefan6428', 'Stefan Negru', '', '0767899093', '2019-04-06', 'fara alergii, fara medicatie', 0),
 ('suditu1912', 'Suditu Eric Cristian', '', '', '2022-12-19', '', 0),
 ('teri8813', 'Ionescu Ecaterina ', '', '0724521559', NULL, 'fara alergii, fara medicatie', 0),
-('test2202', 'test', '', '', '2022-02-22', '', 0),
+('test2202', 'test', '', '', '2024-02-22', '', 0),
 ('tom0903', 'Tom Andrei Potecaru', '', '0761752718', '2022-03-09', 'fara alergii, fara medicatie', 0),
 ('toma0910', 'Toma Ioan Budulus', '', '0730570097', '2018-10-09', '', 0),
 ('toni1505', 'Toni (Antonie-Ioan) Dumitru', '', '', '2020-05-15', 'Rispolept', 0),
@@ -2544,7 +2640,7 @@ CREATE TABLE `events` (
 
 INSERT INTO `events` (`id`, `name`, `details`, `type`, `date`, `startTime`, `duration`, `isPublic`, `isBillable`, `repeating_json`, `comments`, `attendance`) VALUES
 ('evt1762380491850bmgugzj9t', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-10', '14:00', 60, 0, 1, '[]', '', '[]'),
-('evt1762380491850d87sufkls', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-17', '14:00', 60, 0, 1, '[]', NULL, '{}'),
+('evt1762380491850d87sufkls', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-17', '14:00', 60, 0, 1, '[]', NULL, '[]'),
 ('evt1762380491850pldo8kx3b', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-03', '14:00', 60, 0, 1, '[1]', '', '[]'),
 ('evt1762380491850rq96xong7', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-24', '14:00', 60, 0, 1, '[1]', NULL, '[]'),
 ('evt17623805185481h9gyx5s7', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-03', '15:00', 60, 0, 1, '[1]', NULL, '[]'),
@@ -2554,7 +2650,7 @@ INSERT INTO `events` (`id`, `name`, `details`, `type`, `date`, `startTime`, `dur
 ('evt1762380543132jwccciaix', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-25', '14:00', 60, 0, 1, '[2]', NULL, '[]'),
 ('evt1762380543132nelu3xquy', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-04', '14:00', 60, 0, 1, '[2]', '', '[]'),
 ('evt1762380543132yt8e6h1rx', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-18', '14:00', 60, 0, 1, '[]', '', '[]'),
-('evt17623805750226u9ug61ac', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-18', '15:00', 60, 0, 1, '[]', NULL, '{}'),
+('evt17623805750226u9ug61ac', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-18', '15:00', 60, 0, 1, '[]', NULL, '[]'),
 ('evt1762380575022jfudror5r', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-11', '15:00', 60, 0, 1, '[2]', NULL, '[]'),
 ('evt1762380575022wp2jgzl6s', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-04', '15:00', 60, 0, 1, '[2]', '', '[]'),
 ('evt1762380575022wtljub441', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-25', '15:00', 60, 0, 1, '[2]', NULL, '[]'),
@@ -2563,7 +2659,7 @@ INSERT INTO `events` (`id`, `name`, `details`, `type`, `date`, `startTime`, `dur
 ('evt1762380621146z9pnr92u5', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-05', '15:00', 60, 0, 1, '[3]', NULL, '[]'),
 ('evt1762380655077dvr4yu2oh', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-06', '14:00', 60, 0, 1, '[4]', NULL, '[]'),
 ('evt1762380655077hb39f2g0b', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-13', '14:00', 60, 0, 1, '[4]', NULL, '[]'),
-('evt1762380655077x950vuxmu', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-20', '14:00', 60, 0, 1, '[]', NULL, '{}'),
+('evt1762380655077x950vuxmu', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-20', '14:00', 60, 0, 1, '[]', NULL, '[]'),
 ('evt1762380655077z8fmsipjg', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-27', '14:00', 60, 0, 1, '[4]', NULL, '[]'),
 ('evt17623806763150aast9717', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-27', '15:00', 60, 0, 1, '[4]', NULL, '[]'),
 ('evt17623806763154yiozi4zv', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-13', '15:00', 60, 0, 1, '[4]', '', '[]'),
@@ -2629,7 +2725,7 @@ INSERT INTO `events` (`id`, `name`, `details`, `type`, `date`, `startTime`, `dur
 ('evt1762383662439lskj20g85', 'Terapie - Adelina Maria Laura Letu', NULL, 'therapy', '2025-11-24', '17:00', 60, 0, 1, '[1]', NULL, '[]'),
 ('evt1762383662439stglyuqzz', 'Terapie - Adelina Maria Laura Letu', NULL, 'therapy', '2025-11-03', '17:00', 60, 0, 1, '[1]', NULL, '[]'),
 ('evt17623841024433iy8cq1f9', 'Terapie - Ana Maria Zamfir', NULL, 'therapy', '2025-11-03', '17:00', 60, 0, 1, '[1]', NULL, '[]'),
-('evt17623841024436vs5ibk79', 'Terapie - Ana Maria Zamfir', NULL, 'therapy', '2025-11-17', '17:00', 60, 0, 1, '[]', NULL, '{}'),
+('evt17623841024436vs5ibk79', 'Terapie - Ana Maria Zamfir', NULL, 'therapy', '2025-11-17', '17:00', 60, 0, 1, '[]', NULL, '[]'),
 ('evt1762384102443p047kd4a9', 'Terapie de grup - Ana Maria Zamfir si Adelina Maria Laura Letu', NULL, 'group-therapy', '2025-11-10', '17:00', 60, 0, 1, '[]', '', '[]'),
 ('evt1762384102443vd9pcx7v1', 'Terapie - Ana Maria Zamfir', NULL, 'therapy', '2025-11-24', '17:00', 60, 0, 1, '[1]', NULL, '[]'),
 ('evt1762418352470d8gmkvui0', 'Terapie - David Marian Burticel', NULL, 'therapy', '2025-11-25', '14:00', 60, 0, 1, '[2]', NULL, '[]'),
@@ -2657,7 +2753,7 @@ INSERT INTO `events` (`id`, `name`, `details`, `type`, `date`, `startTime`, `dur
 ('evt1762419152738kadiu5o3b', 'Terapie - Tudor Condruc', NULL, 'therapy', '2025-11-04', '11:00', 60, 0, 1, '[2]', '', '[]'),
 ('evt1762419152738p4syew1ch', 'Terapie - Tudor Condruc', NULL, 'therapy', '2025-11-18', '11:00', 60, 0, 1, '[]', '', '{\"tudor0107\":\"present\"}'),
 ('evt1762419178326abg2xl8s0', 'Terapie - Mathias Alexandru Staicu', NULL, 'therapy', '2025-11-04', '14:00', 60, 0, 1, '[2]', NULL, '[]'),
-('evt1762419178326ahmgg94vd', 'Terapie - Mathias Alexandru Staicu', NULL, 'therapy', '2025-11-18', '14:00', 60, 0, 1, '[]', NULL, '{}'),
+('evt1762419178326ahmgg94vd', 'Terapie - Mathias Alexandru Staicu', NULL, 'therapy', '2025-11-18', '14:00', 60, 0, 1, '[]', NULL, '[]'),
 ('evt1762419178326bxghcp690', 'Terapie - Mathias Alexandru Staicu', NULL, 'therapy', '2025-11-11', '14:00', 60, 0, 1, '[2]', NULL, '[]'),
 ('evt1762419178326lzdn2z4ex', 'Terapie - Mathias Alexandru Staicu', NULL, 'therapy', '2025-11-25', '14:00', 60, 0, 1, '[2]', NULL, '[]'),
 ('evt17624192135988tc8uhbip', 'Terapie - Adelina Maria Laura Letu', NULL, 'therapy', '2025-11-04', '17:00', 60, 0, 1, '[2]', NULL, '[]'),
@@ -2666,7 +2762,7 @@ INSERT INTO `events` (`id`, `name`, `details`, `type`, `date`, `startTime`, `dur
 ('evt1762419213598im90yd9sm', 'Terapie - Adelina Maria Laura Letu', NULL, 'therapy', '2025-11-11', '17:00', 60, 0, 1, '[2]', '', '[]'),
 ('evt176242059479769vidxumu', 'Terapie - Valentin Alexandru Rimbu', NULL, 'therapy', '2025-11-04', '10:00', 60, 0, 1, '[2]', '', '[]'),
 ('evt17624205947979rb19zoiz', 'Terapie - Valentin Alexandru Rimbu', NULL, 'therapy', '2025-11-25', '10:00', 60, 0, 1, '[2]', NULL, '[]'),
-('evt1762420594797cs40i3zzb', 'Terapie - Valentin Alexandru Rimbu', NULL, 'therapy', '2025-11-18', '10:00', 60, 0, 1, '[]', '', '{}'),
+('evt1762420594797cs40i3zzb', 'Terapie - Valentin Alexandru Rimbu', NULL, 'therapy', '2025-11-18', '10:00', 60, 0, 1, '[]', '', '[]'),
 ('evt1762420594797t89ryc8u5', 'Terapie - Valentin Alexandru Rimbu', NULL, 'therapy', '2025-11-11', '10:00', 60, 0, 1, '[2]', NULL, '[]'),
 ('evt176242062069192l4lusms', 'Terapie - Matei Serban Curelea', NULL, 'therapy', '2025-11-18', '12:00', 60, 0, 1, '[2]', NULL, '[]'),
 ('evt1762420620691gng3t2a77', 'Terapie - Matei Serban Curelea', NULL, 'therapy', '2025-11-25', '12:00', 60, 0, 1, '[2]', NULL, '[]'),
@@ -2801,11 +2897,11 @@ INSERT INTO `events` (`id`, `name`, `details`, `type`, `date`, `startTime`, `dur
 ('evt1762636134014eux160ih8', 'logopedie - Aurora Sophia Alexe', NULL, 'logopedie', '2025-11-17', '18:00', 60, 0, 1, '[1]', '', '[]'),
 ('evt1762636134014j75zbjpa9', 'logopedie - Aurora Sophia Alexe', NULL, 'logopedie', '2025-11-10', '18:00', 60, 0, 1, '[1]', NULL, '[]'),
 ('evt1762636134014j7agymrpv', 'logopedie - Aurora Sophia Alexe', NULL, 'logopedie', '2025-11-24', '18:00', 60, 0, 1, '[1]', NULL, '[]'),
-('evt1762636224850o77xfe08x', 'Terapie - Eve', NULL, 'therapy', '2025-11-17', '15:00', 60, 0, 1, '[]', NULL, '{}'),
+('evt1762636224850o77xfe08x', 'Terapie - Eve', NULL, 'therapy', '2025-11-17', '15:00', 60, 0, 1, '[]', NULL, '[]'),
 ('evt1762636224850y6nsainag', 'Terapie - Eve', NULL, 'therapy', '2025-11-24', '15:00', 60, 0, 1, '[1]', NULL, '[]'),
 ('evt1762636292436cek1aeo02', 'Logopedie - Selin Cosman', NULL, 'logopedie', '2025-11-25', '12:00', 60, 0, 0, '[2]', NULL, '[]'),
 ('evt1762636292436gk5k8z7c0', 'Logopedie - Selin Cosman', NULL, 'logopedie', '2025-11-11', '12:00', 60, 0, 0, '[2]', NULL, '[]'),
-('evt1762636292436kxbvz7x7p', 'Logopedie - Selin Cosman', NULL, 'logopedie', '2025-11-18', '12:00', 60, 0, 0, '[]', NULL, '{}'),
+('evt1762636292436kxbvz7x7p', 'Logopedie - Selin Cosman', NULL, 'logopedie', '2025-11-18', '12:00', 60, 0, 0, '[]', NULL, '[]'),
 ('evt1762636343158h5gkdyol0', 'Terapie - Braileanu Fabian Gabriel', NULL, 'therapy', '2025-11-25', '16:00', 60, 0, 1, '[2]', NULL, '[]'),
 ('evt1762636343158z3z78c84a', 'Terapie - Braileanu Fabian Gabriel', NULL, 'therapy', '2025-11-11', '16:00', 60, 0, 1, '[2]', '', '[]'),
 ('evt17626364077155gwrbq2sz', 'Logopedie - Selin Cosman', NULL, 'logopedie', '2025-11-25', '11:00', 60, 0, 0, '[2]', NULL, '[]'),
@@ -2836,10 +2932,10 @@ INSERT INTO `events` (`id`, `name`, `details`, `type`, `date`, `startTime`, `dur
 ('evt1762637654609nor01qrhv', 'Dezvoltare personala - Robert Mark Oliver Timofte', NULL, 'dezvoltare-personala', '2025-11-19', '18:00', 60, 0, 1, '[3]', NULL, '[]'),
 ('evt176263772672043b0acxf4', 'Terapie - Suteu Iana Florentina Irina', NULL, 'therapy', '2025-11-12', '10:00', 60, 0, 1, '[3]', NULL, '[]'),
 ('evt1762637726720fiu9ugvvn', 'Terapie - Suteu Iana Florentina Irina', NULL, 'therapy', '2025-11-26', '10:00', 60, 0, 1, '[3]', NULL, '[]'),
-('evt1762637726720oj0a2za0p', 'Terapie - Suteu Iana Florentina Irina', NULL, 'therapy', '2025-11-19', '10:00', 60, 0, 1, '[]', NULL, '{}'),
+('evt1762637726720oj0a2za0p', 'Terapie - Suteu Iana Florentina Irina', NULL, 'therapy', '2025-11-19', '10:00', 60, 0, 1, '[]', NULL, '[]'),
 ('evt17626378833348rll4b3bg', 'Terapie - Suteu Iana Florentina Irina', NULL, 'therapy', '2025-11-12', '09:00', 60, 0, 1, '[]', '', '[]'),
 ('evt1762637883334hvavbfwrj', 'Terapie - Suteu Iana Florentina Irina', NULL, 'therapy', '2025-11-26', '09:00', 60, 0, 1, '[3]', NULL, '[]'),
-('evt1762637883334ofg1wq8a3', 'Terapie - Suteu Iana Florentina Irina', NULL, 'therapy', '2025-11-19', '09:00', 60, 0, 1, '[]', NULL, '{}'),
+('evt1762637883334ofg1wq8a3', 'Terapie - Suteu Iana Florentina Irina', NULL, 'therapy', '2025-11-19', '09:00', 60, 0, 1, '[]', NULL, '[]'),
 ('evt1762637972340o8pz89gra', 'Terapie - Gabriela Cristiana Maria Cozma', NULL, 'therapy', '2025-11-26', '09:00', 60, 0, 1, '[3]', '', '[]'),
 ('evt1762637972340sbgqc6h6c', 'Terapie - Gabriela Cristiana Maria Cozma', NULL, 'therapy', '2025-11-19', '09:00', 60, 0, 1, '[3]', '', '{\"gabriela0307\":\"absent-motivated\"}'),
 ('evt1762637972340umvfl4kr7', 'Terapie - Gabriela Cristiana Maria Cozma', NULL, 'therapy', '2025-11-12', '09:00', 60, 0, 1, '[]', '', '[]'),
@@ -2872,7 +2968,7 @@ INSERT INTO `events` (`id`, `name`, `details`, `type`, `date`, `startTime`, `dur
 ('evt1762639480133av3nw2owf', 'Terapie - Mirela Teodora Minu Popa', NULL, 'therapy', '2025-11-28', '16:00', 60, 0, 1, '[5]', NULL, '[]'),
 ('evt17627667091820mgze9zvf', 'Terapie - Zian Matei Vlad', NULL, 'therapy', '2025-11-26', '10:00', 60, 0, 1, '[3]', NULL, '{\"zian2206\":\"present\"}'),
 ('evt1762766709182934ihyzly', 'Terapie - Zian Matei Vlad', NULL, 'therapy', '2025-11-12', '10:00', 60, 0, 1, '[]', '', '[]'),
-('evt1762766709182z7e6n6wrz', 'Terapie - Zian Matei Vlad', NULL, 'therapy', '2025-11-19', '10:00', 60, 0, 1, '[]', NULL, '{}'),
+('evt1762766709182z7e6n6wrz', 'Terapie - Zian Matei Vlad', NULL, 'therapy', '2025-11-19', '10:00', 60, 0, 1, '[]', NULL, '[]'),
 ('evt176276685681159eua3e99', 'Terapie - Gabriela Cristiana Maria Cozma', NULL, 'therapy', '2025-11-19', '10:00', 60, 0, 1, '[3]', '', '{\"gabriela0307\":\"absent-motivated\"}'),
 ('evt17627668568116mnu0t2a5', 'Terapie - Gabriela Cristiana Maria Cozma', NULL, 'therapy', '2025-11-12', '10:00', 60, 0, 1, '[3]', NULL, '{\"gabriela0307\":\"present\"}'),
 ('evt1762766856811p2x6dbfaj', 'Terapie - Gabriela Cristiana Maria Cozma', NULL, 'therapy', '2025-11-26', '10:00', 60, 0, 1, '[3]', NULL, '{\"gabriela0307\":\"present\"}'),
@@ -2892,7 +2988,7 @@ INSERT INTO `events` (`id`, `name`, `details`, `type`, `date`, `startTime`, `dur
 ('evt1762768242939u191b9mg7', 'Terapie - Selin Cosman', NULL, 'therapy', '2025-11-21', '14:00', 60, 0, 1, '[5]', NULL, '{\"selin7002\":\"present\"}'),
 ('evt17627683720536mdortypx', 'Terapie - Ahmadi Adrin', NULL, 'therapy', '2025-11-28', '15:00', 60, 0, 1, '[5]', NULL, '{\"ahmadi2006\":\"present\"}'),
 ('evt1762768372053bpdg6ml7b', 'Terapie - Ahmadi Adrin', NULL, 'therapy', '2025-11-14', '15:00', 60, 0, 1, '[]', '', '[]'),
-('evt1762768372053v369l2tid', 'Terapie - Ahmadi Adrin', NULL, 'therapy', '2025-11-21', '15:00', 60, 0, 1, '[5]', NULL, '{\"ahmadi2006\":\"present\"}'),
+('evt1762768372053v369l2tid', 'Terapie - Ahmadi Adrin', NULL, 'therapy', '2025-11-21', '15:00', 60, 0, 1, '[5]', '', '{\"ahmadi2006\":\"absent\"}'),
 ('evt17627684193015p1i4e8kj', 'Terapie - Ahmadi Adrin', NULL, 'therapy', '2025-11-28', '16:00', 60, 0, 1, '[5]', NULL, '{\"ahmadi2006\":\"present\"}'),
 ('evt1762769448409eysxxp6tr', 'logopedie - Gabriela Cristiana Maria Cozma', NULL, 'logopedie', '2025-11-10', '09:00', 60, 0, 1, '[]', '', '{\"gabriela0307\":\"present\"}'),
 ('evt1762779774582sky14yk4e', 'Terapie - Eve', NULL, 'therapy', '2025-11-10', '14:00', 60, 0, 1, '[]', '', '{\"eve2345\":\"present\"}'),
@@ -3486,21 +3582,20 @@ INSERT INTO `events` (`id`, `name`, `details`, `type`, `date`, `startTime`, `dur
 ('evt17631177697547617n322a', 'Terapie - Medeea Ana Gabrielea Anghel', NULL, 'therapy', '2025-11-28', '12:00', 60, 0, 1, '[5]', NULL, '{\"medeea1611\":\"present\"}'),
 ('evt1763117769754uz6sz2vbb', 'Terapie - Medeea Ana Gabrielea Anghel', NULL, 'therapy', '2025-11-14', '12:00', 60, 0, 1, '[5]', NULL, '{\"medeea1611\":\"present\"}'),
 ('evt1763117889612wqje452vf', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-14', '13:00', 60, 0, 1, '[]', NULL, '{\"cezar1802\":\"present\"}'),
-('evt1763121427492mzj3e535e', 'terapie', NULL, 'therapy', '2025-11-19', '10:00', 60, 0, 1, '[3]', '', '[]'),
-('evt1763121427493bqz3fwpb2', 'terapie', NULL, 'therapy', '2025-11-26', '10:00', 60, 0, 1, '[3]', '', '[]'),
+('evt1763121427492mzj3e535e', 'terapie', NULL, 'dezvoltare-personala', '2025-11-19', '10:00', 60, 0, 1, '[3]', '', '[]'),
+('evt1763121427493bqz3fwpb2', 'terapie', NULL, 'dezvoltare-personala', '2025-11-26', '10:00', 60, 0, 1, '[3]', '', '[]'),
 ('evt1763121940610s4c9s6fdl', 'psihoterapie', NULL, 'psihoterapie', '2025-11-17', '12:00', 60, 0, 1, '[]', 'sedinta a fost despre stima si incredere de sine scazute. vrfea sa renunte la relatie chiar daca o iubeste mult.', '[]'),
-('evt1763122203874cgeecefhm', 'Terapie - Ahmadi Adrin', NULL, 'therapy', '2025-11-21', '14:00', 60, 0, 1, '[5]', NULL, '{\"ahmadi2006\":\"present\"}'),
+('evt1763122203874cgeecefhm', 'Terapie - Ahmadi Adrin', NULL, 'therapy', '2025-11-21', '14:00', 60, 0, 1, '[5]', '', '{\"ahmadi2006\":\"absent\"}'),
 ('evt1763122203874fu3s7rq0t', 'Terapie - Ahmadi Adrin', NULL, 'therapy', '2025-11-28', '14:00', 60, 0, 1, '[5]', NULL, '{\"ahmadi2006\":\"present\"}'),
 ('evt1763122203874me3l54ajx', 'Terapie - Ahmadi Adrin', NULL, 'therapy', '2025-11-14', '14:00', 60, 0, 1, '[]', '', '{\"ahmadi2006\":\"present\"}'),
 ('evt1763122459891yetqmyn3f', 'Terapie - Selin Cosman', NULL, 'therapy', '2025-11-14', '14:00', 60, 0, 0, '[5]', '', '{\"selin7002\":\"present\"}'),
-('evt1763158560265bpoq1lkca', 'Terapie - Client test 1', NULL, 'therapy', '2025-11-14', '08:00', 60, 0, 1, '[]', NULL, '{\"client1111\":\"present\"}'),
+('evt1763158560265bpoq1lkca', 'Terapie - Client test 1', NULL, 'therapy', '2025-11-14', '08:00', 60, 0, 1, '[]', 'notita test', '{}'),
 ('evt1763372958172a90xd5ts2', 'Logopedie - Suditu Eric Cristian', NULL, 'logopedie', '2025-11-19', '16:00', 60, 0, 1, '[]', NULL, '{\"suditu1912\":\"present\"}'),
 ('evt1763375074774so3q8onft', 'Terapie - Client test 1', NULL, 'therapy', '2025-11-17', '08:00', 60, 0, 1, '[]', NULL, '{\"client1111\":\"present\"}'),
 ('evt17633750931379gjclvkn0', 'Terapie - Client test 1', NULL, 'therapy', '2025-11-17', '08:00', 60, 0, 1, '[]', '', '{\"client1111\":\"present\"}'),
 ('evt1763381521768mzlk6e13m', 'Logopedie - Ahmadi Adrin', NULL, 'logopedie', '2025-11-20', '15:00', 60, 0, 1, '[]', NULL, '{\"ahmadi2006\":\"present\"}'),
 ('evt176338163640578r1h9mzr', 'Terapie de grup - Ahmadi Adrin si Tom Andrei Potecaru', NULL, 'group-therapy', '2025-11-20', '16:00', 60, 0, 1, '[]', '', '{\"ahmadi2006\":\"present\",\"tom0903\":\"present\"}'),
-('evt17633857322539atmw40aa', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-17', '15:00', 60, 0, 1, '[]', NULL, '{}'),
-('evt1763385732254kajpiju8b', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-24', '15:00', 60, 0, 1, '[1]', NULL, '{\"cezar1802\":\"present\"}'),
+('evt17633857322539atmw40aa', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-17', '15:00', 60, 0, 1, '[]', NULL, '[]'),
 ('evt1763408168798y0ojrnx8h', 'Sedinta - Maher Kadour', NULL, 'sedinta', '2025-11-18', '09:00', 60, 0, 1, '[]', NULL, '{\"maher1110\":\"present\"}'),
 ('evt1763415801516h62gl46xv', 'gestiune acte', NULL, 'gestiune-acte', '2025-11-11', '15:00', 60, 0, 0, '[]', NULL, '[]'),
 ('evt17634158530636njsyl8mf', 'gestiune acte', NULL, 'gestiune-acte', '2025-11-11', '16:00', 60, 0, 0, '[]', NULL, '[]'),
@@ -3509,10 +3604,9 @@ INSERT INTO `events` (`id`, `name`, `details`, `type`, `date`, `startTime`, `dur
 ('evt17634571055201kaar6kw1', 'Terapie - Selin Cosman', NULL, 'therapy', '2025-11-18', '11:00', 60, 0, 0, '[2]', '', '{\"selin7002\":\"present\"}'),
 ('evt1763457105520rbuve08ja', 'Terapie - Selin Cosman', NULL, 'therapy', '2025-11-25', '11:00', 60, 0, 0, '[2]', NULL, '{\"selin7002\":\"present\"}'),
 ('evt1763458790307q41ol910a', 'evaluare', NULL, 'evaluare', '2025-11-26', '11:00', 60, 0, 1, '[]', NULL, '[]'),
-('evt1763461188332s5bes7793', 'evaluare', NULL, 'therapy', '2025-11-21', '09:00', 60, 0, 1, '[]', NULL, '[]'),
 ('evt1763469761296aewa9ua7e', 'Terapie - Braileanu Fabian Gabriel', NULL, 'therapy', '2025-11-18', '16:00', 60, 0, 1, '[2]', '', '{\"fabi3219\":\"present\"}'),
 ('evt1763469761296kpas6kinh', 'Terapie - Braileanu Fabian Gabriel', NULL, 'therapy', '2025-11-25', '16:00', 60, 0, 1, '[2]', NULL, '{\"fabi3219\":\"present\"}'),
-('evt1763469787495lq9w9tauf', 'Terapie - Suditu Eric Cristian', NULL, 'therapy', '2025-11-18', '16:00', 60, 0, 1, '[]', NULL, '{}'),
+('evt1763469787495lq9w9tauf', 'Terapie - Suditu Eric Cristian', NULL, 'therapy', '2025-11-18', '16:00', 60, 0, 1, '[]', NULL, '[]'),
 ('evt17634726991418hmytowam', 'Logopedie - Suditu Eric Cristian', NULL, 'logopedie', '2025-11-25', '15:00', 60, 0, 1, '[2]', NULL, '{\"suditu1912\":\"present\"}'),
 ('evt1763472699141pfj8kk4al', 'Logopedie - Suditu Eric Cristian', NULL, 'logopedie', '2025-11-18', '15:00', 60, 0, 1, '[]', '', '{\"suditu1912\":\"present\"}'),
 ('evt17635446353346fzq4fgl7', 'Terapie - Tudor Condruc', NULL, 'therapy', '2025-11-26', '11:00', 60, 0, 1, '[3]', NULL, '{\"tudor0107\":\"present\"}'),
@@ -3523,11 +3617,15 @@ INSERT INTO `events` (`id`, `name`, `details`, `type`, `date`, `startTime`, `dur
 ('evt17635539345662ptbxhvt2', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-26', '14:00', 60, 0, 1, '[3]', NULL, '{\"cezar1802\":\"present\"}'),
 ('evt1763553934566wr0jq2o13', 'Terapie - Cezar Casian Dinca', NULL, 'therapy', '2025-11-19', '14:00', 60, 0, 1, '[3]', NULL, '{\"cezar1802\":\"present\"}'),
 ('evt1763553965991jsg8rjj67', 'Terapie - David Marian Burticel', NULL, 'therapy', '2025-11-26', '15:00', 60, 0, 1, '[3]', NULL, '{\"david0610\":\"present\"}'),
-('evt1763584066241s9bmea5nv', 'Terapie - test', NULL, 'therapy', '2025-11-19', '08:00', 60, 0, 1, '[]', NULL, '{\"test2202\":\"present\"}'),
-('evt1763661525830wcpvg3uzq', 'Terapie - test', NULL, 'therapy', '2025-11-20', '08:00', 60, 0, 1, '[]', NULL, '{\"test2202\":\"present\"}'),
-('evt1763709209398myu5v7njk', 'Psihoterapie - Copaci Elisabeth Joy', NULL, 'psihoterapie', '2025-11-21', '12:00', 60, 0, 1, '[]', NULL, '{\"joy4567\":\"present\"}'),
+('evt1763709209398myu5v7njk', 'Psihoterapie - Copaci Elisabeth Joy', NULL, 'psihoterapie', '2025-11-21', '12:00', 60, 0, 1, '[]', NULL, '[]'),
 ('evt1763709389792o9d6byk4v', 'Terapie - Gabriela Cristiana Maria Cozma', NULL, 'therapy', '2025-11-28', '09:00', 60, 0, 1, '[5]', NULL, '{\"gabriela0307\":\"present\"}'),
-('evt1763709389792p9qvfeji9', 'Terapie - Gabriela Cristiana Maria Cozma', NULL, 'therapy', '2025-11-21', '09:00', 60, 0, 1, '[]', NULL, '{}'),
+('evt1763709389792p9qvfeji9', 'Terapie - Gabriela Cristiana Maria Cozma', NULL, 'therapy', '2025-11-21', '09:00', 60, 0, 1, '[]', NULL, '[]'),
+('evt1763719712991c8dhmatar', 'Terapie - Maria Ecaterina Lucaci', NULL, 'therapy', '2025-11-28', '16:00', 60, 0, 1, '[5]', NULL, '{\"maria1210\":\"present\"}'),
+('evt1763719712991z3mkqoein', 'Terapie - Maria Ecaterina Lucaci', NULL, 'therapy', '2025-11-21', '16:00', 60, 0, 1, '[5]', NULL, '{\"maria1210\":\"present\"}'),
+('evt17637197678079184gi0ox', 'Terapie - Medeea Ana Gabrielea Anghel', NULL, 'therapy', '2025-11-21', '12:00', 60, 0, 1, '[5]', NULL, '{\"medeea1611\":\"present\"}'),
+('evt1763719767807vsuqslkyv', 'Terapie - Medeea Ana Gabrielea Anghel', NULL, 'therapy', '2025-11-28', '12:00', 60, 0, 1, '[5]', NULL, '{\"medeea1611\":\"present\"}'),
+('evt17638831055817x7wmicut', 'stimulare verbala', NULL, 'logopedie', '2025-11-21', '09:00', 60, 0, 1, '[5]', NULL, '[]'),
+('evt1763883105581h7wjfy3i1', 'stimulare verbala', NULL, 'logopedie', '2025-11-28', '09:00', 60, 0, 1, '[5]', NULL, '[]'),
 ('test-valid-1763121479797', 'Test Valid Event', NULL, 'therapy', '2025-01-20', '10:00', 60, 0, 1, '[]', NULL, '[]');
 
 -- --------------------------------------------------------
@@ -4498,7 +4596,6 @@ INSERT INTO `event_clients` (`event_id`, `client_id`) VALUES
 ('evt176338163640578r1h9mzr', 'ahmadi2006'),
 ('evt176338163640578r1h9mzr', 'tom0903'),
 ('evt17633857322539atmw40aa', 'cezar1802'),
-('evt1763385732254kajpiju8b', 'cezar1802'),
 ('evt1763408168798y0ojrnx8h', 'maher1110'),
 ('evt17634166553120ck62aldv', 'cezar1802'),
 ('evt17634571055201kaar6kw1', 'selin7002'),
@@ -4516,11 +4613,12 @@ INSERT INTO `event_clients` (`event_id`, `client_id`) VALUES
 ('evt17635539345662ptbxhvt2', 'cezar1802'),
 ('evt1763553934566wr0jq2o13', 'cezar1802'),
 ('evt1763553965991jsg8rjj67', 'david0610'),
-('evt1763584066241s9bmea5nv', 'test2202'),
-('evt1763661525830wcpvg3uzq', 'test2202'),
-('evt1763709209398myu5v7njk', 'joy4567'),
 ('evt1763709389792o9d6byk4v', 'gabriela0307'),
-('evt1763709389792p9qvfeji9', 'gabriela0307');
+('evt1763709389792p9qvfeji9', 'gabriela0307'),
+('evt1763719712991c8dhmatar', 'maria1210'),
+('evt1763719712991z3mkqoein', 'maria1210'),
+('evt17637197678079184gi0ox', 'medeea1611'),
+('evt1763719767807vsuqslkyv', 'medeea1611');
 
 -- --------------------------------------------------------
 
@@ -5012,6 +5110,12 @@ INSERT INTO `event_programs` (`event_id`, `program_id`) VALUES
 ('evt1763122203874me3l54ajx', 'prog_6'),
 ('evt1763122203874me3l54ajx', 'prog_8'),
 ('evt1763122203874me3l54ajx', 'prog_potriviri'),
+('evt1763158560265bpoq1lkca', 'prog_13'),
+('evt1763158560265bpoq1lkca', 'prog_8'),
+('evt1763158560265bpoq1lkca', 'prog_cauzalitatea_emotiilor'),
+('evt1763158560265bpoq1lkca', 'prog_colorat_desenat'),
+('evt1763158560265bpoq1lkca', 'prog_comunicare_si_limbaj'),
+('evt1763158560265bpoq1lkca', 'prog_conversatie'),
 ('evt17633857322539atmw40aa', 'prog_8'),
 ('evt17633857322539atmw40aa', 'prog_cauzalitatea_emotiilor'),
 ('evt17633857322539atmw40aa', 'prog_colorat_desenat'),
@@ -5052,24 +5156,6 @@ INSERT INTO `event_programs` (`event_id`, `program_id`) VALUES
 ('evt1763544635334yrntbt6ns', 'prog_7'),
 ('evt1763544635334yrntbt6ns', 'prog_8'),
 ('evt1763544635334yrntbt6ns', 'prog_9'),
-('evt1763584066241s9bmea5nv', 'prog_1'),
-('evt1763584066241s9bmea5nv', 'prog_12'),
-('evt1763584066241s9bmea5nv', 'prog_13'),
-('evt1763584066241s9bmea5nv', 'prog_8'),
-('evt1763584066241s9bmea5nv', 'prog_9'),
-('evt1763584066241s9bmea5nv', 'prog_cauzalitatea_emotiilor'),
-('evt1763584066241s9bmea5nv', 'prog_tact'),
-('evt1763584066241s9bmea5nv', 'prog_transmitere_de_mesaj'),
-('evt1763584066241s9bmea5nv', 'prog_whq_in_povesti'),
-('evt1763661525830wcpvg3uzq', 'prog_1'),
-('evt1763661525830wcpvg3uzq', 'prog_12'),
-('evt1763661525830wcpvg3uzq', 'prog_13'),
-('evt1763661525830wcpvg3uzq', 'prog_8'),
-('evt1763661525830wcpvg3uzq', 'prog_9'),
-('evt1763661525830wcpvg3uzq', 'prog_cauzalitatea_emotiilor'),
-('evt1763661525830wcpvg3uzq', 'prog_tact'),
-('evt1763661525830wcpvg3uzq', 'prog_transmitere_de_mesaj'),
-('evt1763661525830wcpvg3uzq', 'prog_whq_in_povesti'),
 ('evt1763709389792p9qvfeji9', 'prog_1'),
 ('evt1763709389792p9qvfeji9', 'prog_11'),
 ('evt1763709389792p9qvfeji9', 'prog_13'),
@@ -6168,7 +6254,6 @@ INSERT INTO `event_team_members` (`event_id`, `team_member_id`) VALUES
 ('evt1763381521768mzlk6e13m', 'corina'),
 ('evt176338163640578r1h9mzr', 'corina'),
 ('evt17633857322539atmw40aa', 'dana'),
-('evt1763385732254kajpiju8b', 'dana'),
 ('evt1763408168798y0ojrnx8h', 'corina'),
 ('evt1763415801516h62gl46xv', 'dana'),
 ('evt17634158530636njsyl8mf', 'dana'),
@@ -6177,7 +6262,6 @@ INSERT INTO `event_team_members` (`event_id`, `team_member_id`) VALUES
 ('evt17634571055201kaar6kw1', 'dana'),
 ('evt1763457105520rbuve08ja', 'dana'),
 ('evt1763458790307q41ol910a', 'dana'),
-('evt1763461188332s5bes7793', 'corina'),
 ('evt1763469761296aewa9ua7e', 'dana'),
 ('evt1763469761296kpas6kinh', 'dana'),
 ('evt1763469787495lq9w9tauf', 'alexandra'),
@@ -6191,11 +6275,15 @@ INSERT INTO `event_team_members` (`event_id`, `team_member_id`) VALUES
 ('evt17635539345662ptbxhvt2', 'daniela'),
 ('evt1763553934566wr0jq2o13', 'daniela'),
 ('evt1763553965991jsg8rjj67', 'alexandra'),
-('evt1763584066241s9bmea5nv', 'stefan'),
-('evt1763661525830wcpvg3uzq', 'stefan'),
 ('evt1763709209398myu5v7njk', 'corina'),
 ('evt1763709389792o9d6byk4v', 'dana'),
-('evt1763709389792p9qvfeji9', 'dana');
+('evt1763709389792p9qvfeji9', 'dana'),
+('evt1763719712991c8dhmatar', 'corina'),
+('evt1763719712991z3mkqoein', 'corina'),
+('evt17637197678079184gi0ox', 'alexandra'),
+('evt1763719767807vsuqslkyv', 'alexandra'),
+('evt17638831055817x7wmicut', 'corina'),
+('evt1763883105581h7wjfy3i1', 'corina');
 
 -- --------------------------------------------------------
 
@@ -6300,7 +6388,7 @@ CREATE TABLE `logopedic_evaluations` (
 --
 
 INSERT INTO `logopedic_evaluations` (`id`, `client_id`, `eval_date`, `scores_json`, `comments`) VALUES
-(532, 'test2202', '2025-11-13', '{\"logo_A_init\":\"ad\",\"logo_A_med\":\"qw\",\"logo_A_fin\":\"rq\",\"logo_O_med\":\"ww\",\"logo_U_init\":\"wwq\"}', '');
+(542, 'test2202', '2025-11-13', '{\"logo_A_init\":\"ad\",\"logo_A_med\":\"qw\",\"logo_A_fin\":\"rq\",\"logo_O_med\":\"ww\",\"logo_U_init\":\"wwq\"}', '');
 
 -- --------------------------------------------------------
 
@@ -6320,7 +6408,7 @@ CREATE TABLE `monthly_themes` (
 --
 
 INSERT INTO `monthly_themes` (`id`, `client_id`, `month_key`, `theme_text`) VALUES
-(1503, 'cezar1802', '2025-11', 'test 2');
+(1513, 'cezar1802', '2025-11', 'test 2');
 
 -- --------------------------------------------------------
 
@@ -6394,16 +6482,16 @@ CREATE TABLE `portage_checked_items` (
 --
 
 INSERT INTO `portage_checked_items` (`id`, `client_id`, `domain`, `eval_date`, `checked_items_json`) VALUES
-(3831, 'test2202', 'Portrige - Limbaj', '2025-11-13', '[\"L_001\",\"L_002\",\"L_003\",\"L_004\",\"L_005\",\"L_006\",\"L_007\",\"L_008\",\"L_009\",\"L_010\",\"L_011\",\"L_012\",\"L_013\",\"L_014\",\"L_015\",\"L_016\",\"L_017\",\"L_018\",\"L_019\",\"L_020\",\"L_021\"]'),
-(3832, 'test2202', 'Portrige - Limbaj', '2026-11-13', '[\"L_001\",\"L_002\",\"L_003\",\"L_004\",\"L_005\",\"L_006\",\"L_007\",\"L_008\",\"L_009\",\"L_010\",\"L_011\",\"L_012\",\"L_013\",\"L_014\",\"L_015\",\"L_016\",\"L_017\",\"L_018\",\"L_019\",\"L_020\",\"L_021\",\"L_022\",\"L_023\",\"L_024\",\"L_025\",\"L_026\"]'),
-(3833, 'test2202', 'Portrige - Socializare', '2025-11-13', '[\"SO_001\",\"SO_002\",\"SO_003\",\"SO_004\",\"SO_005\",\"SO_006\",\"SO_007\",\"SO_008\",\"SO_009\",\"SO_010\",\"SO_011\",\"SO_012\",\"SO_013\",\"SO_014\",\"SO_015\",\"SO_016\",\"SO_017\",\"SO_018\",\"SO_019\",\"SO_020\",\"SO_021\",\"SO_022\",\"SO_023\",\"SO_024\",\"SO_025\",\"SO_026\",\"SO_027\",\"SO_028\",\"SO_029\",\"SO_030\",\"SO_031\",\"SO_032\",\"SO_033\",\"SO_034\",\"SO_035\",\"SO_036\",\"SO_037\",\"SO_038\",\"SO_039\",\"SO_040\",\"SO_041\",\"SO_042\",\"SO_043\",\"SO_044\"]'),
-(3834, 'test2202', 'Portrige - Socializare', '2026-11-13', '[\"SO_001\",\"SO_002\",\"SO_003\",\"SO_004\",\"SO_005\",\"SO_006\",\"SO_007\",\"SO_008\",\"SO_009\",\"SO_010\",\"SO_011\",\"SO_012\",\"SO_013\",\"SO_014\",\"SO_015\",\"SO_016\",\"SO_017\",\"SO_018\",\"SO_019\",\"SO_020\",\"SO_021\",\"SO_022\",\"SO_023\",\"SO_024\",\"SO_025\",\"SO_026\",\"SO_027\",\"SO_028\",\"SO_029\",\"SO_030\",\"SO_031\",\"SO_032\",\"SO_033\",\"SO_034\",\"SO_035\",\"SO_036\",\"SO_037\",\"SO_038\",\"SO_039\",\"SO_040\",\"SO_041\",\"SO_042\",\"SO_043\",\"SO_044\"]'),
-(3835, 'test2202', 'Portrige - Autoservire', '2025-11-13', '[\"AU_001\",\"AU_002\",\"AU_003\",\"AU_004\",\"AU_005\",\"AU_006\",\"AU_007\",\"AU_008\",\"AU_009\",\"AU_010\",\"AU_011\",\"AU_012\",\"AU_013\"]'),
-(3836, 'test2202', 'Portrige - Autoservire', '2026-11-13', '[\"AU_001\",\"AU_002\",\"AU_003\",\"AU_004\",\"AU_005\",\"AU_006\",\"AU_007\",\"AU_008\",\"AU_009\",\"AU_010\",\"AU_011\",\"AU_012\",\"AU_013\",\"AU_014\",\"AU_015\",\"AU_016\",\"AU_017\",\"AU_018\",\"AU_019\",\"AU_020\",\"AU_021\",\"AU_022\",\"AU_023\",\"AU_024\",\"AU_025\",\"AU_026\"]'),
-(3837, 'test2202', 'Portrige - Comportament cognitiv', '2025-11-13', '[\"CC_001\",\"CC_002\",\"CC_003\",\"CC_004\",\"CC_005\",\"CC_006\",\"CC_007\",\"CC_008\",\"CC_009\",\"CC_010\",\"CC_011\",\"CC_012\",\"CC_013\",\"CC_014\"]'),
-(3838, 'test2202', 'Portrige - Comportament cognitiv', '2026-11-13', '[\"CC_001\",\"CC_002\",\"CC_003\",\"CC_004\",\"CC_005\",\"CC_006\",\"CC_007\",\"CC_008\",\"CC_009\",\"CC_010\",\"CC_011\",\"CC_012\",\"CC_013\",\"CC_014\",\"CC_015\",\"CC_016\",\"CC_017\",\"CC_018\",\"CC_019\",\"CC_020\",\"CC_021\",\"CC_022\",\"CC_023\",\"CC_024\"]'),
-(3839, 'test2202', 'Portrige - Comportament motor', '2025-11-13', '[\"CM_001\",\"CM_002\",\"CM_003\",\"CM_004\",\"CM_005\",\"CM_006\",\"CM_007\",\"CM_008\",\"CM_009\",\"CM_010\",\"CM_011\",\"CM_012\",\"CM_013\",\"CM_014\",\"CM_015\",\"CM_016\",\"CM_017\",\"CM_018\",\"CM_019\",\"CM_020\",\"CM_021\",\"CM_022\",\"CM_023\",\"CM_024\",\"CM_025\",\"CM_026\",\"CM_027\",\"CM_028\",\"CM_029\",\"CM_030\",\"CM_031\",\"CM_032\",\"CM_033\",\"CM_034\",\"CM_035\",\"CM_036\",\"CM_037\",\"CM_038\",\"CM_039\",\"CM_040\",\"CM_041\",\"CM_042\",\"CM_043\",\"CM_044\",\"CM_045\"]'),
-(3840, 'test2202', 'Portrige - Comportament motor', '2026-11-13', '[\"CM_001\",\"CM_002\",\"CM_003\",\"CM_004\",\"CM_005\",\"CM_006\",\"CM_007\",\"CM_008\",\"CM_009\",\"CM_010\",\"CM_011\",\"CM_012\",\"CM_013\",\"CM_014\",\"CM_015\",\"CM_016\",\"CM_017\",\"CM_018\",\"CM_019\",\"CM_020\",\"CM_021\",\"CM_022\",\"CM_023\",\"CM_024\",\"CM_025\",\"CM_026\",\"CM_027\",\"CM_028\",\"CM_029\",\"CM_030\",\"CM_031\",\"CM_032\",\"CM_033\",\"CM_034\",\"CM_035\",\"CM_036\",\"CM_037\",\"CM_038\",\"CM_039\",\"CM_040\",\"CM_041\",\"CM_042\",\"CM_043\",\"CM_044\",\"CM_045\",\"CM_046\",\"CM_047\",\"CM_048\",\"CM_049\",\"CM_050\",\"CM_051\",\"CM_052\",\"CM_053\",\"CM_054\",\"CM_055\",\"CM_056\",\"CM_057\",\"CM_058\",\"CM_059\",\"CM_060\",\"CM_061\",\"CM_062\",\"CM_063\"]');
+(3931, 'test2202', 'Portrige - Limbaj', '2025-11-13', '[\"L_001\",\"L_002\",\"L_003\",\"L_004\",\"L_005\",\"L_006\",\"L_007\",\"L_008\",\"L_009\",\"L_010\",\"L_011\",\"L_012\",\"L_013\",\"L_014\",\"L_015\",\"L_016\",\"L_017\",\"L_018\",\"L_019\",\"L_020\",\"L_021\"]'),
+(3932, 'test2202', 'Portrige - Limbaj', '2026-11-13', '[\"L_001\",\"L_002\",\"L_003\",\"L_004\",\"L_005\",\"L_006\",\"L_007\",\"L_008\",\"L_009\",\"L_010\",\"L_011\",\"L_012\",\"L_013\",\"L_014\",\"L_015\",\"L_016\",\"L_017\",\"L_018\",\"L_019\",\"L_020\",\"L_021\",\"L_022\",\"L_023\",\"L_024\",\"L_025\",\"L_026\"]'),
+(3933, 'test2202', 'Portrige - Socializare', '2025-11-13', '[\"SO_001\",\"SO_002\",\"SO_003\",\"SO_004\",\"SO_005\",\"SO_006\",\"SO_007\",\"SO_008\",\"SO_009\",\"SO_010\",\"SO_011\",\"SO_012\",\"SO_013\",\"SO_014\",\"SO_015\",\"SO_016\",\"SO_017\",\"SO_018\",\"SO_019\",\"SO_020\",\"SO_021\",\"SO_022\",\"SO_023\",\"SO_024\",\"SO_025\",\"SO_026\",\"SO_027\",\"SO_028\",\"SO_029\",\"SO_030\",\"SO_031\",\"SO_032\",\"SO_033\",\"SO_034\",\"SO_035\",\"SO_036\",\"SO_037\",\"SO_038\",\"SO_039\",\"SO_040\",\"SO_041\",\"SO_042\",\"SO_043\",\"SO_044\"]'),
+(3934, 'test2202', 'Portrige - Socializare', '2026-11-13', '[\"SO_001\",\"SO_002\",\"SO_003\",\"SO_004\",\"SO_005\",\"SO_006\",\"SO_007\",\"SO_008\",\"SO_009\",\"SO_010\",\"SO_011\",\"SO_012\",\"SO_013\",\"SO_014\",\"SO_015\",\"SO_016\",\"SO_017\",\"SO_018\",\"SO_019\",\"SO_020\",\"SO_021\",\"SO_022\",\"SO_023\",\"SO_024\",\"SO_025\",\"SO_026\",\"SO_027\",\"SO_028\",\"SO_029\",\"SO_030\",\"SO_031\",\"SO_032\",\"SO_033\",\"SO_034\",\"SO_035\",\"SO_036\",\"SO_037\",\"SO_038\",\"SO_039\",\"SO_040\",\"SO_041\",\"SO_042\",\"SO_043\",\"SO_044\"]'),
+(3935, 'test2202', 'Portrige - Autoservire', '2025-11-13', '[\"AU_001\",\"AU_002\",\"AU_003\",\"AU_004\",\"AU_005\",\"AU_006\",\"AU_007\",\"AU_008\",\"AU_009\",\"AU_010\",\"AU_011\",\"AU_012\",\"AU_013\"]'),
+(3936, 'test2202', 'Portrige - Autoservire', '2026-11-13', '[\"AU_001\",\"AU_002\",\"AU_003\",\"AU_004\",\"AU_005\",\"AU_006\",\"AU_007\",\"AU_008\",\"AU_009\",\"AU_010\",\"AU_011\",\"AU_012\",\"AU_013\",\"AU_014\",\"AU_015\",\"AU_016\",\"AU_017\",\"AU_018\",\"AU_019\",\"AU_020\",\"AU_021\",\"AU_022\",\"AU_023\",\"AU_024\",\"AU_025\",\"AU_026\"]'),
+(3937, 'test2202', 'Portrige - Comportament cognitiv', '2025-11-13', '[\"CC_001\",\"CC_002\",\"CC_003\",\"CC_004\",\"CC_005\",\"CC_006\",\"CC_007\",\"CC_008\",\"CC_009\",\"CC_010\",\"CC_011\",\"CC_012\",\"CC_013\",\"CC_014\"]'),
+(3938, 'test2202', 'Portrige - Comportament cognitiv', '2026-11-13', '[\"CC_001\",\"CC_002\",\"CC_003\",\"CC_004\",\"CC_005\",\"CC_006\",\"CC_007\",\"CC_008\",\"CC_009\",\"CC_010\",\"CC_011\",\"CC_012\",\"CC_013\",\"CC_014\",\"CC_015\",\"CC_016\",\"CC_017\",\"CC_018\",\"CC_019\",\"CC_020\",\"CC_021\",\"CC_022\",\"CC_023\",\"CC_024\"]'),
+(3939, 'test2202', 'Portrige - Comportament motor', '2025-11-13', '[\"CM_001\",\"CM_002\",\"CM_003\",\"CM_004\",\"CM_005\",\"CM_006\",\"CM_007\",\"CM_008\",\"CM_009\",\"CM_010\",\"CM_011\",\"CM_012\",\"CM_013\",\"CM_014\",\"CM_015\",\"CM_016\",\"CM_017\",\"CM_018\",\"CM_019\",\"CM_020\",\"CM_021\",\"CM_022\",\"CM_023\",\"CM_024\",\"CM_025\",\"CM_026\",\"CM_027\",\"CM_028\",\"CM_029\",\"CM_030\",\"CM_031\",\"CM_032\",\"CM_033\",\"CM_034\",\"CM_035\",\"CM_036\",\"CM_037\",\"CM_038\",\"CM_039\",\"CM_040\",\"CM_041\",\"CM_042\",\"CM_043\",\"CM_044\",\"CM_045\"]'),
+(3940, 'test2202', 'Portrige - Comportament motor', '2026-11-13', '[\"CM_001\",\"CM_002\",\"CM_003\",\"CM_004\",\"CM_005\",\"CM_006\",\"CM_007\",\"CM_008\",\"CM_009\",\"CM_010\",\"CM_011\",\"CM_012\",\"CM_013\",\"CM_014\",\"CM_015\",\"CM_016\",\"CM_017\",\"CM_018\",\"CM_019\",\"CM_020\",\"CM_021\",\"CM_022\",\"CM_023\",\"CM_024\",\"CM_025\",\"CM_026\",\"CM_027\",\"CM_028\",\"CM_029\",\"CM_030\",\"CM_031\",\"CM_032\",\"CM_033\",\"CM_034\",\"CM_035\",\"CM_036\",\"CM_037\",\"CM_038\",\"CM_039\",\"CM_040\",\"CM_041\",\"CM_042\",\"CM_043\",\"CM_044\",\"CM_045\",\"CM_046\",\"CM_047\",\"CM_048\",\"CM_049\",\"CM_050\",\"CM_051\",\"CM_052\",\"CM_053\",\"CM_054\",\"CM_055\",\"CM_056\",\"CM_057\",\"CM_058\",\"CM_059\",\"CM_060\",\"CM_061\",\"CM_062\",\"CM_063\"]');
 
 -- --------------------------------------------------------
 
@@ -6424,16 +6512,16 @@ CREATE TABLE `portage_evaluations` (
 --
 
 INSERT INTO `portage_evaluations` (`id`, `client_id`, `domain`, `eval_date`, `score`) VALUES
-(14691, 'test2202', 'Portrige - Limbaj', '2025-11-13', 12),
-(14692, 'test2202', 'Portrige - Limbaj', '2026-11-13', 24),
-(14693, 'test2202', 'Portrige - Socializare', '2025-11-13', 24),
-(14694, 'test2202', 'Portrige - Socializare', '2026-11-13', 24),
-(14695, 'test2202', 'Portrige - Autoservire', '2025-11-13', 12),
-(14696, 'test2202', 'Portrige - Autoservire', '2026-11-13', 24),
-(14697, 'test2202', 'Portrige - Comportament cognitiv', '2025-11-13', 12),
-(14698, 'test2202', 'Portrige - Comportament cognitiv', '2026-11-13', 24),
-(14699, 'test2202', 'Portrige - Comportament motor', '2025-11-13', 12),
-(14700, 'test2202', 'Portrige - Comportament motor', '2026-11-13', 24);
+(14791, 'test2202', 'Portrige - Limbaj', '2025-11-13', 12),
+(14792, 'test2202', 'Portrige - Limbaj', '2026-11-13', 24),
+(14793, 'test2202', 'Portrige - Socializare', '2025-11-13', 24),
+(14794, 'test2202', 'Portrige - Socializare', '2026-11-13', 24),
+(14795, 'test2202', 'Portrige - Autoservire', '2025-11-13', 12),
+(14796, 'test2202', 'Portrige - Autoservire', '2026-11-13', 24),
+(14797, 'test2202', 'Portrige - Comportament cognitiv', '2025-11-13', 12),
+(14798, 'test2202', 'Portrige - Comportament cognitiv', '2026-11-13', 24),
+(14799, 'test2202', 'Portrige - Comportament motor', '2025-11-13', 12),
+(14800, 'test2202', 'Portrige - Comportament motor', '2026-11-13', 24);
 
 -- --------------------------------------------------------
 
@@ -6508,198 +6596,187 @@ CREATE TABLE `program_history` (
 --
 
 INSERT INTO `program_history` (`id`, `client_id`, `event_id`, `program_id`, `score`, `eval_date`) VALUES
-(64404, 'cezar1802', 'evt1762380655077x950vuxmu', 'prog_conversatie', '+ (3)', '2025-11-20'),
-(64405, 'cezar1802', 'evt1762380655077x950vuxmu', 'prog_8', '+ (2)', '2025-11-20'),
-(64406, 'cezar1802', 'evt1762380655077x950vuxmu', 'prog_transmitere_de_mesaj', '+ (2)', '2025-11-20'),
-(64407, 'cezar1802', 'evt1762380655077x950vuxmu', 'prog_discriminare_comportamente', '+ (3)', '2025-11-20'),
-(64408, 'cezar1802', 'evt1762380655077x950vuxmu', 'prog_colorat_desenat', '+ (4)', '2025-11-20'),
-(64409, 'cezar1802', 'evt1762380655077x950vuxmu', 'prog_lucru_independent', '+ (3)', '2025-11-20'),
-(64410, 'cezar1802', 'evt1762380655077x950vuxmu', 'prog_cauzalitatea_emotiilor', '+ (3)', '2025-11-20'),
-(64411, 'cezar1802', 'evt17633857322539atmw40aa', 'prog_lucru_independent', '+ (5)', '2025-11-17'),
-(64412, 'cezar1802', 'evt1762380491850d87sufkls', 'prog_conversatie', '- (1), P (2), + (2)', '2025-11-17'),
-(64413, 'cezar1802', 'evt17633857322539atmw40aa', 'prog_transmitere_de_mesaj', '- (1), P (2), + (1)', '2025-11-17'),
-(64414, 'cezar1802', 'evt17633857322539atmw40aa', 'prog_cauzalitatea_emotiilor', '+ (4)', '2025-11-17'),
-(64415, 'cezar1802', 'evt17633857322539atmw40aa', 'prog_conversatie', '+ (4)', '2025-11-17'),
-(64416, 'cezar1802', 'evt1762380491850d87sufkls', 'prog_cauzalitatea_emotiilor', '- (2), P (3), + (2)', '2025-11-17'),
-(64417, 'cezar1802', 'evt1762380491850d87sufkls', 'prog_3', '+ (2)', '2025-11-17'),
-(64418, 'cezar1802', 'evt1762380491850d87sufkls', 'prog_8', '+ (2)', '2025-11-17'),
-(64419, 'cezar1802', 'evt1762380491850d87sufkls', 'prog_13', '- (1), P (1), + (2)', '2025-11-17'),
-(64420, 'cezar1802', 'evt17633857322539atmw40aa', 'prog_colorat_desenat', '+ (4)', '2025-11-17'),
-(64421, 'cezar1802', 'evt1762380491850d87sufkls', 'prog_comunicare_si_limbaj', '- (1), P (1), + (3)', '2025-11-17'),
-(64422, 'cezar1802', 'evt17633857322539atmw40aa', 'prog_discriminare_comportamente', '+ (4)', '2025-11-17'),
-(64423, 'cezar1802', 'evt1762380491850d87sufkls', 'prog_colorat_desenat', 'P (3)', '2025-11-17'),
-(64424, 'cezar1802', 'evt17633857322539atmw40aa', 'prog_8', '- (1), P (2), + (1)', '2025-11-17'),
-(64425, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_conversatie', '+ (3)', '2025-11-10'),
-(64426, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_10', '+ (3)', '2025-11-10'),
-(64427, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_8', '+ (4)', '2025-11-10'),
-(64428, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_discriminare_comportamente', '- (1), P (2), + (1)', '2025-11-10'),
-(64429, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_13', '+ (4)', '2025-11-10'),
-(64430, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_transmitere_de_mesaj', '+ (1)', '2025-11-10'),
-(64431, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_7', '+ (4)', '2025-11-10'),
-(64432, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_da_nu_factual', '+ (4)', '2025-11-10'),
-(64433, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_cauzalitatea_emotiilor', '- (1), P (3), + (2)', '2025-11-10'),
-(64434, 'client1111', 'evt1763571360220atc30qn6e', 'prog_13', 'P (2), + (1)', '2025-11-19'),
-(64435, 'client1111', 'evt1763571360220atc30qn6e', 'prog_cauzalitatea_emotiilor', '+ (3)', '2025-11-19'),
-(64436, 'client1111', 'evt1763571360220atc30qn6e', 'prog_8', '0 (3), - (2), P (1)', '2025-11-19'),
-(64437, 'client1111', 'evt1763039303074a0fxlp3bp', 'prog_conversatie', 'P (4), + (4)', '2025-11-13'),
-(64438, 'client1111', 'evt1763039303074a0fxlp3bp', 'prog_13', '0 (3), P (2)', '2025-11-13'),
-(64439, 'client1111', 'evt1763039303074a0fxlp3bp', 'prog_comunicare_si_limbaj', 'P (4), + (4)', '2025-11-13'),
-(64440, 'client1111', 'evt1763039303074a0fxlp3bp', 'prog_cauzalitatea_emotiilor', '0 (3)', '2025-11-13'),
-(64441, 'client1111', 'evt1763039303074a0fxlp3bp', 'prog_8', 'P (2), + (2)', '2025-11-13'),
-(64442, 'client1111', 'evt1763039303074a0fxlp3bp', 'prog_colorat_desenat', 'P (2), + (5)', '2025-11-13'),
-(64443, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_8', '- (2), P (7)', '2025-11-19'),
-(64444, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_11', '- (1), P (1), + (4)', '2025-11-19'),
-(64445, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_4', '+ (2)', '2025-11-19'),
-(64446, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_7', '+ (1)', '2025-11-19'),
-(64447, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_9', 'P (5)', '2025-11-19'),
-(64448, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_5', '+ (1)', '2025-11-19'),
-(64449, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_1', '+ (4)', '2025-11-19'),
-(64450, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_3', '- (6), P (9), + (1)', '2025-11-19'),
-(64451, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_6', '+ (2)', '2025-11-19'),
-(64452, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_13', '- (3), P (7)', '2025-11-19'),
-(64453, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_3', 'P (4)', '2025-11-18'),
-(64454, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_4', 'P (3)', '2025-11-18'),
-(64455, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_13', 'P (3)', '2025-11-18'),
-(64456, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_6', 'P (3)', '2025-11-18'),
-(64457, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_7', 'P (3)', '2025-11-18'),
-(64458, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_1', 'P (3)', '2025-11-18'),
-(64459, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_8', 'P (3)', '2025-11-18'),
-(64460, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_11', 'P (3)', '2025-11-18'),
-(64461, 'tudor0107', 'evt1762382677512feg1gl9ub', 'prog_7', '0 (3), P (4)', '2025-11-17'),
-(64462, 'tudor0107', 'evt1762382677512feg1gl9ub', 'prog_13', '0 (4), P (1)', '2025-11-17'),
-(64463, 'tudor0107', 'evt1762382677512feg1gl9ub', 'prog_8', '0 (2), - (6), P (5)', '2025-11-17'),
-(64464, 'tudor0107', 'evt1762382677512feg1gl9ub', 'prog_3', '- (4), P (5)', '2025-11-17'),
-(64465, 'tudor0107', 'evt1762382677512rkdb5ne8m', 'prog_6', '+ (2)', '2025-11-10'),
-(64466, 'tudor0107', 'evt1762382677512rkdb5ne8m', 'prog_11', 'P (4), + (4)', '2025-11-10'),
-(64467, 'tudor0107', 'evt1762382677512rkdb5ne8m', 'prog_4', '+ (4)', '2025-11-10'),
-(64468, 'tudor0107', 'evt1762382677512rkdb5ne8m', 'prog_1', '- (2), P (1), + (5)', '2025-11-10'),
-(64469, 'tudor0107', 'evt1762382677512rkdb5ne8m', 'prog_7', '+ (3)', '2025-11-10'),
-(64470, 'tudor0107', 'evt1762382677512rkdb5ne8m', 'prog_13', '+ (4)', '2025-11-10'),
-(64471, 'tudor0107', 'evt1762382677512rkdb5ne8m', 'prog_8', '+ (6)', '2025-11-10'),
-(64472, 'selin7002', 'evt1762636292436kxbvz7x7p', 'prog_1', 'P (3)', '2025-11-18'),
-(64473, 'selin7002', 'evt1762636292436kxbvz7x7p', 'prog_4', 'P (1), + (2)', '2025-11-18'),
-(64474, 'selin7002', 'evt1762636292436kxbvz7x7p', 'prog_13', 'P (1), + (1)', '2025-11-18'),
-(64475, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_10', '0 (4), + (1)', '2025-11-18'),
-(64476, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_3', '- (3), P (5), + (5)', '2025-11-18'),
-(64477, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_colorat_desenat', '- (1), P (2), + (4)', '2025-11-18'),
-(64478, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_9', '- (1), P (4)', '2025-11-18'),
-(64479, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_7', '0 (6), P (7), + (1)', '2025-11-18'),
-(64480, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_5', 'P (1), + (3)', '2025-11-18'),
-(64481, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_1', '0 (2), - (1), P (1), + (5)', '2025-11-18'),
-(64482, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_8', '- (3), P (2)', '2025-11-18'),
-(64483, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_2', '0 (12), + (6)', '2025-11-18'),
-(64484, 'ana2107', 'evt17623841024436vs5ibk79', 'prog_scris_citit', '- (2), P (3), + (1)', '2025-11-17'),
-(64485, 'ana2107', 'evt17623841024436vs5ibk79', 'prog_transmitere_de_mesaj', '+ (2)', '2025-11-17'),
-(64486, 'ana2107', 'evt17623841024436vs5ibk79', 'prog_conversatie', '+ (3)', '2025-11-17'),
-(64487, 'ana2107', 'evt17623841024436vs5ibk79', 'prog_matematica', '- (2), P (5), + (1)', '2025-11-17'),
-(64488, 'ana2107', 'evt17623841024436vs5ibk79', 'prog_discriminare_comportamente', '+ (4)', '2025-11-17'),
-(64489, 'ana2107', 'evt17623841024436vs5ibk79', 'prog_cauzalitatea_emotiilor', '- (2), P (2), + (3)', '2025-11-17'),
-(64490, 'ana2107', 'evt176263861366519aq2gmrx', 'prog_cauzalitatea_emotiilor', '- (1), P (1), + (2)', '2025-11-13'),
-(64491, 'ana2107', 'evt176263861366519aq2gmrx', 'prog_conversatie', '+ (3)', '2025-11-13'),
-(64492, 'ana2107', 'evt176263861366519aq2gmrx', 'prog_scris_citit', '- (3), P (3), + (4)', '2025-11-13'),
-(64493, 'ana2107', 'evt176263861366519aq2gmrx', 'prog_matematica', '- (1), P (3), + (1)', '2025-11-13'),
-(64494, 'ana2107', 'evt176263861366519aq2gmrx', 'prog_transmitere_de_mesaj', '+ (2)', '2025-11-13'),
-(64495, 'ana2107', 'evt176263861366519aq2gmrx', 'prog_discriminare_comportamente', '+ (4)', '2025-11-13'),
-(64496, 'eve2345', 'evt1762636034966cxm4o1we1', 'prog_7', '- (2), P (2), + (1)', '2025-11-17'),
-(64497, 'eve2345', 'evt1762636034966cxm4o1we1', 'prog_expresiv_obiecte_actiuni_categorii', '- (7), P (11)', '2025-11-17'),
-(64498, 'eve2345', 'evt1762636034966cxm4o1we1', 'prog_3', '+ (1)', '2025-11-17'),
-(64499, 'eve2345', 'evt1762636034966cxm4o1we1', 'prog_da_nu_factual', '- (2), P (4), + (1)', '2025-11-17'),
-(64500, 'eve2345', 'evt1762636034966cxm4o1we1', 'prog_matematica', 'P (4)', '2025-11-17'),
-(64501, 'eve2345', 'evt1762636034966cxm4o1we1', 'prog_13', '- (1), P (3), + (1)', '2025-11-17'),
-(64502, 'eve2345', 'evt1762636034966cxm4o1we1', 'prog_transmitere_de_mesaj', '- (1), P (3)', '2025-11-17'),
-(64503, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_matematica', '- (1), P (4)', '2025-11-13'),
-(64504, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_3', '- (3), P (3), + (3)', '2025-11-13'),
-(64505, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_13', '- (3), P (2)', '2025-11-13'),
-(64506, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_5', '- (3), P (3)', '2025-11-13'),
-(64507, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_tact', '- (2), P (8)', '2025-11-13'),
-(64508, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_da_nu_factual', '- (4), P (3), + (3)', '2025-11-13'),
-(64509, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_7', '0 (1), - (2), P (3)', '2025-11-13'),
-(64510, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_10', '- (3), P (2), + (5)', '2025-11-13'),
-(64511, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_13', '- (1), P (1), + (1)', '2025-11-10'),
-(64512, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_9', '- (2), P (2), + (3)', '2025-11-10'),
-(64513, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_3', '- (1), P (2), + (1)', '2025-11-10'),
-(64514, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_da_nu_factual', '+ (2)', '2025-11-10'),
-(64515, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_transmitere_de_mesaj', '- (1), P (2)', '2025-11-10'),
-(64516, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_scris_si_colorat', '- (1), P (4)', '2025-11-10'),
-(64517, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_10', '+ (3)', '2025-11-10'),
-(64518, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_8', '+ (1)', '2025-11-10'),
-(64519, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_6', 'P (4)', '2025-11-10'),
-(64520, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_expresiv_obiecte_actiuni_categorii', '- (3), P (6)', '2025-11-10'),
-(64521, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_matematica', '- (1), P (3)', '2025-11-10'),
-(64522, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_7', '- (2), P (3)', '2025-11-10'),
-(64523, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_5', 'P (3)', '2025-11-10'),
-(64524, 'zian2206', 'evt17623818337893bzsrvfs5', 'prog_1', 'P (5)', '2025-11-17'),
-(64525, 'zian2206', 'evt17623818337893bzsrvfs5', 'prog_8', 'P (5)', '2025-11-17'),
-(64526, 'zian2206', 'evt17623818337893bzsrvfs5', 'prog_3', 'P (3)', '2025-11-17'),
-(64527, 'zian2206', 'evt17623818337893bzsrvfs5', 'prog_6', 'P (5)', '2025-11-17'),
-(64528, 'zian2206', 'evt1762766709182934ihyzly', 'prog_8', 'P (5)', '2025-11-12'),
-(64529, 'zian2206', 'evt1762766709182934ihyzly', 'prog_13', 'P (5)', '2025-11-12'),
-(64530, 'david0610', 'evt1762383304637560kig1gy', 'prog_tact', 'P (10), + (2)', '2025-11-17'),
-(64531, 'david0610', 'evt1762383304637560kig1gy', 'prog_mand', '0 (3), P (7), + (5)', '2025-11-17'),
-(64532, 'david0610', 'evt1762383304637560kig1gy', 'prog_1', 'P (2), + (7)', '2025-11-17'),
-(64533, 'david0610', 'evt1762383304637560kig1gy', 'prog_8', '- (13), P (2)', '2025-11-17'),
-(64534, 'david0610', 'evt1762383304637560kig1gy', 'prog_10', '- (5), P (3), + (1)', '2025-11-17'),
-(64535, 'david0610', 'evt1762383304637560kig1gy', 'prog_2', '0 (7), P (6)', '2025-11-17'),
-(64536, 'david0610', 'evt1762383304637560kig1gy', 'prog_sintaxa', '0 (3), - (1), P (7)', '2025-11-17'),
-(64537, 'david0610', 'evt1762383304637560kig1gy', 'prog_11', '- (4), P (14), + (3)', '2025-11-17'),
-(64538, 'david0610', 'evt1762954710878udyxjvq6s', 'prog_colorat_desenat', 'P (3)', '2025-11-12'),
-(64539, 'david0610', 'evt1762954710878udyxjvq6s', 'prog_8', '- (3), P (3)', '2025-11-12'),
-(64540, 'david0610', 'evt1762954710878udyxjvq6s', 'prog_comunicare_si_limbaj', '- (3), P (3)', '2025-11-12'),
-(64541, 'david0610', 'evt1762954710878udyxjvq6s', 'prog_13', '- (2), P (2)', '2025-11-12'),
-(64542, 'david0610', 'evt1762954710878udyxjvq6s', 'prog_4', '- (2), P (3)', '2025-11-12'),
-(64543, 'stefan6428', 'evt1762422398338pfepfvete', 'prog_secventialitate', '+ (2)', '2025-11-13'),
-(64544, 'stefan6428', 'evt1762422398338pfepfvete', 'prog_sintaxa', '- (1), P (1), + (7)', '2025-11-13'),
-(64545, 'stefan6428', 'evt1762422398338pfepfvete', 'prog_expresiv_obiecte_actiuni_categorii', '+ (3)', '2025-11-13'),
-(64546, 'stefan6428', 'evt1762422398338pfepfvete', 'prog_matematica', '+ (3)', '2025-11-13'),
-(64547, 'stefan6428', 'evt1762422398338pfepfvete', 'prog_1', '+ (3)', '2025-11-13'),
-(64548, 'stefan6428', 'evt1762422398338pfepfvete', 'prog_6', 'P (2)', '2025-11-13'),
-(64549, 'stefan6428', 'evt1762422398338pfepfvete', 'prog_scris_citit', '+ (3)', '2025-11-13'),
-(64550, 'stefan6428', 'evt1762422398338pfepfvete', 'prog_11', '- (4)', '2025-11-13'),
-(64551, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_3', 'P (3), + (1)', '2025-11-13'),
-(64552, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_13', '- (1), P (2), + (1)', '2025-11-13'),
-(64553, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_10', 'P (2), + (2)', '2025-11-13'),
-(64554, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_colorat_desenat', 'P (3)', '2025-11-13'),
-(64555, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_comunicare_si_limbaj', '- (1), P (2), + (1)', '2025-11-13'),
-(64556, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_expresiv_obiecte_actiuni_categorii', '- (1), P (4), + (1)', '2025-11-13'),
-(64557, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_8', '- (1), P (3), + (1)', '2025-11-13'),
-(64558, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_11', '+ (3)', '2025-11-13'),
-(64559, 'irina4275', 'evt17626378833348rll4b3bg', 'prog_lucru_independent', '- (2), P (4)', '2025-11-12'),
-(64560, 'irina4275', 'evt17626378833348rll4b3bg', 'prog_cauzalitatea_emotiilor', '+ (2)', '2025-11-12'),
-(64561, 'irina4275', 'evt17626378833348rll4b3bg', 'prog_8', '+ (1)', '2025-11-12'),
-(64562, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_11', '- (4), P (6), + (3)', '2025-11-12'),
-(64563, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_potriviri', '- (2), P (6)', '2025-11-12'),
-(64564, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_comunicare_si_limbaj', '- (1), P (4)', '2025-11-12'),
-(64565, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_7', '- (1), P (1), + (2)', '2025-11-12'),
-(64566, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_9', '- (1), P (5)', '2025-11-12'),
-(64567, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_3', '- (1), P (1), + (3)', '2025-11-12'),
-(64568, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_6', 'P (3)', '2025-11-12'),
-(64569, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_1', '+ (3)', '2025-11-12'),
-(64570, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_4', '- (1), P (2), + (2)', '2025-11-12'),
-(64571, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_3', '+ (2)', '2025-11-12'),
-(64572, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_8', '+ (2)', '2025-11-12'),
-(64573, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_11', '+ (2)', '2025-11-12'),
-(64574, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_12', 'P (2), + (1)', '2025-11-12'),
-(64575, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_13', 'P (1), + (1)', '2025-11-12'),
-(64576, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_comunicare_si_limbaj', 'P (2), + (1)', '2025-11-12'),
-(64577, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_colorat_desenat', 'P (2)', '2025-11-12'),
-(64578, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_7', '+ (3)', '2025-11-12'),
-(64579, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_4', '+ (2)', '2025-11-12'),
-(64580, 'gabriela0307', 'evt1762769448409eysxxp6tr', 'prog_13', '+ (1)', '2025-11-10'),
-(64581, 'gabriela0307', 'evt1762769448409eysxxp6tr', 'prog_11', '+ (1)', '2025-11-10'),
-(64582, 'gabriela0307', 'evt1762769448409eysxxp6tr', 'prog_1', '+ (1)', '2025-11-10'),
-(64583, 'gabriela0307', 'evt1762769448409eysxxp6tr', 'prog_9', '+ (1)', '2025-11-10'),
-(64584, 'gabriela0307', 'evt1762769448409eysxxp6tr', 'prog_8', '+ (1)', '2025-11-10'),
-(64585, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_potriviri', '- (3), P (8)', '2025-11-21'),
-(64586, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_3', '- (2), P (7)', '2025-11-21'),
-(64587, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_13', '- (1), P (2), + (1)', '2025-11-21'),
-(64588, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_6', 'P (4)', '2025-11-21'),
-(64589, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_da_nu_factual', '- (2), P (4)', '2025-11-21'),
-(64590, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_11', '+ (4)', '2025-11-21'),
-(64591, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_1', 'P (4)', '2025-11-21'),
-(64592, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_scris_si_colorat', '- (2), P (5)', '2025-11-21'),
-(64593, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_8', '- (1), P (1), + (1)', '2025-11-21'),
-(64594, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_9', '- (5), P (9), + (3)', '2025-11-21'),
-(64595, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_comunicare_si_limbaj', '- (4), P (4), + (5)', '2025-11-21');
+(66351, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_8', '- (1), P (1), + (1)', '2025-11-21'),
+(66352, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_3', '- (2), P (7)', '2025-11-21'),
+(66353, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_13', '- (1), P (2), + (1)', '2025-11-21'),
+(66354, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_1', 'P (4)', '2025-11-21'),
+(66355, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_da_nu_factual', '- (2), P (4)', '2025-11-21'),
+(66356, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_9', '- (5), P (9), + (3)', '2025-11-21'),
+(66357, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_potriviri', '- (3), P (8)', '2025-11-21'),
+(66358, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_comunicare_si_limbaj', '- (4), P (4), + (5)', '2025-11-21'),
+(66359, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_scris_si_colorat', '- (2), P (5)', '2025-11-21'),
+(66360, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_6', 'P (4)', '2025-11-21'),
+(66361, 'gabriela0307', 'evt1763709389792p9qvfeji9', 'prog_11', '+ (4)', '2025-11-21'),
+(66362, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_8', '+ (2)', '2025-11-12'),
+(66363, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_12', 'P (2), + (1)', '2025-11-12'),
+(66364, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_11', '+ (2)', '2025-11-12'),
+(66365, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_13', 'P (1), + (1)', '2025-11-12'),
+(66366, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_colorat_desenat', 'P (2)', '2025-11-12'),
+(66367, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_3', '+ (2)', '2025-11-12'),
+(66368, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_7', '+ (3)', '2025-11-12'),
+(66369, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_comunicare_si_limbaj', 'P (2), + (1)', '2025-11-12'),
+(66370, 'gabriela0307', 'evt1762637972340umvfl4kr7', 'prog_4', '+ (2)', '2025-11-12'),
+(66371, 'gabriela0307', 'evt1762769448409eysxxp6tr', 'prog_11', '+ (1)', '2025-11-10'),
+(66372, 'gabriela0307', 'evt1762769448409eysxxp6tr', 'prog_8', '+ (1)', '2025-11-10'),
+(66373, 'gabriela0307', 'evt1762769448409eysxxp6tr', 'prog_9', '+ (1)', '2025-11-10'),
+(66374, 'gabriela0307', 'evt1762769448409eysxxp6tr', 'prog_1', '+ (1)', '2025-11-10'),
+(66375, 'gabriela0307', 'evt1762769448409eysxxp6tr', 'prog_13', '+ (1)', '2025-11-10'),
+(66376, 'cezar1802', 'evt1762380655077x950vuxmu', 'prog_conversatie', '+ (3)', '2025-11-20'),
+(66377, 'cezar1802', 'evt1762380655077x950vuxmu', 'prog_cauzalitatea_emotiilor', '+ (3)', '2025-11-20'),
+(66378, 'cezar1802', 'evt1762380655077x950vuxmu', 'prog_lucru_independent', '+ (3)', '2025-11-20'),
+(66379, 'cezar1802', 'evt1762380655077x950vuxmu', 'prog_colorat_desenat', '+ (4)', '2025-11-20'),
+(66380, 'cezar1802', 'evt1762380655077x950vuxmu', 'prog_8', '+ (2)', '2025-11-20'),
+(66381, 'cezar1802', 'evt1762380655077x950vuxmu', 'prog_transmitere_de_mesaj', '+ (2)', '2025-11-20'),
+(66382, 'cezar1802', 'evt1762380655077x950vuxmu', 'prog_discriminare_comportamente', '+ (3)', '2025-11-20'),
+(66383, 'cezar1802', 'evt17633857322539atmw40aa', 'prog_transmitere_de_mesaj', '- (1), P (2), + (1)', '2025-11-17'),
+(66384, 'cezar1802', 'evt1762380491850d87sufkls', 'prog_13', '- (1), P (1), + (2)', '2025-11-17'),
+(66385, 'cezar1802', 'evt17633857322539atmw40aa', 'prog_discriminare_comportamente', '+ (4)', '2025-11-17'),
+(66386, 'cezar1802', 'evt1762380491850d87sufkls', 'prog_conversatie', '- (1), P (2), + (2)', '2025-11-17'),
+(66387, 'cezar1802', 'evt1762380491850d87sufkls', 'prog_3', '+ (2)', '2025-11-17'),
+(66388, 'cezar1802', 'evt17633857322539atmw40aa', 'prog_cauzalitatea_emotiilor', '+ (4)', '2025-11-17'),
+(66389, 'cezar1802', 'evt1762380491850d87sufkls', 'prog_8', '+ (2)', '2025-11-17'),
+(66390, 'cezar1802', 'evt17633857322539atmw40aa', 'prog_colorat_desenat', '+ (4)', '2025-11-17'),
+(66391, 'cezar1802', 'evt1762380491850d87sufkls', 'prog_colorat_desenat', 'P (3)', '2025-11-17'),
+(66392, 'cezar1802', 'evt1762380491850d87sufkls', 'prog_cauzalitatea_emotiilor', '- (2), P (3), + (2)', '2025-11-17'),
+(66393, 'cezar1802', 'evt17633857322539atmw40aa', 'prog_lucru_independent', '+ (5)', '2025-11-17'),
+(66394, 'cezar1802', 'evt17633857322539atmw40aa', 'prog_8', '- (1), P (2), + (1)', '2025-11-17'),
+(66395, 'cezar1802', 'evt17633857322539atmw40aa', 'prog_conversatie', '+ (4)', '2025-11-17'),
+(66396, 'cezar1802', 'evt1762380491850d87sufkls', 'prog_comunicare_si_limbaj', '- (1), P (1), + (3)', '2025-11-17'),
+(66397, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_cauzalitatea_emotiilor', '- (1), P (3), + (2)', '2025-11-10'),
+(66398, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_7', '+ (4)', '2025-11-10'),
+(66399, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_13', '+ (4)', '2025-11-10'),
+(66400, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_da_nu_factual', '+ (4)', '2025-11-10'),
+(66401, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_10', '+ (3)', '2025-11-10'),
+(66402, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_transmitere_de_mesaj', '+ (1)', '2025-11-10'),
+(66403, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_discriminare_comportamente', '- (1), P (2), + (1)', '2025-11-10'),
+(66404, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_8', '+ (4)', '2025-11-10'),
+(66405, 'cezar1802', 'evt1762380491850bmgugzj9t', 'prog_conversatie', '+ (3)', '2025-11-10'),
+(66406, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_5', '+ (1)', '2025-11-19'),
+(66407, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_11', '- (1), P (1), + (4)', '2025-11-19'),
+(66408, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_1', '+ (4)', '2025-11-19'),
+(66409, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_4', '+ (2)', '2025-11-19'),
+(66410, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_7', '+ (1)', '2025-11-19'),
+(66411, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_9', 'P (5)', '2025-11-19'),
+(66412, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_8', '- (2), P (7)', '2025-11-19'),
+(66413, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_3', '- (6), P (9), + (1)', '2025-11-19'),
+(66414, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_6', '+ (2)', '2025-11-19'),
+(66415, 'tudor0107', 'evt1763544635334yrntbt6ns', 'prog_13', '- (3), P (7)', '2025-11-19'),
+(66416, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_7', 'P (3)', '2025-11-18'),
+(66417, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_13', 'P (3)', '2025-11-18'),
+(66418, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_11', 'P (3)', '2025-11-18'),
+(66419, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_3', 'P (4)', '2025-11-18'),
+(66420, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_4', 'P (3)', '2025-11-18'),
+(66421, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_1', 'P (3)', '2025-11-18'),
+(66422, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_8', 'P (3)', '2025-11-18'),
+(66423, 'tudor0107', 'evt1762419152738p4syew1ch', 'prog_6', 'P (3)', '2025-11-18'),
+(66424, 'tudor0107', 'evt1762382677512feg1gl9ub', 'prog_13', '0 (4), P (1)', '2025-11-17'),
+(66425, 'tudor0107', 'evt1762382677512feg1gl9ub', 'prog_8', '0 (2), - (6), P (5)', '2025-11-17'),
+(66426, 'tudor0107', 'evt1762382677512feg1gl9ub', 'prog_7', '0 (3), P (4)', '2025-11-17'),
+(66427, 'tudor0107', 'evt1762382677512feg1gl9ub', 'prog_3', '- (4), P (5)', '2025-11-17'),
+(66428, 'tudor0107', 'evt1762382677512rkdb5ne8m', 'prog_1', '- (2), P (1), + (5)', '2025-11-10'),
+(66429, 'tudor0107', 'evt1762382677512rkdb5ne8m', 'prog_6', '+ (2)', '2025-11-10'),
+(66430, 'tudor0107', 'evt1762382677512rkdb5ne8m', 'prog_7', '+ (3)', '2025-11-10'),
+(66431, 'tudor0107', 'evt1762382677512rkdb5ne8m', 'prog_8', '+ (6)', '2025-11-10'),
+(66432, 'tudor0107', 'evt1762382677512rkdb5ne8m', 'prog_13', '+ (4)', '2025-11-10'),
+(66433, 'tudor0107', 'evt1762382677512rkdb5ne8m', 'prog_11', 'P (4), + (4)', '2025-11-10'),
+(66434, 'tudor0107', 'evt1762382677512rkdb5ne8m', 'prog_4', '+ (4)', '2025-11-10'),
+(66435, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_7', '0 (6), P (7), + (1)', '2025-11-18'),
+(66436, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_1', '0 (2), - (1), P (1), + (5)', '2025-11-18'),
+(66437, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_5', 'P (1), + (3)', '2025-11-18'),
+(66438, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_colorat_desenat', '- (1), P (2), + (4)', '2025-11-18'),
+(66439, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_8', '- (3), P (2)', '2025-11-18'),
+(66440, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_2', '0 (12), + (6)', '2025-11-18'),
+(66441, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_3', '- (3), P (5), + (5)', '2025-11-18'),
+(66442, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_9', '- (1), P (4)', '2025-11-18'),
+(66443, 'valentin1611', 'evt1762418434665hirf7040d', 'prog_10', '0 (4), + (1)', '2025-11-18'),
+(66444, 'selin7002', 'evt1762636292436kxbvz7x7p', 'prog_4', 'P (1), + (2)', '2025-11-18'),
+(66445, 'selin7002', 'evt1762636292436kxbvz7x7p', 'prog_13', 'P (1), + (1)', '2025-11-18'),
+(66446, 'selin7002', 'evt1762636292436kxbvz7x7p', 'prog_1', 'P (3)', '2025-11-18'),
+(66447, 'zian2206', 'evt17623818337893bzsrvfs5', 'prog_6', 'P (5)', '2025-11-17'),
+(66448, 'zian2206', 'evt17623818337893bzsrvfs5', 'prog_1', 'P (5)', '2025-11-17'),
+(66449, 'zian2206', 'evt17623818337893bzsrvfs5', 'prog_8', 'P (5)', '2025-11-17'),
+(66450, 'zian2206', 'evt17623818337893bzsrvfs5', 'prog_3', 'P (3)', '2025-11-17'),
+(66451, 'zian2206', 'evt1762766709182934ihyzly', 'prog_8', 'P (5)', '2025-11-12'),
+(66452, 'zian2206', 'evt1762766709182934ihyzly', 'prog_13', 'P (5)', '2025-11-12'),
+(66453, 'david0610', 'evt1762383304637560kig1gy', 'prog_tact', 'P (10), + (2)', '2025-11-17'),
+(66454, 'david0610', 'evt1762383304637560kig1gy', 'prog_8', '- (13), P (2)', '2025-11-17'),
+(66455, 'david0610', 'evt1762383304637560kig1gy', 'prog_sintaxa', '0 (3), - (1), P (7)', '2025-11-17'),
+(66456, 'david0610', 'evt1762383304637560kig1gy', 'prog_1', 'P (2), + (7)', '2025-11-17'),
+(66457, 'david0610', 'evt1762383304637560kig1gy', 'prog_10', '- (5), P (3), + (1)', '2025-11-17'),
+(66458, 'david0610', 'evt1762383304637560kig1gy', 'prog_2', '0 (7), P (6)', '2025-11-17'),
+(66459, 'david0610', 'evt1762383304637560kig1gy', 'prog_11', '- (4), P (14), + (3)', '2025-11-17'),
+(66460, 'david0610', 'evt1762383304637560kig1gy', 'prog_mand', '0 (3), P (7), + (5)', '2025-11-17'),
+(66461, 'david0610', 'evt1762954710878udyxjvq6s', 'prog_8', '- (3), P (3)', '2025-11-12'),
+(66462, 'david0610', 'evt1762954710878udyxjvq6s', 'prog_4', '- (2), P (3)', '2025-11-12'),
+(66463, 'david0610', 'evt1762954710878udyxjvq6s', 'prog_colorat_desenat', 'P (3)', '2025-11-12'),
+(66464, 'david0610', 'evt1762954710878udyxjvq6s', 'prog_13', '- (2), P (2)', '2025-11-12'),
+(66465, 'david0610', 'evt1762954710878udyxjvq6s', 'prog_comunicare_si_limbaj', '- (3), P (3)', '2025-11-12'),
+(66466, 'eve2345', 'evt1762636034966cxm4o1we1', 'prog_7', '- (2), P (2), + (1)', '2025-11-17'),
+(66467, 'eve2345', 'evt1762636034966cxm4o1we1', 'prog_3', '+ (1)', '2025-11-17'),
+(66468, 'eve2345', 'evt1762636034966cxm4o1we1', 'prog_da_nu_factual', '- (2), P (4), + (1)', '2025-11-17'),
+(66469, 'eve2345', 'evt1762636034966cxm4o1we1', 'prog_matematica', 'P (4)', '2025-11-17'),
+(66470, 'eve2345', 'evt1762636034966cxm4o1we1', 'prog_13', '- (1), P (3), + (1)', '2025-11-17'),
+(66471, 'eve2345', 'evt1762636034966cxm4o1we1', 'prog_expresiv_obiecte_actiuni_categorii', '- (7), P (11)', '2025-11-17'),
+(66472, 'eve2345', 'evt1762636034966cxm4o1we1', 'prog_transmitere_de_mesaj', '- (1), P (3)', '2025-11-17'),
+(66473, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_13', '- (3), P (2)', '2025-11-13'),
+(66474, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_5', '- (3), P (3)', '2025-11-13'),
+(66475, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_tact', '- (2), P (8)', '2025-11-13'),
+(66476, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_3', '- (3), P (3), + (3)', '2025-11-13'),
+(66477, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_7', '0 (1), - (2), P (3)', '2025-11-13'),
+(66478, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_matematica', '- (1), P (4)', '2025-11-13'),
+(66479, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_da_nu_factual', '- (4), P (3), + (3)', '2025-11-13'),
+(66480, 'eve2345', 'evt1762638699796uiugojcb9', 'prog_10', '- (3), P (2), + (5)', '2025-11-13'),
+(66481, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_matematica', '- (1), P (3)', '2025-11-10'),
+(66482, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_3', '- (1), P (2), + (1)', '2025-11-10'),
+(66483, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_9', '- (2), P (2), + (3)', '2025-11-10'),
+(66484, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_scris_si_colorat', '- (1), P (4)', '2025-11-10'),
+(66485, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_transmitere_de_mesaj', '- (1), P (2)', '2025-11-10'),
+(66486, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_expresiv_obiecte_actiuni_categorii', '- (3), P (6)', '2025-11-10'),
+(66487, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_6', 'P (4)', '2025-11-10'),
+(66488, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_13', '- (1), P (1), + (1)', '2025-11-10'),
+(66489, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_7', '- (2), P (3)', '2025-11-10'),
+(66490, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_5', 'P (3)', '2025-11-10'),
+(66491, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_8', '+ (1)', '2025-11-10'),
+(66492, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_da_nu_factual', '+ (2)', '2025-11-10'),
+(66493, 'eve2345', 'evt1762779774582sky14yk4e', 'prog_10', '+ (3)', '2025-11-10'),
+(66494, 'ana2107', 'evt17623841024436vs5ibk79', 'prog_transmitere_de_mesaj', '+ (2)', '2025-11-17'),
+(66495, 'ana2107', 'evt17623841024436vs5ibk79', 'prog_scris_citit', '- (2), P (3), + (1)', '2025-11-17'),
+(66496, 'ana2107', 'evt17623841024436vs5ibk79', 'prog_discriminare_comportamente', '+ (4)', '2025-11-17'),
+(66497, 'ana2107', 'evt17623841024436vs5ibk79', 'prog_matematica', '- (2), P (5), + (1)', '2025-11-17'),
+(66498, 'ana2107', 'evt17623841024436vs5ibk79', 'prog_cauzalitatea_emotiilor', '- (2), P (2), + (3)', '2025-11-17'),
+(66499, 'ana2107', 'evt17623841024436vs5ibk79', 'prog_conversatie', '+ (3)', '2025-11-17'),
+(66500, 'ana2107', 'evt176263861366519aq2gmrx', 'prog_conversatie', '+ (3)', '2025-11-13'),
+(66501, 'ana2107', 'evt176263861366519aq2gmrx', 'prog_matematica', '- (1), P (3), + (1)', '2025-11-13'),
+(66502, 'ana2107', 'evt176263861366519aq2gmrx', 'prog_discriminare_comportamente', '+ (4)', '2025-11-13'),
+(66503, 'ana2107', 'evt176263861366519aq2gmrx', 'prog_transmitere_de_mesaj', '+ (2)', '2025-11-13'),
+(66504, 'ana2107', 'evt176263861366519aq2gmrx', 'prog_scris_citit', '- (3), P (3), + (4)', '2025-11-13'),
+(66505, 'ana2107', 'evt176263861366519aq2gmrx', 'prog_cauzalitatea_emotiilor', '- (1), P (1), + (2)', '2025-11-13'),
+(66506, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_colorat_desenat', 'P (3)', '2025-11-13'),
+(66507, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_8', '- (1), P (3), + (1)', '2025-11-13'),
+(66508, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_expresiv_obiecte_actiuni_categorii', '- (1), P (4), + (1)', '2025-11-13'),
+(66509, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_comunicare_si_limbaj', '- (1), P (2), + (1)', '2025-11-13'),
+(66510, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_11', '+ (3)', '2025-11-13'),
+(66511, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_13', '- (1), P (2), + (1)', '2025-11-13'),
+(66512, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_3', 'P (3), + (1)', '2025-11-13'),
+(66513, 'mathias1501', 'evt1762422599805xsm660n1o', 'prog_10', 'P (2), + (2)', '2025-11-13'),
+(66514, 'irina4275', 'evt17626378833348rll4b3bg', 'prog_8', '+ (1)', '2025-11-12'),
+(66515, 'irina4275', 'evt17626378833348rll4b3bg', 'prog_cauzalitatea_emotiilor', '+ (2)', '2025-11-12'),
+(66516, 'irina4275', 'evt17626378833348rll4b3bg', 'prog_lucru_independent', '- (2), P (4)', '2025-11-12'),
+(66517, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_potriviri', '- (2), P (6)', '2025-11-12'),
+(66518, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_3', '- (1), P (1), + (3)', '2025-11-12'),
+(66519, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_4', '- (1), P (2), + (2)', '2025-11-12'),
+(66520, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_1', '+ (3)', '2025-11-12'),
+(66521, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_7', '- (1), P (1), + (2)', '2025-11-12'),
+(66522, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_comunicare_si_limbaj', '- (1), P (4)', '2025-11-12'),
+(66523, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_9', '- (1), P (5)', '2025-11-12'),
+(66524, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_6', 'P (3)', '2025-11-12'),
+(66525, 'suditu1912', 'evt1762954814066lq4glpx4y', 'prog_11', '- (4), P (6), + (3)', '2025-11-12'),
+(66526, 'client1111', 'evt1763158560265bpoq1lkca', 'prog_8', '0 (1), - (2), P (3), + (4)', '2025-11-14'),
+(66527, 'client1111', 'evt1763158560265bpoq1lkca', 'prog_13', '0 (1), - (2), P (3), + (4)', '2025-11-14'),
+(66528, 'client1111', 'evt1763158560265bpoq1lkca', 'prog_cauzalitatea_emotiilor', '0 (1), - (2), P (3), + (4)', '2025-11-14'),
+(66529, 'client1111', 'evt1763158560265bpoq1lkca', 'prog_colorat_desenat', '0 (1), - (2), P (3), + (4)', '2025-11-14'),
+(66530, 'client1111', 'evt1763158560265bpoq1lkca', 'prog_comunicare_si_limbaj', '0 (1), - (2), P (3), + (4)', '2025-11-14'),
+(66531, 'client1111', 'evt1763158560265bpoq1lkca', 'prog_conversatie', '0 (1), - (2), P (3), + (4)', '2025-11-14');
 
 -- --------------------------------------------------------
 
@@ -6792,6 +6869,35 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`, `created_at`) VALUES
 ('daniela', 'daniela', '180986', 'therapist', '2025-11-06 11:45:15'),
 ('member_1763022114111', 'cosmina_', '1Cosmina', 'therapist', '2025-11-13 08:21:54'),
 ('stefan', 'stefan', '2025', 'admin', '2025-11-06 11:45:15');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vbmapp_evaluations`
+--
+
+CREATE TABLE `vbmapp_evaluations` (
+  `id` int(11) NOT NULL,
+  `client_id` varchar(255) NOT NULL,
+  `eval_date` date NOT NULL,
+  `milestones_scores_json` text DEFAULT NULL COMMENT 'JSON object with level/area/item scores (0-5 scale)',
+  `barriers_scores_json` text DEFAULT NULL COMMENT 'JSON array with barrier item scores (0-5 scale)',
+  `transition_scores_json` text DEFAULT NULL COMMENT 'JSON array with transition item scores (0-5 scale)',
+  `task_analysis_scores_json` text DEFAULT NULL COMMENT 'JSON array with task analysis item scores (0-5 scale)',
+  `iep_objectives_scores_json` text DEFAULT NULL COMMENT 'JSON array with IEP objectives item scores (0-5 scale)',
+  `comments` text DEFAULT NULL COMMENT 'Optional evaluation notes',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `vbmapp_evaluations`
+--
+
+INSERT INTO `vbmapp_evaluations` (`id`, `client_id`, `eval_date`, `milestones_scores_json`, `barriers_scores_json`, `transition_scores_json`, `task_analysis_scores_json`, `iep_objectives_scores_json`, `comments`, `created_at`, `updated_at`) VALUES
+(13, 'test2202', '2025-11-21', '{\"level1\":{\"mand\":{\"mand-1-1\":1,\"mand-1-2\":3,\"mand-1-3\":2,\"mand-1-4\":4,\"mand-1-5\":5},\"tact\":{\"tact-1-1\":5,\"tact-1-2\":3,\"tact-1-3\":2,\"tact-1-4\":2,\"tact-1-5\":1},\"listener\":{\"listener-1-1\":1,\"listener-1-2\":2,\"listener-1-3\":1,\"listener-1-4\":3,\"listener-1-5\":3},\"vpmts\":{\"vpmts-1-1\":2,\"vpmts-1-2\":2,\"vpmts-1-3\":3,\"vpmts-1-4\":1,\"vpmts-1-5\":2},\"play\":{\"play-1-1\":3,\"play-1-2\":1,\"play-1-3\":1,\"play-1-4\":3,\"play-1-5\":2},\"social\":{\"social-1-1\":2,\"social-1-2\":3,\"social-1-3\":4,\"social-1-4\":5,\"social-1-5\":4},\"imitation\":{\"imitation-1-1\":3,\"imitation-1-2\":3,\"imitation-1-3\":2,\"imitation-1-4\":2,\"imitation-1-5\":2},\"echoic\":{\"echoic-1-1\":2,\"echoic-1-2\":2,\"echoic-1-3\":3,\"echoic-1-4\":3,\"echoic-1-5\":2},\"eesa\":{\"eesa-1-1\":1,\"eesa-1-2\":0,\"eesa-1-3\":2,\"eesa-1-4\":3,\"eesa-1-5\":2}},\"level2\":{\"mand\":{\"mand-2-6\":0,\"mand-2-7\":1,\"mand-2-8\":2,\"mand-2-9\":1,\"mand-2-10\":1},\"tact\":{\"tact-2-6\":2,\"tact-2-7\":2,\"tact-2-8\":3,\"tact-2-9\":3,\"tact-2-10\":3},\"listener\":{\"listener-2-6\":2,\"listener-2-7\":2,\"listener-2-8\":3,\"listener-2-9\":2,\"listener-2-10\":2},\"vpmts\":{\"vpmts-2-6\":3,\"vpmts-2-7\":2,\"vpmts-2-8\":2,\"vpmts-2-9\":2,\"vpmts-2-10\":3},\"play\":{\"play-2-6\":3,\"play-2-7\":2,\"play-2-8\":2,\"play-2-9\":3,\"play-2-10\":1},\"social\":{\"social-2-6\":1,\"social-2-7\":2,\"social-2-8\":3,\"social-2-9\":4,\"social-2-10\":5},\"imitation\":{\"imitation-2-6\":3,\"imitation-2-7\":2,\"imitation-2-8\":1,\"imitation-2-9\":0,\"imitation-2-10\":1},\"echoic\":{\"echoic-2-6\":1,\"echoic-2-7\":2,\"echoic-2-8\":1,\"echoic-2-9\":1,\"echoic-2-10\":3},\"lrffc\":{\"lrffc-2-6\":1,\"lrffc-2-7\":1,\"lrffc-2-8\":2,\"lrffc-2-9\":2,\"lrffc-2-10\":1},\"intraverbal\":{\"intraverbal-2-6\":3,\"intraverbal-2-7\":2,\"intraverbal-2-8\":1,\"intraverbal-2-9\":2,\"intraverbal-2-10\":2},\"classroom\":{\"classroom-2-6\":2,\"classroom-2-7\":2,\"classroom-2-8\":3,\"classroom-2-9\":2,\"classroom-2-10\":1},\"linguistics\":{\"linguistics-2-6\":1,\"linguistics-2-7\":2,\"linguistics-2-8\":3,\"linguistics-2-9\":2,\"linguistics-2-10\":2}},\"level3\":{\"mand\":{\"mand-3-11\":2,\"mand-3-12\":3,\"mand-3-13\":3,\"mand-3-14\":2,\"mand-3-15\":3},\"tact\":{\"tact-3-11\":2,\"tact-3-12\":2,\"tact-3-13\":3,\"tact-3-14\":2,\"tact-3-15\":3},\"listener\":{\"listener-3-11\":4,\"listener-3-12\":3,\"listener-3-13\":3,\"listener-3-14\":3,\"listener-3-15\":4},\"vpmts\":{\"vpmts-3-11\":5,\"vpmts-3-12\":3,\"vpmts-3-13\":3,\"vpmts-3-14\":1,\"vpmts-3-15\":2},\"play\":{\"play-3-11\":2,\"play-3-12\":3,\"play-3-13\":2,\"play-3-14\":3,\"play-3-15\":1},\"social\":{\"social-3-11\":2,\"social-3-12\":3,\"social-3-13\":2,\"social-3-14\":2,\"social-3-15\":2},\"imitation\":{\"imitation-3-11\":3,\"imitation-3-12\":2,\"imitation-3-13\":1,\"imitation-3-14\":2,\"imitation-3-15\":0},\"echoic\":{\"echoic-3-11\":2,\"echoic-3-12\":2,\"echoic-3-13\":1,\"echoic-3-14\":1,\"echoic-3-15\":0},\"lrffc\":{\"lrffc-3-11\":2,\"lrffc-3-12\":3,\"lrffc-3-13\":3,\"lrffc-3-14\":4,\"lrffc-3-15\":3},\"intraverbal\":{\"intraverbal-3-11\":1,\"intraverbal-3-12\":2,\"intraverbal-3-13\":1,\"intraverbal-3-14\":0,\"intraverbal-3-15\":2},\"classroom\":{\"classroom-3-11\":2,\"classroom-3-12\":3,\"classroom-3-13\":2,\"classroom-3-14\":1,\"classroom-3-15\":0},\"linguistics\":{\"linguistics-3-11\":1,\"linguistics-3-12\":2,\"linguistics-3-13\":1,\"linguistics-3-14\":2,\"linguistics-3-15\":0},\"reading\":{\"reading-3-11\":2,\"reading-3-12\":3,\"reading-3-13\":2,\"reading-3-14\":1,\"reading-3-15\":0},\"writing\":{\"writing-3-11\":1,\"writing-3-12\":1,\"writing-3-13\":2,\"writing-3-14\":0,\"writing-3-15\":1},\"math\":{\"math-3-11\":1,\"math-3-12\":2,\"math-3-13\":2,\"math-3-14\":3,\"math-3-15\":2}}}', '{\"barrier-1\":4,\"barrier-2\":2,\"barrier-3\":3,\"barrier-4\":4,\"barrier-5\":2,\"barrier-6\":2,\"barrier-7\":3,\"barrier-8\":2,\"barrier-9\":5,\"barrier-10\":4,\"barrier-11\":5,\"barrier-12\":5,\"barrier-13\":3,\"barrier-14\":4,\"barrier-15\":3,\"barrier-16\":5,\"barrier-17\":3,\"barrier-18\":3,\"barrier-19\":4,\"barrier-20\":2,\"barrier-21\":1,\"barrier-22\":0,\"barrier-23\":2,\"barrier-24\":3}', '{\"transition-1\":1,\"transition-2\":3,\"transition-3\":2,\"transition-4\":2,\"transition-5\":3,\"transition-6\":1,\"transition-7\":2,\"transition-8\":2,\"transition-9\":3,\"transition-10\":2,\"transition-11\":2,\"transition-12\":3,\"transition-13\":3,\"transition-14\":2,\"transition-15\":2,\"transition-16\":1,\"transition-17\":2,\"transition-18\":2}', '{\"task-1\":1,\"task-2\":2,\"task-3\":3,\"task-4\":1,\"task-5\":2,\"task-6\":3,\"task-7\":2,\"task-8\":3,\"task-9\":3,\"task-10\":3,\"task-11\":2,\"task-12\":3,\"task-13\":3,\"task-14\":3,\"task-15\":2,\"task-16\":3,\"task-17\":4,\"task-18\":4,\"task-19\":3,\"task-20\":4,\"task-21\":4,\"task-22\":3,\"task-23\":4,\"task-24\":3,\"task-25\":4,\"task-26\":5,\"task-27\":4,\"task-28\":2,\"task-29\":2,\"task-30\":1}', '{\"iep-1\":2,\"iep-2\":2,\"iep-3\":2,\"iep-4\":3,\"iep-5\":2,\"iep-6\":3,\"iep-7\":1,\"iep-8\":2,\"iep-9\":3,\"iep-10\":2,\"iep-11\":1,\"iep-12\":0,\"iep-13\":1,\"iep-14\":2,\"iep-15\":2,\"iep-16\":3,\"iep-17\":2,\"iep-18\":1,\"iep-19\":0,\"iep-20\":2}', NULL, '2025-11-23 12:13:37', '2025-11-23 12:13:37'),
+(14, 'test2202', '2026-01-22', '{\"level1\":{\"mand\":{\"mand-1-1\":4,\"mand-1-2\":4,\"mand-1-3\":5,\"mand-1-4\":5,\"mand-1-5\":5},\"tact\":{\"tact-1-1\":5,\"tact-1-2\":4,\"tact-1-3\":5,\"tact-1-4\":3,\"tact-1-5\":4},\"listener\":{\"listener-1-1\":3,\"listener-1-2\":4,\"listener-1-3\":4,\"listener-1-4\":5,\"listener-1-5\":4},\"vpmts\":{\"vpmts-1-1\":4,\"vpmts-1-2\":3,\"vpmts-1-3\":4,\"vpmts-1-4\":4,\"vpmts-1-5\":3},\"play\":{\"play-1-1\":4,\"play-1-2\":3,\"play-1-3\":3,\"play-1-4\":4,\"play-1-5\":5},\"social\":{\"social-1-1\":3,\"social-1-2\":5,\"social-1-3\":5,\"social-1-4\":5,\"social-1-5\":5},\"imitation\":{\"imitation-1-1\":4,\"imitation-1-2\":5,\"imitation-1-3\":3,\"imitation-1-4\":5,\"imitation-1-5\":4},\"echoic\":{\"echoic-1-1\":3,\"echoic-1-2\":4,\"echoic-1-3\":5,\"echoic-1-4\":4,\"echoic-1-5\":4},\"eesa\":{\"eesa-1-1\":2,\"eesa-1-2\":3,\"eesa-1-3\":3,\"eesa-1-4\":4,\"eesa-1-5\":3}},\"level2\":{\"mand\":{\"mand-2-6\":2,\"mand-2-7\":3,\"mand-2-8\":3,\"mand-2-9\":4,\"mand-2-10\":4},\"tact\":{\"tact-2-6\":4,\"tact-2-7\":5,\"tact-2-8\":4,\"tact-2-9\":5,\"tact-2-10\":5},\"listener\":{\"listener-2-6\":3,\"listener-2-7\":4,\"listener-2-8\":5,\"listener-2-9\":3,\"listener-2-10\":4},\"vpmts\":{\"vpmts-2-6\":5,\"vpmts-2-7\":4,\"vpmts-2-8\":4,\"vpmts-2-9\":5,\"vpmts-2-10\":5},\"play\":{\"play-2-6\":3,\"play-2-7\":4,\"play-2-8\":4,\"play-2-9\":4,\"play-2-10\":2},\"social\":{\"social-2-6\":3,\"social-2-7\":4,\"social-2-8\":5,\"social-2-9\":5,\"social-2-10\":5},\"imitation\":{\"imitation-2-6\":4,\"imitation-2-7\":4,\"imitation-2-8\":5,\"imitation-2-9\":3,\"imitation-2-10\":4},\"echoic\":{\"echoic-2-6\":3,\"echoic-2-7\":4,\"echoic-2-8\":4,\"echoic-2-9\":3,\"echoic-2-10\":4},\"lrffc\":{\"lrffc-2-6\":3,\"lrffc-2-7\":4,\"lrffc-2-8\":3,\"lrffc-2-9\":4,\"lrffc-2-10\":3},\"intraverbal\":{\"intraverbal-2-6\":4,\"intraverbal-2-7\":4,\"intraverbal-2-8\":3,\"intraverbal-2-9\":3,\"intraverbal-2-10\":4},\"classroom\":{\"classroom-2-6\":3,\"classroom-2-7\":4,\"classroom-2-8\":4,\"classroom-2-9\":5,\"classroom-2-10\":3},\"linguistics\":{\"linguistics-2-6\":3,\"linguistics-2-7\":4,\"linguistics-2-8\":4,\"linguistics-2-9\":5,\"linguistics-2-10\":4}},\"level3\":{\"mand\":{\"mand-3-11\":3,\"mand-3-12\":4,\"mand-3-13\":4,\"mand-3-14\":4,\"mand-3-15\":5},\"tact\":{\"tact-3-11\":3,\"tact-3-12\":4,\"tact-3-13\":5,\"tact-3-14\":4,\"tact-3-15\":4},\"listener\":{\"listener-3-11\":5,\"listener-3-12\":4,\"listener-3-13\":5,\"listener-3-14\":4,\"listener-3-15\":5},\"vpmts\":{\"vpmts-3-11\":5,\"vpmts-3-12\":4,\"vpmts-3-13\":4,\"vpmts-3-14\":2,\"vpmts-3-15\":3},\"play\":{\"play-3-11\":4,\"play-3-12\":4,\"play-3-13\":5,\"play-3-14\":4,\"play-3-15\":3},\"social\":{\"social-3-11\":3,\"social-3-12\":4,\"social-3-13\":3,\"social-3-14\":4,\"social-3-15\":5},\"imitation\":{\"imitation-3-11\":4,\"imitation-3-12\":3,\"imitation-3-13\":4,\"imitation-3-14\":4,\"imitation-3-15\":3},\"echoic\":{\"echoic-3-11\":3,\"echoic-3-12\":4,\"echoic-3-13\":4,\"echoic-3-14\":5,\"echoic-3-15\":4},\"lrffc\":{\"lrffc-3-11\":3,\"lrffc-3-12\":4,\"lrffc-3-13\":5,\"lrffc-3-14\":5,\"lrffc-3-15\":4},\"intraverbal\":{\"intraverbal-3-11\":3,\"intraverbal-3-12\":3,\"intraverbal-3-13\":4,\"intraverbal-3-14\":4,\"intraverbal-3-15\":3},\"classroom\":{\"classroom-3-11\":3,\"classroom-3-12\":4,\"classroom-3-13\":5,\"classroom-3-14\":2,\"classroom-3-15\":2},\"linguistics\":{\"linguistics-3-11\":2,\"linguistics-3-12\":2,\"linguistics-3-13\":3,\"linguistics-3-14\":2,\"linguistics-3-15\":3},\"reading\":{\"reading-3-11\":2,\"reading-3-12\":4,\"reading-3-13\":2,\"reading-3-14\":3,\"reading-3-15\":0},\"writing\":{\"writing-3-11\":3,\"writing-3-12\":4,\"writing-3-13\":2,\"writing-3-14\":3,\"writing-3-15\":3},\"math\":{\"math-3-11\":2,\"math-3-12\":3,\"math-3-13\":4,\"math-3-14\":3,\"math-3-15\":2}}}', '{\"barrier-1\":5,\"barrier-2\":3,\"barrier-3\":4,\"barrier-4\":4,\"barrier-5\":3,\"barrier-6\":4,\"barrier-7\":4,\"barrier-8\":3,\"barrier-9\":5,\"barrier-10\":5,\"barrier-11\":5,\"barrier-12\":5,\"barrier-13\":4,\"barrier-14\":4,\"barrier-15\":5,\"barrier-16\":5,\"barrier-17\":4,\"barrier-18\":4,\"barrier-19\":5,\"barrier-20\":4,\"barrier-21\":3,\"barrier-22\":2,\"barrier-23\":4,\"barrier-24\":4}', '{\"transition-1\":4,\"transition-2\":4,\"transition-3\":5,\"transition-4\":3,\"transition-5\":3,\"transition-6\":3,\"transition-7\":4,\"transition-8\":2,\"transition-9\":3,\"transition-10\":3,\"transition-11\":4,\"transition-12\":3,\"transition-13\":3,\"transition-14\":3,\"transition-15\":4,\"transition-16\":3,\"transition-17\":4,\"transition-18\":3}', '[]', '[]', NULL, '2025-11-23 12:13:37', '2025-11-23 12:13:37'),
+(15, 'test2202', '2027-07-22', '{\"level1\":{\"mand\":{\"mand-1-1\":5,\"mand-1-2\":5,\"mand-1-3\":5,\"mand-1-4\":5,\"mand-1-5\":5},\"tact\":{\"tact-1-1\":5,\"tact-1-2\":5,\"tact-1-3\":5,\"tact-1-4\":5,\"tact-1-5\":5},\"listener\":{\"listener-1-1\":5,\"listener-1-2\":5,\"listener-1-3\":5,\"listener-1-4\":5,\"listener-1-5\":5},\"vpmts\":{\"vpmts-1-1\":5,\"vpmts-1-2\":5,\"vpmts-1-3\":5,\"vpmts-1-4\":5,\"vpmts-1-5\":5},\"play\":{\"play-1-1\":5,\"play-1-2\":5,\"play-1-3\":5,\"play-1-4\":5,\"play-1-5\":5},\"social\":{\"social-1-1\":5,\"social-1-2\":5,\"social-1-3\":5,\"social-1-4\":5,\"social-1-5\":5},\"imitation\":{\"imitation-1-1\":5,\"imitation-1-2\":5,\"imitation-1-3\":5,\"imitation-1-4\":5,\"imitation-1-5\":5},\"echoic\":{\"echoic-1-1\":5,\"echoic-1-2\":5,\"echoic-1-3\":5,\"echoic-1-4\":5,\"echoic-1-5\":5},\"eesa\":{\"eesa-1-1\":5,\"eesa-1-2\":5,\"eesa-1-3\":5,\"eesa-1-4\":5,\"eesa-1-5\":5}},\"level2\":{\"mand\":{\"mand-2-6\":5,\"mand-2-7\":5,\"mand-2-8\":5,\"mand-2-9\":5,\"mand-2-10\":5},\"tact\":{\"tact-2-6\":5,\"tact-2-7\":5,\"tact-2-8\":5,\"tact-2-9\":5,\"tact-2-10\":5},\"listener\":{\"listener-2-6\":5,\"listener-2-7\":5,\"listener-2-8\":5,\"listener-2-9\":5,\"listener-2-10\":5},\"vpmts\":{\"vpmts-2-6\":5,\"vpmts-2-7\":5,\"vpmts-2-8\":5,\"vpmts-2-9\":5,\"vpmts-2-10\":5},\"play\":{\"play-2-6\":5,\"play-2-7\":5,\"play-2-8\":5,\"play-2-9\":5,\"play-2-10\":5},\"social\":{\"social-2-6\":5,\"social-2-7\":5,\"social-2-8\":5,\"social-2-9\":5,\"social-2-10\":5},\"imitation\":{\"imitation-2-6\":5,\"imitation-2-7\":5,\"imitation-2-8\":5,\"imitation-2-9\":5,\"imitation-2-10\":5},\"echoic\":{\"echoic-2-6\":5,\"echoic-2-7\":5,\"echoic-2-8\":5,\"echoic-2-9\":5,\"echoic-2-10\":5},\"lrffc\":{\"lrffc-2-6\":5,\"lrffc-2-7\":5,\"lrffc-2-8\":5,\"lrffc-2-9\":5,\"lrffc-2-10\":5},\"intraverbal\":{\"intraverbal-2-6\":5,\"intraverbal-2-7\":5,\"intraverbal-2-8\":5,\"intraverbal-2-9\":5,\"intraverbal-2-10\":5},\"classroom\":{\"classroom-2-6\":5,\"classroom-2-7\":5,\"classroom-2-8\":5,\"classroom-2-9\":5,\"classroom-2-10\":5},\"linguistics\":{\"linguistics-2-6\":5,\"linguistics-2-7\":5,\"linguistics-2-8\":5,\"linguistics-2-9\":5,\"linguistics-2-10\":5}},\"level3\":{\"mand\":{\"mand-3-11\":5,\"mand-3-12\":5,\"mand-3-13\":5},\"tact\":{\"tact-3-11\":5,\"tact-3-12\":5,\"tact-3-13\":5},\"listener\":{\"listener-3-11\":5,\"listener-3-12\":5,\"listener-3-13\":5},\"vpmts\":{\"vpmts-3-11\":5,\"vpmts-3-12\":5,\"vpmts-3-13\":5},\"play\":{\"play-3-11\":5,\"play-3-12\":5,\"play-3-13\":5},\"social\":{\"social-3-11\":5,\"social-3-12\":5,\"social-3-13\":5},\"imitation\":{\"imitation-3-11\":5,\"imitation-3-12\":5,\"imitation-3-13\":5},\"echoic\":{\"echoic-3-11\":5,\"echoic-3-12\":5,\"echoic-3-13\":5},\"lrffc\":{\"lrffc-3-11\":5,\"lrffc-3-12\":5,\"lrffc-3-13\":5},\"intraverbal\":{\"intraverbal-3-11\":5,\"intraverbal-3-12\":5,\"intraverbal-3-13\":5},\"classroom\":{\"classroom-3-11\":5,\"classroom-3-12\":5,\"classroom-3-13\":5},\"linguistics\":{\"linguistics-3-11\":5,\"linguistics-3-12\":5,\"linguistics-3-13\":5},\"reading\":{\"reading-3-11\":5,\"reading-3-12\":5,\"reading-3-13\":5},\"writing\":{\"writing-3-11\":5,\"writing-3-12\":5,\"writing-3-13\":5},\"math\":{\"math-3-11\":5,\"math-3-12\":5,\"math-3-13\":5}}}', '{\"barrier-1\":1,\"barrier-2\":1,\"barrier-3\":1,\"barrier-4\":1,\"barrier-5\":1,\"barrier-6\":1,\"barrier-7\":1,\"barrier-8\":1,\"barrier-9\":1,\"barrier-10\":1,\"barrier-11\":1,\"barrier-12\":1,\"barrier-13\":1,\"barrier-14\":1,\"barrier-15\":1,\"barrier-16\":1,\"barrier-17\":1,\"barrier-18\":1,\"barrier-19\":1,\"barrier-20\":1,\"barrier-21\":1,\"barrier-22\":1,\"barrier-23\":1,\"barrier-24\":1}', '{\"transition-1\":2,\"transition-2\":2,\"transition-3\":2,\"transition-4\":2,\"transition-5\":2,\"transition-6\":2,\"transition-7\":2,\"transition-8\":2,\"transition-9\":2,\"transition-10\":2,\"transition-11\":2,\"transition-12\":2,\"transition-13\":2,\"transition-14\":2,\"transition-15\":2,\"transition-16\":2,\"transition-17\":2,\"transition-18\":2}', '[]', '[]', NULL, '2025-11-23 12:13:37', '2025-11-23 12:13:37');
 
 --
 -- Indexes for dumped tables
@@ -6957,6 +7063,14 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `username` (`username`);
 
 --
+-- Indexes for table `vbmapp_evaluations`
+--
+ALTER TABLE `vbmapp_evaluations`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_vbmapp_eval` (`client_id`,`eval_date`),
+  ADD KEY `idx_client_date` (`client_id`,`eval_date`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -6964,13 +7078,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `ablls_evaluations`
 --
 ALTER TABLE `ablls_evaluations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14887;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15247;
 
 --
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2305;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2400;
 
 --
 -- AUTO_INCREMENT for table `client_documents`
@@ -6988,37 +7102,43 @@ ALTER TABLE `intervention_plan_programs`
 -- AUTO_INCREMENT for table `logopedic_evaluations`
 --
 ALTER TABLE `logopedic_evaluations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=533;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=543;
 
 --
 -- AUTO_INCREMENT for table `monthly_themes`
 --
 ALTER TABLE `monthly_themes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1504;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1514;
 
 --
 -- AUTO_INCREMENT for table `portage_checked_items`
 --
 ALTER TABLE `portage_checked_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3841;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3941;
 
 --
 -- AUTO_INCREMENT for table `portage_evaluations`
 --
 ALTER TABLE `portage_evaluations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14701;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14801;
 
 --
 -- AUTO_INCREMENT for table `program_history`
 --
 ALTER TABLE `program_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64596;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66532;
 
 --
 -- AUTO_INCREMENT for table `system_options`
 --
 ALTER TABLE `system_options`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `vbmapp_evaluations`
+--
+ALTER TABLE `vbmapp_evaluations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
