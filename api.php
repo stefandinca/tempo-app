@@ -225,7 +225,18 @@ try {
                 if ($input === null) {
                     sendError('Invalid JSON data', 400);
                 }
-                debugLog("Salvare 'data'. Se salvează " . count($input['clients']) . " clienți și " . count($input['events']) . " evenimente.");
+
+                // ⚠️ SAFETY CHECK: POST /data is DESTRUCTIVE - it deletes ALL existing data first!
+                // Ensure complete data is provided to prevent accidental data loss
+                if (!isset($input['teamMembers']) || !isset($input['clients']) || !isset($input['events'])) {
+                    sendError('POST /data requires complete state (teamMembers, clients, events). Use granular endpoints (POST /clients, POST /events, POST /team-members) for incremental updates.', 400);
+                }
+
+                if (!is_array($input['teamMembers']) || !is_array($input['clients']) || !is_array($input['events'])) {
+                    sendError('teamMembers, clients, and events must be arrays', 400);
+                }
+
+                debugLog("⚠️ DESTRUCTIVE OPERATION: Salvare 'data'. Se vor șterge TOATE datele și se vor salva " . count($input['teamMembers']) . " team members, " . count($input['clients']) . " clienți și " . count($input['events']) . " evenimente.");
 
                 try {
                     $pdo->beginTransaction();
@@ -720,6 +731,94 @@ try {
                 break;
 
         // ==========================================================
+        // CAZUL 'team-members/{id}' - CRUD operations for individual team members
+        // ==========================================================
+        case (preg_match('/^team-members\/(.+)$/', $path, $matches) ? true : false):
+            $teamMemberId = $matches[1];
+
+            if ($method === 'PUT') {
+                // Update team member
+                try {
+                    if ($input === null) {
+                        sendError('Invalid JSON data', 400);
+                    }
+
+                    $stmt = $pdo->prepare("UPDATE team_members SET id=?, name=?, color=?, initials=?, role=? WHERE id=?");
+                    $stmt->execute([
+                        $input['id'],
+                        $input['name'],
+                        $input['color'] ?? '#6c757d',
+                        $input['initials'] ?? '',
+                        $input['role'] ?? 'therapist',
+                        $teamMemberId
+                    ]);
+
+                    if ($stmt->rowCount() === 0) {
+                        sendError('Team member not found', 404);
+                    }
+
+                    debugLog("Team member actualizat: $teamMemberId -> " . $input['id']);
+                    sendResponse(['success' => true, 'message' => 'Team member updated successfully']);
+
+                } catch (Exception $e) {
+                    debugLog("Eroare la actualizarea team member: " . $e->getMessage());
+                    sendError('Failed to update team member: ' . $e->getMessage());
+                }
+
+            } elseif ($method === 'DELETE') {
+                try {
+                    $stmt = $pdo->prepare("DELETE FROM team_members WHERE id=?");
+                    $stmt->execute([$teamMemberId]);
+
+                    if ($stmt->rowCount() === 0) {
+                        sendError('Team member not found', 404);
+                    }
+
+                    debugLog("Team member șters: $teamMemberId");
+                    sendResponse(['success' => true, 'message' => 'Team member deleted successfully']);
+
+                } catch (Exception $e) {
+                    debugLog("Eroare la ștergerea team member: " . $e->getMessage());
+                    sendError('Failed to delete team member: ' . $e->getMessage());
+                }
+            } else {
+                sendError('Unsupported method for team-members:id', 405);
+            }
+            break;
+
+        case 'team-members':
+            if ($method === 'POST') {
+                try {
+                    if ($input === null) {
+                        sendError('Invalid JSON data', 400);
+                    }
+
+                    $stmt = $pdo->prepare("INSERT INTO team_members (id, name, color, initials, role) VALUES (?, ?, ?, ?, ?)");
+                    $stmt->execute([
+                        $input['id'],
+                        $input['name'],
+                        $input['color'] ?? '#6c757d',
+                        $input['initials'] ?? '',
+                        $input['role'] ?? 'therapist'
+                    ]);
+
+                    debugLog("Team member creat: " . $input['id']);
+                    sendResponse(['success' => true, 'message' => 'Team member created successfully', 'id' => $input['id']]);
+
+                } catch (PDOException $e) {
+                    if ($e->getCode() == 23000) {
+                        sendError('Un team member cu acest ID există deja', 409);
+                    } else {
+                        debugLog("Eroare la crearea team member: " . $e->getMessage());
+                        sendError('Failed to create team member: ' . $e->getMessage());
+                    }
+                }
+            } else {
+                sendError('Unsupported method for team-members', 405);
+            }
+            break;
+
+        // ==========================================================
         // CAZUL 'client-documents' - Document Management
         // ==========================================================
 
@@ -1100,19 +1199,27 @@ try {
                 sendResponse($evolutionData);
 
             } elseif ($method === 'POST') {
-                
+
                 if ($input === null) {
                     sendError('Invalid JSON data for evolution', 400);
                 }
-                debugLog("Salvare 'evolution'. Se primesc date pentru " . count($input) . " clienți.");
-                
+
+                // ⚠️ SAFETY CHECK: POST /evolution is DESTRUCTIVE - it deletes ALL evaluation data first!
+                // This operation will delete ALL existing evaluation data for ALL clients
+                // Ensure you are sending complete evolution data for ALL clients
+                if (!is_array($input) && !is_object($input)) {
+                    sendError('POST /evolution requires evolution data object. WARNING: This will DELETE all existing evaluation data first!', 400);
+                }
+
+                debugLog("⚠️ DESTRUCTIVE OPERATION: Salvare 'evolution'. Se vor șterge TOATE evaluările și se vor salva date pentru " . count((array)$input) . " clienți.");
+
                 try {
                     // 1. Obține ID-uri valide DOAR pentru programe (necesar pentru program_history)
                     $valid_program_ids = $pdo->query("SELECT id FROM programs")->fetchAll(PDO::FETCH_COLUMN, 0);
 
                     $pdo->beginTransaction();
 
-                    // 2. Șterge datele vechi
+                    // 2. Șterge datele vechi (⚠️ DESTRUCTIVE!)
                     $pdo->exec("DELETE FROM portage_evaluations;");
                     $pdo->exec("DELETE FROM portage_checked_items;");
                     $pdo->exec("DELETE FROM program_history;");
@@ -1236,15 +1343,23 @@ try {
                 sendResponse($billingsData);
 
             } elseif ($method === 'POST') {
-                
+
                 if ($input === null) {
                     sendError('Invalid JSON data for billings', 400);
                 }
-                debugLog("Salvare 'billings'. Se primesc date pentru " . count($input) . " clienți.");
-                
+
+                // ⚠️ SAFETY CHECK: POST /billings is DESTRUCTIVE - it deletes ALL payment data first!
+                // This operation will delete ALL existing payment records for ALL clients
+                // Ensure you are sending complete billing data for ALL clients
+                if (!is_array($input) && !is_object($input)) {
+                    sendError('POST /billings requires billings data object. WARNING: This will DELETE all existing payment data first!', 400);
+                }
+
+                debugLog("⚠️ DESTRUCTIVE OPERATION: Salvare 'billings'. Se vor șterge TOATE plățile și se vor salva date pentru " . count((array)$input) . " clienți.");
+
                 try {
                     $pdo->beginTransaction();
-                    $pdo->exec("DELETE FROM payments;");
+                    $pdo->exec("DELETE FROM payments;"); // ⚠️ DESTRUCTIVE!
                     debugLog("Tabelul 'payments' a fost golit.");
 
                     $stmt = $pdo->prepare("INSERT INTO payments (id, client_id, month_key, payment_date, amount, notes) VALUES (?, ?, ?, ?, ?, ?)");

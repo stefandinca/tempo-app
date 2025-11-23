@@ -639,7 +639,11 @@ console.log('===========================');
                 // This is complex as updateRecurringEvents modifies multiple events
                 // For now, update local state first and save full data
                 calendarState.updateRecurringEvents(existingEvent, eventBase);
-                // Save all data to ensure consistency
+
+                // ⚠️ WARNING: Using destructive POST /data endpoint for recurring event updates
+                // This is necessary because we're updating multiple related events atomically
+                // We send the complete state to ensure all recurring instances are updated together
+                // TODO: Consider creating a dedicated batch update endpoint in the future
                 await api.saveData({
                     teamMembers: calendarState.getState().teamMembers,
                     clients: calendarState.getState().clients,
@@ -1138,7 +1142,13 @@ async function handleSaveTeamMember(e) {
     }
 
     calendarState.saveTeamMember(memberData);
-    await api.saveData(calendarState.getState());
+
+    // Use granular endpoint instead of destructive saveData
+    if (editingMemberId) {
+        await api.updateTeamMember(memberData, editingMemberId);
+    } else {
+        await api.createTeamMember(memberData);
+    }
 
     // Update password if provided when editing
     if (editingMemberId && newPassword && newPassword.length > 0) {
@@ -1192,7 +1202,7 @@ async function handleDeleteTeamMember() {
 
         // Delete team member
         calendarState.deleteTeamMember(editingMemberId);
-        await api.saveData(calendarState.getState());
+        await api.deleteTeamMember(editingMemberId);
         ui.renderTeamMembersList();
         ui.closeTeamMemberModal();
         renderFilters();

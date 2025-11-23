@@ -245,6 +245,77 @@ export async function deleteClient(clientId) {
 }
 
 /**
+ * Create a new team member
+ * @param {object} teamMemberData - Team member data
+ */
+export async function createTeamMember(teamMemberData) {
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(teamMemberData)
+    };
+    try {
+        const result = await apiFetch('team-members', options);
+        showSuccessToast('Membru echipă creat', `${teamMemberData.name} a fost adăugat cu succes`);
+
+        // Log activity
+        await window.logActivity('a adăugat membru echipă', teamMemberData.name, 'team_member', teamMemberData.id);
+
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la creare', 'Nu s-a putut crea membrul echipei');
+        throw error;
+    }
+}
+
+/**
+ * Update a team member
+ * @param {object} teamMemberData - New team member data
+ * @param {string} [oldId] - Original team member ID (use when ID has changed)
+ */
+export async function updateTeamMember(teamMemberData, oldId = null) {
+    const options = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(teamMemberData)
+    };
+    // Use oldId if provided (for when ID changes), otherwise use current ID
+    const teamMemberIdForUrl = oldId || teamMemberData.id;
+    try {
+        const result = await apiFetch(`team-members/${teamMemberIdForUrl}`, options);
+        showSuccessToast('Membru echipă actualizat', 'Modificările au fost salvate cu succes');
+
+        // Log activity
+        await window.logActivity('a actualizat membru echipă', teamMemberData.name, 'team_member', teamMemberData.id);
+
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la actualizare', 'Nu s-a putut actualiza membrul echipei');
+        throw error;
+    }
+}
+
+/**
+ * Delete a team member
+ * @param {string} teamMemberId - ID of the team member
+ */
+export async function deleteTeamMember(teamMemberId) {
+    const options = { method: 'DELETE' };
+    try {
+        const result = await apiFetch(`team-members/${teamMemberId}`, options);
+        showSuccessToast('Membru echipă șters', 'Membrul echipei a fost șters cu succes');
+
+        // Log activity
+        await window.logActivity('a șters membru echipă', teamMemberId, 'team_member', teamMemberId);
+
+        return result;
+    } catch (error) {
+        showErrorToast('Eroare la ștergere', 'Nu s-a putut șterge membrul echipei');
+        throw error;
+    }
+}
+
+/**
  * Încarcă programele terapeutice.
  * Apel GET la api.php?path=programs
  */
