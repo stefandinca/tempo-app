@@ -1,0 +1,179 @@
+{
+  "testSuiteName": "Therapy App Data Persistence Integrity Tests",
+  "description": "Automated tests to verify Create, Read, Update, and Delete (CRUD) operations on the PHP Backend. Warning: Some endpoints are destructive.",
+  "environment": {
+    "baseUrl": "http://localhost/api.php",
+    "dbHost": "127.0.0.1",
+    "testUser": "stefan",
+    "testPass": "2025"
+  },
+  "testSequence": [
+    {
+      "id": "001_AUTH_LOGIN",
+      "name": "Verify Authentication",
+      "description": "Ensure the API accepts valid credentials and returns user info.",
+      "method": "POST",
+      "endpoint": "?action=login",
+      "headers": { "Content-Type": "application/x-www-form-urlencoded" },
+      "payload": {
+        "username": "stefan",
+        "password": "2025"
+      },
+      "assertions": [
+        { "type": "statusCode", "value": 200 },
+        { "type": "jsonProperty", "key": "success", "value": true },
+        { "type": "jsonProperty", "key": "user.role", "value": "admin" }
+      ]
+    },
+    {
+      "id": "002_CLIENT_CREATE",
+      "name": "Create New Client",
+      "description": "Test persistence of a new client record.",
+      "method": "POST",
+      "endpoint": "?path=clients",
+      "payload": {
+        "id": "ai_test_client_01",
+        "name": "AI Test Patient",
+        "email": "ai@test.com",
+        "phone": "0700000000",
+        "birthDate": "2020-01-01",
+        "medical": "No allergies",
+        "is_archived": 0
+      },
+      "assertions": [
+        { "type": "statusCode", "value": 200 },
+        { "type": "jsonProperty", "key": "success", "value": true }
+      ]
+    },
+    {
+      "id": "003_CLIENT_VERIFY_DB",
+      "name": "Verify Client Persistence",
+      "description": "Fetch all data to ensure the new client was actually saved to MySQL.",
+      "method": "GET",
+      "endpoint": "?path=data",
+      "assertions": [
+        { "type": "statusCode", "value": 200 },
+        { "type": "arrayContains", "path": "clients", "key": "id", "value": "ai_test_client_01" }
+      ]
+    },
+    {
+      "id": "004_EVENT_CREATE",
+      "name": "Create Appointment",
+      "description": "Create a therapy session linked to the test client.",
+      "method": "POST",
+      "endpoint": "?path=events",
+      "payload": [
+        {
+          "id": "evt_ai_test_01",
+          "name": "AI Therapy Session",
+          "details": "Automated test session",
+          "type": "therapy",
+          "date": "2025-12-25",
+          "startTime": "10:00",
+          "duration": 60,
+          "isPublic": 0,
+          "isBillable": 1,
+          "clientIds": ["ai_test_client_01"],
+          "teamMemberIds": ["stefan"],
+          "programIds": []
+        }
+      ],
+      "assertions": [
+        { "type": "statusCode", "value": 200 },
+        { "type": "jsonProperty", "key": "success", "value": true }
+      ]
+    },
+    {
+      "id": "005_EVENT_UPDATE",
+      "name": "Update Appointment Time",
+      "description": "Modify the event time to ensure UPDATE SQL queries work correctly.",
+      "method": "PUT",
+      "endpoint": "?path=events/evt_ai_test_01",
+      "payload": {
+        "name": "AI Therapy Session UPDATED",
+        "date": "2025-12-26",
+        "startTime": "11:00",
+        "type": "therapy",
+        "clientIds": ["ai_test_client_01"],
+        "teamMemberIds": ["stefan"]
+      },
+      "assertions": [
+        { "type": "statusCode", "value": 200 },
+        { "type": "jsonProperty", "key": "success", "value": true }
+      ]
+    },
+    {
+      "id": "006_INTERVENTION_PLAN_CREATE",
+      "name": "Create Intervention Plan",
+      "description": "Test the dedicated intervention plan endpoint.",
+      "method": "POST",
+      "endpoint": "?path=intervention-plans",
+      "payload": {
+        "clientId": "ai_test_client_01",
+        "startDate": "2025-01-01",
+        "endDate": "2025-06-01",
+        "notes": "AI Generated Plan",
+        "programIds": ["prog_1", "prog_3"]
+      },
+      "assertions": [
+        { "type": "statusCode", "value": 200 },
+        { "type": "jsonProperty", "key": "success", "value": true }
+      ]
+    },
+    {
+      "id": "007_EVALUATION_VB_MAPP_SAVE",
+      "name": "Save Evolution Data (Bulk)",
+      "description": "WARNING: This endpoint performs a DELETE then INSERT. This test attempts to save a VB-MAPP score for the test client.",
+      "method": "POST",
+      "endpoint": "?path=evolution",
+      "payload": {
+        "ai_test_client_01": {
+          "evaluationsVBMAPP": {
+            "2025-12-01": {
+              "milestones": { "mand-1-1": 5 },
+              "barriers": [],
+              "transition": []
+            }
+          }
+        }
+      },
+      "assertions": [
+        { "type": "statusCode", "value": 200 },
+        { "type": "jsonProperty", "key": "success", "value": true }
+      ]
+    },
+    {
+      "id": "008_EVENT_DELETE",
+      "name": "Delete Event",
+      "description": "Verify soft or hard deletion of the event.",
+      "method": "DELETE",
+      "endpoint": "?path=events/evt_ai_test_01",
+      "assertions": [
+        { "type": "statusCode", "value": 200 },
+        { "type": "jsonProperty", "key": "success", "value": true }
+      ]
+    },
+    {
+      "id": "009_CLIENT_DELETE",
+      "name": "Cleanup Client",
+      "description": "Delete the test client to clean up the database.",
+      "method": "DELETE",
+      "endpoint": "?path=clients/ai_test_client_01",
+      "assertions": [
+        { "type": "statusCode", "value": 200 },
+        { "type": "jsonProperty", "key": "success", "value": true }
+      ]
+    },
+    {
+      "id": "010_SYSTEM_OPTIONS",
+      "name": "Read System Options",
+      "description": "Ensure configuration table is readable.",
+      "method": "GET",
+      "endpoint": "?path=system-options",
+      "assertions": [
+        { "type": "statusCode", "value": 200 },
+        { "type": "jsonProperty", "key": "subscriber_id", "value": "livebetterlife" }
+      ]
+    }
+  ]
+}
