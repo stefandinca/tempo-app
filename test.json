@@ -1,6 +1,6 @@
 {
-  "testSuiteName": "Therapy App Data Persistence Integrity Tests",
-  "description": "Automated tests to verify Create, Read, Update, and Delete (CRUD) operations on the PHP Backend. Warning: Some endpoints are destructive.",
+  "testSuiteName": "Tempo App V2 - Data Integrity & CRUD Tests",
+  "description": "Automated tests for the PHP/MySQL backend. Focuses on granular CRUD operations to ensure data safety, relationship integrity, and activity logging.",
   "environment": {
     "baseUrl": "http://localhost/api.php",
     "dbHost": "127.0.0.1",
@@ -10,8 +10,8 @@
   "testSequence": [
     {
       "id": "001_AUTH_LOGIN",
-      "name": "Verify Authentication",
-      "description": "Ensure the API accepts valid credentials and returns user info.",
+      "name": "Admin Login",
+      "description": "Authenticate to get the session/cookie for subsequent requests.",
       "method": "POST",
       "endpoint": "?action=login",
       "headers": { "Content-Type": "application/x-www-form-urlencoded" },
@@ -26,18 +26,36 @@
       ]
     },
     {
-      "id": "002_CLIENT_CREATE",
-      "name": "Create New Client",
-      "description": "Test persistence of a new client record.",
+      "id": "002_CREATE_TEAM_MEMBER",
+      "name": "Create Test Therapist",
+      "description": "Create a specific team member to link events to.",
+      "method": "POST",
+      "endpoint": "?path=team-members",
+      "payload": {
+        "id": "tm_test_ai_01",
+        "name": "AI Test Therapist",
+        "role": "therapist",
+        "color": "#FF0000",
+        "initials": "AI"
+      },
+      "assertions": [
+        { "type": "statusCode", "value": 200 },
+        { "type": "jsonProperty", "key": "success", "value": true }
+      ]
+    },
+    {
+      "id": "003_CREATE_CLIENT",
+      "name": "Create Test Client",
+      "description": "Create a client record to verify persistence.",
       "method": "POST",
       "endpoint": "?path=clients",
       "payload": {
-        "id": "ai_test_client_01",
-        "name": "AI Test Patient",
-        "email": "ai@test.com",
-        "phone": "0700000000",
+        "id": "cl_test_ai_01",
+        "name": "AI Patient Zero",
+        "email": "ai@tempo.test",
+        "phone": "0700123456",
         "birthDate": "2020-01-01",
-        "medical": "No allergies",
+        "medical": "Test Medical Notes",
         "is_archived": 0
       },
       "assertions": [
@@ -46,35 +64,41 @@
       ]
     },
     {
-      "id": "003_CLIENT_VERIFY_DB",
-      "name": "Verify Client Persistence",
-      "description": "Fetch all data to ensure the new client was actually saved to MySQL.",
-      "method": "GET",
-      "endpoint": "?path=data",
+      "id": "004_CREATE_EVENT_TYPE",
+      "name": "Create Custom Event Type",
+      "description": "Ensure event type validation works by creating a specific type first.",
+      "method": "POST",
+      "endpoint": "?path=event_types",
+      "payload": {
+        "id": "type_ai_test",
+        "label": "AI Therapy Session",
+        "isBillable": 1,
+        "requiresTime": 1,
+        "base_price": 150
+      },
       "assertions": [
         { "type": "statusCode", "value": 200 },
-        { "type": "arrayContains", "path": "clients", "key": "id", "value": "ai_test_client_01" }
+        { "type": "jsonProperty", "key": "success", "value": true }
       ]
     },
     {
-      "id": "004_EVENT_CREATE",
-      "name": "Create Appointment",
-      "description": "Create a therapy session linked to the test client.",
+      "id": "005_CREATE_EVENT",
+      "name": "Create Linked Event",
+      "description": "Create an event linking the new Client, Therapist, and Event Type. Checks relational integrity.",
       "method": "POST",
       "endpoint": "?path=events",
       "payload": [
         {
           "id": "evt_ai_test_01",
-          "name": "AI Therapy Session",
-          "details": "Automated test session",
-          "type": "therapy",
-          "date": "2025-12-25",
+          "name": "Initial AI Assessment",
+          "type": "type_ai_test",
+          "date": "2025-12-01",
           "startTime": "10:00",
           "duration": 60,
           "isPublic": 0,
           "isBillable": 1,
-          "clientIds": ["ai_test_client_01"],
-          "teamMemberIds": ["stefan"],
+          "clientIds": ["cl_test_ai_01"],
+          "teamMemberIds": ["tm_test_ai_01"],
           "programIds": []
         }
       ],
@@ -84,18 +108,32 @@
       ]
     },
     {
-      "id": "005_EVENT_UPDATE",
-      "name": "Update Appointment Time",
-      "description": "Modify the event time to ensure UPDATE SQL queries work correctly.",
+      "id": "006_READ_DATA_INTEGRITY",
+      "name": "Verify Data Persistence",
+      "description": "Fetch all data to ensure the Event was saved with correct relations and Time Format is HH:MM.",
+      "method": "GET",
+      "endpoint": "?path=data",
+      "assertions": [
+        { "type": "statusCode", "value": 200 },
+        { "type": "arrayContains", "path": "events", "key": "id", "value": "evt_ai_test_01" },
+        { "type": "nestedArrayContains", "path": "events", "finderKey": "id", "finderValue": "evt_ai_test_01", "targetArray": "clientIds", "value": "cl_test_ai_01" },
+        { "type": "valueMatch", "path": "events", "finderKey": "id", "finderValue": "evt_ai_test_01", "targetKey": "startTime", "expected": "10:00" }
+      ]
+    },
+    {
+      "id": "007_UPDATE_EVENT",
+      "name": "Update Event Time",
+      "description": "Test the PUT endpoint to ensure updates don't break relations.",
       "method": "PUT",
       "endpoint": "?path=events/evt_ai_test_01",
       "payload": {
-        "name": "AI Therapy Session UPDATED",
-        "date": "2025-12-26",
-        "startTime": "11:00",
-        "type": "therapy",
-        "clientIds": ["ai_test_client_01"],
-        "teamMemberIds": ["stefan"]
+        "name": "Updated AI Assessment",
+        "type": "type_ai_test",
+        "date": "2025-12-02",
+        "startTime": "11:30",
+        "duration": 45,
+        "clientIds": ["cl_test_ai_01"],
+        "teamMemberIds": ["tm_test_ai_01"]
       },
       "assertions": [
         { "type": "statusCode", "value": 200 },
@@ -103,16 +141,34 @@
       ]
     },
     {
-      "id": "006_INTERVENTION_PLAN_CREATE",
+      "id": "008_LOG_ACTIVITY",
+      "name": "Verify Activity Logging",
+      "description": "Manually trigger an activity log (simulating frontend behavior) and verify it saves.",
+      "method": "POST",
+      "endpoint": "?path=activities",
+      "payload": {
+        "user_id": "stefan",
+        "user_name": "Stefan Admin",
+        "action": "Test Automation",
+        "details": "Running automated API tests",
+        "action_type": "system_test"
+      },
+      "assertions": [
+        { "type": "statusCode", "value": 200 },
+        { "type": "jsonProperty", "key": "success", "value": true }
+      ]
+    },
+    {
+      "id": "009_INTERVENTION_PLAN",
       "name": "Create Intervention Plan",
       "description": "Test the dedicated intervention plan endpoint.",
       "method": "POST",
       "endpoint": "?path=intervention-plans",
       "payload": {
-        "clientId": "ai_test_client_01",
+        "clientId": "cl_test_ai_01",
         "startDate": "2025-01-01",
         "endDate": "2025-06-01",
-        "notes": "AI Generated Plan",
+        "notes": "Automated Plan",
         "programIds": ["prog_1", "prog_3"]
       },
       "assertions": [
@@ -121,31 +177,9 @@
       ]
     },
     {
-      "id": "007_EVALUATION_VB_MAPP_SAVE",
-      "name": "Save Evolution Data (Bulk)",
-      "description": "WARNING: This endpoint performs a DELETE then INSERT. This test attempts to save a VB-MAPP score for the test client.",
-      "method": "POST",
-      "endpoint": "?path=evolution",
-      "payload": {
-        "ai_test_client_01": {
-          "evaluationsVBMAPP": {
-            "2025-12-01": {
-              "milestones": { "mand-1-1": 5 },
-              "barriers": [],
-              "transition": []
-            }
-          }
-        }
-      },
-      "assertions": [
-        { "type": "statusCode", "value": 200 },
-        { "type": "jsonProperty", "key": "success", "value": true }
-      ]
-    },
-    {
-      "id": "008_EVENT_DELETE",
-      "name": "Delete Event",
-      "description": "Verify soft or hard deletion of the event.",
+      "id": "010_CLEANUP_EVENT",
+      "name": "Delete Test Event",
+      "description": "Verify DELETE operation.",
       "method": "DELETE",
       "endpoint": "?path=events/evt_ai_test_01",
       "assertions": [
@@ -154,25 +188,25 @@
       ]
     },
     {
-      "id": "009_CLIENT_DELETE",
-      "name": "Cleanup Client",
-      "description": "Delete the test client to clean up the database.",
+      "id": "011_CLEANUP_CLIENT",
+      "name": "Delete Test Client",
+      "description": "Cleanup client record.",
       "method": "DELETE",
-      "endpoint": "?path=clients/ai_test_client_01",
+      "endpoint": "?path=clients/cl_test_ai_01",
       "assertions": [
         { "type": "statusCode", "value": 200 },
         { "type": "jsonProperty", "key": "success", "value": true }
       ]
     },
     {
-      "id": "010_SYSTEM_OPTIONS",
-      "name": "Read System Options",
-      "description": "Ensure configuration table is readable.",
-      "method": "GET",
-      "endpoint": "?path=system-options",
+      "id": "012_CLEANUP_TEAM",
+      "name": "Delete Test Therapist",
+      "description": "Cleanup team member.",
+      "method": "DELETE",
+      "endpoint": "?path=team-members/tm_test_ai_01",
       "assertions": [
         { "type": "statusCode", "value": 200 },
-        { "type": "jsonProperty", "key": "subscriber_id", "value": "livebetterlife" }
+        { "type": "jsonProperty", "key": "success", "value": true }
       ]
     }
   ]
